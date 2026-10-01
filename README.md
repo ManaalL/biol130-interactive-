@@ -2,7 +2,7 @@
 
 Interactive study modules for BIOL 130: Introductory Cell Biology at the University of Waterloo. Each module turns one unit of the course notes into figures you can click, experiments you can run and simulations you can control, followed by questions that check your understanding.
 
-**Live site:** [add your GitHub Pages link here]
+**Live site:** https://manaall.github.io/biol130-interactive-/ 
 
 ## Why this exists
 
@@ -55,4 +55,4 @@ An independent study aid, not an official University of Waterloo resource. Alway
 
 ## Author
 
-[Your name], [program and university]. Built with the help of Claude (Anthropic) for design and coding.
+Manaal Lakhani, Honours Sciences @ UWaterloo. Built with the help of Claude (Anthropic) for design and coding.
