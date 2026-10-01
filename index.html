@@ -1,0 +1,120 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>BIOL 130 Interactive Modules</title>
+<link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Source+Sans+3:wght@400;600;700&family=Source+Serif+4:opsz,wght@8..60,500;8..60,650&display=swap" rel="stylesheet">
+<style>
+:root{--page:#efeeec;--paper:#fff;--ink:#1f2529;--ink2:#566168;--rule:#d3d6d8;--head:#22272c;--red:#b0342c;--teal:#11707b;
+ --serif:"Source Serif 4",Georgia,serif;--sans:"Source Sans 3","Segoe UI",system-ui,Arial,sans-serif;
+ box-sizing:border-box;padding-top:env(safe-area-inset-top,0px);padding-bottom:env(safe-area-inset-bottom,0px)}
+@media (prefers-color-scheme: dark){:root:not([data-theme="light"]){--page:#121719;--paper:#1a2124;--ink:#e3e8ea;--ink2:#a3b0b5;--rule:#2e3a3f;--head:#f1eeec;--red:#ec8b80;--teal:#4db2be}}
+:root[data-theme="dark"]{--page:#121719;--paper:#1a2124;--ink:#e3e8ea;--ink2:#a3b0b5;--rule:#2e3a3f;--head:#f1eeec;--red:#ec8b80;--teal:#4db2be}
+*,*::before,*::after{box-sizing:inherit}
+html{scroll-padding-top:env(safe-area-inset-top,0px)}
+body{margin:0;background:var(--page);color:var(--ink);font-family:var(--sans);font-size:17px;line-height:1.55}
+.wrap{max-width:1080px;margin:0 auto;padding:34px 20px 60px}
+h1,h2,h3{font-family:var(--serif);color:var(--head);font-weight:650;line-height:1.2;margin:0}
+h1{font-size:2.4rem;letter-spacing:-.015em}
+.eyebrow{color:var(--red);font-weight:700;letter-spacing:.06em;text-transform:uppercase;font-size:.85rem;margin-bottom:6px}
+.lede{font-size:1.12rem;max-width:44em;margin:12px 0 0}
+.muted{color:var(--ink2)}
+.about{display:grid;grid-template-columns:1.4fr 1fr;gap:26px;margin:30px 0 8px}
+.box{background:var(--paper);border:1px solid var(--rule);border-radius:8px;padding:18px 20px}
+.box h2{font-size:1.2rem;margin-bottom:8px}
+.box p{margin:0 0 .7em}
+.mods{display:grid;grid-template-columns:repeat(auto-fit,minmax(320px,1fr));gap:18px;margin-top:14px}
+.mod{background:var(--paper);border:1px solid var(--rule);border-radius:10px;overflow:hidden;display:flex;flex-direction:column}
+.mod .top{display:flex;align-items:stretch}
+.mod .num{font-family:var(--serif);font-weight:650;color:#fff;padding:14px 16px;font-size:1.1rem;display:flex;align-items:center}
+.mod .band{flex:1;color:#fff;display:flex;align-items:center;padding:10px 16px;font-weight:700;font-variant:small-caps;letter-spacing:.04em}
+.m3 .num{background:#0e5f68}.m3 .band{background:#11707b}
+.m4 .num{background:#9b2c25}.m4 .band{background:#c9463d}
+.mod .body{padding:16px 18px;display:flex;flex-direction:column;gap:10px;flex:1}
+.mod h3{font-size:1.2rem}
+.mod ul{margin:0;padding-left:18px;color:var(--ink2);font-size:.95rem}
+.mod .go{margin-top:auto;display:inline-flex;align-self:flex-start;padding:10px 18px;border-radius:6px;background:var(--head);color:var(--paper);text-decoration:none;font-weight:600}
+.mod .go:hover{filter:brightness(1.15)}
+.progress{font-size:.88rem;color:var(--ink2)}
+.progress b{color:var(--ink)}
+.soon{border:1px dashed var(--rule);border-radius:10px;padding:18px;color:var(--ink2);display:flex;align-items:center}
+.sect{margin-top:34px}
+.sect h2{font-size:1.45rem}
+.how{display:grid;grid-template-columns:repeat(auto-fit,minmax(220px,1fr));gap:14px;margin-top:12px}
+.how div{background:var(--paper);border:1px solid var(--rule);border-radius:8px;padding:14px 16px;font-size:.95rem}
+.how b{display:block;font-family:var(--serif);font-size:1.02rem;margin-bottom:4px;color:var(--head)}
+.foot{margin-top:40px;border-top:1px solid var(--rule);padding-top:12px;font-size:.86rem;color:var(--ink2)}
+a{color:var(--teal)}
+:focus-visible{outline:3px solid var(--red);outline-offset:2px}
+@media (max-width:820px){ h1{font-size:1.9rem} .about{grid-template-columns:1fr} .wrap{padding:22px 14px 50px} }
+</style>
+</head>
+<body>
+<main class="wrap">
+  <p class="eyebrow">BIOL 130 · Introductory Cell Biology</p>
+  <h1>Interactive study modules</h1>
+  <p class="lede">Each module turns one unit of the course notes into figures you can click, experiments you can run and simulations you can control, followed by questions that check your understanding.</p>
+
+  <div class="about">
+    <div class="box">
+      <h2>About the course</h2>
+      <p>BIOL 130 at the University of Waterloo introduces the concepts of cell biology. It focuses on two things: how the cell is structurally organized, and how the key molecular processes that define living things work.</p>
+      <p class="muted" style="font-size:.9rem;margin:0">Course description paraphrased from the University of Waterloo Undergraduate Calendar. The course textbook is Morris et al., <i>Biology: How Life Works</i>, 4th edition (Macmillan Learning, 2023).</p>
+    </div>
+    <div class="box">
+      <h2>How to use these</h2>
+      <p>Work through a module's chapters in order, or jump to one topic. Every chapter points back to pages in your course notes.</p>
+      <p style="margin:0">Your progress is saved in this browser only. Nothing is sent anywhere.</p>
+    </div>
+  </div>
+
+  <section class="sect" aria-labelledby="modsTitle">
+    <h2 id="modsTitle">Modules</h2>
+    <div class="mods">
+      <article class="mod m3">
+        <div class="top"><span class="num">Module 3</span><span class="band">Cell Border Control</span></div>
+        <div class="body">
+          <h3>An Interactive Simulation of Membrane Transport in the Intestinal Epithelium</h3>
+          <p class="muted" style="margin:0">Follow glucose from the gut into the blood through one intestinal cell.</p>
+          <ul><li>Organelles and the endomembrane system</li><li>The phospholipid bilayer and membrane proteins</li><li>Osmosis and tonicity</li><li>Passive, primary active and secondary active transport</li><li>Bulk transport</li></ul>
+          <p class="progress" id="p3"></p>
+          <a class="go" id="go3" href="module-3.html" target="_top">Open Module 3</a>
+        </div>
+      </article>
+      <article class="mod m4">
+        <div class="top"><span class="num">Module 4</span><span class="band">Nucleic acids and information flow</span></div>
+        <div class="body">
+          <h3>From Gene to Message: DNA Structure, Transcription and RNA Processing</h3>
+          <p class="muted" style="margin:0">Take a gene from its enhancer to a finished mRNA. Course notes pp. 52–67.</p>
+          <ul><li>Griffith and Avery: DNA as the genetic material</li><li>Nucleotides, phosphodiester bonds and the double helix</li><li>The central dogma</li><li>Transcription in prokaryotes and eukaryotes</li><li>RNA processing and alternative splicing</li></ul>
+          <p class="progress" id="p4"></p>
+          <a class="go" id="go4" href="module-4.html" target="_top">Open Module 4</a>
+        </div>
+      </article>
+    </div>
+    <div class="soon" style="margin-top:18px">More modules will be added as the course goes on.</div>
+  </section>
+
+  <section class="sect">
+    <h2>Inside each module</h2>
+    <div class="how">
+      <div><b>Chapters</b>Short sections that follow the course notes. Each opens with a figure or experiment, then tests you. Your score is the share you get right on the first try.</div>
+      <div><b>A free-explore view</b>A cell atlas or molecule viewer where you can click through every structure at your own pace.</div>
+      <div><b>Endless practice</b>Randomized questions (Checkpoint in Module 3, the sequence desk in Module 4) for drilling the skills that show up on tests.</div>
+      <div><b>Glossary</b>Every important term, marked as not yet seen, seen or tested, with a page reference to your notes.</div>
+    </div>
+  </section>
+
+  <p class="foot">An independent study aid made for BIOL 130 students. It is not an official University of Waterloo resource; always check details against your course notes and LEARN. Figures are original drawings.</p>
+</main>
+<script>
+const LINKS = { m3:"https://claude.ai/artifact/31Eqk9BvhR5XAZPWTzzDx5", m4:"https://claude.ai/artifact/Fe8L3wMKU1mJF6s1ywxfw4" };
+const LOCAL = location.protocol==="file:" || /github\.io$/.test(location.hostname) || location.hostname==="localhost";
+if(!LOCAL){ document.getElementById("go3").href=LINKS.m3; document.getElementById("go4").href=LINKS.m4; }
+function prog(key, total, el){ try{ const s=JSON.parse(localStorage.getItem(key)||"null"); if(!s||!s.ch) { el.textContent="Not started yet."; return; } const done=Object.values(s.ch).filter(c=>c.done).length; el.innerHTML=`Chapters completed: <b>${done} of ${total}</b>`; }catch(e){ el.textContent=""; } }
+prog("cbc-progress-v1",8,document.getElementById("p3")); prog("biol130-m4-progress-v1",10,document.getElementById("p4"));
+</script>
+</body>
+</html>
