@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="en" data-module="m3">
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
@@ -231,6 +231,7 @@ input[type=range]{width:100%;accent-color:var(--accent)}
 @media (prefers-reduced-motion: reduce){
   *{transition:none!important;animation:none!important}
 }
+@media (max-width:640px){.banner{flex-wrap:wrap}.banner .pg{flex-basis:100%;padding:4px 14px 6px;white-space:normal}}
 </style>
 </head>
 <body>
@@ -241,12 +242,16 @@ input[type=range]{width:100%;accent-color:var(--accent)}
     <button class="tab" data-go="story">Story</button>
     <button class="tab" data-go="atlas">Cell atlas</button>
     <button class="tab" data-go="checkpoint">Checkpoint</button>
+    <button class="tab" data-go="exam">Mini exam</button>
     <button class="tab" data-go="glossary">Glossary</button>
   </nav>
 </div></header>
 <main class="wrap" id="app"></main>
 <aside class="termcard" id="termcard" role="dialog" aria-live="polite"><button class="x" aria-label="Close">×</button><div id="tcbody"></div></aside>
 <div class="tip" id="tip"></div>
+<script src="studydata.js"></script>
+<script src="exam.js"></script>
+<script src="kip.js"></script>
 <script>
 "use strict";
 /* ============ storage ============ */
@@ -262,77 +267,99 @@ function markTerm(k, level){
 
 /* ============ glossary data ============ */
 const T = {
- "plasma-membrane":{n:"Plasma membrane",g:"Membrane structure",d:"The phospholipid bilayer and its proteins that surround the cell. It decides what gets in and out."},
- "phospholipid":{n:"Phospholipid",g:"Membrane structure",d:"A lipid with a hydrophilic (water-attracting) phosphate head and two hydrophobic fatty acid tails. In water, phospholipids line up into a bilayer with heads facing the water on both sides and tails tucked inside."},
- "fatty-acid-tails":{n:"Fatty acid tails",g:"Membrane structure",d:"The two long hydrocarbon chains of each phospholipid. They are nonpolar, so together they form the oily core of the membrane. That core is what blocks ions and most polar molecules. A kink in an unsaturated tail stops lipids packing tightly and keeps the membrane fluid."},
- "hydrophilic-head":{n:"Hydrophilic head",g:"Membrane structure",d:"The polar phosphate end of a phospholipid. Heads face the watery fluid outside the cell and the cytosol inside."},
- "bilayer":{n:"Phospholipid bilayer",g:"Membrane structure",d:"Two layers of phospholipids, tails pointing inward. The hydrophobic middle is the barrier; proteins set in it are the gates."},
- "fluid-mosaic":{n:"Fluid mosaic model",g:"Membrane structure",d:"The current model of membrane structure. Fluid: lipids and many proteins move sideways within their layer. Mosaic: the membrane is a patchwork of lipids, proteins, cholesterol and carbohydrates."},
- "selective-permeability":{n:"Selective permeability",g:"Membrane structure",d:"The membrane lets some substances through and stops others. Small nonpolar molecules cross the bilayer easily. Water crosses slowly on its own. Ions and large polar molecules need a protein."},
- "cholesterol":{n:"Cholesterol",g:"Membrane structure",d:"A lipid tucked between phospholipids in animal cell membranes. It buffers fluidity: it stops the membrane getting too runny when warm and too stiff when cold."},
- "integral-protein":{n:"Integral membrane protein",g:"Membrane structure",d:"A protein set into the membrane, held there by hydrophobic regions that sit among the fatty acid tails. It can only be removed by breaking the bilayer apart (for example with detergent). Most integral proteins are transmembrane."},
- "transmembrane-protein":{n:"Transmembrane protein",g:"Membrane structure",d:"An integral membrane protein that spans the whole bilayer, with parts on both sides. Every channel and carrier protein is transmembrane, because it has to connect the two sides."},
- "peripheral-protein":{n:"Peripheral membrane protein",g:"Membrane structure",d:"A protein that sits on the surface of the membrane, attached by weak bonds to lipid heads or to integral proteins. It never enters the hydrophobic core, so it can be washed off without breaking the membrane."},
- "glycoprotein":{n:"Glycoprotein",g:"Membrane structure",d:"A membrane protein with a carbohydrate chain attached on the outside surface. Used for cell to cell recognition."},
- "glycolipid":{n:"Glycolipid",g:"Membrane structure",d:"A membrane lipid with a carbohydrate chain attached, facing outside the cell."},
- "cytoskeleton":{n:"Cytoskeleton",g:"Parts of the cell",d:"A network of protein filaments (microtubules, actin filaments, intermediate filaments). It gives the cell its shape, anchors organelles and some membrane proteins, and acts as tracks for vesicles."},
- "cytoplasm":{n:"Cytoplasm",g:"Parts of the cell",d:"Everything inside the plasma membrane except the nucleus: the cytosol plus all the organelles in it."},
- "cytosol":{n:"Cytosol",g:"Parts of the cell",d:"The fluid part of the cytoplasm, outside the organelles. Water with dissolved ions, sugars and proteins. Many reactions, including the first stage of breaking down glucose, happen here."},
- "nucleus":{n:"Nucleus",g:"Parts of the cell",d:"Holds the cell's DNA. Surrounded by the nuclear envelope, a double membrane that is continuous with the ER."},
- "nucleolus":{n:"Nucleolus",g:"Parts of the cell",d:"A dense region inside the nucleus where ribosomal RNA is made and ribosome subunits are put together. It has no membrane around it."},
- "nuclear-pores":{n:"Nuclear pores",g:"Parts of the cell",d:"Protein-lined openings through the nuclear envelope. mRNA and ribosome subunits leave through them; proteins the nucleus needs come in through them."},
- "ribosome":{n:"Ribosome",g:"Parts of the cell",d:"Makes proteins. Free ribosomes in the cytosol make proteins that stay in the cytosol. Ribosomes on the rough ER make proteins bound for membranes, for secretion, or for the endomembrane system."},
- "er":{n:"Endoplasmic reticulum",g:"Parts of the cell",d:"A network of membrane sacs and tubes continuous with the nuclear envelope. Rough ER has ribosomes and makes membrane and secreted proteins. Smooth ER has no ribosomes and makes lipids and breaks down toxins."},
- "golgi":{n:"Golgi apparatus",g:"Parts of the cell",d:"Stacks of flattened membrane sacs. Receives proteins and lipids from the ER, modifies them (for example by adding sugar chains), sorts them and ships them out in vesicles."},
- "lysosome":{n:"Lysosome",g:"Parts of the cell",d:"A membrane sac full of digestive enzymes that work at acidic pH. Breaks down material brought in by endocytosis and worn-out parts of the cell."},
- "vesicle":{n:"Vesicle",g:"Parts of the cell",d:"A small membrane sac that carries cargo between compartments, or to and from the plasma membrane."},
- "endomembrane":{n:"Endomembrane system",g:"Parts of the cell",d:"The connected set of membranes that make, modify and move proteins and lipids: nuclear envelope, ER, Golgi, lysosomes, vesicles and the plasma membrane. Parts are linked directly or by vesicles. Mitochondria and chloroplasts are not part of it."},
- "vacuole":{n:"Vacuole",g:"Parts of the cell",d:"A membrane sac used for storage. Animal cells have small vacuoles. Plant cells usually have one large central vacuole that stores water and presses outward to keep the cell firm."},
- "mitochondria":{n:"Mitochondria",g:"Parts of the cell",d:"Double-membrane organelles that make most of the cell's ATP by cellular respiration. The inner membrane folds into cristae, which adds surface area. They have their own DNA and ribosomes. Found in both animal and plant cells."},
- "chloroplast":{n:"Chloroplast",g:"Parts of the cell",d:"A double-membrane organelle in plants and algae where photosynthesis happens. Inside are stacks of thylakoids (grana). A chloroplast is one type of plastid. Animal cells do not have them."},
- "plastid":{n:"Plastid",g:"Parts of the cell",d:"A family of plant organelles with a double membrane and their own DNA. Chloroplasts do photosynthesis, amyloplasts store starch, chromoplasts hold pigments. Not found in animal cells."},
- "cell-wall":{n:"Cell wall",g:"Parts of the cell",d:"A rigid layer outside the plasma membrane of plant cells, made mostly of cellulose. It resists swelling, so a plant cell in a hypotonic solution becomes firm instead of bursting. Animal cells do not have one."},
- "diffusion":{n:"Diffusion",g:"Passive transport",d:"Net movement of a substance from where it is more concentrated to where it is less concentrated, caused by random motion of molecules. It continues until the concentrations even out."},
- "simple-diffusion":{n:"Simple diffusion",g:"Passive transport",d:"Diffusion straight through the phospholipid bilayer, with no protein. Works for small nonpolar molecules such as O₂, CO₂ and steroid hormones."},
- "facilitated-diffusion":{n:"Facilitated diffusion",g:"Passive transport",d:"Diffusion through a membrane protein, either a channel or a carrier. Still passive: the substance moves down its gradient and no energy is spent."},
- "passive-transport":{n:"Passive transport",g:"Passive transport",d:"Movement across a membrane down a concentration or electrochemical gradient, with no energy spent by the cell. Includes simple diffusion, facilitated diffusion and osmosis."},
- "channel":{n:"Channel protein",g:"Passive transport",d:"A transmembrane protein that forms a water-filled pore. Specific ions or water flow through it quickly, down their gradient. Many channels are gated: they open or close in response to a signal."},
- "carrier":{n:"Carrier protein",g:"Passive transport",d:"A transmembrane protein that binds its cargo, changes shape, and releases it on the other side. Slower than a channel, and it can be saturated: once every carrier is busy, adding more cargo does not speed things up."},
- "aquaporin":{n:"Aquaporin",g:"Passive transport",d:"A channel protein for water. Most water that crosses a membrane goes through aquaporins."},
- "concentration-gradient":{n:"Concentration gradient",g:"Active transport",d:"A difference in concentration of a substance between two places. Substances diffuse down their gradient (high to low) on their own; moving them up the gradient takes energy."},
- "osmosis":{n:"Osmosis",g:"Water and tonicity",d:"Diffusion of water across a selectively permeable membrane. Water moves from the side with lower solute concentration (more free water) to the side with higher solute concentration."},
- "osmotic-pressure":{n:"Osmotic pressure",g:"Water and tonicity",d:"The pressure that would be needed to stop water moving into a solution by osmosis. The more solute a solution has, the higher its osmotic pressure and the harder it pulls water in."},
- "isotonic":{n:"Isotonic",g:"Water and tonicity",d:"The outside solution has the same solute concentration as the cell. Water moves both ways equally, so there is no net change in volume."},
- "hypotonic":{n:"Hypotonic",g:"Water and tonicity",d:"The outside solution has a lower solute concentration than the cell. Water moves in. An animal cell swells and can burst (lysis)."},
- "hypertonic":{n:"Hypertonic",g:"Water and tonicity",d:"The outside solution has a higher solute concentration than the cell. Water moves out. An animal cell shrinks and shrivels (crenation)."},
- "active-transport":{n:"Active transport",g:"Active transport",d:"Movement across a membrane against a gradient. It needs an energy source: ATP directly (primary) or another gradient (secondary)."},
- "primary-active":{n:"Primary active transport",g:"Active transport",d:"Active transport powered directly by ATP. The protein splits ATP and uses that energy to change shape and push cargo against its gradient. The Na⁺/K⁺ pump is the main example."},
- "nak-pump":{n:"Na⁺/K⁺ pump (Na⁺/K⁺-ATPase)",g:"Active transport",d:"A transmembrane protein that uses ATP to move Na⁺ out of the cell and K⁺ into it, both against their gradients. It moves three Na⁺ out for every two K⁺ in, which also helps keep the inside of the cell negative. The Na⁺ gradient it builds powers secondary active transport."},
- "membrane-potential":{n:"Membrane potential",g:"Active transport",d:"The voltage across the plasma membrane. The inside of an animal cell is negative compared with the outside."},
- "electrochemical-gradient":{n:"Electrochemical gradient",g:"Active transport",d:"The total push on an ion across a membrane: its concentration gradient plus the pull from the charge difference across the membrane. For Na⁺, both push it into the cell. For K⁺, concentration pushes it out while the negative inside pulls it back."},
- "importer":{n:"Importer",g:"Active transport",d:"A transporter that moves its cargo into the cell. The Na⁺/K⁺ pump imports K⁺."},
- "exporter":{n:"Exporter",g:"Active transport",d:"A transporter that moves its cargo out of the cell. The Na⁺/K⁺ pump exports Na⁺."},
- "secondary-active":{n:"Secondary active transport",g:"Co-transport",d:"Active transport powered by a gradient that a primary pump already built. One substance (usually Na⁺) flows down its gradient and that energy drags a second substance up its gradient. No ATP is used by this protein directly, but if the pump stops, this stops too."},
- "cotransport":{n:"Co-transport",g:"Co-transport",d:"Two substances moved by the same protein at the same time. Symport and antiport are the two kinds."},
- "uniporter":{n:"Uniporter",g:"Co-transport",d:"A carrier that moves one kind of substance in one direction. The glucose transporter (GLUT) is a uniporter."},
- "symporter":{n:"Symporter",g:"Co-transport",d:"A carrier that moves two substances in the same direction. The Na⁺/glucose symporter brings Na⁺ and glucose into the cell together."},
- "antiporter":{n:"Antiporter",g:"Co-transport",d:"A carrier that moves two substances in opposite directions. The Na⁺/H⁺ exchanger brings Na⁺ in and sends H⁺ out."},
- "sglt":{n:"Na⁺/glucose symporter (SGLT)",g:"Co-transport",d:"The apical carrier that brings glucose into gut lining cells against its gradient, powered by Na⁺ flowing in down its electrochemical gradient. Secondary active transport."},
- "glut":{n:"Glucose transporter (GLUT)",g:"Co-transport",d:"A uniporter carrier for glucose. On the basolateral side of a gut lining cell it lets glucose leave by facilitated diffusion, down its gradient into the interstitial fluid."},
- "apical":{n:"Apical membrane",g:"The gut lining",d:"The part of an epithelial cell's plasma membrane that faces the lumen (the gut contents). In gut lining cells it is folded into microvilli."},
- "basolateral":{n:"Basolateral membrane",g:"The gut lining",d:"The sides and base of an epithelial cell, facing neighbouring cells and the interstitial fluid, toward the blood. It carries a different set of transport proteins from the apical side."},
- "tight-junction":{n:"Tight junction",g:"The gut lining",d:"A seal between neighbouring epithelial cells near the apical surface. It stops gut contents leaking between cells and keeps apical and basolateral proteins from mixing."},
- "microvilli":{n:"Microvilli",g:"The gut lining",d:"Finger-like folds of the apical membrane. They increase the surface area for absorption."},
- "lumen":{n:"Gut lumen",g:"The gut lining",d:"The space inside the small intestine, where digested food is."},
- "interstitial-fluid":{n:"Interstitial fluid",g:"The gut lining",d:"The fluid that fills the space between cells in a tissue. Glucose leaving the basolateral side of a gut lining cell enters the interstitial fluid first, then diffuses into a capillary."},
- "capillary":{n:"Capillary",g:"The gut lining",d:"The smallest blood vessel. Its thin wall lets glucose, O₂ and CO₂ pass between blood and interstitial fluid."},
- "atp":{n:"ATP",g:"Active transport",d:"Adenosine triphosphate, the cell's energy currency. Splitting off a phosphate releases energy that pumps use. Most ATP is made in mitochondria."},
- "bulk-transport":{n:"Bulk transport",g:"Bulk transport",d:"Moving large particles, or a lot of material at once, into or out of the cell inside membrane vesicles. It needs energy."},
- "exocytosis":{n:"Exocytosis",g:"Bulk transport",d:"A vesicle fuses with the plasma membrane and releases its contents outside. It also adds the vesicle's membrane and proteins to the plasma membrane, which is how new transporters arrive."},
- "endocytosis":{n:"Endocytosis",g:"Bulk transport",d:"The plasma membrane folds inward and pinches off a vesicle, bringing material in. Three kinds: phagocytosis, pinocytosis and receptor-mediated endocytosis."},
- "phagocytosis":{n:"Phagocytosis",g:"Bulk transport",d:"Cell eating. The cell reaches around a large particle such as a bacterium with pseudopodia and engulfs it in a phagosome. The phagosome then fuses with a lysosome, which digests it."},
- "pinocytosis":{n:"Pinocytosis",g:"Bulk transport",d:"Cell drinking. The cell takes in small droplets of extracellular fluid, with whatever is dissolved in it, in small vesicles. Not selective."},
- "rme":{n:"Receptor-mediated endocytosis",g:"Bulk transport",d:"Selective endocytosis. Specific molecules (ligands) bind receptors clustered in coated pits. The pit, lined with clathrin on the inside, pinches off as a coated vesicle. Cells take in LDL (a cholesterol carrier) this way."}
+ "plasma-membrane":{p:"33",n:"Plasma membrane",g:"Membrane structure",d:"The phospholipid bilayer and its proteins that surround the cell. It decides what gets in and out."},
+ "phospholipid":{p:"34",n:"Phospholipid",g:"Membrane structure",d:"A lipid with a hydrophilic (water-attracting) phosphate head and two hydrophobic fatty acid tails. In water, phospholipids line up into a bilayer with heads facing the water on both sides and tails tucked inside."},
+ "fatty-acid-tails":{p:"34",n:"Fatty acid tails",g:"Membrane structure",d:"The two long hydrocarbon chains of each phospholipid. They are nonpolar, so together they form the oily core of the membrane. That core is what blocks ions and most polar molecules. A kink in an unsaturated tail stops lipids packing tightly and keeps the membrane fluid."},
+ "hydrophilic-head":{p:"34",n:"Hydrophilic head",g:"Membrane structure",d:"The polar phosphate end of a phospholipid. Heads face the watery fluid outside the cell and the cytosol inside."},
+ "bilayer":{p:"34",n:"Phospholipid bilayer",g:"Membrane structure",d:"Two layers of phospholipids, tails pointing inward. The hydrophobic middle is the barrier; proteins set in it are the gates."},
+ "fluid-mosaic":{p:"36",n:"Fluid mosaic model",g:"Membrane structure",d:"The current model of membrane structure. Fluid: lipids and many proteins move sideways within their layer. Mosaic: the membrane is a patchwork of lipids, proteins, cholesterol and carbohydrates."},
+ "selective-permeability":{p:"43",n:"Selective permeability",g:"Membrane structure",d:"The membrane lets some substances through and stops others. Small nonpolar molecules cross the bilayer easily. Water crosses slowly on its own. Ions and large polar molecules need a protein."},
+ "cholesterol":{p:"35",n:"Cholesterol",g:"Membrane structure",d:"A lipid tucked between phospholipids in animal cell membranes. It buffers fluidity: it stops the membrane getting too runny when warm and too stiff when cold."},
+ "integral-protein":{p:"36",n:"Integral membrane protein",g:"Membrane structure",d:"A protein set into the membrane, held there by hydrophobic regions that sit among the fatty acid tails. It can only be removed by breaking the bilayer apart (for example with detergent). Most integral proteins are transmembrane."},
+ "transmembrane-protein":{p:"36",n:"Transmembrane protein",g:"Membrane structure",d:"An integral membrane protein that spans the whole bilayer, with parts on both sides. Every channel and carrier protein is transmembrane, because it has to connect the two sides."},
+ "peripheral-protein":{p:"36",n:"Peripheral membrane protein",g:"Membrane structure",d:"A protein that sits on the surface of the membrane, attached by weak bonds to lipid heads or to integral proteins. It never enters the hydrophobic core, so it can be washed off without breaking the membrane."},
+ "glycoprotein":{p:"36",n:"Glycoprotein",g:"Membrane structure",d:"A membrane protein with a carbohydrate chain attached on the outside surface. Used for cell to cell recognition."},
+ "glycolipid":{p:"36",n:"Glycolipid",g:"Membrane structure",d:"A membrane lipid with a carbohydrate chain attached, facing outside the cell."},
+ "cytoskeleton":{p:"37",n:"Cytoskeleton",g:"Parts of the cell",d:"A network of protein filaments (microtubules, actin filaments, intermediate filaments). It gives the cell its shape, anchors organelles and some membrane proteins, and acts as tracks for vesicles."},
+ "cytoplasm":{p:"37",n:"Cytoplasm",g:"Parts of the cell",d:"Everything inside the plasma membrane except the nucleus: the cytosol plus all the organelles in it."},
+ "cytosol":{p:"37",n:"Cytosol",g:"Parts of the cell",d:"The fluid part of the cytoplasm, outside the organelles. Water with dissolved ions, sugars and proteins. Many reactions, including the first stage of breaking down glucose, happen here."},
+ "nucleus":{p:"38",n:"Nucleus",g:"Parts of the cell",d:"Holds the cell's DNA. Surrounded by the nuclear envelope, a double membrane that is continuous with the ER."},
+ "nucleolus":{p:"38",n:"Nucleolus",g:"Parts of the cell",d:"A dense region inside the nucleus where ribosomal RNA is made and ribosome subunits are put together. It has no membrane around it."},
+ "nuclear-pores":{p:"38",n:"Nuclear pores",g:"Parts of the cell",d:"Protein-lined openings through the nuclear envelope. mRNA and ribosome subunits leave through them; proteins the nucleus needs come in through them."},
+ "ribosome":{p:"39",n:"Ribosome",g:"Parts of the cell",d:"Makes proteins. Free ribosomes in the cytosol make proteins that stay in the cytosol. Ribosomes on the rough ER make proteins bound for membranes, for secretion, or for the endomembrane system."},
+ "er":{p:"38–39",n:"Endoplasmic reticulum",g:"Parts of the cell",d:"A network of membrane sacs and tubes continuous with the nuclear envelope. Rough ER has ribosomes and makes membrane and secreted proteins. Smooth ER has no ribosomes and makes lipids and breaks down toxins."},
+ "golgi":{p:"39",n:"Golgi apparatus",g:"Parts of the cell",d:"Stacks of flattened membrane sacs. Receives proteins and lipids from the ER, modifies them (for example by adding sugar chains), sorts them and ships them out in vesicles."},
+ "lysosome":{p:"40",n:"Lysosome",g:"Parts of the cell",d:"A membrane sac full of digestive enzymes that work at acidic pH. Breaks down material brought in by endocytosis and worn-out parts of the cell."},
+ "vesicle":{p:"37–38",n:"Vesicle",g:"Parts of the cell",d:"A small membrane sac that carries cargo between compartments, or to and from the plasma membrane."},
+ "endomembrane":{p:"38",n:"Endomembrane system",g:"Parts of the cell",d:"The connected set of membranes that make, modify and move proteins and lipids: nuclear envelope, ER, Golgi, lysosomes, vesicles and the plasma membrane. Parts are linked directly or by vesicles. Mitochondria and chloroplasts are not part of it."},
+ "vacuole":{p:"37",n:"Vacuole",g:"Parts of the cell",d:"A membrane sac used for storage. Animal cells have small vacuoles. Plant cells usually have one large central vacuole that stores water and presses outward to keep the cell firm."},
+ "mitochondria":{p:"41",n:"Mitochondria",g:"Parts of the cell",d:"Double-membrane organelles that make most of the cell's ATP by cellular respiration. The inner membrane folds into cristae, which adds surface area. They have their own DNA and ribosomes. Found in both animal and plant cells."},
+ "chloroplast":{p:"41",n:"Chloroplast",g:"Parts of the cell",d:"A double-membrane organelle in plants and algae where photosynthesis happens. Inside are stacks of thylakoids (grana). A chloroplast is one type of plastid. Animal cells do not have them."},
+ "plastid":{p:"41",n:"Plastid",g:"Parts of the cell",d:"A family of plant organelles with a double membrane and their own DNA. Chloroplasts do photosynthesis, amyloplasts store starch, chromoplasts hold pigments. Not found in animal cells."},
+ "cell-wall":{p:"37",n:"Cell wall",g:"Parts of the cell",d:"A rigid layer outside the plasma membrane of plant cells, made mostly of cellulose. It resists swelling, so a plant cell in a hypotonic solution becomes firm instead of bursting. Animal cells do not have one."},
+ "diffusion":{p:"43",n:"Diffusion",g:"Passive transport",d:"Net movement of a substance from where it is more concentrated to where it is less concentrated, caused by random motion of molecules. It continues until the concentrations even out."},
+ "simple-diffusion":{p:"43",n:"Simple diffusion",g:"Passive transport",d:"Diffusion straight through the phospholipid bilayer, with no protein. Works for small nonpolar molecules such as O₂, CO₂ and steroid hormones."},
+ "facilitated-diffusion":{p:"44",n:"Facilitated diffusion",g:"Passive transport",d:"Diffusion through a membrane protein, either a channel or a carrier. Still passive: the substance moves down its gradient and no energy is spent."},
+ "passive-transport":{p:"43",n:"Passive transport",g:"Passive transport",d:"Movement across a membrane down a concentration or electrochemical gradient, with no energy spent by the cell. Includes simple diffusion, facilitated diffusion and osmosis."},
+ "channel":{p:"44",n:"Channel protein",g:"Passive transport",d:"A transmembrane protein that forms a water-filled pore. Specific ions or water flow through it quickly, down their gradient. Many channels are gated: they open or close in response to a signal."},
+ "carrier":{p:"44",n:"Carrier protein",g:"Passive transport",d:"A transmembrane protein that binds its cargo, changes shape, and releases it on the other side. Slower than a channel, and it can be saturated: once every carrier is busy, adding more cargo does not speed things up."},
+ "aquaporin":{p:"44",n:"Aquaporin",g:"Passive transport",d:"A channel protein for water. Most water that crosses a membrane goes through aquaporins."},
+ "concentration-gradient":{p:"43",n:"Concentration gradient",g:"Active transport",d:"A difference in concentration of a substance between two places. Substances diffuse down their gradient (high to low) on their own; moving them up the gradient takes energy."},
+ "osmosis":{p:"45",n:"Osmosis",g:"Water and tonicity",d:"Diffusion of water across a selectively permeable membrane. Water moves from the side with lower solute concentration (more free water) to the side with higher solute concentration."},
+ "osmotic-pressure":{p:"45",n:"Osmotic pressure",g:"Water and tonicity",d:"The pressure that would be needed to stop water moving into a solution by osmosis. The more solute a solution has, the higher its osmotic pressure and the harder it pulls water in."},
+ "isotonic":{p:"45",n:"Isotonic",g:"Water and tonicity",d:"The outside solution has the same solute concentration as the cell. Water moves both ways equally, so there is no net change in volume."},
+ "hypotonic":{p:"45",n:"Hypotonic",g:"Water and tonicity",d:"The outside solution has a lower solute concentration than the cell. Water moves in. An animal cell swells and can burst (lysis)."},
+ "hypertonic":{p:"45",n:"Hypertonic",g:"Water and tonicity",d:"The outside solution has a higher solute concentration than the cell. Water moves out. An animal cell shrinks and shrivels (crenation)."},
+ "active-transport":{p:"46",n:"Active transport",g:"Active transport",d:"Movement across a membrane against a gradient. It needs an energy source: ATP directly (primary) or another gradient (secondary)."},
+ "primary-active":{p:"46",n:"Primary active transport",g:"Active transport",d:"Active transport powered directly by ATP. The protein splits ATP and uses that energy to change shape and push cargo against its gradient. The Na⁺/K⁺ pump is the main example."},
+ "nak-pump":{p:"46",n:"Na⁺/K⁺ pump (Na⁺/K⁺-ATPase)",g:"Active transport",d:"A transmembrane protein that uses ATP to move Na⁺ out of the cell and K⁺ into it, both against their gradients. It moves three Na⁺ out for every two K⁺ in, which also helps keep the inside of the cell negative. The Na⁺ gradient it builds powers secondary active transport."},
+ "membrane-potential":{p:"47",n:"Membrane potential",g:"Active transport",d:"The voltage across the plasma membrane. The inside of an animal cell is negative compared with the outside."},
+ "electrochemical-gradient":{p:"47",n:"Electrochemical gradient",g:"Active transport",d:"The total push on an ion across a membrane: its concentration gradient plus the pull from the charge difference across the membrane. For Na⁺, both push it into the cell. For K⁺, concentration pushes it out while the negative inside pulls it back."},
+ "importer":{p:"46",n:"Importer",g:"Active transport",d:"A transporter that moves its cargo into the cell. The Na⁺/K⁺ pump imports K⁺."},
+ "exporter":{p:"46",n:"Exporter",g:"Active transport",d:"A transporter that moves its cargo out of the cell. The Na⁺/K⁺ pump exports Na⁺."},
+ "secondary-active":{p:"47",n:"Secondary active transport",g:"Co-transport",d:"Active transport powered by a gradient that a primary pump already built. One substance (usually Na⁺) flows down its gradient and that energy drags a second substance up its gradient. No ATP is used by this protein directly, but if the pump stops, this stops too."},
+ "cotransport":{p:"47–48",n:"Co-transport",g:"Co-transport",d:"Two substances moved by the same protein at the same time. Symport and antiport are the two kinds."},
+ "uniporter":{p:"48",n:"Uniporter",g:"Co-transport",d:"A carrier that moves one kind of substance in one direction. The glucose transporter (GLUT) is a uniporter."},
+ "symporter":{p:"48",n:"Symporter",g:"Co-transport",d:"A carrier that moves two substances in the same direction. The Na⁺/glucose symporter brings Na⁺ and glucose into the cell together."},
+ "antiporter":{p:"48",n:"Antiporter",g:"Co-transport",d:"A carrier that moves two substances in opposite directions. The Na⁺/H⁺ exchanger brings Na⁺ in and sends H⁺ out."},
+ "sglt":{p:"48",n:"Na⁺/glucose symporter (SGLT)",g:"Co-transport",d:"The apical carrier that brings glucose into gut lining cells against its gradient, powered by Na⁺ flowing in down its electrochemical gradient. Secondary active transport."},
+ "glut":{p:"48",n:"Glucose transporter (GLUT)",g:"Co-transport",d:"A uniporter carrier for glucose. On the basolateral side of a gut lining cell it lets glucose leave by facilitated diffusion, down its gradient into the interstitial fluid."},
+ "apical":{p:"48",n:"Apical membrane",g:"The gut lining",d:"The part of an epithelial cell's plasma membrane that faces the lumen (the gut contents). In gut lining cells it is folded into microvilli."},
+ "basolateral":{p:"48",n:"Basolateral membrane",g:"The gut lining",d:"The sides and base of an epithelial cell, facing neighbouring cells and the interstitial fluid, toward the blood. It carries a different set of transport proteins from the apical side."},
+ "tight-junction":{p:"48",n:"Tight junction",g:"The gut lining",d:"A seal between neighbouring epithelial cells near the apical surface. It stops gut contents leaking between cells and keeps apical and basolateral proteins from mixing."},
+ "microvilli":{p:"48",n:"Microvilli",g:"The gut lining",d:"Finger-like folds of the apical membrane. They increase the surface area for absorption."},
+ "lumen":{p:"48",n:"Gut lumen",g:"The gut lining",d:"The space inside the small intestine, where digested food is."},
+ "interstitial-fluid":{p:"48",n:"Interstitial fluid",g:"The gut lining",d:"The fluid that fills the space between cells in a tissue. Glucose leaving the basolateral side of a gut lining cell enters the interstitial fluid first, then diffuses into a capillary."},
+ "capillary":{p:"48",n:"Capillary",g:"The gut lining",d:"The smallest blood vessel. Its thin wall lets glucose, O₂ and CO₂ pass between blood and interstitial fluid."},
+ "atp":{p:"46",n:"ATP",g:"Active transport",d:"Adenosine triphosphate, the cell's energy currency. Splitting off a phosphate releases energy that pumps use. Most ATP is made in mitochondria."},
+ "bulk-transport":{p:"49",n:"Bulk transport",g:"Bulk transport",d:"Moving large particles, or a lot of material at once, into or out of the cell inside membrane vesicles. It needs energy."},
+ "exocytosis":{p:"49",n:"Exocytosis",g:"Bulk transport",d:"A vesicle fuses with the plasma membrane and releases its contents outside. It also adds the vesicle's membrane and proteins to the plasma membrane, which is how new transporters arrive."},
+ "endocytosis":{p:"49",n:"Endocytosis",g:"Bulk transport",d:"The plasma membrane folds inward and pinches off a vesicle, bringing material in. Three kinds: phagocytosis, pinocytosis and receptor-mediated endocytosis."},
+ "phagocytosis":{p:"49–50",n:"Phagocytosis",g:"Bulk transport",d:"Cell eating. The cell reaches around a large particle such as a bacterium with pseudopodia and engulfs it in a phagosome. The phagosome then fuses with a lysosome, which digests it."},
+ "pinocytosis":{p:"50",n:"Pinocytosis",g:"Bulk transport",d:"Cell drinking. The cell takes in small droplets of extracellular fluid, with whatever is dissolved in it, in small vesicles. Not selective."},
+ "rme":{p:"50",n:"Receptor-mediated endocytosis",g:"Bulk transport",d:"Selective endocytosis. Specific molecules (ligands) bind receptors clustered in coated pits. The pit, lined with clathrin on the inside, pinches off as a coated vesicle. Cells take in LDL (a cholesterol carrier) this way."},
+ "amphipathic":{p:"34",n:"Amphipathic",g:"Membrane structure",d:"Having both a hydrophilic (polar) region and a hydrophobic (nonpolar) region. Phospholipids are amphipathic: a polar head with glycerol, a phosphate and a polar group, and two nonpolar fatty acid tails."},
+ "micelle":{p:"34",n:"Micelle",g:"Membrane structure",d:"A small sphere of lipids with their hydrophobic tails buried inside and heads facing the water. Lipids with a large, bulky head and one tail form micelles. A micelle has no inner space."},
+ "liposome":{p:"34",n:"Liposome",g:"Membrane structure",d:"A closed, hollow bilayer that encloses an inner watery space. Phospholipids added to water form liposomes on their own, which is why a bilayer makes an effective cell membrane."},
+ "lipid-raft":{p:"35",n:"Lipid rafts",g:"Membrane structure",d:"Specialized microdomains of the membrane where certain lipids and proteins gather. They act as platforms for various cell processes."},
+ "flip-flop":{p:"35",n:"Lipid flip-flop",g:"Membrane structure",d:"A lipid moving from one layer of the bilayer to the other. It is rare (lipids move sideways easily instead), so the two layers can differ in composition."},
+ "membrane-functions":{p:"33",n:"Functions of membranes",g:"Membrane structure",d:"Compartmentalization, a selectively permeable barrier, transporting solutes, a scaffold for biochemical activities, responding to external signals, interaction between neighbouring cells, and energy transduction (converting one form of energy into another)."},
+ "membrane-protein-functions":{p:"36",n:"Membrane protein functions",g:"Membrane structure",d:"Transporters move ions and molecules across; receptors let the cell receive signals; enzymes catalyze reactions; anchors attach to other proteins, such as the cytoskeleton."},
+ "endosymbiosis":{p:"42",n:"Endosymbiotic theory",g:"Parts of the cell",d:"The idea that mitochondria and chloroplasts descend from free-living bacteria that were engulfed by an ancestral cell and kept. Evidence: two membranes, their own circular DNA and ribosomes, division by splitting, and bacterial size."},
+ "outer-membrane":{p:"41",n:"Double membrane (outer and inner)",g:"Parts of the cell",d:"Mitochondria and chloroplasts are each surrounded by two membranes. In the endosymbiotic theory, the inner one came from the engulfed bacterium and the outer one from the host cell."},
+ "cristae":{p:"41",n:"Cristae",g:"Parts of the cell",d:"The folds of the mitochondrial inner membrane. They increase the surface area where ATP is made."},
+ "matrix":{p:"41",n:"Mitochondrial matrix",g:"Parts of the cell",d:"The space enclosed by the inner mitochondrial membrane. It holds the mitochondrion's DNA, ribosomes and many enzymes of cellular respiration."},
+ "intermembrane-space":{p:"41",n:"Intermembrane space",g:"Parts of the cell",d:"The narrow space between the outer and inner mitochondrial membranes."},
+ "stroma":{p:"42",n:"Stroma",g:"Parts of the cell",d:"The fluid inside the chloroplast's inner membrane, around the thylakoids. It holds the chloroplast's DNA and ribosomes, and is where sugars are built."},
+ "thylakoid":{p:"42",n:"Thylakoid",g:"Parts of the cell",d:"A flattened membrane sac inside a chloroplast where light energy is captured. Thylakoids are stacked into grana."},
+ "granum":{p:"42",n:"Granum (plural grana)",g:"Parts of the cell",d:"A stack of thylakoids in a chloroplast."},
+ "mito-dna":{p:"41",n:"Organelle DNA",g:"Parts of the cell",d:"Mitochondria and chloroplasts carry their own small, circular DNA, like a bacterial chromosome, along with their own ribosomes."},
+ "crenation":{n:"Crenation",g:"Water and tonicity",p:"45",d:"An animal cell in a hypertonic solution loses water by osmosis, shrinks and shrivels. A red blood cell with a wrinkled, spiky outline is crenated."},
+ "plasmolysis":{n:"Plasmolysis",g:"Water and tonicity",p:"45",d:"A plant cell in a hypertonic solution loses water, and its plasma membrane pulls away from the cell wall. The wall itself keeps its shape."},
+ "lysis":{n:"Lysis (hemolysis)",g:"Water and tonicity",p:"45",d:"An animal cell in a hypotonic solution takes in water by osmosis, swells and can burst. When a red blood cell bursts this way it is called hemolysis."},
+ "turgor":{n:"Turgor pressure",g:"Water and tonicity",p:"45",d:"The pressure of the cell contents pushing against the cell wall. A plant cell in a hypotonic solution takes in water and pushes against its wall; it becomes turgid (firm) instead of bursting."},
+ "endosome":{n:"Endosomes",g:"Bulk transport",p:"50",d:"The network of tubules and vesicles that receives material brought in by receptor-mediated endocytosis. Early endosomes sit near the edge of the cell; late endosomes are deeper inside and also receive material from the Golgi."},
+ "lysozyme":{n:"Lysozyme",g:"Bulk transport",p:"50",d:"A lysosomal enzyme that breaks down bacterial cell walls. Together with the acidic pH of the lysosome and the H₂O₂ made by oxidases in the phagosome, it helps phagocytes such as macrophages and neutrophils kill microorganisms."}
 };
 const TERM_ORDER_GROUPS = ["Parts of the cell","Membrane structure","Passive transport","Water and tonicity","Active transport","Co-transport","The gut lining","Bulk transport"];
 
@@ -370,7 +397,7 @@ function openTerm(k){
   const t = T[k]; if (!t) return;
   markTerm(k,"seen");
   $("#tcbody").innerHTML = "";
-  $("#tcbody").append(h("h3",{},t.n), h("p",{},t.d));
+  $("#tcbody").append(h("h3",{},t.n), h("p",{},t.d)); if(t.p) $("#tcbody").append(h("p",{style:"font-size:.85rem;color:var(--ink2);margin:4px 0 6px"},h("b",{style:"color:var(--accent)"},"Course notes: "),"p. "+t.p));
   const rel = related(k);
   if (rel.length){
     const box = h("div",{class:"rel"},"Related: ");
@@ -388,7 +415,7 @@ const REL = {
   "endomembrane":["er","golgi","lysosome","vesicle","nucleus"], "er":["ribosome","golgi","endomembrane"], "golgi":["er","vesicle","endomembrane"],
   "nucleus":["nucleolus","nuclear-pores"], "chloroplast":["plastid"], "plastid":["chloroplast"],
   "channel":["carrier","aquaporin","facilitated-diffusion"], "carrier":["channel","uniporter","facilitated-diffusion"],
-  "osmosis":["osmotic-pressure","hypotonic","hypertonic","isotonic"], "secondary-active":["primary-active","symporter","antiporter","nak-pump"],
+  "osmosis":["osmotic-pressure","hypotonic","hypertonic","isotonic"], "hypertonic":["crenation","plasmolysis"], "hypotonic":["lysis","turgor"], "rme":["endosome"], "phagocytosis":["lysozyme","lysosome"], "secondary-active":["primary-active","symporter","antiporter","nak-pump"],
   "nak-pump":["primary-active","electrochemical-gradient","importer","exporter"], "electrochemical-gradient":["membrane-potential","concentration-gradient"],
   "endocytosis":["phagocytosis","pinocytosis","rme"], "bulk-transport":["exocytosis","endocytosis"],
   "apical":["basolateral","microvilli","tight-junction"], "basolateral":["apical","interstitial-fluid"],
@@ -859,7 +886,7 @@ function renderChapter(ci, si=0){
   ch.steps.forEach((_,i)=>bar.append(h("i",{class:i<si?"on":i===si?"cur":""})));
   app.append(h("div",{class:"crumb"},
     h("button",{class:"back",onclick:()=>go("story")},"All chapters"),
-    h("h1",{},`Chapter ${ci+1}: ${ch.title}`), bar));
+    h("h1",{},`Chapter ${ci+1}: ${ch.title}`), ch.pages?h("span",{class:"muted small"},`Course notes ${ch.pages}`):"", bar));
   const step = ch.steps[si];
   const stage = h("div",{class:"stage"+(step.wide?" wide":"")});
   const plateHost = h("div"), panel = h("div",{class:"panel"});
@@ -1031,7 +1058,7 @@ const STEP_TYPES = {
 };
 /* ============ chapters ============ */
 const CHAPTERS = [
-{ id:"cell", title:"Your cell", blurb:"The parts of an animal cell, and how it ships a new protein to its membrane.",
+{ id:"cell", title:"Your cell", pages:"pp. 37–40", blurb:"The parts of an animal cell, and how it ships a new protein to its membrane.",
   terms:["lumen","apical","basolateral","tight-junction","interstitial-fluid","cytoplasm","cytosol","nucleus","nucleolus","nuclear-pores","er","golgi","lysosome","vesicle","endomembrane","mitochondria","cytoskeleton","vacuole","ribosome"],
   wrap:"You know your cell's parts and how a new membrane protein travels from the nucleus, through the ER and Golgi, to the plasma membrane. Next you will look closely at the membrane itself.",
   steps:[
@@ -1067,7 +1094,7 @@ const CHAPTERS = [
          ["Nucleolus",false," The nucleolus makes ribosome parts."],
          ["Smooth ER",false," Smooth ER makes lipids and breaks down toxins."],
          ["Cytoskeleton",false," The cytoskeleton gives shape and moves things, but it uses ATP rather than making it."]],
-   after:"Keep this in mind for chapter 5. If the mitochondria stop, the pump stops, and so does glucose uptake.", terms:["mitochondria","atp"]},
+   after:"Keep this in mind for chapter 7. If the mitochondria stop, the pump stops, and so does glucose uptake.", terms:["mitochondria","atp"]},
   {type:"mcq", title:"Getting ribosomes out", q:"<p>Ribosome subunits are assembled in the nucleolus, but proteins are made out in the cytoplasm. How do the subunits get out of the nucleus?</p>",
    opts:[["Through nuclear pores",true," The pores are protein-lined openings in the nuclear envelope, big enough for ribosome subunits and mRNA."],
          ["They diffuse through the lipids of the nuclear envelope",false," Ribosome subunits are huge and polar. They cannot pass through a lipid bilayer."],
@@ -1080,20 +1107,37 @@ const CHAPTERS = [
          ["A vacuole",false," A vacuole is a storage sac."]], terms:["cytoskeleton","vesicle"]}
   ]},
 
-{ id:"border", title:"The border", blurb:"The phospholipid bilayer, its proteins, and what can cross it unaided.",
+{ id:"power", title:"Power plants", pages:"pp. 41–42", blurb:"Mitochondria and chloroplasts: how their structure fits their job, and the endosymbiont theory of where they came from.",
+  terms:["mitochondria","chloroplast","outer-membrane","cristae","matrix","intermembrane-space","stroma","thylakoid","granum","mito-dna","endosymbiosis"],
+  wrap:"Mitochondria make ATP and chloroplasts capture light energy. Both have two membranes, their own DNA and ribosomes, and divide on their own: leftovers of the bacteria they once were. Next: the border itself.",
+  steps:[
+  {type:"review", title:"Two organelles with two membranes", fig:figEnergyOrganelles, labelsToggle:true, cap:"<b>Figure 2.1</b> A mitochondrion and a chloroplast in cross-section. Not to the same scale. (Notes: mitochondria and chloroplasts)",
+   text:`<p>Your gut cell runs on ATP, and most of it comes from [[mitochondria|mitochondria]]. A leaf cell also has [[chloroplast|chloroplasts]], which capture light energy to make sugar. Neither is part of the endomembrane system.</p><p>Look at how structure fits function. The mitochondrion's inner membrane is folded into [[cristae|cristae]], which gives more surface for making ATP. The chloroplast's [[thylakoid|thylakoids]] are stacked into [[granum|grana]], again packing in membrane surface. Both organelles have their own DNA and ribosomes. Click each part.</p>`,
+   terms:["mitochondria","chloroplast","outer-membrane","cristae","matrix","intermembrane-space","stroma","thylakoid","granum","mito-dna"]},
+  {type:"custom", title:"Where they came from", render:api=>simEndosymbiosis(api), terms:["endosymbiosis","mitochondria","chloroplast"]},
+  {type:"sort", title:"Evidence for endosymbiosis", q:"<p>Which observations support the idea that mitochondria and chloroplasts were once free-living bacteria?</p>", bins:["Supports endosymbiosis","Doesn't support it"],
+   items:[["They have two membranes",0,"the inner membrane came from the bacterium, the outer from the host"],["They have their own circular DNA, like bacteria",0],["They have their own ribosomes, which resemble bacterial ribosomes",0],["They divide on their own by splitting in two, like bacteria",0],["They are about the size of bacteria",0],["They are found in the cytoplasm",1,"lots of things are in the cytoplasm; this says nothing about origin"],["They are made of the same phospholipids as other membranes",1,"all membranes share this, so it isn't evidence of a bacterial origin"]],
+   after:" Each of these is what you'd expect if the organelle used to be a bacterium living inside a larger cell.", terms:["endosymbiosis"]},
+  {type:"mcq", title:"Not on the conveyor belt", q:"<p>Which pair of organelles is <em>not</em> part of the endomembrane system?</p>",
+   opts:[["Mitochondria and chloroplasts",true," They aren't connected to the ER and Golgi by membranes or vesicles, and they make many of their own proteins."],["ER and Golgi apparatus",false," Those are the core of the endomembrane system."],["Lysosomes and vesicles",false," Both are part of it."],["Nuclear envelope and plasma membrane",false," Both are part of it."]], terms:["endomembrane","mitochondria","chloroplast"]},
+  {type:"mcq", title:"Folding for surface", q:"<p>A cell type that needs a lot of ATP would be expected to have mitochondria with:</p>",
+   opts:[["Many, densely packed cristae",true," More folds means more inner membrane, where ATP is made."],["No inner membrane",false," The inner membrane is where ATP is made."],["Thylakoids",false," Thylakoids are in chloroplasts."],["Fewer cristae",false," That would mean less surface for ATP production."]], terms:["cristae"]}
+  ]},
+
+{ id:"border", title:"The border", pages:"pp. 33–34, 36", blurb:"The phospholipid bilayer, its proteins, and what can cross it unaided.",
   terms:["phospholipid","hydrophilic-head","fatty-acid-tails","bilayer","fluid-mosaic","selective-permeability","cholesterol","integral-protein","transmembrane-protein","peripheral-protein","glycoprotein","channel","carrier","simple-diffusion"],
   wrap:"Your border is a hydrophobic core with protein gates set into it. Small nonpolar molecules cross on their own; almost everything else needs a protein. Next: what water does.",
   steps:[
-  {type:"review", title:"The plasma membrane up close", fig:figMembrane, labelsToggle:true, cap:"<b>Figure 2.1</b> The plasma membrane in cross-section: the fluid mosaic model.",
+  {type:"review", title:"The plasma membrane up close", fig:figMembrane, labelsToggle:true, cap:"<b>Figure 3.1</b> The plasma membrane in cross-section: the fluid mosaic model.",
    text:`<p>Your border is the plasma membrane. Click each part. As you go, notice which parts are hydrophobic (avoid water) and which are hydrophilic (attract water). That split explains almost everything about what can cross.</p>`,
    terms:["phospholipid","hydrophilic-head","fatty-acid-tails","bilayer","cholesterol","transmembrane-protein","integral-protein","peripheral-protein","glycoprotein","glycolipid","channel","carrier","cytoskeleton","fluid-mosaic"]},
-  {type:"mcq", title:"Why ions bounce off", fig:figMembrane, cap:"<b>Figure 2.1</b> The plasma membrane.", q:"<p>O₂ slips straight through the bilayer. A Na⁺ ion, which is even smaller, cannot. Why?</p>",
+  {type:"mcq", title:"Why ions bounce off", fig:figMembrane, cap:"<b>Figure 3.1</b> The plasma membrane.", q:"<p>O₂ slips straight through the bilayer. A Na⁺ ion, which is even smaller, cannot. Why?</p>",
    opts:[["The fatty acid tails form a hydrophobic core that a charged ion cannot enter",true," A charged ion is held in a shell of water molecules. Leaving that shell to enter the oily core takes far too much energy."],
          ["Na⁺ is too big to fit between the lipids",false," Na⁺ is smaller than O₂. Size is not the problem. Charge is."],
          ["The hydrophilic heads repel positive charges",false," The heads are polar and interact well with ions and water. The barrier is the tails in the middle."],
          ["Cholesterol plugs the gaps between phospholipids",false," Cholesterol adjusts how fluid the membrane is. It is not what blocks ions."]],
    terms:["fatty-acid-tails","selective-permeability","hydrophilic-head"]},
-  {type:"sort", title:"Sort the membrane proteins", fig:figMembrane, cap:"<b>Figure 2.1</b> Look for each kind of protein in the figure.",
+  {type:"sort", title:"Sort the membrane proteins", fig:figMembrane, cap:"<b>Figure 3.1</b> Look for each kind of protein in the figure.",
    q:"<p>Place each description in the right box.</p>", bins:["Transmembrane protein","Integral, one layer only","Peripheral protein"],
    items:[["Crosses the whole bilayer, with parts outside and inside the cell",0],
           ["A channel protein that lets K⁺ through",0,"a channel has to connect both sides, so it must span the bilayer"],
@@ -1103,7 +1147,7 @@ const CHAPTERS = [
           ["The Na⁺/glucose symporter",0,"it carries glucose from one side to the other, so it spans the membrane"]],
    after:" Transmembrane proteins are one kind of integral protein. Both kinds have hydrophobic parts buried among the fatty acid tails, so only detergent pulls them out. Peripheral proteins never enter the core.",
    terms:["integral-protein","transmembrane-protein","peripheral-protein"]},
-  {type:"sort", title:"Test the bare bilayer", fig:figBare, cap:"<b>Figure 2.2</b> Predict first. After you check, the test runs here.",
+  {type:"sort", title:"Test the bare bilayer", fig:figBare, cap:"<b>Figure 3.2</b> Predict first. After you check, the test runs here.",
    q:"<p>Imagine a membrane with no proteins at all, only lipids. Predict how each molecule does.</p>", bins:["Crosses easily","Crosses slowly","Blocked"],
    items:[["O₂ (small, nonpolar)",0],["CO₂ (small, nonpolar)",0],["A steroid hormone (lipid-soluble)",0,"steroids are lipids, so they dissolve through the core"],
           ["Water (small, polar)",1,"water is small enough to squeeze through slowly despite being polar"],["Glucose (large, polar)",2,"it is too big and too polar to pass the core in any useful amount"],
@@ -1123,8 +1167,30 @@ const CHAPTERS = [
          ["Glycoproteins on the outer surface",false," Glycoproteins are used for recognition, not for controlling fluidity."]], terms:["cholesterol","fatty-acid-tails"]}
   ]},
 
-{ id:"water", title:"Water", blurb:"Osmosis, osmotic pressure, and what isotonic, hypotonic and hypertonic do to a cell.",
-  terms:["osmosis","osmotic-pressure","isotonic","hypotonic","hypertonic","aquaporin","cell-wall"],
+{ id:"chem", title:"Membrane chemistry", pages:"pp. 33–36", blurb:"Why phospholipids form bilayers on their own, what controls fluidity, and what membrane proteins and carbohydrates do.",
+  terms:["amphipathic","micelle","liposome","bilayer","fluid-mosaic","cholesterol","lipid-raft","flip-flop","membrane-functions","membrane-protein-functions","glycoprotein","glycolipid"],
+  wrap:"Phospholipids assemble into self-sealing bilayers because water excludes their tails. Tail length, double bonds, cholesterol and temperature set how fluid the membrane is. Next: what water does.",
+  steps:[
+  {type:"custom", title:"Drop lipids into water", render:api=>simAssembly(api), terms:["amphipathic","micelle","liposome","bilayer"]},
+  {type:"custom", title:"What makes a membrane fluid?", render:api=>simFluidity(api), terms:["cholesterol","fatty-acid-tails","flip-flop"]},
+  {type:"mcq", title:"Longer tails", q:"<p>A bacterium living in hot springs makes membranes with longer, saturated fatty acid tails than one living at room temperature. Why does this help?</p>",
+   opts:[["Longer, straighter tails pack tightly, so the membrane doesn't get too fluid in the heat",true," Heat makes membranes more fluid; tight packing counteracts it."],["Longer tails let more glucose through",false," Fluidity, not glucose, is the issue here."],["Saturated tails have more double bonds",false," Saturated means no C=C double bonds."],["Longer tails make the membrane more fluid",false," Longer tails reduce fluidity."]], terms:["fatty-acid-tails"]},
+  {type:"mcq", title:"Cholesterol's job", q:"<p>Why is cholesterol described as a fluidity buffer?</p>",
+   opts:[["It can increase or decrease membrane fluidity, depending on the temperature",true," It stops a warm membrane getting too runny and a cold one packing too stiff."],["It always stiffens the membrane",false," At low temperature it keeps the membrane from packing solid."],["It neutralizes acids in the cytosol",false," That isn't what buffer means here."],["It pumps ions to keep the membrane charged",false," Cholesterol is a lipid, not a pump."]], terms:["cholesterol"]},
+  {type:"mcq", title:"Rafts and flip-flops", q:"<p>Which statement about lipid movement is correct?</p>",
+   opts:[["Lipids move sideways easily but rarely flip-flop between layers, so the two layers can differ",true,""],["Lipids flip between layers constantly, so both layers are identical",false," Flip-flop is rare."],["Lipids are fixed in place by the cytoskeleton",false," Most lipids move laterally all the time."],["Lipid rafts are lipids that left the membrane",false," Rafts are microdomains inside the membrane that act as platforms."]], terms:["flip-flop","lipid-raft"]},
+  {type:"sort", title:"What membrane proteins do", q:"<p>Match each example to the job of the membrane protein.</p>", bins:["Transporter","Receptor","Enzyme","Anchor"],
+   items:[["The Na⁺/glucose symporter",0],["An aquaporin letting water through",0],["A protein that binds a hormone and passes the signal inside",1],["A protein that catalyzes a reaction at the membrane surface",2],["A protein that attaches the membrane to cytoskeleton filaments",3],["A protein that holds a cell to its neighbour",3]],
+   after:" Transporters move ions and molecules, receptors receive signals, enzymes catalyze reactions, and anchors attach to other proteins.", terms:["membrane-protein-functions"]},
+  {type:"mcq", title:"Sugar coating", q:"<p>Where are membrane carbohydrates found, and what are they attached to?</p>",
+   opts:[["They all face outward, linked to proteins (glycoproteins) or lipids (glycolipids)",true,""],["They face the cytosol, inside the cell",false," They all face the extracellular space."],["They float freely in the bilayer core",false," They're covalently linked to proteins or lipids."],["They're only found on plant cells",false," Animal cells have them too."]], terms:["glycoprotein","glycolipid"]},
+  {type:"sort", title:"Membrane jobs", q:"<p>Membranes do much more than keep things in. Match each example to the membrane function.</p>", bins:["Compartments","Selective barrier","Signals and neighbours","Energy"],
+   items:[["Lysosome enzymes are kept away from the cytosol",0],["The nucleus keeps transcription separate from translation",0],["O₂ crosses but Na⁺ is blocked",1],["A receptor detects a hormone outside the cell",2],["A cell recognizes and sticks to its neighbour",2],["The mitochondrial inner membrane converts energy from food into ATP",3]],
+   terms:["membrane-functions"]}
+  ]},
+
+{ id:"water", title:"Water", pages:"p. 45", blurb:"Osmosis, osmotic pressure, and what isotonic, hypotonic and hypertonic do to a cell.",
+  terms:["osmosis","osmotic-pressure","isotonic","hypotonic","hypertonic","crenation","plasmolysis","lysis","turgor","aquaporin","cell-wall"],
   wrap:"Water follows solute. Compare the outside to the cell, name the solution, and you can predict what the cell does. Next: moving solutes down their gradients.",
   steps:[
   {type:"custom", title:"Osmosis lab", render:(api,step)=>simTonicity(api,null), terms:["osmosis","osmotic-pressure","isotonic","hypotonic","hypertonic"]},
@@ -1146,18 +1212,21 @@ const CHAPTERS = [
    opts:[["Its cell wall pushes back and stops it expanding",true," The cell becomes firm (turgid) instead of bursting. Animal cells have no wall, so they can burst."],
          ["Plant cells have no aquaporins",false," Plant cells have plenty of aquaporins."],
          ["Its central vacuole pumps water out",false," The central vacuole takes on water and presses outward. That is what makes the cell firm."],
-         ["Distilled water is isotonic to plant cells",false," Distilled water has no solute, so it is hypotonic to any cell."]], terms:["cell-wall","hypotonic","vacuole"]}
+         ["Distilled water is isotonic to plant cells",false," Distilled water has no solute, so it is hypotonic to any cell."]], terms:["cell-wall","hypotonic","vacuole"]},
+  {type:"sort", title:"Name what happens", q:"<p>Your notes give each outcome a name (p. 45). Sort them by the solution that causes them.</p>", bins:["Hypertonic solution","Hypotonic solution"],
+   items:[["Crenation: a red blood cell shrivels",0],["Plasmolysis: the membrane pulls away from the cell wall",0],["Lysis (hemolysis): a red blood cell bursts",1],["Turgor: a plant cell pushes against its wall",1],["Water leaves the cell",0],["Water enters the cell",1]],
+   after:" In an isotonic solution there is no net movement of water, so neither happens.", terms:["crenation","plasmolysis","lysis","turgor","hypertonic","hypotonic"]}
   ]},
 
-{ id:"downhill", title:"Downhill", blurb:"Passive transport: simple diffusion, channels and carriers.",
+{ id:"downhill", title:"Downhill", pages:"pp. 43–44", blurb:"Passive transport: simple diffusion, channels and carriers.",
   terms:["diffusion","simple-diffusion","facilitated-diffusion","passive-transport","channel","carrier","glut","concentration-gradient"],
   wrap:"Passive transport runs downhill. The bilayer handles small nonpolar molecules, channels handle ions and water, and carriers handle bigger polar molecules like glucose. Next: going uphill.",
   steps:[
-  {type:"review", title:"Three ways downhill", fig:figRoutes, cap:"<b>Figure 4.1</b> Passive transport. Each molecule moves from high concentration (outside, in this figure) to low concentration, and the cell spends no energy.",
+  {type:"review", title:"Three ways downhill", fig:figRoutes, cap:"<b>Figure 6.1</b> Passive transport. Each molecule moves from high concentration (outside, in this figure) to low concentration, and the cell spends no energy.",
    text:`<p>[[diffusion|Diffusion]] is the net movement of molecules from where there are more to where there are fewer. When it happens across a membrane without energy from the cell, it is [[passive-transport|passive transport]].</p><p>Small nonpolar molecules take the direct route, [[simple-diffusion|simple diffusion]]. Everything else needs a protein. That is [[facilitated-diffusion|facilitated diffusion]], through either a [[channel|channel]] or a [[carrier|carrier]].</p>`,
    terms:["diffusion","simple-diffusion","facilitated-diffusion","channel","carrier","passive-transport"]},
   {type:"custom", title:"Diffusion lab", render:(api)=>simDiffusion(api), terms:["simple-diffusion","channel","carrier"]},
-  {type:"mcq", title:"Read the graph", fig:figRate, cap:"<b>Figure 4.2</b> Transport rate as the concentration difference grows.",
+  {type:"mcq", title:"Read the graph", fig:figRate, cap:"<b>Figure 6.2</b> Transport rate as the concentration difference grows.",
    q:"<p>One line is simple diffusion. The other is facilitated diffusion by a carrier protein. Which line is the carrier?</p>", keep:true,
    opts:[["Line B",true," B levels off. Each carrier handles one or a few molecules at a time, so once they are all busy the rate cannot rise. The carrier is saturated."],
          ["Line A",false," A keeps rising in a straight line as the gradient grows. Nothing limits it, which is what simple diffusion looks like."],
@@ -1183,7 +1252,7 @@ const CHAPTERS = [
    terms:["passive-transport","diffusion"]}
   ]},
 
-{ id:"pump", title:"The pump", blurb:"Primary active transport, the Na⁺/K⁺ pump and electrochemical gradients.",
+{ id:"pump", title:"The pump", pages:"pp. 46–47", blurb:"Primary active transport, the Na⁺/K⁺ pump and electrochemical gradients.",
   terms:["active-transport","primary-active","nak-pump","atp","electrochemical-gradient","membrane-potential","concentration-gradient","importer","exporter"],
   wrap:"The Na⁺/K⁺ pump spends ATP to keep Na⁺ low inside the cell. That stored gradient is the battery for the next chapter.",
   steps:[
@@ -1191,16 +1260,16 @@ const CHAPTERS = [
   {type:"order", title:"Run the cycle", q:"<p>Put one cycle of the Na⁺/K⁺ pump in order, starting with the pump open to the cytosol.</p>",
    items:["Three Na⁺ from the cytosol bind to the pump.","ATP is split and a phosphate attaches to the pump.","The pump changes shape, opens to the outside and releases the Na⁺.","Two K⁺ from outside bind to the pump.","The phosphate is released and the pump returns to its original shape.","The K⁺ are released into the cytosol."],
    after:" ATP is spent once per cycle, to phosphorylate the pump. Both ions move against their gradients.", terms:["nak-pump","primary-active","atp"]},
-  {type:"mcq", title:"The push on Na⁺", fig:()=>figGradient(false), afterFig:()=>figGradient(true), cap:"<b>Figure 5.2</b> Ion concentrations and charge across your membrane. The inside of the cell is negative.",
-   afterCap:"<b>Figure 5.2</b> Green arrows: the concentration push. Blue arrows: the pull from charge.",
+  {type:"mcq", title:"The push on Na⁺", fig:()=>figGradient(false), afterFig:()=>figGradient(true), cap:"<b>Figure 7.2</b> Ion concentrations and charge across your membrane. The inside of the cell is negative.",
+   afterCap:"<b>Figure 7.2</b> Green arrows: the concentration push. Blue arrows: the pull from charge.",
    q:"<p>Look at Na⁺ on the left. Which way does its concentration gradient push it, and which way does the charge difference pull it?</p>",
    opts:[["Both push Na⁺ into the cell",true," More Na⁺ outside pushes it in, and the negative inside pulls the positive ion in. Together that is a steep electrochemical gradient."],
          ["Concentration pushes it in, charge pushes it out",false," A positive ion is attracted to the negative inside, so charge also pulls it in."],
          ["Both push Na⁺ out of the cell",false," Na⁺ is more concentrated outside, so it tends to move in."],
          ["Charge does not matter because Na⁺ is so small",false," Every ion feels the charge difference, whatever its size."]],
    terms:["electrochemical-gradient","membrane-potential","concentration-gradient"]},
-  {type:"mcq", title:"The push on K⁺", fig:()=>figGradient(false), afterFig:()=>figGradient(true), cap:"<b>Figure 5.2</b> Ion concentrations and charge across your membrane.",
-   afterCap:"<b>Figure 5.2</b> For K⁺ the two pushes point opposite ways.",
+  {type:"mcq", title:"The push on K⁺", fig:()=>figGradient(false), afterFig:()=>figGradient(true), cap:"<b>Figure 7.2</b> Ion concentrations and charge across your membrane.",
+   afterCap:"<b>Figure 7.2</b> For K⁺ the two pushes point opposite ways.",
    q:"<p>Now K⁺ on the right. What is its electrochemical gradient made of?</p>",
    opts:[["Concentration pushes K⁺ out; the negative inside pulls it back in",true," The two partly cancel. That is why an electrochemical gradient can be weaker than the concentration gradient alone."],
          ["Both push K⁺ into the cell",false," K⁺ is more concentrated inside, so its concentration gradient pushes it out."],
@@ -1222,11 +1291,11 @@ const CHAPTERS = [
    terms:["primary-active","active-transport"]}
   ]},
 
-{ id:"glucose", title:"The glucose run", blurb:"Secondary active transport, symport and antiport, and the full route from gut to blood.",
+{ id:"glucose", title:"The glucose run", pages:"pp. 47–48", blurb:"Secondary active transport, symport and antiport, and the full route from gut to blood.",
   terms:["secondary-active","cotransport","uniporter","symporter","antiporter","sglt","glut","apical","basolateral","interstitial-fluid","tight-junction"],
   wrap:"You built the whole route. Na⁺ flowing in pays for glucose to come in uphill; glucose leaves downhill; the pump resets the Na⁺ gradient with ATP. That is the core of this unit.",
   steps:[
-  {type:"brief", title:"The uphill problem", fig:figCotransport, cap:"<b>Figure 6.1</b> Carriers that move one or two substances.",
+  {type:"brief", title:"The uphill problem", fig:figCotransport, cap:"<b>Figure 8.1</b> Carriers that move one or two substances.",
    text:`<p>Between meals, and later in a meal, your cell already holds more glucose than the gut contents do. Getting more in means pushing it uphill. That takes energy, but your apical transporter never touches ATP.</p><p>The trick is [[secondary-active|secondary active transport]]. The pump has made Na⁺ scarce inside the cell. Na⁺ rushing back in is like water through a mill wheel. A [[symporter|symporter]] lets one Na⁺ in only if it brings a glucose along. The glucose rides uphill on Na⁺'s downhill trip.</p><p>Two substances through one protein is [[cotransport|co-transport]]. Same direction is a [[symporter|symporter]]; opposite directions is an [[antiporter|antiporter]]. One substance alone is a [[uniporter|uniporter]].</p>`,
    terms:["secondary-active","cotransport","symporter","antiporter","uniporter"]},
   {type:"custom", title:"Build the border", render:(api)=>simBuilder(api), terms:["sglt","glut","nak-pump","apical","basolateral","secondary-active"]},
@@ -1256,8 +1325,8 @@ const CHAPTERS = [
    terms:["tight-junction","apical","basolateral"]}
   ]},
 
-{ id:"bulk", title:"Bulk traffic", blurb:"Exocytosis, endocytosis, phagocytosis, pinocytosis and receptor-mediated endocytosis.",
-  terms:["bulk-transport","exocytosis","endocytosis","phagocytosis","pinocytosis","rme"],
+{ id:"bulk", title:"Bulk traffic", pages:"pp. 49–50", blurb:"Exocytosis, endocytosis, phagocytosis, pinocytosis and receptor-mediated endocytosis.",
+  terms:["bulk-transport","exocytosis","endocytosis","phagocytosis","pinocytosis","rme","endosome","lysozyme"],
   wrap:"Some cargo is too big or too plentiful for any transporter. It travels in vesicles instead, and that costs energy.",
   steps:[
   {type:"custom", title:"Moving cargo in vesicles", render:(api)=>simBulkTabs(api), terms:["bulk-transport","exocytosis","endocytosis","phagocytosis","pinocytosis","rme"]},
@@ -1278,7 +1347,7 @@ const CHAPTERS = [
    terms:["endocytosis","bulk-transport"]}
   ]},
 
-{ id:"meal", title:"Full meal", blurb:"The finale. Every system runs at once and each call counts.",
+{ id:"meal", title:"Full meal", pages:"pp. 32–51", blurb:"The finale. Every system runs at once and each call counts.",
   terms:["simple-diffusion","atp","hypertonic","secondary-active","glut","rme","lysosome","exocytosis","channel","nak-pump"],
   wrap:"You ran the border through a whole meal. Replay any chapter to push your first-try score up, or head to Checkpoint for endless practice.",
   steps:[
@@ -1289,10 +1358,10 @@ const CHAPTERS = [
 /* figures for question steps */
 const ADDFIG = {
   cell:{2:[figAnimalCell,"<b>Figure 1.2</b> An animal cell."],4:[figAnimalCell,"<b>Figure 1.2</b> An animal cell."],5:[figAnimalCell,"<b>Figure 1.2</b> An animal cell."],6:[figAnimalCell,"<b>Figure 1.2</b> An animal cell."],7:[figAnimalCell,"<b>Figure 1.2</b> An animal cell."],8:[figAnimalCell,"<b>Figure 1.2</b> An animal cell."]},
-  border:{4:[figMembrane,"<b>Figure 2.1</b> The plasma membrane."],5:[figMembrane,"<b>Figure 2.1</b> The plasma membrane."]},
-  water:{6:[figPlantCell,"<b>Figure 3.2</b> A plant cell, with its cell wall and central vacuole."]},
-  downhill:{3:[figRoutes,"<b>Figure 4.1</b> Passive transport."],4:[figTissue,"<b>Figure 1.1</b> Your cell between the gut and the blood."],5:[figRoutes,"<b>Figure 4.1</b> Passive transport."]},
-  pump:{4:[()=>pumpSVG(2),"<b>Figure 5.1</b> The Na⁺/K⁺ pump."],6:[()=>pumpSVG(1),"<b>Figure 5.1</b> The Na⁺/K⁺ pump."]},
+  border:{4:[figMembrane,"<b>Figure 3.1</b> The plasma membrane."],5:[figMembrane,"<b>Figure 3.1</b> The plasma membrane."]},
+  water:{6:[figPlantCell,"<b>Figure 5.2</b> A plant cell, with its cell wall and central vacuole."]},
+  downhill:{3:[figRoutes,"<b>Figure 6.1</b> Passive transport."],4:[figTissue,"<b>Figure 1.1</b> Your cell between the gut and the blood."],5:[figRoutes,"<b>Figure 6.1</b> Passive transport."]},
+  pump:{4:[()=>pumpSVG(2),"<b>Figure 7.1</b> The Na⁺/K⁺ pump."],6:[()=>pumpSVG(1),"<b>Figure 7.1</b> The Na⁺/K⁺ pump."]},
   glucose:{2:[figTissue,"<b>Figure 1.1</b> Your cell between the gut and the blood."],4:[figTissue,"<b>Figure 1.1</b> Your cell between the gut and the blood."],5:[figTissue,"<b>Figure 1.1</b> Tight junctions sit where neighbouring cells meet, just below the microvilli."]}
 };
 CHAPTERS.forEach(ch=>{ const m=ADDFIG[ch.id]; if(!m) return; for(const i in m){ const st=ch.steps[i]; if(st && !st.fig){ st.fig=m[i][0]; st.cap=m[i][1]; } } });
@@ -1344,7 +1413,7 @@ function permAnim(api){
   const lw=W/lanes.length; const P=[]; const crossed=lanes.map(()=>0);
   const spawn=li=>P.push({li,x:lw*li+lw/2+(Math.random()-.5)*lw*0.5,y:40+Math.random()*40,vy:55+Math.random()*25,state:"down",a:1});
   lanes.forEach((_,li)=>{ for(let k=0;k<3;k++){ spawn(li); P[P.length-1].y-=k*40; } });
-  const f = plate(cv,"<b>Figure 2.2</b> The same bare bilayer, tested. Counts show how many of each molecule got through.");
+  const f = plate(cv,"<b>Figure 3.2</b> The same bare bilayer, tested. Counts show how many of each molecule got through.");
   api.plateHost.innerHTML=""; api.plateHost.append(f);
   loop(dt=>{
     ctx.fillStyle=C.ext; ctx.fillRect(0,0,W,MY); ctx.fillStyle=C.cyt; ctx.fillRect(0,MY+72,W,H-MY-72);
@@ -1442,7 +1511,7 @@ const TONIC_WHY = {
 };
 function simTonicity(api, scen){
   const tcv = tonicityCanvas();
-  api.plateHost.innerHTML=""; api.plateHost.append(plate(tcv.cv,"<b>Figure 3.1</b> A cell in a solution. Water crosses the membrane in both directions; the arrows show the net flow."));
+  api.plateHost.innerHTML=""; api.plateHost.append(plate(tcv.cv,"<b>Figure 5.1</b> A cell in a solution. Water crosses the membrane in both directions; the arrows show the net flow."));
   const p=api.panel;
   if(!scen){
     p.append(h("p",{class:"kicker"},"Try it"), h("h2",{},"Osmosis lab"));
@@ -1519,7 +1588,7 @@ function simDiffusion(api){
     const k=cfg.cargo; if(!tasks[k] && net>=3){ tasks[k]=true; drawTasks(); }
     if(!hintShown && idle>2500 && net===0){ hintShown=true; hint.innerHTML = cfg.cargo==="na" ? "Na⁺ keeps hitting the hydrophobic core and bouncing off. It needs a protein with a pore." : cfg.cargo==="glu" ? "Glucose is too large and polar for the bilayer. Try a protein that binds it." : ""; hint.style.display = hint.innerHTML?"block":"none"; }
   });
-  api.plateHost.innerHTML=""; api.plateHost.append(plate(cv,"<b>Figure 4.3</b> Molecules move at random. More of them outside means more hit the membrane from outside, so the net flow is inward: down the gradient."));
+  api.plateHost.innerHTML=""; api.plateHost.append(plate(cv,"<b>Figure 6.3</b> Molecules move at random. More of them outside means more hit the membrane from outside, so the net flow is inward: down the gradient."));
   const p=api.panel;
   p.append(h("p",{class:"kicker"},"Try it"), h("h2",{},"Diffusion lab"), h("p",{},"Pick a molecule, then give it a way across. Watch the counts on each side."));
   const segC=h("div",{class:"seg"}), segR=h("div",{class:"seg"});
@@ -1543,7 +1612,7 @@ function simPumpStepper(api){
   let i=0, playing=null, maxSeen=0;
   const host=h("div"); api.plateHost.innerHTML=""; api.plateHost.append(host);
   const cap=h("div",{class:"fb"}), count=h("p",{class:"readout"});
-  function draw(){ host.innerHTML=""; const f=plate(pumpSVG(i),`<b>Figure 5.1</b> The Na⁺/K⁺ pump, step ${i+1} of 6.`); host.append(f); bindTerms(f); cap.innerHTML=`<b>Step ${i+1}.</b> ${PUMP_STEPS[i].cap}`; count.textContent=`Step ${i+1} of 6`; maxSeen=Math.max(maxSeen,i); if(maxSeen===5) api.unlock(); }
+  function draw(){ host.innerHTML=""; const f=plate(pumpSVG(i),`<b>Figure 7.1</b> The Na⁺/K⁺ pump, step ${i+1} of 6.`); host.append(f); bindTerms(f); cap.innerHTML=`<b>Step ${i+1}.</b> ${PUMP_STEPS[i].cap}`; count.textContent=`Step ${i+1} of 6`; maxSeen=Math.max(maxSeen,i); if(maxSeen===5) api.unlock(); }
   const prev=h("button",{class:"btn ghost",onclick:()=>{ stopPlay(); i=(i+5)%6; draw(); }},"Previous step");
   const nxt=h("button",{class:"btn",onclick:()=>{ stopPlay(); i=(i+1)%6; draw(); }},"Next step");
   const play=h("button",{class:"btn ghost"},"Play the cycle");
@@ -1559,7 +1628,7 @@ function simPumpStepper(api){
 function simPower(api){
   const S={atp:true, grad:1, glu:0, t:0};
   const svgHost=h("div"); api.plateHost.innerHTML="";
-  const f=plate(svgHost,"<b>Figure 5.3</b> Your cell's pump and symporter share one Na⁺ gradient. Switch the ATP supply off and watch.");
+  const f=plate(svgHost,"<b>Figure 7.3</b> Your cell's pump and symporter share one Na⁺ gradient. Switch the ATP supply off and watch.");
   api.plateHost.append(f);
   function scene(){
     const W=820,H=360,y=130;
@@ -1605,7 +1674,7 @@ function simBuilder(api){
   const SLOTS={A:{x:410,y:120,side:"apical",lab:"Apical slot"},B1:{x:320,y:380,side:"baso",lab:"Basolateral slot"},B2:{x:500,y:380,side:"baso",lab:"Basolateral slot"}};
   const place={A:null,B1:null,B2:null}; let sel=null, first=true, running=false, delivered=0, parts=[];
   const host=h("div"); api.plateHost.innerHTML="";
-  const f=plate(host,"<b>Figure 6.2</b> Your cell between the gut and the blood. Place the three transporters, then run the cell.");
+  const f=plate(host,"<b>Figure 8.2</b> Your cell between the gut and the blood. Place the three transporters, then run the cell.");
   api.plateHost.append(f);
   function scene(){
     const W=820,H=480;
@@ -1700,7 +1769,7 @@ function simBulkTabs(api){
   };
   function draw(){
     const b=BULK[cur]; seen.add(cur);
-    host.innerHTML=""; const f=plate(figBulk(cur),`<b>Figure 7.1</b> ${b.name}. (a) ${b.caps[0]} (b) ${b.caps[1]} (c) ${b.caps[2]}`); host.append(f); bindTerms(f);
+    host.innerHTML=""; const f=plate(figBulk(cur),`<b>Figure 9.1</b> ${b.name}. (a) ${b.caps[0]} (b) ${b.caps[1]} (c) ${b.caps[2]}`); host.append(f); bindTerms(f);
     info.innerHTML=rich(DESC[cur]); bindRich(info);
     cnt.textContent=`Viewed ${seen.size} of 4`; if(seen.size===4) api.unlock();
     $$("button",seg).forEach(x=>x.setAttribute("aria-pressed",String(x.dataset.k===cur)));
@@ -1727,7 +1796,7 @@ const EVENTS = [
 ];
 function simFinale(api){
   let e=0, right=0; const meters={glucose:0, power:100, volume:100};
-  api.plateHost.innerHTML=""; const fh=plate(figTissue(),"<b>Figure 8.1</b> Your cell during the meal.");
+  api.plateHost.innerHTML=""; const fh=plate(figTissue(),"<b>Figure 10.1</b> Your cell during the meal.");
   api.plateHost.append(fh); animateTissue(fh.querySelector("svg")); bindTerms(fh);
   const bars=h("div"), card=h("div");
   function drawBars(){ bars.innerHTML=""; [["Glucose to blood","glucose"],["Na⁺ gradient","power"],["Cell volume normal","volume"]].forEach(b=>bars.append(h("div",{class:"stat"},h("span",{},b[0]),h("div",{class:"meter"},h("i",{style:`width:${Math.max(0,Math.min(100,meters[b[1]]))}%`}))))); }
@@ -1749,6 +1818,153 @@ function simFinale(api){
   api.panel.append(h("p",{class:"kicker"},"Finale"), h("h2",{},"Border shift"), h("p",{},"The meal is being digested and your cell is working at full load. Ten things happen. You get one call on each."), bars, card);
   api.lock(); drawBars(); show();
 }
+
+/* ============ M3 additions: membrane chemistry and the energy organelles ============ */
+/* --- self-assembly: micelle vs bilayer vs liposome --- */
+function simAssembly(api){
+  const W=760,H=420; const {cv,ctx}=makeCanvas(W,H,"Animation: lipids in water arranging themselves");
+  let kind="two", lipids=[], t=0, hole=false, healT=0;
+  const N=72;
+  function targets(){
+    const out=[];
+    if(kind==="one"){ // several micelles
+      const centres=[[170,140],[380,260],[590,140],[220,320],[560,320]]; let i=0;
+      centres.forEach(c=>{ for(let k=0;k<14&&i<N;k++,i++){ const a=k/14*6.283; out.push({x:c[0]+36*Math.cos(a),y:c[1]+36*Math.sin(a),a:a}); } });
+      while(out.length<N) out.push({x:Math.random()*W,y:Math.random()*H,a:Math.random()*6.283});
+    } else { // liposome: inner and outer leaflet
+      const cx=W/2, cy=H/2, ro=150, ri=112, no=40, ni=N-no;
+      for(let k=0;k<no;k++){ const a=k/no*6.283; out.push({x:cx+ro*Math.cos(a),y:cy+ro*Math.sin(a),a:a}); }
+      for(let k=0;k<ni;k++){ const a=k/ni*6.283+0.05; out.push({x:cx+ri*Math.cos(a),y:cy+ri*Math.sin(a),a:a+Math.PI}); }
+    }
+    return out;
+  }
+  function reset(){ t=0; hole=false; const tg=targets(); lipids=tg.map((g,i)=>({x:40+Math.random()*(W-80),y:40+Math.random()*(H-80),a:Math.random()*6.283,tx:g.x,ty:g.y,ta:g.a,sx:0,sy:0,sa:0,del:Math.random()*0.6})); lipids.forEach(l=>{l.sx=l.x;l.sy=l.y;l.sa=l.a;}); }
+  reset();
+  function drawLipid(l){
+    const hx=l.x, hy=l.y, dir=l.a+Math.PI; // tails point away from water (toward the inside)
+    ctx.strokeStyle="#c9a33b"; ctx.lineWidth=2.4; ctx.lineCap="round";
+    if(kind==="two"){ [-3,3].forEach(o=>{ const px=Math.cos(l.a+Math.PI/2)*o, py=Math.sin(l.a+Math.PI/2)*o; ctx.beginPath(); ctx.moveTo(hx+px,hy+py); ctx.lineTo(hx+px+Math.cos(dir)*22,hy+py+Math.sin(dir)*22); ctx.stroke(); }); }
+    else { ctx.beginPath(); ctx.moveTo(hx,hy); ctx.lineTo(hx+Math.cos(dir)*24,hy+Math.sin(dir)*24); ctx.stroke(); }
+    ctx.fillStyle="#4a86c5"; ctx.strokeStyle="#2f5f93"; ctx.lineWidth=1; ctx.beginPath(); ctx.arc(hx,hy,kind==="two"?6:8.5,0,7); ctx.fill(); ctx.stroke();
+  }
+  loop(dt=>{ t+=dt;
+    lipids.forEach((l,i)=>{ const u=Math.min(1,Math.max(0,(t*0.5-l.del)));
+      const e=u<.5?2*u*u:1-Math.pow(-2*u+2,2)/2;
+      let tx=l.tx, ty=l.ty;
+      if(hole && kind==="two" && i<6){ const k=Math.min(1,healT/2.5); tx=l.tx+ (1-k)*90*Math.cos(l.ta); ty=l.ty+(1-k)*90*Math.sin(l.ta); }
+      l.x=l.sx+(tx-l.sx)*e+Math.sin(t*2+i)*1.2; l.y=l.sy+(ty-l.sy)*e+Math.cos(t*2.3+i)*1.2;
+      let da=l.ta-l.sa; while(da>Math.PI) da-=6.283; while(da<-Math.PI) da+=6.283; l.a=l.sa+da*e; });
+    if(hole){ healT+=dt; if(healT>2.5){ hole=false; } }
+    ctx.fillStyle="#e2f0f7"; ctx.fillRect(0,0,W,H);
+    if(kind==="two" && t>2.2){ ctx.fillStyle="rgba(253,244,216,.8)"; ctx.beginPath(); ctx.arc(W/2,H/2,100,0,7); ctx.fill(); label(ctx,"enclosed watery space",W/2,H/2+4,{a:"center",it:true,col:"#6b5a20",s:13}); }
+    lipids.forEach(drawLipid);
+    label(ctx, kind==="two"?"Phospholipids (small head, two tails)":"Lipids with a large head and one tail",14,24,{w:700,s:15});
+    label(ctx, t<2.5?"Assembling…": kind==="two"?(hole?"Torn, and re-sealing itself…":"Result: a closed bilayer, a liposome"):"Result: micelles", 14, H-14, {w:700,s:14,col:"#2f5f93"});
+  });
+  api.plateHost.innerHTML=""; api.plateHost.append(plate(cv,"<b>Figure 4.1</b> Phospholipid behaviour in water. Blue heads face the water; yellow tails hide from it. (Notes p. 34, Fig 3.3)"));
+  const seen=new Set(["two"]); const note=h("div",{class:"fb"});
+  const seg=h("div",{class:"seg"}); [["two","Two tails, smaller head"],["one","One tail, large head"]].forEach(([k,txt])=>{ const b=h("button",{"aria-pressed":String(k===kind)},txt); b.addEventListener("click",()=>{ kind=k; seen.add(k); $$("button",seg).forEach(x=>x.setAttribute("aria-pressed","false")); b.setAttribute("aria-pressed","true"); reset(); say(); check(); }); seg.append(b); });
+  const tear=h("button",{class:"btn ghost"},"Tear the membrane"); let torn=false;
+  tear.addEventListener("click",()=>{ if(kind!=="two"){ note.innerHTML="Switch to phospholipids first."; return; } if(t<2.5) return; hole=true; healT=0; torn=true; note.innerHTML=rich("<b>Self-healing.</b> Exposed tails are surrounded by water, which pushes them back together, so the bilayer reseals on its own. Water tends to exclude nonpolar molecules."); bindRich(note); check(); });
+  function say(){ note.innerHTML= kind==="two" ? rich("Phospholipids are [[amphipathic|amphipathic]]: a hydrophilic head and two hydrophobic tails. With a smaller head and two tails they form a [[bilayer|bilayer]], which closes into a hollow sphere, a [[liposome|liposome]], with water inside.") : rich("With a large, bulky head and only one tail, the lipids pack into small spheres with the tails buried inside: [[micelle|micelles]]. There's no inner space, so a micelle can't be a cell membrane."); bindRich(note); }
+  function check(){ if(seen.size===2 && torn) api.unlock(); }
+  api.panel.append(h("p",{class:"kicker"},"Try it"), h("h2",{},"Drop lipids into water"), h("p",{},"Try both kinds of lipid, then tear the phospholipid membrane and watch."), seg, h("div",{style:"margin:8px 0"},tear), note);
+  say(); api.lock();
+}
+
+/* --- membrane fluidity --- */
+function simFluidity(api){
+  const W=760,H=400; const {cv,ctx}=makeCanvas(W,H,"Animation: lipids moving sideways in a membrane, seen from above");
+  const S={len:"long",dbl:0,chol:false,temp:25,t:0,flips:0,moves:0};
+  const cols=14, rows=8, lip=[];
+  for(let r=0;r<rows;r++) for(let c=0;c<cols;c++) lip.push({gx:c,gy:r,x:0,y:0,ox:Math.random()*6.283,oy:Math.random()*6.283,chol:false});
+  function fluid(){ // 0..1
+    let f=0.45 + (S.temp-25)/60; if(S.len==="short") f+=0.18; f+=S.dbl*0.13;
+    if(S.chol){ f = 0.5 + (f-0.5)*0.45; } return Math.max(0.03,Math.min(1,f)); }
+  function setChol(){ lip.forEach((l,i)=>l.chol= S.chol && (i%4===1)); }
+  loop(dt=>{ S.t+=dt; const f=fluid();
+    ctx.fillStyle="#fbf8ee"; ctx.fillRect(0,0,W,H);
+    const sx=W/cols, sy=(H-60)/rows;
+    lip.forEach((l,i)=>{ const amp=4+f*22; l.ox+=dt*(0.6+f*3.2); l.oy+=dt*(0.5+f*2.9);
+      l.x=(l.gx+0.5)*sx+Math.sin(l.ox+i)*amp; l.y=40+(l.gy+0.5)*sy+Math.cos(l.oy+i*1.7)*amp*0.8;
+      if(Math.random()<dt*f*0.6){ // lateral swap with a neighbour
+        const j=Math.floor(Math.random()*lip.length), o=lip[j]; if(Math.abs(o.gx-l.gx)+Math.abs(o.gy-l.gy)===1 && !o.chol && !l.chol){ [l.gx,o.gx]=[o.gx,l.gx]; [l.gy,o.gy]=[o.gy,l.gy]; S.moves++; } }
+      if(Math.random()<dt*0.0015) S.flips++;
+    });
+    lip.forEach(l=>{ if(l.chol){ ctx.fillStyle="#f0a04b"; ctx.strokeStyle="#b86f1f"; ctx.beginPath(); ctx.ellipse(l.x,l.y,7,11,0,0,7); ctx.fill(); ctx.stroke(); }
+      else { ctx.fillStyle="#4a86c5"; ctx.strokeStyle="#2f5f93"; ctx.beginPath(); ctx.arc(l.x,l.y,13,0,7); ctx.fill(); ctx.stroke(); } });
+    label(ctx,"Looking down on one layer of the membrane",14,24,{w:700,s:15});
+    // meter
+    ctx.fillStyle="#d8dee2"; ctx.fillRect(W-230,10,200,12); ctx.fillStyle=f>0.66?"#d8463c":f<0.3?"#4a7fd0":"#2a7648"; ctx.fillRect(W-230,10,200*f,12);
+    label(ctx,`Fluidity: ${f<0.3?"stiff":f>0.66?"very fluid":"fluid"}`,W-230,40,{s:14,w:700});
+    label(ctx,`Sideways moves: ${S.moves}    Flip-flops between layers: ${S.flips}`,14,H-12,{s:14,col:"#3b4a52"});
+  });
+  api.plateHost.innerHTML=""; api.plateHost.append(plate(cv,"<b>Figure 4.2</b> Lipids move sideways (laterally) within their layer all the time, but almost never flip to the other layer. Orange: cholesterol. (Notes p. 35)"));
+  const note=h("div",{class:"fb"}); const tried=new Set();
+  function say(){ const f=fluid(); note.innerHTML=rich(`Tails: ${S.len}, ${S.dbl?S.dbl+" C=C double bond"+(S.dbl>1?"s":"")+" per tail":"no double bonds (saturated)"}, ${S.chol?"with":"no"} [[cholesterol|cholesterol]], ${S.temp} °C. ${S.chol?"Cholesterol is acting as a fluidity buffer: it holds a warm membrane together and keeps a cold one from packing solid. ":""}Longer tails and fewer double bonds pack more tightly and lower fluidity.`); bindRich(note); if(tried.size>=4) api.unlock(); }
+  const seg1=h("div",{class:"seg"}); [["short","Short tails"],["long","Long tails"]].forEach(([k,t])=>{ const b=h("button",{"aria-pressed":String(k===S.len)},t); b.onclick=()=>{ S.len=k; tried.add("len"); $$("button",seg1).forEach(x=>x.setAttribute("aria-pressed","false")); b.setAttribute("aria-pressed","true"); say(); }; seg1.append(b); });
+  const seg2=h("div",{class:"seg"}); [[0,"Saturated"],[1,"1 double bond"],[2,"2 double bonds"]].forEach(([k,t])=>{ const b=h("button",{"aria-pressed":String(k===S.dbl)},t); b.onclick=()=>{ S.dbl=k; tried.add("dbl"); $$("button",seg2).forEach(x=>x.setAttribute("aria-pressed","false")); b.setAttribute("aria-pressed","true"); say(); }; seg2.append(b); });
+  const cb=h("button",{class:"mini","aria-pressed":"false"},"Add cholesterol"); cb.onclick=()=>{ S.chol=!S.chol; tried.add("chol"); cb.setAttribute("aria-pressed",String(S.chol)); setChol(); say(); };
+  const rng=h("input",{type:"range",min:"0",max:"45",value:"25","aria-label":"Temperature"}); const tl=h("span",{class:"readout"},"25 °C"); rng.oninput=()=>{ S.temp=+rng.value; tl.textContent=S.temp+" °C"; tried.add("temp"); say(); };
+  api.panel.append(h("p",{class:"kicker"},"Try it"), h("h2",{},"What makes a membrane fluid?"), h("p",{},"Change each of the four things below at least once and watch the fluidity meter."),
+    h("div",{class:"ctl"},h("div",{},h("label",{},"Tail length"),seg1),h("div",{},h("label",{},"Double bonds"),seg2),h("div",{},cb),h("div",{},h("label",{},"Temperature ",tl),rng)), note);
+  say(); api.lock();
+}
+
+/* --- mitochondrion and chloroplast figure --- */
+function figEnergyOrganelles(){
+  let s=`<svg viewBox="0 0 860 380" role="img" aria-label="A mitochondrion and a chloroplast in cross-section"><rect width="860" height="380" fill="#fff"/>`;
+  // mitochondrion
+  s+=`<g data-term="outer-membrane"><ellipse cx="210" cy="190" rx="180" ry="105" fill="#f8d2b8" stroke="#b0602f" stroke-width="4"/></g>`;
+  s+=`<g data-term="intermembrane-space"><ellipse cx="210" cy="190" rx="168" ry="93" fill="#fbe6d6"/></g>`;
+  let cr="M60 190"; for(let i=0;i<7;i++){ const x=75+i*40; cr+=` L${x} 190 L${x} ${i%2?110:270} L${x+16} ${i%2?110:270} L${x+16} 190`; } cr+=" L360 190";
+  s+=`<g data-term="matrix"><ellipse cx="210" cy="190" rx="155" ry="80" fill="#f4b48a"/></g>`;
+  s+=`<g data-term="cristae"><path d="M70 150 C110 130 120 230 150 210 C170 190 160 120 200 130 C240 140 220 250 260 240 C290 230 280 140 320 150 C345 156 350 210 350 210" fill="none" stroke="#b0602f" stroke-width="5"/></g>`;
+  s+=`<g data-term="mito-dna"><path d="M150 230 q10 -12 20 0 t20 0" stroke="#5b3f8f" stroke-width="2.5" fill="none"/><circle cx="245" cy="170" r="10" fill="none" stroke="#5b3f8f" stroke-width="2.5"/></g>`;
+  s+=`<g data-term="ribosome">`+[[120,175],[190,250],[280,195],[230,215]].map(p=>`<circle cx="${p[0]}" cy="${p[1]}" r="3.5" fill="#4e3f82"/>`).join("")+`</g>`;
+  s+=`<text class="lbl" x="210" y="330" text-anchor="middle" font-weight="700">Mitochondrion</text>`;
+  // chloroplast
+  s+=`<g data-term="outer-membrane"><ellipse cx="640" cy="190" rx="190" ry="110" fill="#cfe9bf" stroke="#3f7d34" stroke-width="4"/></g><ellipse cx="640" cy="190" rx="180" ry="100" fill="none" stroke="#3f7d34" stroke-width="2"/>`;
+  s+=`<g data-term="stroma"><ellipse cx="640" cy="190" rx="174" ry="94" fill="#e3f4d6"/></g>`;
+  const granum=(x,y)=>{ let g=`<g data-term="granum">`; for(let k=0;k<5;k++) g+=`<rect x="${x-24}" y="${y-22+k*9}" width="48" height="7" rx="3.5" fill="#5aa64a" stroke="#2f6b28"/>`; return g+`</g>`; };
+  s+=granum(540,170)+granum(610,230)+granum(690,150)+granum(745,215);
+  s+=`<g data-term="thylakoid"><path d="M564 168 L588 228 M634 228 L668 152 M714 150 L722 212" stroke="#5aa64a" stroke-width="4"/></g>`;
+  s+=`<g data-term="mito-dna"><circle cx="640" cy="120" r="10" fill="none" stroke="#5b3f8f" stroke-width="2.5"/></g>`;
+  s+=`<text class="lbl" x="640" y="330" text-anchor="middle" font-weight="700">Chloroplast</text>`;
+  s+=`<g class="lbls">${lab("Outer membrane","outer-membrane",40,40,90,110)}${lab("Inner membrane folded\ninto cristae","cristae",230,40,200,130)}${lab("Matrix","matrix",360,350,300,220)}${lab("Intermembrane space","intermembrane-space",20,360,80,250)}${lab("Own DNA (circular)","mito-dna",380,300,250,180)}`;
+  s+=`${lab("Thylakoids, stacked\ninto grana","granum",700,40,690,135)}${lab("Stroma","stroma",820,330,760,260,"end")}${lab("Double membrane","outer-membrane",470,40,520,92)}</g>`;
+  s+=`</svg>`; return s;
+}
+
+/* --- endosymbiosis stepper --- */
+const ENDO=[
+ {t:"An ancestral host cell",d:"A large cell with internal membranes (a nucleus and early endomembrane system), but no mitochondria. It can engulf other cells."},
+ {t:"It engulfs an aerobic bacterium",d:"Instead of being digested, the bacterium survives inside, wrapped in the host's membrane. That is why mitochondria have two membranes: the inner one from the bacterium, the outer one from the host."},
+ {t:"The bacterium becomes a mitochondrion",d:"Over generations, the two depend on each other. The bacterium makes ATP using oxygen; the host gives it protection and nutrients. Most of its genes move to the host's nucleus. All eukaryotes descend from this cell."},
+ {t:"Some cells also take in a photosynthetic bacterium",d:"A cell that already had mitochondria engulfed a cyanobacterium, which became the chloroplast. Its descendants are algae and plants, which have both organelles."}
+];
+function endoSVG(st){
+  let s=`<svg viewBox="0 0 820 340" role="img" aria-label="${ENDO[st].t}"><rect width="820" height="340" fill="#fff"/>`;
+  s+=`<ellipse cx="410" cy="180" rx="290" ry="135" fill="#fdf4d8" stroke="#2f5f93" stroke-width="4"/>`;
+  s+=`<g data-term="nucleus"><circle cx="300" cy="170" r="52" fill="#e8def6" stroke="#6f55a0" stroke-width="3"/></g><path d="M240 120 q-20 -20 10 -40 M360 220 q30 30 60 10" stroke="#8fc1d9" stroke-width="6" fill="none" stroke-linecap="round"/>`;
+  const bact=(x,y,c,sc,lbl)=>`<g transform="translate(${x},${y})"><rect x="-44" y="-22" width="88" height="44" rx="22" fill="${c}" stroke="${sc}" stroke-width="3"/><circle cx="-12" cy="0" r="8" fill="none" stroke="#5b3f8f" stroke-width="2"/><text class="lbl sm" x="0" y="40" text-anchor="middle">${lbl}</text></g>`;
+  if(st===0) s+=bact(760,70,"#f8d2b8","#b0602f","aerobic bacterium");
+  if(st>=1) s+=`<g data-term="${st>=2?"mitochondria":"endosymbiosis"}"><rect x="${st===1?470:480}" y="${st===1?110:150}" width="${st===1?104:96}" height="${st===1?58:50}" rx="28" fill="none" stroke="#2f5f93" stroke-width="3" stroke-dasharray="${st===1?"6 4":""}"/>${bact(st===1?522:528,st===1?139:175,"#f8d2b8","#b0602f",st>=2?"mitochondrion":"engulfed bacterium")}</g>`;
+  if(st>=2) s+=`<g data-term="mitochondria">${bact(400,265,"#f8d2b8","#b0602f","")}</g>`;
+  if(st===2) s+=arrow(330,170,520,170,"#7a8a96",1.5,"4 4")+`<text class="lbl sm" x="420" y="160" text-anchor="middle">genes move to the nucleus</text>`;
+  if(st===3){ s+=bact(760,70,"#cfe9bf","#3f7d34","cyanobacterium")+arrow(730,95,640,150,"#3f7d34",2,"5 4"); s+=`<g data-term="chloroplast"><rect x="560" y="200" width="104" height="56" rx="28" fill="none" stroke="#2f5f93" stroke-width="3"/>${bact(612,228,"#cfe9bf","#3f7d34","chloroplast")}</g>`; }
+  s+=`<text class="lbl" x="20" y="30" font-weight="700" font-size="16">${st+1}. ${ENDO[st].t}</text></svg>`; return s;
+}
+function simEndosymbiosis(api){
+  let st=0,max=0; const host=h("div"), info=h("div",{class:"fb"});
+  const draw=()=>{ host.innerHTML=""; const f=plate(endoSVG(st),`<b>Figure 2.2</b> The endosymbiont origin of mitochondria and chloroplasts, step ${st+1} of 4.`); host.append(f); bindTerms(f); info.innerHTML=`<b>${ENDO[st].t}.</b> ${ENDO[st].d}`; max=Math.max(max,st); if(max===3) api.unlock(); };
+  api.plateHost.innerHTML=""; api.plateHost.append(host);
+  api.panel.append(h("p",{class:"kicker"},"Step through it"), h("h2",{},"Where mitochondria and chloroplasts came from"),
+    h("div",{html:rich("<p>The [[endosymbiosis|endosymbiotic theory]] says mitochondria and chloroplasts were once free-living bacteria that were engulfed by an ancestral cell and kept, not digested.</p>")}), info,
+    h("div",{class:"row"},h("button",{class:"btn ghost",onclick:()=>{ if(st>0){st--;draw();} }},"Previous step"),h("button",{class:"btn",onclick:()=>{ if(st<3){st++;draw();} }},"Next step")));
+  api.lock(); draw();
+}
+
 /* ============ Cell atlas ============ */
 const FACTS = {
  "plasma-membrane":[1,1,"Yes"], "cytosol":[1,1,"No"], "cytoplasm":[1,1,"No"], "nucleus":[1,1,"Its envelope is"], "nucleolus":[1,1,"No (no membrane)"],
@@ -1977,7 +2193,7 @@ function glossaryView(){
   const app=$("#app"); app.innerHTML="";
   const keys=Object.keys(T), tested=keys.filter(k=>P.terms[k]==="tested").length, seen=keys.filter(k=>P.terms[k]).length;
   const search=h("input",{type:"search",placeholder:"Find a term",style:"padding:8px 12px;border:1px solid var(--rule);border-radius:6px;background:var(--paper);color:var(--ink);font:inherit;min-width:240px","aria-label":"Find a term"});
-  app.append(h("div",{class:"crumb"},h("h1",{},"Glossary"),h("p",{class:"muted",style:"margin:0"},`${seen} of ${keys.length} seen, ${tested} tested`),h("div",{style:"margin-left:auto"},search)));
+  app.append(h("div",{class:"crumb"},h("h1",{},"Glossary"),h("p",{class:"muted",style:"margin:0"},`${seen} of ${keys.length} seen, ${tested} tested. Page numbers point to your course notes (terms list on p. 51).`),h("div",{style:"margin-left:auto"},search)));
   const box=h("div",{class:"gl"}); app.append(box);
   function draw(q=""){
     box.innerHTML="";
@@ -1985,7 +2201,7 @@ function glossaryView(){
       const ks=keys.filter(k=>T[k].g===g && (!q || (T[k].n+" "+T[k].d).toLowerCase().includes(q)));
       if(!ks.length) return;
       const sec=h("section",{},h("h2",{},g));
-      ks.forEach(k=>{ const st=P.terms[k]; sec.append(h("div",{class:"gi"},h("b",{},T[k].n),h("span",{class:"st "+(st||"")},st==="tested"?"Tested":st==="seen"?"Seen":"Not yet"),h("p",{},T[k].d))); });
+      ks.forEach(k=>{ const st=P.terms[k]; sec.append(h("div",{class:"gi"},h("b",{},T[k].n),h("span",{class:"st "+(st||"")},st==="tested"?"Tested":st==="seen"?"Seen":"Not yet"),h("p",{},T[k].d),T[k].p?h("p",{class:"muted small",style:"grid-column:1/-1;margin:2px 0 0"},`Notes p. ${T[k].p}`):"")); });
       box.append(sec);
     });
   }
@@ -2001,7 +2217,7 @@ function homeView(){
   const fig=plate(figTissue(),"<b>Figure 0.1</b> The lining of the small intestine. Glucose enters through the Na⁺/glucose symporter on the apical side and leaves through GLUT on the basolateral side, then diffuses into the capillary.");
   const text=h("div",{},
     h("h1",{},"Get glucose from the gut to the blood."),
-    h("p",{class:"lede"},"You run the border of one cell in the lining of the small intestine. Over eight short chapters you learn how the cell is built, what can cross its membrane and how, and then you run the whole thing through a meal."),
+    h("p",{class:"lede"},"You run the border of one cell in the lining of the small intestine. Over ten short chapters you learn how the cell is built, what can cross its membrane and how, and then you run the whole thing through a meal."),
     h("p",{class:"muted"},"Each chapter starts with a figure to explore, then tests you. Your score is the share you get right on the first try, so you can replay and beat it. Click anything in a figure to see what it is."),
     h("div",{class:"row",style:"margin-top:14px"}, h("button",{class:"btn",onclick:()=>{RUN=null; renderChapter(startIdx,0);}}, nextIdx<=0?(nextIdx<0?"Replay chapter 1":"Start chapter 1"):`Continue with chapter ${startIdx+1}`), h("button",{class:"btn ghost",onclick:()=>go("checkpoint")},"Go straight to Checkpoint")));
   app.append(h("div",{class:"hero"},fig,text));
@@ -2016,15 +2232,30 @@ function homeView(){
   app.append(h("p",{class:"foot"},"Made for BIOL 130 review. Terms follow OpenStax Biology 2e (Clark, Douglas and Choi, 2018) and Biology: How Life Works, 4th edition (Macmillan, 2023). All figures are original drawings. Progress is saved in this browser only.",reset));
 }
 
+
+/* ============ mini exam (shared engine in exam.js) ============ */
+function examView(){
+  const app=$("#app"); app.innerHTML="";
+  app.append(h("div",{class:"crumb"},h("h1",{},"Mini exam")));
+  const host=h("div"); app.append(host);
+  const items=((window.STUDY&&STUDY.exam&&STUDY.exam["m3"])||[]).map((q,i)=>({...q,mod:"m3",id:"m3-"+i}));
+  EXAM.mount(host,{key:"m3",title:"Module 3 mini exam",intro:`${items.length} questions covering every chapter of this module.`,items,sizes:[10]});
+}
 /* ============ router ============ */
 function go(view){
   stopLoops(); exploreHook=null; RUN=null; tc.classList.remove("show"); tip.style.display="none";
   $$(".tab").forEach(t=>t.setAttribute("aria-current",String(t.dataset.go===view)));
-  if(view==="atlas") atlasView(); else if(view==="checkpoint") checkpointView(); else if(view==="glossary") glossaryView(); else homeView();
+  if(view==="atlas") atlasView(); else if(view==="checkpoint") checkpointView(); else if(view==="glossary") glossaryView(); else if(view==="exam") examView(); else homeView();
   window.scrollTo(0,0);
 }
 $$(".tab").forEach(t=>t.addEventListener("click",()=>go(t.dataset.go)));
 $("#home").addEventListener("click",()=>go("story"));
-{ const LOCAL3 = location.protocol==="file:" || /github\.io$/.test(location.hostname) || location.hostname==="localhost"; const hl=document.getElementById("hubLink"); if(hl) hl.href = LOCAL3 ? "index.html" : "https://claude.ai/artifact/LMtjyNCYb7LvAhF2dsTBNQ"; }
-go("story");
+function fromHash(){
+  const m=location.hash.match(/^#ch=(\d+)/);
+  if(m && CHAPTERS[+m[1]-1]){ RUN=null; renderChapter(+m[1]-1,0); return true; }
+  if(location.hash==="#exam"){ go("exam"); return true; }
+  return false;
+}
+window.addEventListener("hashchange",fromHash);
+if(!fromHash()) go("story");
 </script></body></html>

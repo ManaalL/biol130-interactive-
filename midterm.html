@@ -1,0 +1,175 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>Midterm Prep | BIOL 130 Interactive</title>
+<link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght,SOFT@9..144,500..800,100&family=Source+Sans+3:ital,wght@0,400;0,600;0,700;1,400&family=Source+Serif+4:opsz,wght@8..60,500;8..60,650&display=swap" rel="stylesheet">
+<style>
+:root{
+  --page:#f1eff7; --paper:#ffffff; --ink:#1f2230; --ink2:#5d6072; --rule:#dcd8e8; --head:#2c2147;
+  --accent:#5b3f8f; --accentInk:#fff; --accentSoft:#ece6f7; --ok:#2a7648; --bad:#a53838;
+  --m1:#3f8a4c; --m2:#5a5fc4; --m3:#11707b; --m4:#b0342c; --m5:#c98a16;
+  --display:"Fraunces","Source Serif 4",Georgia,serif; --serif:"Source Serif 4",Georgia,serif; --sans:"Source Sans 3",system-ui,-apple-system,"Segoe UI",Arial,sans-serif;
+  box-sizing:border-box; padding-top:env(safe-area-inset-top,0px); padding-bottom:env(safe-area-inset-bottom,0px);
+}
+@media (prefers-color-scheme: dark){ :root:not([data-theme="light"]){ --page:#14121c; --paper:#1d1a28; --ink:#e7e4f0; --ink2:#aaa5c0; --rule:#332e45; --head:#ece4ff; --accent:#b39ae6; --accentInk:#1a1328; --accentSoft:#2b2340; --m1:#6cc07a; --m2:#9a9ef0; --m3:#4db2be; --m4:#ec8b80; --m5:#e8b553; } }
+:root[data-theme="dark"]{ --page:#14121c; --paper:#1d1a28; --ink:#e7e4f0; --ink2:#aaa5c0; --rule:#332e45; --head:#ece4ff; --accent:#b39ae6; --accentInk:#1a1328; --accentSoft:#2b2340; --m1:#6cc07a; --m2:#9a9ef0; --m3:#4db2be; --m4:#ec8b80; --m5:#e8b553; }
+*,*::before,*::after{box-sizing:inherit}
+body{margin:0;background:var(--page);color:var(--ink);font-family:var(--sans);font-size:17px;line-height:1.55}
+a{color:var(--accent)}
+:focus-visible{outline:3px solid var(--accent);outline-offset:2px}
+h1,h2,h3{font-family:var(--display);color:var(--head);font-weight:700;line-height:1.12;margin:0;font-variation-settings:"SOFT" 100}
+.wrap{max-width:1040px;margin:0 auto;padding:0 20px}
+.nav{position:sticky;top:0;z-index:30;background:color-mix(in srgb,var(--page) 88%,transparent);backdrop-filter:blur(8px);border-bottom:1px solid var(--rule)}
+.nav .wrap{display:flex;align-items:center;gap:18px;height:58px}
+.logo{display:flex;align-items:center;gap:8px;text-decoration:none;color:var(--head);font-family:var(--display);font-weight:700;font-size:1.2rem;font-variation-settings:"SOFT" 100}
+.logo .dot{width:26px;height:26px;border-radius:50%;background:radial-gradient(circle at 60% 40%,#ffe9a8 0 18%,#2f8f7a 19% 100%);box-shadow:inset 0 0 0 3px #d3efe6}
+.nav nav{margin-left:auto;display:flex;gap:4px;flex-wrap:wrap}
+.nav nav a,.nav nav button{color:var(--ink2);text-decoration:none;font-weight:600;padding:6px 12px;border-radius:20px;font-size:.95rem;background:none;border:0;cursor:pointer;font-family:inherit}
+.nav nav a:hover,.nav nav button:hover{color:var(--head);background:var(--accentSoft)}
+.hero{padding:40px 0 10px}
+.hero .wrap{display:grid;grid-template-columns:minmax(0,1fr) 300px;gap:24px;align-items:center}
+.hero h1{font-size:clamp(2.1rem,4.6vw,3.2rem)}
+.hero p{font-size:1.1rem;max-width:36em;margin:12px 0 0}
+.count{background:var(--paper);border:1px solid var(--rule);border-radius:20px;padding:16px 18px;text-align:center}
+.count .big{font-family:var(--display);font-size:3rem;color:var(--accent);line-height:1;font-variation-settings:"SOFT" 100}
+.count input{font:inherit;border:1px solid var(--rule);border-radius:8px;padding:4px 8px;background:var(--paper);color:var(--ink);margin-top:6px}
+.tabs{display:flex;gap:6px;flex-wrap:wrap;margin:26px 0 16px;position:sticky;top:58px;z-index:20;background:var(--page);padding:8px 0}
+.tabs button{font:700 .98rem var(--sans);padding:9px 16px;border-radius:999px;border:1.5px solid var(--rule);background:var(--paper);color:var(--ink2);cursor:pointer}
+.tabs button[aria-selected="true"]{background:var(--accent);border-color:var(--accent);color:var(--accentInk)}
+.panel[hidden]{display:none}
+.card{background:var(--paper);border:1px solid var(--rule);border-radius:16px;padding:18px 20px;margin-bottom:14px}
+.card h2{font-size:1.5rem;margin-bottom:6px}
+.muted{color:var(--ink2)}
+.modbar{display:flex;gap:8px;flex-wrap:wrap;margin:6px 0 14px}
+.modbar button{font:700 .9rem var(--sans);padding:6px 14px;border-radius:999px;border:1.5px solid var(--c);background:var(--paper);color:var(--c);cursor:pointer}
+.modbar button[aria-pressed="true"]{background:var(--c);color:#fff}
+.rq{border:1px solid var(--rule);border-left:5px solid var(--c);border-radius:12px;background:var(--paper);padding:12px 14px;margin:0 0 10px}
+.rq .q{font-weight:700;line-height:1.4}
+.rq .meta{display:flex;gap:8px;flex-wrap:wrap;align-items:center;margin-top:8px}
+.rq .ans{margin:10px 0 2px;padding:10px 12px;background:var(--accentSoft);border-radius:10px}
+.rq .ans .note{font-size:.85rem;color:var(--ink2);margin-top:4px}
+.sbtn{font:600 .85rem var(--sans);border:1px solid var(--rule);background:var(--paper);color:var(--ink);border-radius:14px;padding:4px 11px;cursor:pointer;text-decoration:none}
+.sbtn:hover{border-color:var(--accent)}
+.rate{display:inline-flex;border:1px solid var(--rule);border-radius:14px;overflow:hidden;margin-left:auto}
+.rate button{font:600 .82rem var(--sans);border:0;border-right:1px solid var(--rule);background:var(--paper);color:var(--ink2);padding:4px 10px;cursor:pointer}
+.rate button:last-child{border-right:0}
+.rate button[aria-pressed="true"][data-v="got"]{background:#2a7648;color:#fff}
+.rate button[aria-pressed="true"][data-v="shaky"]{background:#d9a12b;color:#231a00}
+.rate button[aria-pressed="true"][data-v="no"]{background:#b0342c;color:#fff}
+.stat3{display:flex;gap:14px;flex-wrap:wrap;font-size:.92rem;color:var(--ink2);margin:4px 0 10px}
+.stat3 b{color:var(--ink)}
+.bar{height:10px;border-radius:5px;background:var(--rule);overflow:hidden;display:flex;margin:6px 0 2px}
+.bar i{display:block;height:100%}
+.plan li{margin:0 0 10px}
+.plan .why{color:var(--ink2);font-size:.92rem}
+.foot{margin:40px auto 0;padding:20px 20px 120px;border-top:1px solid var(--rule);color:var(--ink2);font-size:.88rem}
+@media (max-width:760px){ .hero .wrap{grid-template-columns:1fr} .rate{margin-left:0} }
+</style>
+</head>
+<body data-page="midterm">
+<header class="nav"><div class="wrap">
+  <a class="logo" href="index.html"><span class="dot" aria-hidden="true"></span>BIOL 130 Interactive</a>
+  <nav aria-label="Site"><a href="index.html#modules">Modules</a><a href="midterm.html" aria-current="page">Midterm prep</a><button type="button" onclick="window.KIP&&KIP.open()">Ask Kip</button></nav>
+</div></header>
+
+<section class="hero"><div class="wrap">
+  <div>
+    <h1>Midterm prep: Modules 1 to 5</h1>
+    <p>Three ways in. Take a practice midterm and get a breakdown by chapter. Work through every review question your prof gave, check your answer, and rate how well you knew it. Then follow the study plan your results build.</p>
+  </div>
+  <div class="count" id="count"></div>
+</div></section>
+
+<div class="wrap">
+  <div class="tabs" role="tablist">
+    <button role="tab" data-t="exam" aria-selected="true">Practice midterm</button>
+    <button role="tab" data-t="review" aria-selected="false">Prof's review questions</button>
+    <button role="tab" data-t="plan" aria-selected="false">My study plan</button>
+  </div>
+  <section class="panel" id="p-exam"></section>
+  <section class="panel" id="p-review" hidden></section>
+  <section class="panel" id="p-plan" hidden></section>
+</div>
+<footer class="wrap foot">Review questions are the BIOL 130 Modules 1 to 5 review list. Answers for Modules 1 to 4 follow your course notes, with page numbers. Module 5 answers follow the textbook until the Module 5 notes are added. An independent study aid, not an official University of Waterloo resource.</footer>
+
+<script src="studydata.js"></script>
+<script src="exam.js"></script>
+<script src="kip.js"></script>
+<script>
+(function(){
+const S=window.STUDY, $=s=>document.querySelector(s);
+const lsGet=(k,d)=>{ try{ const v=localStorage.getItem(k); return v==null?d:JSON.parse(v); }catch(e){ return d; } };
+const lsSet=(k,v)=>{ try{ localStorage.setItem(k,JSON.stringify(v)); }catch(e){} };
+const esc=s=>String(s).replace(/[&<>"]/g,c=>({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;"}[c]));
+const modBy=id=>S.modules.find(m=>m.id===id);
+/* countdown */
+function count(){ const d=lsGet("biol130-midterm-date",""); const box=$("#count");
+  if(d){ const days=Math.ceil((new Date(d+"T09:00")-new Date())/864e5);
+    box.innerHTML=`<div class="big">${days>0?days:days===0?"Today":"Done"}</div><div class="muted">${days>0?`day${days===1?"":"s"} until your midterm`:days===0?"Good luck!":"Your midterm date has passed"}</div><button class="sbtn" style="margin-top:8px" id="chg">Change date</button>`;
+    $("#chg").onclick=()=>{ lsSet("biol130-midterm-date",""); count(); }; }
+  else { box.innerHTML=`<b>When's your midterm?</b><br><input type="date" id="dt" aria-label="Midterm date"><br><button class="sbtn" style="margin-top:8px" id="sv">Start the countdown</button>`;
+    $("#sv").onclick=()=>{ const v=$("#dt").value; if(v){ lsSet("biol130-midterm-date",v); count(); } }; } }
+count();
+/* tabs */
+const tabs=[...document.querySelectorAll('[role="tab"]')];
+function show(t){ tabs.forEach(b=>b.setAttribute("aria-selected",String(b.dataset.t===t))); ["exam","review","plan"].forEach(x=>$("#p-"+x).hidden=x!==t); if(t==="plan") plan(); history.replaceState(null,"","#"+t); }
+tabs.forEach(b=>b.addEventListener("click",()=>show(b.dataset.t)));
+/* practice midterm */
+const items=[]; Object.keys(S.exam).forEach(k=>S.exam[k].forEach((q,i)=>items.push({...q,mod:k,id:k+"-"+i})));
+EXAM.mount($("#p-exam"),{key:"midterm",title:"Practice midterm",intro:`Questions drawn from every module's mini exam (${items.length} in the bank). Pick which modules to include and how long you want it.`,items,sizes:[20,40],modulePicker:true});
+/* review questions */
+const RV="biol130-review-v1"; let rate=lsGet(RV,{}); let curMod=(S.modules.find(m=>S.review.some(r=>r.mod===m.id))||S.modules[0]).id, showAll=false;
+function review(){
+  const box=$("#p-review"); box.innerHTML="";
+  const intro=document.createElement("div"); intro.className="card";
+  const tot=S.review.length, got=Object.values(rate).filter(v=>v==="got").length, sh=Object.values(rate).filter(v=>v==="shaky").length, no=Object.values(rate).filter(v=>v==="no").length;
+  intro.innerHTML=`<h2>Your prof's review questions</h2><p class="muted" style="margin:0 0 6px">Try to answer each one out loud or on paper first. Then open the answer and rate yourself honestly. Anything marked shaky or no idea goes into your study plan.</p>
+   <div class="bar"><i style="width:${got/tot*100}%;background:#2a7648"></i><i style="width:${sh/tot*100}%;background:#d9a12b"></i><i style="width:${no/tot*100}%;background:#b0342c"></i></div>
+   <div class="stat3"><span><b>${got}</b> got it</span><span><b>${sh}</b> shaky</span><span><b>${no}</b> no idea</span><span><b>${tot-got-sh-no}</b> not rated yet</span></div>`;
+  const mb=document.createElement("div"); mb.className="modbar";
+  S.modules.forEach(m=>{ const n=S.review.filter(r=>r.mod===m.id).length; if(!n) return; const b=document.createElement("button"); b.style.setProperty("--c",`var(--${m.id})`); b.setAttribute("aria-pressed",String(m.id===curMod)); b.textContent=`Module ${m.n} (${n})`; b.onclick=()=>{ curMod=m.id; review(); }; mb.append(b); });
+  const tg=document.createElement("button"); tg.className="sbtn"; tg.textContent=showAll?"Hide all answers":"Show all answers"; tg.onclick=()=>{ showAll=!showAll; review(); };
+  intro.append(mb,tg); box.append(intro);
+  const m=modBy(curMod);
+  if(!m.ready) box.insertAdjacentHTML("beforeend",`<div class="card"><b>Module ${m.n} isn't built yet.</b> These answers follow the textbook (Biology: How Life Works) until your Module 5 notes are added, so check them against lecture.</div>`);
+  S.review.forEach((r,i)=>{ if(r.mod!==curMod) return;
+    const d=document.createElement("div"); d.className="rq"; d.style.setProperty("--c",`var(--${r.mod})`);
+    const link = m.ready && r.ch!=null ? `${m.file}#ch=${r.ch+1}` : null;
+    d.innerHTML=`<div class="q">${esc(r.q)}</div><div class="ans" ${showAll?"":"hidden"}>${esc(r.a)}${r.p?`<div class="note">Course notes p. ${esc(r.p)}</div>`:""}${r.note?`<div class="note">${esc(r.note)}</div>`:""}</div>
+      <div class="meta"><button class="sbtn" data-a="show">${showAll?"Hide answer":"Show answer"}</button>${link?`<a class="sbtn" href="${link}">Open the chapter</a>`:""}<button class="sbtn" data-a="kip">Ask Kip</button>
+      <span class="rate" role="group" aria-label="How well did you know this?">${[["got","Got it"],["shaky","Shaky"],["no","No idea"]].map(([v,t])=>`<button data-v="${v}" aria-pressed="${rate[i]===v}">${t}</button>`).join("")}</span></div>`;
+    const ans=d.querySelector(".ans"), sb=d.querySelector('[data-a="show"]');
+    sb.onclick=()=>{ ans.hidden=!ans.hidden; sb.textContent=ans.hidden?"Show answer":"Hide answer"; };
+    d.querySelector('[data-a="kip"]').onclick=()=>KIP.open(r.q);
+    d.querySelectorAll(".rate button").forEach(b=>b.onclick=()=>{ rate[i]= rate[i]===b.dataset.v? undefined : b.dataset.v; if(!rate[i]) delete rate[i]; lsSet(RV,rate); review(); });
+    box.append(d); });
+}
+/* study plan */
+function plan(){
+  const box=$("#p-plan"); box.innerHTML="";
+  const c=document.createElement("div"); c.className="card";
+  const w=KIP.weakTopics();
+  const ex=lsGet("biol130-exam-v1",{});
+  const done=S.modules.filter(m=>m.ready).map(m=>({m,e:ex[m.id]}));
+  c.innerHTML=`<h2>My study plan</h2><p class="muted">Built from your mini exams, the practice midterm and your review-question ratings. It updates every time you do one.</p>
+    <div class="stat3">${done.map(({m,e})=>`<span>Module ${m.n} mini exam: <b>${e?e.best+"%":"not taken"}</b></span>`).join("")}<span>Practice midterm: <b>${ex.midterm?ex.midterm.best+"%":"not taken"}</b></span></div>`;
+  if(!w.length){ c.insertAdjacentHTML("beforeend",`<p><b>Nothing to show yet.</b> Take the practice midterm, a module's mini exam, or rate yourself on some review questions, and your plan will appear here.</p>`); box.append(c); return; }
+  const ol=document.createElement("ol"); ol.className="plan";
+  w.slice(0,10).forEach(t=>{ const m=modBy(t.mod), ch=m.chapters[t.ch]; const li=document.createElement("li");
+    const why=[t.total?`${t.right} of ${t.total} right on exams`:"", t.shaky?`${t.shaky>1?"marked shaky or no idea":"marked shaky"} on review questions`:""].filter(Boolean).join("; ");
+    li.innerHTML=`<b>Module ${m.n}: ${esc(ch?ch.title:"chapter "+(t.ch+1))}</b>${ch&&ch.pages?` <span class="why">(notes ${esc(ch.pages)})</span>`:""}<div class="why">${esc(why)}</div><div class="meta" style="display:flex;gap:8px;margin-top:4px"><a class="sbtn" href="${m.file}#ch=${t.ch+1}">Review the chapter</a><button class="sbtn">Ask Kip</button></div>`;
+    li.querySelector("button").onclick=()=>KIP.open(ch?ch.title:"");
+    ol.append(li); });
+  c.append(ol); box.append(c);
+  const unrated=S.review.filter((r,i)=>!rate[i]).length;
+  if(unrated) box.insertAdjacentHTML("beforeend",`<div class="card"><b>${unrated} review questions not rated yet.</b> Rating them makes this plan more accurate.</div>`);
+}
+review();
+const h=location.hash.slice(1); if(["exam","review","plan"].includes(h)) show(h);
+})();
+</script>
+</body>
+</html>

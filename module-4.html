@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="en" data-module="m4">
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
@@ -261,6 +261,7 @@ input[type=range]{width:100%;accent-color:var(--accent)}
 @media (prefers-reduced-motion: reduce){
   *{transition:none!important;animation:none!important}
 }
+@media (max-width:640px){.banner{flex-wrap:wrap}.banner .pg{flex-basis:100%;padding:4px 14px 6px;white-space:normal}}
 </style>
 </head>
 <body>
@@ -271,12 +272,16 @@ input[type=range]{width:100%;accent-color:var(--accent)}
     <button class="tab" data-go="story">Chapters</button>
     <button class="tab" data-go="atlas">Molecule viewer</button>
     <button class="tab" data-go="checkpoint">Sequence desk</button>
+    <button class="tab" data-go="exam">Mini exam</button>
     <button class="tab" data-go="glossary">Glossary</button>
   </nav>
 </div></header>
 <main class="wrap" id="app"></main>
 <aside class="termcard" id="termcard" role="dialog" aria-live="polite"><button class="x" aria-label="Close">×</button><div id="tcbody"></div></aside>
 <div class="tip" id="tip"></div>
+<script src="studydata.js"></script>
+<script src="exam.js"></script>
+<script src="kip.js"></script>
 <script>
 "use strict";
 /* ============ storage ============ */
@@ -1783,15 +1788,30 @@ function homeView(){
   app.append(h("p",{class:"foot"},"Made for BIOL 130 review. Content follows the Module 4 course notes (pp. 52 to 67) and Morris et al., Biology: How Life Works, 4th edition (Macmillan, 2023); figure numbers in the notes refer to that book. All figures here are original drawings. Progress is saved in this browser only.",reset));
 }
 
+
+/* ============ mini exam (shared engine in exam.js) ============ */
+function examView(){
+  const app=$("#app"); app.innerHTML="";
+  app.append(h("div",{class:"banner"},h("span",{class:"num"},"4"),h("span",{class:"ttl"},"Mini exam")));
+  const host=h("div"); app.append(host);
+  const items=((window.STUDY&&STUDY.exam&&STUDY.exam["m4"])||[]).map((q,i)=>({...q,mod:"m4",id:"m4-"+i}));
+  EXAM.mount(host,{key:"m4",title:"Module 4 mini exam",intro:`${items.length} questions covering every chapter of this module.`,items,sizes:[10]});
+}
 /* ============ router ============ */
 function go(view){
   stopLoops(); exploreHook=null; RUN=null; tc.classList.remove("show"); tip.style.display="none";
   $$(".tab").forEach(t=>t.setAttribute("aria-current",String(t.dataset.go===view)));
-  if(view==="atlas") atlasView(); else if(view==="checkpoint") checkpointView(); else if(view==="glossary") glossaryView(); else homeView();
+  if(view==="atlas") atlasView(); else if(view==="checkpoint") checkpointView(); else if(view==="glossary") glossaryView(); else if(view==="exam") examView(); else homeView();
   window.scrollTo(0,0);
 }
 $$(".tab").forEach(t=>t.addEventListener("click",()=>go(t.dataset.go)));
 $("#home").addEventListener("click",()=>go("story"));
-{ const hl=$("#hubLink"); hl.href = LOCAL ? "index.html" : LINKS.hub; }
-go("story");
+function fromHash(){
+  const m=location.hash.match(/^#ch=(\d+)/);
+  if(m && CHAPTERS[+m[1]-1]){ RUN=null; renderChapter(+m[1]-1,0); return true; }
+  if(location.hash==="#exam"){ go("exam"); return true; }
+  return false;
+}
+window.addEventListener("hashchange",fromHash);
+if(!fromHash()) go("story");
 </script></body></html>

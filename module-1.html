@@ -1,0 +1,1469 @@
+<!DOCTYPE html>
+<html lang="en" data-module="m1">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>The cell theory | BIOL 130 Module 1</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Source+Sans+3:ital,wght@0,400;0,600;0,700;1,400&family=Source+Serif+4:ital,opsz,wght@0,8..60,500;0,8..60,650;1,8..60,400&display=swap" rel="stylesheet">
+<style>
+:root{
+  --page:#eef3ec; --paper:#ffffff; --ink:#1c2830; --ink2:#4b5b64; --rule:#cbd5d7;
+  --head:#23282e; --accent:#3f8a4c; --accentInk:#ffffff; --accentSoft:#e4f1e5;
+  --ok:#2a7648; --okSoft:#e2f2e7; --bad:#a53838; --badSoft:#f7e4e2;
+  --plate:#ffffff; --plateRule:#c3cdd0; --cap:#3b4a52; --chip:#f1f5f5;
+  --serif:"Source Serif 4", Georgia, "Times New Roman", serif;
+  --sans:"Source Sans 3", "Segoe UI", system-ui, -apple-system, Roboto, Arial, sans-serif;
+  box-sizing:border-box;
+  padding-top:env(safe-area-inset-top,0px); padding-bottom:env(safe-area-inset-bottom,0px);
+}
+@media (prefers-color-scheme: dark){
+  :root:not([data-theme="light"]){
+    --page:#0f171b; --paper:#162228; --ink:#e2eaec; --ink2:#a5b5bb; --rule:#2b3b42;
+    --head:#e8eeea; --accent:#7fcf8c; --accentInk:#0e1d11; --accentSoft:#1d3322;
+    --ok:#6cc394; --okSoft:#17311f; --bad:#e8908b; --badSoft:#3a1e1e;
+    --plate:#f4f7f7; --plateRule:#3a4a51; --cap:#b9c7cc; --chip:#1d2b31;
+  }
+}
+:root[data-theme="dark"]{
+  --page:#0f171b; --paper:#162228; --ink:#e2eaec; --ink2:#a5b5bb; --rule:#2b3b42;
+  --head:#e8eeea; --accent:#7fcf8c; --accentInk:#0e1d11; --accentSoft:#1d3322;
+  --ok:#6cc394; --okSoft:#17311f; --bad:#e8908b; --badSoft:#3a1e1e;
+  --plate:#f4f7f7; --plateRule:#3a4a51; --cap:#b9c7cc; --chip:#1d2b31;
+}
+*,*::before,*::after{box-sizing:inherit}
+html{scroll-padding-top:env(safe-area-inset-top,0px)}
+body{margin:0;background:var(--page);color:var(--ink);font-family:var(--sans);font-size:17px;line-height:1.5;-webkit-text-size-adjust:100%}
+button{font:inherit;color:inherit}
+:focus-visible{outline:3px solid var(--accent);outline-offset:2px}
+h1,h2,h3{font-family:var(--serif);color:var(--head);font-weight:650;line-height:1.2;margin:0}
+p{margin:0 0 .8em}
+sup{font-size:.7em;line-height:0}
+
+/* top bar */
+.top{position:sticky;top:0;z-index:20;background:var(--paper);border-bottom:1px solid var(--rule);padding-top:env(safe-area-inset-top,0px)}
+.topin{max-width:1240px;margin:0 auto;display:flex;align-items:center;gap:20px;padding:10px 20px;flex-wrap:wrap}
+.brand{display:flex;align-items:baseline;gap:12px;cursor:pointer;background:none;border:0;padding:0;text-align:left}
+.brand b{font-family:var(--serif);font-size:1.45rem;color:var(--head);font-weight:650;letter-spacing:-.01em}
+.brand span{color:var(--ink2);font-size:.9rem}
+.tabs{display:flex;gap:4px;margin-left:auto;flex-wrap:wrap}
+.tab{background:none;border:1px solid transparent;border-radius:6px;padding:6px 12px;cursor:pointer;color:var(--ink2);font-weight:600}
+.tab:hover{color:var(--ink);background:var(--chip)}
+.tab[aria-current="true"]{color:var(--accent);border-color:var(--rule);background:var(--paper)}
+.wrap{max-width:1240px;margin:0 auto;padding:22px 20px 60px}
+
+/* figure plates */
+.plate{background:var(--plate);border:1px solid var(--plateRule);border-radius:4px;padding:10px 10px 8px;margin:0;position:relative}
+.plate svg,.plate canvas{display:block;width:100%;height:auto}
+.plate figcaption{font-family:var(--serif);font-size:.93rem;color:#3b4a52;padding:8px 4px 2px;line-height:1.4}
+.plate figcaption b{font-weight:650;color:#3f8a4c}
+.plate .tools{position:absolute;top:8px;right:8px;display:flex;gap:6px;z-index:2}
+.mini{font-size:.82rem;padding:4px 9px;border-radius:5px;border:1px solid #c3cdd0;background:#fff;color:#1c2830;cursor:pointer}
+.mini:hover{background:#eef4f4}
+.mini[aria-pressed="true"]{background:#3f8a4c;color:#fff;border-color:#3f8a4c}
+
+/* buttons */
+.btn{display:inline-flex;align-items:center;gap:8px;padding:10px 18px;border-radius:6px;border:1px solid var(--accent);background:var(--accent);color:var(--accentInk);font-weight:600;cursor:pointer}
+.btn:hover{filter:brightness(1.07)}
+.btn[disabled]{opacity:.45;cursor:not-allowed;filter:none}
+.btn.ghost{background:transparent;color:var(--accent)}
+.row{display:flex;gap:10px;flex-wrap:wrap;align-items:center}
+
+/* home */
+.hero{display:grid;grid-template-columns:minmax(0,1.55fr) minmax(0,1fr);gap:28px;align-items:start}
+.hero h1{font-size:2.3rem;letter-spacing:-.015em;margin-bottom:12px}
+.lede{font-size:1.08rem;color:var(--ink);max-width:36em}
+.muted{color:var(--ink2)}
+.small{font-size:.9rem}
+.chlist{list-style:none;margin:30px 0 0;padding:0;display:grid;grid-template-columns:repeat(auto-fill,minmax(270px,1fr));gap:12px}
+.chitem{background:var(--paper);border:1px solid var(--rule);border-radius:6px;padding:14px 16px;cursor:pointer;text-align:left;width:100%;display:grid;grid-template-columns:auto 1fr;gap:4px 12px;align-items:baseline}
+.chitem:hover{border-color:var(--accent)}
+.chnum{font-family:var(--serif);font-size:1.6rem;color:var(--accent);grid-row:span 2;line-height:1}
+.chitem h3{font-size:1.1rem}
+.chitem .meta{grid-column:2;color:var(--ink2);font-size:.88rem}
+.done-tag{color:var(--ok);font-weight:600}
+.sect{margin-top:34px}
+.sect h2{font-size:1.35rem;margin-bottom:6px}
+
+/* chapter */
+.crumb{display:flex;align-items:center;gap:14px;flex-wrap:wrap;margin-bottom:14px}
+.crumb h1{font-size:1.6rem}
+.crumb .back{background:none;border:0;color:var(--accent);cursor:pointer;font-weight:600;padding:0}
+.steps{display:flex;gap:4px;flex:1;min-width:160px;max-width:420px;margin-left:auto}
+.steps i{flex:1;height:6px;border-radius:3px;background:var(--rule)}
+.steps i.on{background:var(--accent)}
+.steps i.cur{background:var(--head)}
+.stage{display:grid;grid-template-columns:minmax(0,1.5fr) minmax(300px,1fr);gap:24px;align-items:start}
+.stage.wide{grid-template-columns:minmax(0,1fr)}
+.stage.wide>.panel{max-width:860px}
+.stage.wide>.panel:has(.pad){max-width:none}
+.panel{background:var(--paper);border:1px solid var(--rule);border-radius:6px;padding:18px 20px}
+.panel h2{font-size:1.3rem;margin-bottom:10px}
+.kicker{color:var(--accent);font-weight:600;font-size:.92rem;margin-bottom:4px}
+.opts{display:grid;gap:8px;margin:12px 0}
+.opt{text-align:left;padding:10px 14px;border:1px solid var(--rule);border-radius:6px;background:var(--paper);cursor:pointer;line-height:1.35}
+.opt:hover:not([disabled]){border-color:var(--accent)}
+.opt.right{border-color:var(--ok);background:var(--okSoft)}
+.opt.wrong{border-color:var(--bad);background:var(--badSoft)}
+.opt[disabled]{cursor:default}
+.fb{border-left:4px solid var(--accent);background:var(--accentSoft);padding:10px 14px;border-radius:0 6px 6px 0;margin:10px 0}
+.fb.ok{border-color:var(--ok);background:var(--okSoft)}
+.fb.bad{border-color:var(--bad);background:var(--badSoft)}
+.fb > b:first-child{display:block;margin-bottom:2px}
+.nav{display:flex;justify-content:space-between;gap:10px;margin-top:16px;flex-wrap:wrap}
+.explored{font-size:.9rem;color:var(--ink2);margin-top:6px}
+.termlinks{display:flex;flex-wrap:wrap;gap:6px;margin:8px 0}
+.tl{border:1px solid var(--rule);background:var(--chip);border-radius:14px;padding:3px 10px;font-size:.86rem;cursor:pointer}
+.tl:hover{border-color:var(--accent)}
+.tl.inl{background:none;border:0;border-bottom:1.5px dotted var(--accent);border-radius:0;color:var(--accent);padding:0 1px!important;font-weight:600}
+.tl.inl:hover{background:var(--accentSoft)}
+.tl.seen{border-color:var(--accent);color:var(--accent)}
+
+/* order + sort */
+.order{display:grid;gap:8px;margin:10px 0}
+.pool .card,.slot{border:1px dashed var(--rule);border-radius:6px;padding:9px 12px;min-height:44px;background:var(--paper);line-height:1.35}
+.pool{display:grid;gap:8px;margin:10px 0}
+.pool .card{border-style:solid;cursor:pointer;text-align:left}
+.pool .card:hover{border-color:var(--accent)}
+.pool .card.sel{border-color:var(--accent);box-shadow:0 0 0 2px var(--accent) inset}
+.slot{display:flex;gap:10px;align-items:flex-start}
+.slot .n{font-family:var(--serif);color:var(--accent);font-weight:650;min-width:1.2em}
+.slot.filled{border-style:solid;cursor:pointer}
+.slot.right{border-color:var(--ok);background:var(--okSoft)}
+.slot.wrong{border-color:var(--bad);background:var(--badSoft)}
+.bins{display:grid;grid-template-columns:repeat(auto-fit,minmax(150px,1fr));gap:8px;margin:10px 0}
+.bin{border:1px solid var(--rule);border-radius:6px;padding:8px;min-height:90px;background:var(--chip);cursor:pointer}
+.bin h4{margin:0 0 6px;font-size:.92rem;font-family:var(--sans);color:var(--head)}
+.bin .card{display:block;width:100%;font-size:.88rem;padding:5px 8px;margin-bottom:5px;border:1px solid var(--rule);border-radius:5px;background:var(--paper);text-align:left;cursor:pointer}
+.bin .card.right{border-color:var(--ok);background:var(--okSoft)}
+.bin .card.wrong{border-color:var(--bad);background:var(--badSoft)}
+.bin:hover{border-color:var(--accent)}
+
+/* controls in sims */
+.ctl{display:grid;gap:10px;margin:10px 0}
+.ctl label{font-weight:600;font-size:.92rem;display:block;margin-bottom:3px}
+.seg{display:flex;flex-wrap:wrap;border:1px solid var(--rule);border-radius:6px;overflow:hidden}
+.seg button{flex:1;padding:7px 10px;background:var(--paper);border:0;border-right:1px solid var(--rule);cursor:pointer;font-size:.9rem;min-width:70px}
+.seg button:last-child{border-right:0}
+.seg button[aria-pressed="true"]{background:var(--accent);color:var(--accentInk)}
+input[type=range]{width:100%;accent-color:var(--accent)}
+.readout{font-variant-numeric:tabular-nums;font-size:.92rem;color:var(--ink2)}
+.meter{height:10px;background:var(--rule);border-radius:5px;overflow:hidden}
+.meter i{display:block;height:100%;background:var(--accent);transition:width .5s}
+.stat{display:grid;grid-template-columns:130px 1fr;gap:8px;align-items:center;font-size:.9rem;margin:6px 0}
+
+/* tray */
+.tray{display:flex;flex-wrap:wrap;gap:8px;margin:10px 0}
+.tok{border:1px solid var(--rule);background:var(--paper);border-radius:6px;padding:7px 11px;cursor:pointer;font-size:.9rem;display:flex;align-items:center;gap:8px}
+.tok.sel{border-color:var(--accent);box-shadow:0 0 0 2px var(--accent) inset}
+.tok.used{opacity:.4}
+.sw{width:14px;height:14px;border-radius:3px;display:inline-block;border:1px solid rgba(0,0,0,.25)}
+
+/* term card */
+.termcard{position:fixed;right:18px;bottom:calc(18px + env(safe-area-inset-bottom,0px));width:min(380px,calc(100vw - 36px));background:var(--paper);border:1px solid var(--rule);border-radius:8px;box-shadow:0 10px 30px rgba(10,30,40,.18);padding:16px 18px;z-index:50;display:none;max-height:70vh;overflow:auto}
+.termcard.show{display:block}
+.termcard h3{font-size:1.2rem;margin-bottom:6px;padding-right:28px}
+.termcard .x{position:absolute;top:10px;right:10px;background:none;border:0;font-size:1.3rem;cursor:pointer;color:var(--ink2);line-height:1;padding:4px 8px}
+.termcard .rel{font-size:.86rem;color:var(--ink2);margin-top:8px}
+.tip{position:fixed;pointer-events:none;background:#2a2e35;color:#fff;font-size:.82rem;padding:4px 8px;border-radius:4px;z-index:60;display:none;white-space:nowrap}
+
+/* svg hotspots */
+[data-term]{cursor:pointer}
+[data-term]:hover > .hl, [data-term]:focus > .hl{stroke:#3f8a4c;stroke-width:3}
+[data-term]:focus{outline:none}
+[data-term].hit > .hl{stroke:#3f8a4c}
+[data-term]:hover{filter:brightness(1.06)}
+.lbl{font-family:"Source Sans 3",Arial,sans-serif;font-size:13px;fill:#1c2830}
+.lbl.sm{font-size:11.5px}
+.lbl.it{font-style:italic;fill:#3b4a52}
+.lead{stroke:#5b6b73;stroke-width:1;fill:none}
+.labels-off .lbls{display:none}
+
+/* checkpoint */
+.idcard{border:1px solid var(--rule);border-radius:8px;overflow:hidden;background:var(--paper)}
+.idcard .hd{background:var(--head);color:#fff;padding:10px 14px;display:flex;justify-content:space-between;align-items:baseline;gap:10px}
+:root[data-theme="dark"] .idcard .hd{color:#0f171b}
+@media (prefers-color-scheme: dark){:root:not([data-theme="light"]) .idcard .hd{color:#0f171b}}
+.idcard .hd b{font-family:var(--serif);font-size:1.25rem}
+.idcard dl{display:grid;grid-template-columns:auto 1fr;gap:4px 14px;margin:0;padding:12px 14px}
+.idcard dt{color:var(--ink2);font-size:.9rem}
+.idcard dd{margin:0;font-weight:600}
+.gates{display:grid;grid-template-columns:repeat(auto-fit,minmax(140px,1fr));gap:8px;margin:12px 0}
+.gate{border:1px solid var(--rule);border-radius:6px;padding:9px 10px;background:var(--paper);cursor:pointer;text-align:left;font-size:.92rem;line-height:1.3}
+.gate:hover:not([disabled]){border-color:var(--accent)}
+.gate small{display:block;color:var(--ink2);font-size:.8rem;margin-top:2px}
+.gate.right{border-color:var(--ok);background:var(--okSoft)}
+.gate.wrong{border-color:var(--bad);background:var(--badSoft)}
+.score{display:flex;gap:18px;flex-wrap:wrap;font-size:.92rem;color:var(--ink2);margin-bottom:10px}
+.score b{color:var(--ink);font-variant-numeric:tabular-nums}
+
+/* glossary */
+.gl{columns:2 360px;column-gap:28px}
+.gl section{break-inside:avoid;margin-bottom:22px}
+.gl h2{font-size:1.2rem;margin-bottom:8px;border-bottom:1px solid var(--rule);padding-bottom:4px}
+.gi{display:grid;grid-template-columns:1fr auto;gap:2px 10px;padding:8px 0;border-bottom:1px solid var(--rule)}
+.gi b{font-weight:700}
+.gi p{grid-column:1 / -1;margin:0;color:var(--ink2);font-size:.94rem}
+.st{font-size:.78rem;border-radius:10px;padding:1px 8px;border:1px solid var(--rule);color:var(--ink2);white-space:nowrap}
+.st.tested{border-color:var(--ok);color:var(--ok)}
+.st.seen{border-color:var(--accent);color:var(--accent)}
+
+/* atlas */
+.atlas{display:grid;grid-template-columns:minmax(0,1.6fr) minmax(290px,1fr);gap:24px;align-items:start}
+.atlas svg{touch-action:manipulation}
+.quizbar{display:flex;align-items:center;gap:10px;flex-wrap:wrap;background:var(--accentSoft);border-radius:6px;padding:10px 14px;margin-bottom:12px}
+
+.summary{max-width:720px}
+.big{font-family:var(--serif);font-size:3rem;color:var(--accent);line-height:1}
+.foot{margin-top:40px;color:var(--ink2);font-size:.85rem;border-top:1px solid var(--rule);padding-top:12px}
+
+
+/* course-notes styling */
+.banner{display:flex;align-items:stretch;margin:0 0 16px;min-height:44px}
+.banner .num{background:#2e6b39;color:#fff;font-family:var(--serif);font-weight:650;font-size:1.25rem;padding:8px 16px;display:flex;align-items:center;box-shadow:2px 2px 0 rgba(0,0,0,.18);position:relative;z-index:1}
+.banner .ttl{flex:1;background:#4f9d5c;color:#fff;display:flex;align-items:center;padding:6px 18px;font-variant:small-caps;letter-spacing:.04em;font-weight:700;font-size:1.15rem;margin-left:-2px}
+.banner .pg{background:#4f9d5c;color:#ffffff;display:flex;align-items:center;padding:0 14px;font-size:.85rem;white-space:nowrap}
+.remember{display:flex;gap:12px;align-items:flex-start;background:#e4ebf2;border-radius:4px;padding:10px 14px;margin:10px 0;color:#1c2830;box-shadow:1px 1px 0 rgba(0,0,0,.08)}
+.remember .key{flex:none;width:28px;height:28px}
+.remember b{display:block;font-family:var(--serif)}
+.dyk{background:#e9f2e2;border-left:4px solid #3f8a4c;border-radius:0 4px 4px 0;padding:10px 14px;margin:10px 0;font-style:italic;color:#2a1c18}
+.dyk b{font-style:normal}
+.notes-ref{font-size:.85rem;color:var(--ink2);margin:4px 0 10px}
+.notes-ref b{color:var(--accent)}
+.homelink{color:var(--ink2);font-size:.88rem;text-decoration:none;border:1px solid var(--rule);border-radius:6px;padding:5px 10px;margin-right:4px}
+.homelink:hover{color:var(--accent);border-color:var(--accent)}
+.seqrow{display:flex;gap:3px;flex-wrap:wrap;align-items:center;font-family:ui-monospace,Menlo,Consolas,monospace;margin:6px 0}
+.seqrow .end{font-weight:700;color:var(--ink2);min-width:26px;text-align:center}
+.nt{width:30px;height:34px;border:1px solid var(--rule);border-radius:4px;display:inline-flex;align-items:center;justify-content:center;font-weight:700;font-size:1rem;background:var(--paper);color:var(--ink)}
+.nt.A{background:#8e6cc4;color:#fff;border-color:#6a4e9b}.nt.G{background:#dd5f45;color:#fff;border-color:#b0452f}
+.nt.T{background:#3a9a9a;color:#fff;border-color:#2a7676}.nt.C{background:#f0cf4f;color:#3a2e00;border-color:#c9a92c}
+.nt.U{background:#86b851;color:#fff;border-color:#618f33}
+.nt.slot{border-style:dashed;cursor:pointer}.nt.slot.cur{box-shadow:0 0 0 2px var(--accent)}
+.nt.ok{outline:2px solid var(--ok)}.nt.no{outline:2px solid var(--bad)}
+.pad{display:flex;gap:6px;flex-wrap:wrap;margin:8px 0}
+.pad button{width:46px;height:42px;border-radius:6px;border:1px solid var(--rule);font-weight:700;font-size:1.05rem;cursor:pointer}
+.pad button.A{background:#8e6cc4;color:#fff}.pad button.G{background:#dd5f45;color:#fff}.pad button.T{background:#3a9a9a;color:#fff}.pad button.C{background:#f0cf4f;color:#3a2e00}.pad button.U{background:#86b851;color:#fff}
+.pad button.del{width:auto;padding:0 12px;background:var(--paper);font-size:.9rem}
+
+@media (max-width: 880px){
+  body{font-size:16px}
+  .hero,.stage,.atlas{grid-template-columns:minmax(0,1fr)}
+  .hero h1{font-size:1.8rem}
+  .topin{padding:8px 14px;gap:8px}
+  .tabs{margin-left:0;width:100%}
+  .tab{padding:5px 9px;font-size:.92rem}
+  .brand span{display:none}
+  .wrap{padding:16px 12px 60px}
+  .steps{max-width:none;min-width:100%;order:3}
+  .termcard{right:0;left:0;bottom:0;width:100%;border-radius:12px 12px 0 0;padding-bottom:calc(16px + env(safe-area-inset-bottom,0px))}
+}
+@media (prefers-reduced-motion: reduce){
+  *{transition:none!important;animation:none!important}
+}
+@media (max-width:640px){.banner{flex-wrap:wrap}.banner .pg{flex-basis:100%;padding:4px 14px 6px;white-space:normal}}
+</style>
+</head>
+<body>
+<header class="top"><div class="topin">
+  <button class="brand" id="home" aria-label="Module 1 home"><b>Introduction to Cell Biology and the Cell Theory</b><span>BIOL 130, Module 1</span></button>
+  <nav class="tabs" aria-label="Sections">
+    <a class="homelink" id="hubLink" href="index.html" target="_top">All modules</a>
+    <button class="tab" data-go="story">Chapters</button>
+    <button class="tab" data-go="atlas">Cell atlas</button>
+    <button class="tab" data-go="checkpoint">Is it alive?</button>
+    <button class="tab" data-go="exam">Mini exam</button>
+    <button class="tab" data-go="glossary">Glossary</button>
+  </nav>
+</div></header>
+<main class="wrap" id="app"></main>
+<aside class="termcard" id="termcard" role="dialog" aria-live="polite"><button class="x" aria-label="Close">×</button><div id="tcbody"></div></aside>
+<div class="tip" id="tip"></div>
+<script src="studydata.js"></script>
+<script src="exam.js"></script>
+<script src="kip.js"></script>
+<script>
+"use strict";
+/* ============ storage ============ */
+const KEY = "biol130-m1-progress-v1";
+let P = { ch:{}, terms:{}, cp:{best:0} };
+try { const s = localStorage.getItem(KEY); if (s) P = Object.assign(P, JSON.parse(s)); } catch(e) {}
+function save(){ try { localStorage.setItem(KEY, JSON.stringify(P)); } catch(e) {} }
+function markTerm(k, level){
+  const order = {seen:1, tested:2};
+  const cur = P.terms[k];
+  if (!cur || order[level] > order[cur]) { P.terms[k] = level; save(); }
+}
+/* ============ glossary data (p = course notes page) ============ */
+const T = {
+ "cell":{n:"Cell",g:"Seeing cells",p:"4",d:"The fundamental, basic unit of life. Every organism is made of either a single cell or a group of cells."},
+ "hooke":{n:"Robert Hooke (1665)",g:"Seeing cells",p:"4",d:"Looked at thin slices of cork and described its chambers as \"cells\". He was really looking at empty walls, the remains of dead cells."},
+ "leeuwenhoek":{n:"Anton van Leeuwenhoek (1673–1700)",g:"Seeing cells",p:"4",d:"An early light microscopist who improved the magnifying power of microscope lenses. He saw living \"animalcules\" swimming in pond water."},
+ "light-microscopy":{n:"Light microscopy",g:"Seeing cells",p:"4",d:"Uses visible light and glass lenses. Good for whole cells and tissues, including living ones; it cannot show the smallest structures."},
+ "electron-microscopy":{n:"Electron microscopy",g:"Seeing cells",p:"4",d:"Uses a beam of electrons instead of light, so it can show much finer detail, such as the surface of bacteria or structures smaller than a micrometre."},
+ "fluorescence-microscopy":{n:"Fluorescence microscopy",g:"Seeing cells",p:"4",d:"Uses dyes that glow to label specific parts of a cell. In your notes, DAPI stains the nucleus blue and phalloidin stains actin."},
+ "cell-theory":{n:"The cell theory",g:"The cell theory",p:"5",d:"A pillar of modern biology, with three tenets: 1. All living organisms are composed of one (unicellular) or more (multicellular) cells. 2. Each cell is the structural and functional unit of life. 3. Cells can arise only from pre-existing cells."},
+ "schleiden":{n:"Schleiden",g:"The cell theory",p:"5",d:"A botanist who noted that all plant tissues are composed of cells and that plant embryos arise from a single cell. With Schwann, proposed the first two tenets."},
+ "schwann":{n:"Schwann",g:"The cell theory",p:"5",d:"A zoologist who came to the same conclusion about animals, and saw that plants and animals are similar. With Schleiden, proposed the first two tenets."},
+ "virchow":{n:"Virchow",g:"The cell theory",p:"5",d:"A physician who added the third tenet of the cell theory: cells can arise only from pre-existing cells."},
+ "unicellular":{n:"Unicellular and multicellular",g:"The cell theory",p:"5",d:"A unicellular organism is a single cell (a bacterium, a yeast cell). A multicellular organism is made of many cells (a plant, a mouse)."},
+ "exception":{n:"Exceptions to the cell theory",g:"Not quite cells",p:"5",d:"Viruses, viroids and prions. They are not made of cells and cannot reproduce on their own, yet they can be copied inside living cells."},
+ "virus":{n:"Virus",g:"Not quite cells",p:"5",d:"A small amount of nucleic acid (DNA or RNA) inside a protein coat, sometimes with an outer envelope. Outside a living cell it is inert; it needs a host cell to reproduce."},
+ "capsid":{n:"Capsid",g:"Not quite cells",p:"5",d:"The protein coat of a virus, which surrounds its genome."},
+ "viral-genome":{n:"Viral genome",g:"Not quite cells",p:"5",d:"The virus's genetic material, DNA or RNA, packed inside the capsid."},
+ "viroid":{n:"Viroid",g:"Not quite cells",p:"5",d:"A small circular RNA with no protein coat. It needs the host's machinery to replicate. Example: potato spindle tuber viroid."},
+ "prion":{n:"Prion",g:"Not quite cells",p:"5",d:"A proteinaceous infectious particle with NO nucleic acid. A misfolded form of the prion protein (PrP^Sc) makes the normal form (PrP^C) misfold too, and the misfolded protein piles up, leaving holes in brain tissue."},
+ "host-cell":{n:"Host cell",g:"Not quite cells",p:"5",d:"A living cell that a virus or viroid uses to copy itself. It supplies the ribosomes, enzymes and energy the virus lacks."},
+ "cell-properties":{n:"Basic properties of cells",g:"What all cells share",p:"6",d:"Cells are highly complex and organized, enclosed by a plasma membrane; have a genetic program (DNA); can reproduce; acquire and use energy; carry out chemical reactions; do mechanical work; respond to stimuli; and regulate themselves."},
+ "plasma-membrane":{n:"Cell (plasma) membrane",g:"What all cells share",p:"6",d:"The physical barrier that encloses every cell and separates it from the outside. It controls what goes in and out."},
+ "cytoplasm":{n:"Cytoplasm",g:"What all cells share",p:"6",d:"All the contents found inside the cell membrane. (Module 3 refines this: the contents minus the nucleus.)"},
+ "cytosol":{n:"Cytosol",g:"What all cells share",p:"6",d:"The jelly-like internal fluid of a cell: the cytoplasm minus the organelles. It contains water, dissolved ions and molecules."},
+ "nucleic-acids":{n:"Nucleic acids (DNA, RNA)",g:"What all cells share",p:"6",d:"The information molecules of the cell. DNA (deoxyribonucleic acid) stores the genetic program; RNA (ribonucleic acid) carries it to be used. Covered in detail in Modules 2 and 4."},
+ "dna":{n:"DNA",g:"What all cells share",p:"6",d:"Deoxyribonucleic acid, the genetic material of every cell. Its genes are transcribed into RNA."},
+ "rna":{n:"RNA",g:"What all cells share",p:"6",d:"Ribonucleic acid. Made from DNA by transcription, then translated into protein."},
+ "protein":{n:"Protein",g:"What all cells share",p:"6",d:"The functional product of most genes, made by translation of RNA. Proteins do most of the work in a cell."},
+ "gene":{n:"Gene",g:"What all cells share",p:"6",d:"The DNA code for the information needed to produce a functional product, such as a protein."},
+ "central-dogma":{n:"The central dogma",g:"What all cells share",p:"6",d:"The flow of genetic information: DNA is transcribed into RNA, and RNA is translated into protein."},
+ "transcription":{n:"Transcription",g:"What all cells share",p:"6",d:"Making RNA from a DNA template. The \"language\" stays the same (nucleic acid to nucleic acid)."},
+ "translation":{n:"Translation",g:"What all cells share",p:"6",d:"Making a protein from the information in RNA. The language changes from nucleotides to amino acids."},
+ "bioenergetics":{n:"Bioenergetics",g:"What all cells share",p:"6",d:"How cells acquire and use energy. Example: plants convert light energy into chemical energy."},
+ "metabolism":{n:"Metabolism",g:"What all cells share",p:"6",d:"All the chemical reactions in a cell, organized into metabolic pathways such as glycolysis and the citric acid cycle."},
+ "atp":{n:"Adenosine triphosphate (ATP)",g:"What all cells share",p:"6",d:"The cell's energy currency: adenine + ribose + three phosphate groups. The bonds linking the phosphate groups have high potential energy. With one phosphate it is AMP, with two ADP."},
+ "adenine":{n:"Adenine",g:"What all cells share",p:"6",d:"The nitrogen-containing base in ATP. Adenine plus ribose is adenosine."},
+ "ribose":{n:"Ribose",g:"What all cells share",p:"6",d:"The five-carbon sugar in ATP (and in RNA)."},
+ "phosphate-group":{n:"Phosphate groups (AMP, ADP, ATP)",g:"What all cells share",p:"6",d:"Adenosine with one phosphate is AMP, with two is ADP, with three is ATP. The bonds between phosphates carry high potential energy."},
+ "self-regulation":{n:"Self-regulation and response to stimuli",g:"What all cells share",p:"6",d:"Cells respond to signals using receptors, and control their own activities. A cell that loses self-regulation can grow uncontrollably."},
+ "prokaryote":{n:"Prokaryote",g:"Prokaryotes",p:"7",d:"\"Before nucleus\". Single-celled organisms with no nucleus and no membrane-bound organelles. The most abundant organisms on Earth. Two domains: Bacteria and Archaea."},
+ "eukaryote":{n:"Eukaryote",g:"Prokaryotes",p:"7",d:"\"True nucleus\". Cells with a membrane-bound nucleus and many organelles. Domain Eukarya: protists, fungi, plants and animals."},
+ "tree-of-life":{n:"Tree of life",g:"Prokaryotes",p:"7",d:"The evolutionary tree of all organisms, with three domains: Bacteria, Archaea and Eukarya. Most of life's diversity is microbial."},
+ "bacteria":{n:"Domain Bacteria",g:"Prokaryotes",p:"7",d:"Prokaryotes with a single circular chromosome. Many have plasmids, and they have a cell wall surrounding the cell membrane."},
+ "archaea":{n:"Domain Archaea",g:"Prokaryotes",p:"7",d:"Prokaryotes with a single circular chromosome and an isoprenoid cell membrane. They often inhabit extreme environments. Eukaryotes are thought to have descended from within the Archaea."},
+ "eukarya":{n:"Domain Eukarya",g:"Prokaryotes",p:"7",d:"All eukaryotes. Plants and animals lie on branches within the Eukarya."},
+ "nucleoid":{n:"Nucleoid",g:"Prokaryotes",p:"6–7",d:"The region of a prokaryotic cell where its single circular chromosome sits. It is not enclosed by a membrane."},
+ "plasmid":{n:"Plasmid",g:"Prokaryotes",p:"7",d:"A small circle of extra DNA found in many bacteria, separate from the main chromosome."},
+ "cell-wall":{n:"Cell wall",g:"Prokaryotes",p:"7, 9",d:"A rigid layer outside the plasma membrane. Bacteria have one; fungal walls contain chitin; plant walls are made of polysaccharides. Animal cells have none."},
+ "flagellum":{n:"Flagellum (plural flagella)",g:"Prokaryotes",p:"6–7",d:"A long whip-like structure some cells use to move."},
+ "ribosome":{n:"Ribosome",g:"Prokaryotes",p:"7, 9",d:"The machine that makes proteins (translation). Found in every cell, prokaryotic and eukaryotic. It has no membrane, so it is not part of the endomembrane system."},
+ "binary-fission":{n:"Binary fission",g:"Prokaryotes",p:"7",d:"How prokaryotes reproduce: one cell copies its DNA and divides into two."},
+ "bacterial-shapes":{n:"Bacterial shapes",g:"Prokaryotes",p:"7",d:"Spheres (Streptococcus, in strings), rods (E. coli), helices (Streptomyces). Sizes range up to Thiomargarita namibiensis, the largest known bacterial cell. Myxobacteria aggregate into fruiting bodies."},
+ "organelle":{n:"Organelle",g:"Inside a eukaryotic cell",p:"9",d:"A specialized structure inside a eukaryotic cell that carries out a particular job, such as the nucleus, mitochondria or Golgi apparatus."},
+ "protists":{n:"Protists",g:"Eukaryotes",p:"8",d:"A diverse group of eukaryotes, mostly single cells but some form colonies. Includes algae (Volvox), water molds (potato blight), slime molds and protozoa (ciliates)."},
+ "fungi":{n:"Fungi",g:"Eukaryotes",p:"8",d:"Eukaryotes with cell walls containing chitin. Includes yeasts, rusts, smuts, mildews, molds and mushrooms. They are heterotrophs that absorb food directly from the environment."},
+ "chitin":{n:"Chitin",g:"Eukaryotes",p:"8",d:"A modified polysaccharide found in fungal cell walls."},
+ "heterotroph":{n:"Heterotroph",g:"Eukaryotes",p:"8–9",d:"An organism that depends on preformed organic molecules for its carbon and energy. Fungi and animals are heterotrophs."},
+ "autotroph":{n:"Autotroph",g:"Eukaryotes",p:"9",d:"An organism that produces its own food. Plants use chloroplasts to convert the sun's energy into chemical energy."},
+ "plants":{n:"Plants",g:"Eukaryotes",p:"9",d:"Multicellular autotrophs with cell walls made of polysaccharides, large water-filled vacuoles, chloroplasts, and connections between cells called plasmodesmata."},
+ "animals":{n:"Animals",g:"Eukaryotes",p:"9",d:"Multicellular heterotrophs with no cell walls, which gain energy and carbon from preformed organic molecules and have a distinct mode of early development."},
+ "vacuole":{n:"Vacuole",g:"Eukaryotes",p:"9",d:"A membrane-bound sac. Plant cells have a large water-filled vacuole that gives structural rigidity by contributing to turgor pressure."},
+ "plasmodesmata":{n:"Plasmodesmata",g:"Eukaryotes",p:"9",d:"Channels through the cell wall that connect neighbouring plant cells."},
+ "chloroplast":{n:"Chloroplast",g:"Eukaryotes",p:"9",d:"The organelle where plant cells harness the energy of sunlight to make sugars. Not part of the endomembrane system."},
+ "nucleus":{n:"Nucleus and nuclear envelope",g:"Inside a eukaryotic cell",p:"9",d:"The nucleus is the membrane-bound storehouse for the cell's chromosomes and the site of RNA synthesis. The nuclear envelope around it is part of the endomembrane system."},
+ "nucleolus":{n:"Nucleolus",g:"Inside a eukaryotic cell",p:"9",d:"A dense region inside the nucleus where ribosome parts are made. Not part of the endomembrane system."},
+ "nuclear-pores":{n:"Nuclear pores",g:"Inside a eukaryotic cell",p:"9",d:"Openings in the nuclear envelope that let molecules such as RNA move between the nucleus and the cytoplasm. (More in Module 3, p. 38.)"},
+ "endomembrane":{n:"Endomembrane system (EMS)",g:"Inside a eukaryotic cell",p:"9",d:"Builds, modifies and transports cellular materials. Includes the nuclear envelope, rough and smooth ER, Golgi apparatus, lysosomes, vesicles and the plasma membrane."},
+ "non-endomembrane":{n:"Non-endomembrane structures",g:"Inside a eukaryotic cell",p:"9",d:"Organelles that are not part of the EMS: mitochondria, chloroplasts, peroxisomes, ribosomes, the nucleolus, cytoskeleton, centrosomes and cilia/flagella."},
+ "er":{n:"Endoplasmic reticulum (smooth and rough)",g:"Inside a eukaryotic cell",p:"9",d:"A network of membranes involved in both protein and lipid synthesis. Rough ER has ribosomes attached; smooth ER does not."},
+ "golgi":{n:"Golgi apparatus",g:"Inside a eukaryotic cell",p:"9",d:"Modifies and sorts proteins and lipids as they move to their final destinations inside or outside the cell."},
+ "lysosome":{n:"Lysosome",g:"Inside a eukaryotic cell",p:"9",d:"Contains enzymes that break down macromolecules such as proteins, nucleic acids, lipids and carbohydrates."},
+ "vesicle":{n:"Vesicle",g:"Inside a eukaryotic cell",p:"9",d:"A small membrane sac that carries material between parts of the endomembrane system."},
+ "mitochondria":{n:"Mitochondrion",g:"Inside a eukaryotic cell",p:"9",d:"Produces most of the ATP that serves as the energy currency of the cell. Not part of the endomembrane system."},
+ "peroxisome":{n:"Peroxisome",g:"Inside a eukaryotic cell",p:"9",d:"Breaks down specific organic molecules such as fatty acids, and synthesizes others such as cholesterol and some phospholipids. Not part of the endomembrane system."},
+ "cytoskeleton":{n:"Cytoskeleton",g:"Inside a eukaryotic cell",p:"9",d:"A network of protein filaments and associated proteins that gives the cell an internal structural framework."},
+ "model-organism":{n:"Model organism",g:"Model organisms",p:"10",d:"A non-human species studied to understand biology in general. Your notes list E. coli, yeast, Arabidopsis, Drosophila, C. elegans and the mouse."},
+ "ecoli":{n:"Escherichia coli (bacterium)",g:"Model organisms",p:"10",d:"Used to study DNA replication, gene transcription and translation."},
+ "yeast":{n:"Saccharomyces cerevisiae (yeast)",g:"Model organisms",p:"10",d:"Used to study the cell cycle: the \"minimal model eukaryote\". Reproduces by budding."},
+ "arabidopsis":{n:"Arabidopsis thaliana (plant)",g:"Model organisms",p:"10",d:"A model for flowering plants, which are closely related to each other."},
+ "drosophila":{n:"Drosophila melanogaster (fruit fly)",g:"Model organisms",p:"10",d:"Used to study genetics and development."},
+ "celegans":{n:"Caenorhabditis elegans (worm)",g:"Model organisms",p:"10",d:"The first animal genome to be sequenced. The location, lineage and fate of every cell in the embryo, larva and adult is known."},
+ "mouse":{n:"Mus musculus (mouse)",g:"Model organisms",p:"10",d:"The \"model mammal\", with well understood genetics."}
+};
+const TERM_ORDER_GROUPS = ["Seeing cells","The cell theory","Not quite cells","What all cells share","Prokaryotes","Eukaryotes","Inside a eukaryotic cell","Model organisms"];
+const REL = {
+ "cell":["cell-theory","prokaryote","eukaryote"], "hooke":["leeuwenhoek","light-microscopy"], "leeuwenhoek":["hooke","light-microscopy"],
+ "cell-theory":["schleiden","schwann","virchow","exception"], "schleiden":["schwann","cell-theory"], "schwann":["schleiden","cell-theory"], "virchow":["cell-theory"],
+ "exception":["virus","viroid","prion"], "virus":["capsid","viral-genome","host-cell"], "viroid":["virus","prion"], "prion":["virus","viroid"],
+ "cytoplasm":["cytosol","plasma-membrane"], "cytosol":["cytoplasm"], "central-dogma":["gene","transcription","translation"], "atp":["adenine","ribose","phosphate-group","bioenergetics"],
+ "prokaryote":["eukaryote","nucleoid","bacteria","archaea"], "eukaryote":["prokaryote","nucleus","organelle"], "tree-of-life":["bacteria","archaea","eukarya"],
+ "bacteria":["archaea","plasmid","cell-wall"], "archaea":["bacteria","eukarya"], "fungi":["chitin","heterotroph","yeast"], "plants":["autotroph","vacuole","plasmodesmata","chloroplast"],
+ "animals":["heterotroph"], "endomembrane":["er","golgi","lysosome","vesicle","nucleus","non-endomembrane"], "non-endomembrane":["mitochondria","chloroplast","peroxisome","ribosome"],
+ "model-organism":["ecoli","yeast","arabidopsis","drosophila","celegans","mouse"], "er":["golgi","ribosome"], "golgi":["er","vesicle"]
+};
+
+/* ============ utilities ============ */
+const $ = (s, r=document) => r.querySelector(s);
+const $$ = (s, r=document) => Array.from(r.querySelectorAll(s));
+function h(tag, attrs={}, ...kids){
+  const e = document.createElement(tag);
+  for (const k in attrs){
+    const v = attrs[k];
+    if (k === "class") e.className = v;
+    else if (k === "html") e.innerHTML = v;
+    else if (k.startsWith("on")) e.addEventListener(k.slice(2), v);
+    else if (v !== false && v != null) e.setAttribute(k, v);
+  }
+  for (const c of kids.flat()){ if (c == null) continue; e.append(c.nodeType ? c : document.createTextNode(c)); }
+  return e;
+}
+function shuffle(a){ a = a.slice(); for (let i=a.length-1;i>0;i--){ const j=Math.floor(Math.random()*(i+1)); [a[i],a[j]]=[a[j],a[i]]; } return a; }
+const reduceMotion = window.matchMedia && window.matchMedia("(prefers-reduced-motion: reduce)").matches;
+let activeLoops = [];
+function loop(fn){ let on = true, last = performance.now(); const tick = t => { if(!on) return; const dt = Math.min(0.05,(t-last)/1000); last = t; fn(dt,t); requestAnimationFrame(tick); }; requestAnimationFrame(tick); const s = {stop(){on=false;}}; activeLoops.push(s); return s; }
+function stopLoops(){ activeLoops.forEach(l=>l.stop()); activeLoops = []; }
+function plate(svgOrEl, caption){
+  const f = h("figure",{class:"plate"});
+  if (typeof svgOrEl === "string") f.insertAdjacentHTML("beforeend", svgOrEl); else f.append(svgOrEl);
+  if (caption) f.append(h("figcaption",{html:caption}));
+  return f;
+}
+
+/* ============ term card and tooltip ============ */
+const tc = $("#termcard"), tip = $("#tip");
+let exploreHook = null;
+function openTerm(k){
+  const t = T[k]; if (!t) return;
+  markTerm(k,"seen");
+  $("#tcbody").innerHTML = "";
+  $("#tcbody").append(h("h3",{},t.n), h("p",{},t.d), h("p",{class:"notes-ref"},h("b",{},"Course notes: "),`p. ${t.p}`));
+  const rel = related(k);
+  if (rel.length){
+    const box = h("div",{class:"rel"},"Related: ");
+    rel.forEach((r,i)=>{ box.append(h("button",{class:"tl",style:"margin:2px",onclick:()=>openTerm(r)},T[r].n)); });
+    $("#tcbody").append(box);
+  }
+  tc.classList.add("show");
+  if (exploreHook) exploreHook(k);
+}
+$(".x", tc).addEventListener("click", ()=>tc.classList.remove("show"));
+document.addEventListener("keydown", e=>{ if(e.key==="Escape") tc.classList.remove("show"); });
+const REL_OLD = {
+  "integral-protein":["transmembrane-protein","peripheral-protein"], "transmembrane-protein":["integral-protein","channel","carrier"],
+  "peripheral-protein":["integral-protein","cytoskeleton"], "cytoplasm":["cytosol"], "cytosol":["cytoplasm"],
+  "endomembrane":["er","golgi","lysosome","vesicle","nucleus"], "er":["ribosome","golgi","endomembrane"], "golgi":["er","vesicle","endomembrane"],
+  "nucleus":["nucleolus","nuclear-pores"], "chloroplast":["plastid"], "plastid":["chloroplast"],
+  "channel":["carrier","aquaporin","facilitated-diffusion"], "carrier":["channel","uniporter","facilitated-diffusion"],
+  "osmosis":["osmotic-pressure","hypotonic","hypertonic","isotonic"], "secondary-active":["primary-active","symporter","antiporter","nak-pump"],
+  "nak-pump":["primary-active","electrochemical-gradient","importer","exporter"], "electrochemical-gradient":["membrane-potential","concentration-gradient"],
+  "endocytosis":["phagocytosis","pinocytosis","rme"], "bulk-transport":["exocytosis","endocytosis"],
+  "apical":["basolateral","microvilli","tight-junction"], "basolateral":["apical","interstitial-fluid"],
+  "phospholipid":["hydrophilic-head","fatty-acid-tails","bilayer"], "fatty-acid-tails":["phospholipid","selective-permeability"]
+};
+function related(k){ return (REL[k]||[]).filter(r=>T[r]); }
+function bindTerms(root, onPick){
+  $$("[data-term]", root).forEach(g=>{
+    const k = g.getAttribute("data-term");
+    if (!T[k]) return;
+    g.setAttribute("tabindex","0"); g.setAttribute("role","button"); g.setAttribute("aria-label", T[k].n);
+    const pick = ()=>{ (onPick||openTerm)(k, g); g.classList.add("hit"); };
+    g.addEventListener("click", e=>{ e.stopPropagation(); pick(); });
+    g.addEventListener("keydown", e=>{ if(e.key==="Enter"||e.key===" "){ e.preventDefault(); e.stopPropagation(); pick(); }});
+    g.addEventListener("mousemove", e=>{ tip.textContent = T[k].n; tip.style.display="block"; tip.style.left=(e.clientX+14)+"px"; tip.style.top=(e.clientY+12)+"px"; });
+    g.addEventListener("mouseleave", ()=>{ tip.style.display="none"; });
+  });
+}
+function termChips(keys){
+  const box = h("div",{class:"termlinks"});
+  keys.forEach(k=>{ if(!T[k]) return; box.append(h("button",{class:"tl"+(P.terms[k]?" seen":""),onclick:(e)=>{openTerm(k); e.currentTarget.classList.add("seen");}},T[k].n)); });
+  return box;
+}
+// inline term text in copy: [[key|text]]
+function rich(s){
+  return s.replace(/\[\[([a-z0-9-]+)\|([^\]]+)\]\]/g, (m,k,txt)=>`<button class="tl inl" data-open="${k}" style="font-size:inherit">${txt}</button>`);
+}
+function bindRich(root){ $$("[data-open]",root).forEach(b=>b.addEventListener("click",()=>openTerm(b.dataset.open))); }
+/* ============ shared drawing helpers ============ */
+function lab(text, term, tx, ty, px, py, anchor="start", cls="lbl"){
+  const lines = text.split("\n");
+  const t = lines.map((l,i)=>`<tspan x="${tx}" dy="${i?14:0}">${l}</tspan>`).join("");
+  const cw = cls.includes("sm")?5.7:6.4, wdt = Math.max(...lines.map(l=>l.length))*cw, hgt=(lines.length-1)*14;
+  const x0 = anchor==="end"?tx-wdt: anchor==="middle"?tx-wdt/2 : tx, x1 = x0+wdt;
+  let lx, ly=ty-4;
+  if (px!=null && px>=x0-6 && px<=x1+6){ lx=Math.max(x0,Math.min(x1,px)); ly = py>ty ? ty+hgt+5 : ty-15; }
+  else if (px!=null && px<x0) lx=x0-4; else lx=x1+4;
+  const lead = (px!=null) ? `<line class="lead" x1="${lx}" y1="${ly}" x2="${px}" y2="${py}"/><circle cx="${px}" cy="${py}" r="2" fill="#5b6b73"/>` : "";
+  return `<g ${term?`data-term="${term}"`:""}>${lead}<text class="${cls}" x="${tx}" y="${ty}" text-anchor="${anchor}">${t}</text></g>`;
+}
+
+function arrow(x1,y1,x2,y2,col="#34454e",w=2.2,dash=""){
+  const a=Math.atan2(y2-y1,x2-x1), L=10;
+  const p1=[x2-L*Math.cos(a-0.4),y2-L*Math.sin(a-0.4)], p2=[x2-L*Math.cos(a+0.4),y2-L*Math.sin(a+0.4)];
+  return `<line x1="${x1}" y1="${y1}" x2="${(x2-6*Math.cos(a)).toFixed(1)}" y2="${(y2-6*Math.sin(a)).toFixed(1)}" stroke="${col}" stroke-width="${w}" ${dash?`stroke-dasharray="${dash}"`:""}/><polygon points="${x2},${y2} ${p1[0].toFixed(1)},${p1[1].toFixed(1)} ${p2[0].toFixed(1)},${p2[1].toFixed(1)}" fill="${col}"/>`;
+}
+
+const C = { ext:"#e2f0f7", cyt:"#fdf4d8", lum:"#edf3e0", head:"#4a86c5", headS:"#2f5f93", tail:"#c9a33b",
+  prot:"#8a67bd", protS:"#5f4390", peri:"#56a36e", periS:"#3a7a4f", chol:"#f0a04b", carb:"#c2549a",
+  na:"#e2743c", k:"#7a4fb0", glu:"#e5ae22", gluS:"#a57a0c", h2o:"#4fb0e3", o2:"#d64545", h:"#3a9a5b", ca:"#8a8f2a",
+  atp:"#c23b6e", nuc:"#e8def6", nucS:"#6f55a0", mito:"#f6b48c", mitoS:"#c0703f", er:"#8fc1d9", erS:"#4f8fae",
+  gol:"#eaa6c6", golS:"#b0567f", lys:"#bcd97f", lysS:"#6d9636", ves:"#f4d67f", vesS:"#b89a3a",
+  sglt:"#8a67bd", glut:"#3e8fb0", pump:"#4f8a8b", pumpS:"#2f5e5f", ink:"#1c2830" };
+
+
+/* ============ Figure: animal cell ============ */
+function figAnimalCell(){
+  const blob="M60 240 C60 110 190 40 330 42 C480 44 600 110 602 235 C604 360 500 440 330 442 C170 444 60 380 60 240 Z";
+  let s=`<svg viewBox="0 0 880 490" role="img" aria-label="An animal cell with its organelles labelled"><g transform="translate(120,2)">`;
+  s+=`<g data-term="cytosol"><path d="${blob}" fill="${C.cyt}"/></g>`;
+  // cytoskeleton
+  const cs=[[100,200,250,90],[120,330,300,420],[480,90,560,300],[380,430,560,330],[90,270,200,400],[420,60,300,60],[520,390,590,200]];
+  s+=`<g data-term="cytoskeleton">`+cs.map(l=>`<line x1="${l[0]}" y1="${l[1]}" x2="${l[2]}" y2="${l[3]}" stroke="#8fb09c" stroke-width="1.6" stroke-dasharray="7 3"/><line x1="${l[0]}" y1="${l[1]}" x2="${l[2]}" y2="${l[3]}" stroke="transparent" stroke-width="10"/>`).join("")+`</g>`;
+  // rough ER arcs around nucleus
+  const nx=270, ny=235;
+  let er=""; [100,114,128,142].forEach((r,i)=>{
+    const a0=-72*Math.PI/180, a1=58*Math.PI/180;
+    const p0=[nx+r*Math.cos(a0),ny+r*Math.sin(a0)], p1=[nx+r*Math.cos(a1),ny+r*Math.sin(a1)];
+    er+=`<path class="hl" d="M${p0[0].toFixed(1)} ${p0[1].toFixed(1)} A${r} ${r} 0 0 1 ${p1[0].toFixed(1)} ${p1[1].toFixed(1)}" fill="none" stroke="${C.er}" stroke-width="7" stroke-linecap="round"/>`;
+    for(let a=a0+0.08;a<a1;a+=0.13){ er+=`<circle cx="${(nx+(r+5.5)*Math.cos(a)).toFixed(1)}" cy="${(ny+(r+5.5)*Math.sin(a)).toFixed(1)}" r="2" fill="#4e3f82"/>`; }
+  });
+  s+=`<g data-term="er">${er}</g>`;
+  // smooth ER
+  s+=`<g data-term="er"><path d="M330 400 q15 -14 30 0 t30 0 t30 0 t30 0" fill="none" stroke="${C.er}" stroke-width="6" stroke-linecap="round"/><path d="M345 420 q15 -14 30 0 t30 0 t30 0" fill="none" stroke="${C.er}" stroke-width="6" stroke-linecap="round"/></g>`;
+  // nucleus
+  s+=`<g data-term="nucleus"><circle cx="${nx}" cy="${ny}" r="82" fill="${C.nuc}" stroke="${C.nucS}" stroke-width="3"/><circle cx="${nx}" cy="${ny}" r="76" fill="none" stroke="${C.nucS}" stroke-width="1.4"/>`;
+  s+=`<path d="M230 200 q20 10 10 30 t20 30 M300 280 q-10 -20 10 -30 M240 290 q20 -5 25 10" stroke="#b3a0d6" stroke-width="3" fill="none"/></g>`;
+  let pores=""; for(let i=0;i<10;i++){ const a=i/10*Math.PI*2+0.2; pores+=`<rect x="${(nx+79*Math.cos(a)-3.5).toFixed(1)}" y="${(ny+79*Math.sin(a)-3.5).toFixed(1)}" width="7" height="7" rx="2" fill="#fff" stroke="${C.protS}" stroke-width="1.3"/>`; }
+  s+=`<g data-term="nuclear-pores">${pores}</g>`;
+  s+=`<g data-term="nucleolus"><circle cx="286" cy="226" r="24" fill="${C.prot}" stroke="${C.protS}"/></g>`;
+  // golgi
+  let gol=""; for(let i=0;i<5;i++){ const r=34+i*10, cx=548, cy=205, a0=150*Math.PI/180, a1=212*Math.PI/180;
+    gol+=`<path d="M${(cx+r*Math.cos(a0)).toFixed(1)} ${(cy+r*Math.sin(a0)).toFixed(1)} A${r} ${r} 0 0 1 ${(cx+r*Math.cos(a1)).toFixed(1)} ${(cy+r*Math.sin(a1)).toFixed(1)}" fill="none" stroke="${C.gol}" stroke-width="7" stroke-linecap="round"/>`; }
+  gol+=`<path d="M470 210 l1 0" stroke="${C.golS}"/>`;
+  s+=`<g data-term="golgi">${gol}</g>`;
+  s+=`<g data-term="vesicle">`+[[545,140],[572,165],[560,272],[532,290],[470,150]].map(p=>`<circle cx="${p[0]}" cy="${p[1]}" r="6.5" fill="${C.ves}" stroke="${C.vesS}" stroke-width="1.5"/>`).join("")+`</g>`;
+  // mitochondria
+  const mito=(x,y,rot)=>`<g transform="rotate(${rot} ${x} ${y})"><ellipse cx="${x}" cy="${y}" rx="30" ry="14" fill="${C.mito}" stroke="${C.mitoS}" stroke-width="2"/><path d="M${x-22} ${y} l6 -8 l6 14 l6 -14 l6 14 l6 -14 l6 14 l6 -8" fill="none" stroke="${C.mitoS}" stroke-width="1.5"/></g>`;
+  s+=`<g data-term="mitochondria">${mito(160,150,-25)}${mito(440,82,12)}${mito(505,345,-28)}${mito(150,330,20)}</g>`;
+  s+=`<g data-term="lysosome"><circle cx="232" cy="392" r="17" fill="${C.lys}" stroke="${C.lysS}" stroke-width="2"/><circle cx="226" cy="388" r="2.4" fill="${C.lysS}"/><circle cx="238" cy="396" r="2.4" fill="${C.lysS}"/><circle cx="234" cy="384" r="2" fill="${C.lysS}"/>`;
+  s+=`<circle cx="572" cy="252" r="14" fill="${C.lys}" stroke="${C.lysS}" stroke-width="2"/><circle cx="568" cy="250" r="2.2" fill="${C.lysS}"/><circle cx="576" cy="256" r="2.2" fill="${C.lysS}"/></g>`;
+  s+=`<g data-term="peroxisome"><circle cx="372" cy="104" r="12" fill="#e9d5a8" stroke="#a8843a" stroke-width="2"/><rect x="366" y="99" width="12" height="10" fill="#a8843a" opacity=".55" transform="rotate(20 372 104)"/></g>`;
+  s+=`<g data-term="vacuole"><circle cx="118" cy="232" r="24" fill="#dcecf5" stroke="#6f9ab8" stroke-width="2"/></g>`;
+  s+=`<g data-term="ribosome">`+[[200,120],[210,130],[380,380],[392,372],[100,280],[470,410],[455,420],[520,120],[190,420],[420,300]].map(p=>`<circle cx="${p[0]}" cy="${p[1]}" r="3" fill="#4e3f82"/>`).join("")+`</g>`;
+  s+=`<g data-term="plasma-membrane"><path d="${blob}" fill="none" stroke="${C.headS}" stroke-width="5"/><path d="${blob}" fill="none" stroke="${C.tail}" stroke-width="1.6"/><path d="${blob}" fill="none" stroke="transparent" stroke-width="16"/></g>`;
+  s+=`</g><g class="lbls">`;
+  s+=lab("Plasma membrane","plasma-membrane",14,40,262,94);
+  s+=lab("Mitochondrion","mitochondria",14,120,256,150);
+  s+=lab("Vacuole","vacuole",14,222,214,234);
+  s+=lab("Peroxisome","peroxisome",14,176,480,104);
+  s+=lab("Cytosol","cytosol",14,290,230,287);
+  s+=lab("Cytoskeleton","cytoskeleton",14,352,294,359);
+  s+=lab("Lysosome","lysosome",14,420,335,396);
+  s+=lab("Cytoplasm: everything inside\nthe plasma membrane","cytoplasm",14,462,null,null,"start","lbl it");
+  s+=lab("Nuclear pore","nuclear-pores",712,48,429,168,"start");
+  s+=lab("Nucleolus","nucleolus",712,86,420,222,"start");
+  s+=lab("Nucleus","nucleus",712,124,460,202,"start");
+  s+=lab("Rough ER\n(ribosomes attached)","er",712,168,523,188,"start");
+  s+=lab("Golgi apparatus","golgi",712,226,622,207,"start");
+  s+=lab("Vesicle","vesicle",712,290,680,274,"start");
+  s+=lab("Lysosome","lysosome",712,258,706,254,"start");
+  s+=lab("Mitochondrion","mitochondria",712,346,654,347,"start");
+  s+=lab("Smooth ER","er",712,392,560,402,"start");
+  s+=lab("Free ribosomes","ribosome",712,432,590,412,"start");
+  s+=`</g></svg>`;
+  return s;
+}
+
+/* ============ Figure: plant cell (comparison) ============ */
+function figPlantCell(){
+  let s=`<svg viewBox="0 0 880 490" role="img" aria-label="A plant cell with cell wall, central vacuole, chloroplasts and plasmodesmata"><g>`;
+  s+=`<g data-term="cell-wall"><rect x="180" y="30" width="520" height="430" rx="14" fill="#d9e6bf" stroke="#5f8a2f" stroke-width="3"/></g>`;
+  s+=`<g data-term="cytosol"><rect x="194" y="44" width="492" height="402" rx="8" fill="${C.cyt}"/></g>`;
+  s+=`<g data-term="vacuole"><path d="M310 120 C300 95 380 92 460 95 C560 98 610 110 600 170 C595 240 610 330 560 360 C500 392 380 380 330 360 C290 340 300 250 305 200 C308 160 318 140 310 120 Z" fill="#d6e9f5" stroke="#5f8fb0" stroke-width="2.5"/></g>`;
+  s+=`<g data-term="nucleus"><circle cx="248" cy="118" r="42" fill="${C.nuc}" stroke="${C.nucS}" stroke-width="3"/><circle cx="256" cy="112" r="12" fill="${C.prot}"/></g>`;
+  s+=`<g data-term="er"><path d="M296 160 q-10 20 5 40 M284 176 q-8 16 4 34" stroke="${C.er}" stroke-width="6" fill="none" stroke-linecap="round"/></g>`;
+  const chl=(x,y,rot)=>{ let g=""; for(let i=-2;i<=2;i++) g+=`<rect x="${x+i*9-3}" y="${y-6}" width="6" height="12" rx="1" fill="#2f6b2a"/>`; return `<g transform="rotate(${rot} ${x} ${y})"><ellipse cx="${x}" cy="${y}" rx="30" ry="15" fill="#86c46f" stroke="#3f7d34" stroke-width="2"/>${g}</g>`; };
+  s+=`<g data-term="chloroplast">${chl(232,262,80)}${chl(400,70,0)}${chl(640,118,30)}${chl(662,288,85)}${chl(470,418,0)}</g>`;
+  s+=`<g data-term="mitochondria"><ellipse cx="240" cy="395" rx="24" ry="11" fill="${C.mito}" stroke="${C.mitoS}" stroke-width="2" transform="rotate(20 240 395)"/><ellipse cx="560" cy="68" rx="24" ry="11" fill="${C.mito}" stroke="${C.mitoS}" stroke-width="2"/></g>`;
+  s+=`<g data-term="golgi"><path d="M230 318 a22 22 0 0 1 30 0 M226 330 a26 26 0 0 1 38 0 M222 342 a30 30 0 0 1 46 0" stroke="${C.gol}" stroke-width="5" fill="none" stroke-linecap="round"/></g>`;
+  s+=`<g data-term="plasmodesmata">${[[180,150],[180,300],[686,240],[686,380],[330,30],[520,446]].map(p=>{ const v=p[0]===180||p[0]===686; return v?`<rect x="${p[0]-2}" y="${p[1]-4}" width="${18}" height="8" rx="3" fill="${C.cyt}" stroke="#5f8a2f" stroke-width="1.5"/>`:`<rect x="${p[0]-4}" y="${p[1]-2}" width="8" height="18" rx="3" fill="${C.cyt}" stroke="#5f8a2f" stroke-width="1.5"/>`; }).join("")}</g>`;
+  s+=`<g data-term="plasma-membrane"><rect x="194" y="44" width="492" height="402" rx="8" fill="none" stroke="${C.headS}" stroke-width="3"/><rect x="194" y="44" width="492" height="402" rx="8" fill="none" stroke="transparent" stroke-width="12"/></g>`;
+  s+=`</g><g class="lbls">`;
+  s+=lab("Cell wall","cell-wall",14,40,182,60);
+  s+=lab("Plasma membrane","plasma-membrane",14,80,195,95);
+  s+=lab("Nucleus","nucleus",14,130,206,122);
+  s+=lab("Chloroplast","chloroplast",14,262,214,262);
+  s+=lab("Golgi apparatus","golgi",14,330,222,332);
+  s+=lab("Mitochondrion","mitochondria",14,400,218,395);
+  s+=lab("Central vacuole","vacuole",720,210,598,210);
+  s+=lab("Chloroplast","chloroplast",720,120,670,120);
+  s+=lab("ER","er",720,166,300,178);
+  s+=lab("Plasmodesmata: channels\nto the next cell","plasmodesmata",720,420,700,380);
+  s+=lab("Cytosol","cytosol",720,330,660,356);
+  s+=`</g></svg>`;
+  return s;
+}
+
+
+/* ============ Module 1 figures ============ */
+function figProkaryote(){
+  let s=`<svg viewBox="0 0 860 420" role="img" aria-label="A prokaryotic (bacterial) cell with its parts labelled"><rect width="860" height="420" fill="#fff"/><g transform="translate(70,10)">`;
+  s+=`<g data-term="cell-wall"><rect x="162" y="122" width="416" height="176" rx="88" fill="#d9e6bf" stroke="#5f8a2f" stroke-width="5"/></g>`;
+  s+=`<g data-term="plasma-membrane"><rect x="172" y="132" width="396" height="156" rx="78" fill="#fdf4d8" stroke="#2f5f93" stroke-width="3"/></g>`;
+  s+=`<g data-term="cytoplasm"><rect x="178" y="138" width="384" height="144" rx="72" fill="#fdf4d8"/></g>`;
+  let dna="M300 200"; for(let i=0;i<14;i++){ dna+=` q${10+(i%3)*4} ${i%2?-26:26} ${22} ${i%2?-6:6}`; }
+  s+=`<g data-term="nucleoid"><ellipse cx="370" cy="208" rx="95" ry="48" fill="#ece4f7" opacity=".6"/><path d="${dna}" stroke="#6f55a0" stroke-width="3" fill="none"/></g>`;
+  s+=`<g data-term="plasmid"><circle cx="500" cy="172" r="14" fill="none" stroke="#c2549a" stroke-width="3"/><circle cx="250" cy="250" r="11" fill="none" stroke="#c2549a" stroke-width="3"/></g>`;
+  s+=`<g data-term="ribosome">${[[230,180],[245,200],[480,240],[500,255],[460,150],[275,262],[520,215],[300,160]].map(p=>`<circle cx="${p[0]}" cy="${p[1]}" r="4.5" fill="#4e3f82"/>`).join("")}</g>`;
+  s+=`<g data-term="flagellum"><path d="M578 210 C620 180 650 240 690 205 S750 180 770 210" stroke="#7a5a2c" stroke-width="4" fill="none"/></g>`;
+  s+=`</g><g class="lbls">`;
+  s+=lab("Cell wall","cell-wall",20,140,236,145)+lab("Plasma membrane","plasma-membrane",20,200,246,168);
+  s+=lab("Nucleoid: one circular\nchromosome, no nucleus","nucleoid",20,360,400,236)+lab("Ribosomes","ribosome",20,300,248,212);
+  s+=lab("Plasmid","plasmid",700,110,584,180)+lab("Flagellum","flagellum",700,300,790,220)+lab("Cytoplasm","cytoplasm",700,360,600,280);
+  s+=`</g></svg>`; return s;
+}
+/* size ladder, log scale */
+const SIZES=[["Atom","0.1 nm",-10],["Small molecule (glucose)","~1 nm",-9],["Protein","~5 nm",-8.3],["Ribosome","~25 nm",-7.6],["Virus","~100 nm",-7],["Bacterium","1–5 µm",-5.6],["Mitochondrion","~1–2 µm",-5.8],["Animal cell","10–30 µm",-4.7],["Plant cell","10–100 µm",-4.3],["Frog egg","~1 mm",-3]];
+function figScale(){
+  const W=860,H=330; let s=`<svg viewBox="0 0 ${W} ${H}" role="img" aria-label="Sizes of cells and molecules on a log scale"><rect width="${W}" height="${H}" fill="#fff"/>`;
+  const X=e=>60+(e+10.5)*(W-120)/8;
+  s+=`<line x1="${X(-10.5)}" y1="250" x2="${X(-2.5)}" y2="250" stroke="#34454e" stroke-width="2"/>`;
+  [["0.1 nm",-10],["1 nm",-9],["10 nm",-8],["100 nm",-7],["1 µm",-6],["10 µm",-5],["100 µm",-4],["1 mm",-3]].forEach(([t,e])=>s+=`<line x1="${X(e)}" y1="244" x2="${X(e)}" y2="256" stroke="#34454e"/><text class="lbl sm" x="${X(e)}" y="274" text-anchor="middle">${t}</text>`);
+  SIZES.forEach(([n,sz,e],i)=>{ const y=40+(i%5)*38; s+=`<line x1="${X(e)}" y1="${y+6}" x2="${X(e)}" y2="244" stroke="#c3cdd0" stroke-dasharray="3 3"/><circle cx="${X(e)}" cy="${y}" r="5" fill="${i>=5?"#3f8a4c":"#8a67bd"}"/><text class="lbl sm" x="${X(e)+8}" y="${y+4}">${n} (${sz})</text>`; });
+  const band=(e0,e1,y,t,c)=>`<rect x="${X(e0)}" y="${y}" width="${X(e1)-X(e0)}" height="12" rx="6" fill="${c}" opacity=".35"/><text class="lbl sm" x="${X(e1)-4}" y="${y+10}" text-anchor="end" font-weight="700">${t}</text>`;
+  s+=band(-10,-3.5,288,"Electron microscope","#4a7fd0")+band(-6.7,-3,304,"Light microscope","#3f8a4c")+band(-4,-2.5,320-4,"Unaided eye","#c98a16");
+  s+=`</svg>`; return s;
+}
+
+/* ============ More Module 1 figures ============ */
+/* prokaryotic vs eukaryotic cell, drawn to the same scale (notes Fig 1.4) */
+function figProkEuk(){
+  let s=`<svg viewBox="0 0 860 400" role="img" aria-label="A small prokaryotic cell beside a much larger eukaryotic cell, to scale"><rect width="860" height="400" fill="#fff"/>`;
+  // prokaryote
+  s+=`<g data-term="prokaryote"><rect x="70" y="190" width="90" height="40" rx="20" fill="#d9e6bf" stroke="#5f8a2f" stroke-width="3"/><rect x="75" y="195" width="80" height="30" rx="15" fill="#fdf4d8" stroke="#2f5f93" stroke-width="1.5"/>`;
+  s+=`<path d="M95 210 q6 -8 12 0 t12 0 t12 0" stroke="#6f55a0" stroke-width="2" fill="none"/><path d="M160 210 C180 196 190 226 210 210 S236 198 250 210" stroke="#7a5a2c" stroke-width="2" fill="none"/></g>`;
+  s+=`<text class="lbl" x="115" y="270" text-anchor="middle" font-weight="700">Prokaryotic cell</text><text class="lbl sm" x="115" y="286" text-anchor="middle">no nucleus, about 1 to 5 µm</text>`;
+  // eukaryote
+  const cx=560, cy=200;
+  s+=`<g data-term="eukaryote"><path d="M${cx-230} ${cy} C${cx-230} ${cy-140} ${cx-90} ${cy-170} ${cx} ${cy-165} C${cx+140} ${cy-160} ${cx+240} ${cy-90} ${cx+236} ${cy+10} C${cx+232} ${cy+130} ${cx+110} ${cy+170} ${cx-10} ${cy+166} C${cx-150} ${cy+162} ${cx-230} ${cy+120} ${cx-230} ${cy} Z" fill="#fdf4d8" stroke="#2f5f93" stroke-width="3"/></g>`;
+  s+=`<g data-term="nucleus"><circle cx="${cx-30}" cy="${cy}" r="62" fill="#e8def6" stroke="#6f55a0" stroke-width="3"/><circle cx="${cx-20}" cy="${cy-8}" r="17" fill="#8a67bd"/></g>`;
+  const mito=(x,y,r)=>`<g transform="rotate(${r} ${x} ${y})"><ellipse cx="${x}" cy="${y}" rx="26" ry="12" fill="#f6b48c" stroke="#c0703f" stroke-width="2"/><path d="M${x-18} ${y} l5 -7 l5 12 l5 -12 l5 12 l5 -12 l5 7" fill="none" stroke="#c0703f" stroke-width="1.3"/></g>`;
+  s+=`<g data-term="organelle">${mito(cx+110,cy-80,20)}${mito(cx+150,cy+70,-30)}${mito(cx-150,cy+80,10)}`;
+  s+=`<path d="M${cx+70} ${cy-10} a20 20 0 0 1 28 0 M${cx+66} ${cy+2} a24 24 0 0 1 36 0 M${cx+62} ${cy+14} a28 28 0 0 1 44 0" stroke="#eaa6c6" stroke-width="5" fill="none" stroke-linecap="round"/>`;
+  s+=`<path d="M${cx-110} ${cy-70} q-12 20 4 40 M${cx-124} ${cy-60} q-10 16 2 34" stroke="#8fc1d9" stroke-width="5" fill="none" stroke-linecap="round"/><circle cx="${cx+40}" cy="${cy+100}" r="12" fill="#bcd97f" stroke="#6d9636" stroke-width="2"/></g>`;
+  s+=`<text class="lbl" x="${cx}" y="390" text-anchor="middle" font-weight="700">Eukaryotic cell</text>`;
+  s+=`<g class="lbls">${lab("Nucleus","nucleus",cx-30,40,cx-30,cy-62,"middle")}${lab("Organelles","organelle",cx+250,40,cx+120,cy-84,"middle")}</g>`;
+  s+=`<line x1="40" y1="350" x2="80" y2="350" stroke="#23282e" stroke-width="3"/><text class="lbl sm" x="60" y="368" text-anchor="middle">about 1 µm</text>`;
+  s+=`</svg>`; return s;
+}
+
+/* the central dogma (notes Fig 1.5) */
+function figDogma1(){
+  const W=520,H=420; let s=`<svg viewBox="0 0 ${W} ${H}" role="img" aria-label="DNA is transcribed into RNA, which is translated into protein"><rect width="${W}" height="${H}" fill="#fff"/>`;
+  const box=(y,t,sub,term,col)=>`<g data-term="${term}"><rect x="170" y="${y}" width="180" height="62" rx="8" fill="${col}" stroke="rgba(0,0,0,.25)"/><text x="260" y="${y+30}" text-anchor="middle" font-family="Source Serif 4,Georgia" font-size="24" font-weight="650" fill="#fff">${t}</text><text x="260" y="${y+50}" text-anchor="middle" font-size="12" fill="#fff" font-family="Source Sans 3,Arial">${sub}</text></g>`;
+  s+=box(24,"DNA","deoxyribonucleic acid","dna","#3d5c9e")+box(178,"RNA","ribonucleic acid","rna","#c83a4f")+box(332,"Protein","","protein","#3f8a4c");
+  s+=`<g data-term="transcription">${arrow(260,90,260,172,"#c83a4f",4)}<text class="lbl" x="276" y="138" font-style="italic" font-weight="700" fill="#c83a4f">Transcription</text></g>`;
+  s+=`<g data-term="translation">${arrow(260,244,260,326,"#3a9a9a",4)}<text class="lbl" x="276" y="292" font-style="italic" font-weight="700" fill="#2f7f7f">Translation</text></g>`;
+  s+=`<g data-term="gene"><path d="M150 30 v50" stroke="#3d5c9e" stroke-width="2"/><text class="lbl sm" x="140" y="58" text-anchor="end">a gene: the DNA code</text><text class="lbl sm" x="140" y="72" text-anchor="end">for one functional product</text></g>`;
+  s+=`</svg>`; return s;
+}
+
+/* the cell theory: who contributed what (notes p. 5) */
+function figTheory(){
+  const W=860,H=400; let s=`<svg viewBox="0 0 ${W} ${H}" role="img" aria-label="Who built the cell theory, and its three tenets"><rect width="${W}" height="${H}" fill="#fff"/>`;
+  const card=(x,y,w,name,l1,l2,term,col)=>`<g data-term="${term}"><rect x="${x}" y="${y}" width="${w}" height="84" rx="9" fill="#fff" stroke="${col}" stroke-width="2.5"/><rect x="${x}" y="${y}" width="${w}" height="26" rx="9" fill="${col}"/><rect x="${x}" y="${y+16}" width="${w}" height="10" fill="${col}"/><text x="${x+w/2}" y="${y+18}" text-anchor="middle" font-family="Source Sans 3,Arial" font-size="14" font-weight="700" fill="#fff">${name}</text><text class="lbl sm" x="${x+w/2}" y="${y+48}" text-anchor="middle">${l1}</text><text class="lbl sm" x="${x+w/2}" y="${y+66}" text-anchor="middle">${l2}</text></g>`;
+  s+=`<text class="lbl" x="20" y="24" font-weight="700">First looks</text>`;
+  s+=card(20,34,250,"Robert Hooke, 1665","names \"cells\" in cork","(empty walls of dead cells)","hooke","#7a5a2c");
+  s+=arrow(276,76,318,76,"#55606a",2.5);
+  s+=card(324,34,250,"Anton van Leeuwenhoek, 1673–1700","better lenses; sees living","\"animalcules\" in pond water","leeuwenhoek","#4a7fd0");
+  s+=`<text class="lbl" x="20" y="152" font-weight="700">Building the theory</text>`;
+  s+=card(20,162,250,"Schleiden, botanist","all plant tissues are cells;","plant embryos start as one cell","schleiden","#3f8a4c");
+  s+=card(296,162,250,"Schwann, zoologist","same for animals;","plants and animals are similar","schwann","#8a67bd");
+  s+=card(580,162,260,"Virchow, physician","adds the third tenet","","virchow","#c0392b");
+  s+=`<g data-term="cell-theory"><rect x="20" y="276" width="820" height="112" rx="10" fill="#f2f6ee" stroke="#9cb87a"/>`;
+  s+=`<text class="lbl" x="36" y="300" font-weight="700">The cell theory</text>`;
+  s+=`<text class="lbl" x="36" y="324">1. All living organisms are composed of one (unicellular) or more (multicellular) cells.</text>`;
+  s+=`<text class="lbl" x="36" y="346">2. Each cell is the structural and functional unit of life.</text>`;
+  s+=`<text class="lbl" x="36" y="368">3. Cells can arise only from pre-existing cells.</text></g>`;
+  s+=`<path d="M145 246 V258 H421 V246 M283 258 V276" stroke="#3f8a4c" stroke-width="2" fill="none"/><text class="lbl sm" x="430" y="268" fill="#2e6b39">tenets 1 and 2</text>`;
+  s+=`<path d="M710 246 V276" stroke="#c0392b" stroke-width="2"/><text class="lbl sm" x="718" y="268" fill="#c0392b">tenet 3</text>`;
+  s+=`</svg>`; return s;
+}
+
+/* virus, viroid, prion (notes Fig 1.3) */
+function figExceptions(){
+  const W=860,H=380; let s=`<svg viewBox="0 0 ${W} ${H}" role="img" aria-label="A virus, a viroid and a prion compared"><rect width="${W}" height="${H}" fill="#fff"/>`;
+  // virus
+  const vx=150, vy=170;
+  s+=`<g data-term="virus"><circle cx="${vx}" cy="${vy}" r="92" fill="#fbe6a6" stroke="#c9a33b" stroke-width="4"/>`;
+  for(let i=0;i<14;i++){ const a=i/14*6.283; s+=`<line x1="${vx+92*Math.cos(a)}" y1="${vy+92*Math.sin(a)}" x2="${vx+106*Math.cos(a)}" y2="${vy+106*Math.sin(a)}" stroke="#c9a33b" stroke-width="3"/><circle cx="${vx+108*Math.cos(a)}" cy="${vy+108*Math.sin(a)}" r="4" fill="#c9a33b"/>`; }
+  s+=`</g><g data-term="capsid"><polygon points="${[0,1,2,3,4,5].map(i=>{const a=i*Math.PI/3+Math.PI/6; return (vx+70*Math.cos(a)).toFixed(1)+","+(vy+70*Math.sin(a)).toFixed(1);}).join(" ")}" fill="#f2b7c4" stroke="#b0566e" stroke-width="3"/></g>`;
+  s+=`<g data-term="viral-genome"><path d="M${vx-36} ${vy-10} q12 -26 24 0 t24 0 t24 0 M${vx-30} ${vy+18} q12 -22 24 0 t24 0 t20 0" stroke="#2f5f93" stroke-width="3" fill="none"/></g>`;
+  s+=`<text class="lbl" x="${vx}" y="${H-24}" text-anchor="middle" font-weight="700">Virus</text>`;
+  // viroid
+  const rx=440, ry=170;
+  s+=`<g data-term="viroid"><path d="${(()=>{ let d=""; for(let i=0;i<=80;i++){ const a=i/80*6.283, r=58+6*Math.sin(a*9); d+=(i?"L":"M")+(rx+r*Math.cos(a)*1.4).toFixed(1)+" "+(ry+r*Math.sin(a)*0.75).toFixed(1); } return d+"Z"; })()}" fill="none" stroke="#c83a4f" stroke-width="4"/></g>`;
+  s+=`<text class="lbl" x="${rx}" y="${H-24}" text-anchor="middle" font-weight="700">Viroid</text>`;
+  // prion
+  const px=720, py=150;
+  s+=`<g data-term="prion">`;
+  const blobN=(x,y,c)=>`<circle cx="${x}" cy="${y}" r="16" fill="${c}" stroke="rgba(0,0,0,.3)"/>`;
+  s+=blobN(px-60,py-40,"#6fc27a")+blobN(px-34,py-50,"#6fc27a")+blobN(px-48,py-18,"#6fc27a");
+  s+=`<rect x="${px-14}" y="${py-14}" width="30" height="30" rx="4" fill="#d8463c" transform="rotate(25 ${px} ${py})"/>`;
+  s+=arrow(px-30,py-24,px-14,py-10,"#555",2);
+  s+=`<path d="M${px+22} ${py+10} q30 20 10 50" stroke="#555" stroke-width="2" fill="none"/>${arrow(px+34,py+50,px+30,py+64,"#555",2)}`;
+  [[0,0],[24,10],[-20,16],[8,30],[34,34],[-8,46]].forEach(([dx,dy])=>{ s+=`<rect x="${px+dx-12}" y="${py+80+dy-12}" width="24" height="24" rx="3" fill="#d8463c" transform="rotate(${20+dx} ${px+dx} ${py+80+dy})"/>`; });
+  s+=`</g><text class="lbl" x="${px}" y="${H-24}" text-anchor="middle" font-weight="700">Prion</text>`;
+  s+=`<g class="lbls">${lab("Envelope","virus",20,30,vx-70,vy-70)}${lab("Capsid (protein coat)","capsid",20,330,vx-40,vy+60)}${lab("Genome (DNA or RNA)","viral-genome",250,40,vx+30,vy-10)}`;
+  s+=lab("Small circular RNA,\nno protein coat","viroid",rx,62,rx,ry-50,"middle");
+  s+=lab("Normal PrP (folded right)","prion",px-60,92-60,px-60,py-56,"middle");
+  s+=lab("Misfolded PrP converts normal\nPrP, and the misfolded form piles up","prion",px,H-64,px+10,py+128,"middle","lbl sm")+`</g>`;
+  s+=`</svg>`; return s;
+}
+
+/* the tree of life (notes Fig 1.7) */
+function figTree(){
+  const W=860,H=420; let s=`<svg viewBox="0 0 ${W} ${H}" role="img" aria-label="Tree of life with three domains: Bacteria, Archaea and Eukarya"><rect width="${W}" height="${H}" fill="#fff"/>`;
+  const br=(d,c,w)=>`<path d="${d}" stroke="${c}" stroke-width="${w}" fill="none" stroke-linecap="round"/>`;
+  s+=`<g data-term="tree-of-life">${br("M430 400 L430 330","#55606a",14)}<circle cx="430" cy="330" r="8" fill="#55606a"/></g>`;
+  // bacteria
+  s+=`<g data-term="bacteria">${br("M430 330 C360 300 260 260 200 200","#3d6fb6",10)}`;
+  [[200,200,110,70],[200,200,170,60],[200,200,230,64],[240,236,280,120],[240,236,320,150],[160,170,70,120],[180,186,110,150]].forEach(([x1,y1,x2,y2])=>s+=br(`M${x1} ${y1} Q${(x1+x2)/2} ${(y1+y2)/2+20} ${x2} ${y2}`,"#3d6fb6",4));
+  s+=`<text x="150" y="40" font-family="Source Sans 3,Arial" font-size="20" font-weight="700" fill="#3d6fb6" letter-spacing="2">BACTERIA</text></g>`;
+  // archaea
+  s+=`<g data-term="archaea">${br("M430 330 C480 300 540 270 580 230","#c0392b",10)}`;
+  [[580,230,520,150],[580,230,560,140],[580,230,640,150],[580,230,700,190]].forEach(([x1,y1,x2,y2])=>s+=br(`M${x1} ${y1} Q${(x1+x2)/2} ${(y1+y2)/2+15} ${x2} ${y2}`,"#c0392b",4));
+  s+=`<text x="690" y="250" font-family="Source Sans 3,Arial" font-size="20" font-weight="700" fill="#c0392b" letter-spacing="2">ARCHAEA</text></g>`;
+  // eukarya from within archaea
+  s+=`<g data-term="eukarya">${br("M560 190 C560 150 600 110 640 80","#3f8a4c",7)}`;
+  [[640,80,600,40],[640,80,650,34],[640,80,700,52],[640,80,720,90]].forEach(([x1,y1,x2,y2])=>s+=br(`M${x1} ${y1} L${x2} ${y2}`,"#3f8a4c",3.5));
+  s+=`<text x="720" y="40" font-family="Source Sans 3,Arial" font-size="20" font-weight="700" fill="#3f8a4c" letter-spacing="2">EUKARYA</text></g>`;
+  s+=`<g class="lbls">${lab("Proposed position of the root.\nTime runs from root to branches.","tree-of-life",470,390,436,334,"start","lbl sm")}`;
+  s+=lab("Eukaryotes are thought to have\ndescended from within the Archaea.","eukarya",610,310,560,190,"start","lbl sm");
+  s+=lab("Prokaryotes: Bacteria and Archaea.\nMost of life's diversity is microbial.","prokaryote",30,330,250,250,"start","lbl sm");
+  s+=lab("Plants and animals are twigs\non the Eukarya branch.","eukaryote",340,60,598,42,"start","lbl sm")+`</g>`;
+  s+=`</svg>`; return s;
+}
+
+/* the four groups of eukaryotes */
+function figKingdoms(){
+  const W=860,H=300; let s=`<svg viewBox="0 0 ${W} ${H}" role="img" aria-label="Examples of protists, fungi, plants and animals"><rect width="${W}" height="${H}" fill="#fff"/>`;
+  const panel=(i,t,term,inner,sub)=>{ const x=20+i*210; return `<g data-term="${term}"><rect x="${x}" y="16" width="196" height="268" rx="10" fill="#f7f8f6" stroke="#cfd6d2"/>${inner(x+98,130)}<text class="lbl" x="${x+98}" y="244" text-anchor="middle" font-weight="700">${t}</text><text class="lbl sm" x="${x+98}" y="264" text-anchor="middle">${sub}</text></g>`; };
+  s+=panel(0,"Protists","protists",(x,y)=>{ let g=`<circle cx="${x}" cy="${y-10}" r="62" fill="#e3f2dc" stroke="#4f8a3c" stroke-width="2"/>`; for(let i=0;i<22;i++){ const a=i/22*6.283; g+=`<circle cx="${x+54*Math.cos(a)}" cy="${y-10+54*Math.sin(a)}" r="4" fill="#4f8a3c"/>`; } g+=`<circle cx="${x-14}" cy="${y-18}" r="14" fill="#9ccf8a"/><circle cx="${x+18}" cy="${y+6}" r="10" fill="#9ccf8a"/>`; return g; },"Volvox (algae), mostly single cells");
+  s+=panel(1,"Fungi","fungi",(x,y)=>`<path d="M${x-60} ${y-20} Q${x} ${y-100} ${x+60} ${y-20} Z" fill="#d9582b" stroke="#8a2f12" stroke-width="2"/><rect x="${x-12}" y="${y-22}" width="24" height="70" fill="#f1e3c2" stroke="#a88a50"/><path d="M${x} ${y+48} l-40 30 M${x} ${y+48} l40 30 M${x} ${y+48} l-12 38 M${x} ${y+48} l16 36" stroke="#b9a37a" stroke-width="2"/>`,"cell walls of chitin");
+  s+=panel(2,"Plants","plants",(x,y)=>{ let g=`<rect x="${x-60}" y="${y-70}" width="120" height="120" rx="6" fill="#d9e6bf" stroke="#5f8a2f" stroke-width="4"/><rect x="${x-52}" y="${y-62}" width="104" height="104" rx="4" fill="#fdf4d8"/><rect x="${x-34}" y="${y-48}" width="70" height="72" rx="20" fill="#d6e9f5" stroke="#5f8fb0"/>`; [[x-40,y-56],[x+44,y-30],[x-42,y+30],[x+40,y+34]].forEach(p=>g+=`<ellipse cx="${p[0]}" cy="${p[1]}" rx="9" ry="5" fill="#86c46f" stroke="#3f7d34"/>`); return g; },"cell walls, chloroplasts");
+  s+=panel(3,"Animals","animals",(x,y)=>`<path d="M${x-62} ${y-10} C${x-62} ${y-70} ${x-10} ${y-80} ${x+20} ${y-72} C${x+70} ${y-60} ${x+70} ${y+20} ${x+40} ${y+40} C${x+10} ${y+60} ${x-60} ${y+50} ${x-62} ${y-10} Z" fill="#fdf4d8" stroke="#2f5f93" stroke-width="3"/><circle cx="${x-4}" cy="${y-14}" r="22" fill="#e8def6" stroke="#6f55a0" stroke-width="2"/>`,"no cell wall");
+  s+=`</svg>`; return s;
+}
+
+/* ATP and its relatives (notes Fig 1.6) */
+function atpBuildSVG(n){
+  const W=760,H=290; let s=`<svg viewBox="0 0 ${W} ${H}" role="img" aria-label="Adenine and ribose with ${n} phosphate groups"><rect width="${W}" height="${H}" fill="#fff"/>`;
+  const P=(x,hi)=>`<g data-term="phosphate-group"><circle cx="${x}" cy="120" r="28" fill="#f4c64f" stroke="#b88a14" stroke-width="2"/><text x="${x}" y="127" text-anchor="middle" font-size="18" font-weight="700" font-family="Arial" fill="#5a4300">P</text></g>`;
+  const rx=500, ax=640;
+  s+=`<g data-term="adenine"><rect x="${ax-60}" y="88" width="120" height="64" rx="12" fill="#8e6cc4"/><text x="${ax}" y="126" text-anchor="middle" font-size="16" font-weight="700" fill="#fff" font-family="Arial">Adenine</text></g>`;
+  s+=`<line x1="${rx+40}" y1="120" x2="${ax-60}" y2="120" stroke="#333" stroke-width="3"/>`;
+  s+=`<g data-term="ribose"><polygon points="${rx},80 ${rx+42},108 ${rx+28},158 ${rx-28},158 ${rx-42},108" fill="#f3b3c1" stroke="#b0566e" stroke-width="2"/><text x="${rx}" y="132" text-anchor="middle" font-size="14" font-weight="700" font-family="Arial">Ribose</text></g>`;
+  for(let i=0;i<n;i++){ const x=rx-110-i*80; s+=`<line x1="${x+28}" y1="120" x2="${i===0?rx-42:x+52}" y2="120" stroke="${i>0?"#d8463c":"#333"}" stroke-width="${i>0?5:3}"/>`+P(x); }
+  // brackets
+  const names=["Adenosine","Adenosine monophosphate (AMP)","Adenosine diphosphate (ADP)","Adenosine triphosphate (ATP)"];
+  for(let k=0;k<=n;k++){ const left = k===0? rx-44 : rx-110-(k-1)*80-30, y=180+k*24; s+=`<path d="M${left} ${y-8} v8 H${ax+60} v-8" stroke="#55606a" fill="none" stroke-width="1.5"/><text class="lbl sm" x="${(left+ax+60)/2}" y="${y+14}" text-anchor="middle" ${k===n?'font-weight="700"':""}>${names[k]}</text>`; }
+  if(n>=2) s+=`<text class="lbl sm" x="${rx-150}" y="64" text-anchor="middle" fill="#b0342c">red bonds: high potential energy</text>`;
+  s+=`</svg>`; return s;
+}
+
+/* ============ story engine ============ */
+let RUN = null; // {id, first:{}}
+function chState(id){ return P.ch[id] || (P.ch[id] = {done:false, best:null, last:null}); }
+function recordFirst(stepIdx, correct, terms){
+  if (!RUN) return;
+  if (!(stepIdx in RUN.first)) RUN.first[stepIdx] = !!correct;
+  (terms||[]).forEach(k=>markTerm(k,"tested"));
+}
+function runScore(){ const v=Object.values(RUN.first); return {right:v.filter(Boolean).length, total:v.length}; }
+
+function renderChapter(ci, si=0){
+  stopLoops(); exploreHook=null; window.scrollTo(0,0);
+  $$(".tab").forEach(t=>t.setAttribute("aria-current",String(t.dataset.go==="story")));
+  const ch = CHAPTERS[ci];
+  if (!RUN || RUN.id !== ch.id) RUN = {id:ch.id, first:{}};
+  const app = $("#app"); app.innerHTML = "";
+  const bar = h("div",{class:"steps","aria-hidden":"true"});
+  ch.steps.forEach((_,i)=>bar.append(h("i",{class:i<si?"on":i===si?"cur":""})));
+  app.append(h("div",{class:"banner"}, h("span",{class:"num"},`1.${ci+1}`), h("span",{class:"ttl"},ch.title), h("span",{class:"pg"},`Course notes ${ch.pages}`)));
+  app.append(h("div",{class:"crumb"}, h("button",{class:"back",onclick:()=>go("story")},"All chapters"), h("span",{class:"muted small"},`Step ${si+1} of ${ch.steps.length}`), bar));
+  const step = ch.steps[si];
+  const stage = h("div",{class:"stage"+(step.wide?" wide":"")});
+  const plateHost = h("div"), panel = h("div",{class:"panel"});
+  stage.append(plateHost, panel); app.append(stage);
+  const next = h("button",{class:"btn",onclick:()=>{ if(si+1<ch.steps.length) renderChapter(ci,si+1); else finishChapter(ci); }}, si+1<ch.steps.length?"Continue":"Finish chapter");
+  const back = h("button",{class:"btn ghost",onclick:()=>{ if(si>0) renderChapter(ci,si-1); else go("story"); }}, si>0?"Back":"All chapters");
+  const api = {
+    ci, si, panel, plateHost, next,
+    lock(){ next.disabled = true; }, unlock(){ next.disabled = false; },
+    grade(ok, terms){ recordFirst(si, ok, terms||step.terms); },
+    gradeKey(key, ok, terms){ recordFirst(si+'.'+key, ok, terms); },
+  };
+  (STEP_TYPES[step.type])(step, api);
+  panel.append(h("div",{class:"nav"}, back, next));
+  bindTerms(app); bindRich(app);
+  tc.classList.remove("show");
+}
+function finishChapter(ci){
+  stopLoops(); window.scrollTo(0,0);
+  const ch = CHAPTERS[ci], sc = runScore(), st = chState(ch.id);
+  const frac = sc.total ? sc.right/sc.total : 1;
+  const prevBest = st.best;
+  st.done = true; st.last = frac; if (st.best==null || frac>st.best) st.best = frac; save();
+  const app=$("#app"); app.innerHTML="";
+  const box = h("div",{class:"summary"});
+  box.append(h("div",{class:"banner"}, h("span",{class:"num"},`1.${ci+1}`), h("span",{class:"ttl"},ch.title+": complete")));
+  box.append(h("div",{class:"row",style:"gap:26px;margin:10px 0 18px"},
+     h("div",{}, h("div",{class:"big"},`${sc.right}/${sc.total}`), h("div",{class:"muted small"},"right on the first try")),
+     h("div",{}, h("div",{class:"big",style:"color:var(--head)"},Math.round((st.best||0)*100)+"%"), h("div",{class:"muted small"}, prevBest==null?"your best so far": (frac>prevBest?"new personal best":"your best"))) ));
+  box.append(h("p",{},ch.wrap));
+  box.append(h("p",{class:"muted small"},"Terms from this chapter. Click one to review it."), termChips(ch.terms));
+  const nextBtn = ci+1<CHAPTERS.length ? h("button",{class:"btn",onclick:()=>{RUN=null; renderChapter(ci+1,0);}},`Start chapter ${ci+2}: ${CHAPTERS[ci+1].title}`) : h("button",{class:"btn",onclick:()=>go("checkpoint")},"Next: Is it alive?");
+  box.append(h("div",{class:"row",style:"margin-top:16px"}, nextBtn, h("button",{class:"btn ghost",onclick:()=>{RUN=null; renderChapter(ci,0);}},"Replay chapter"), h("button",{class:"btn ghost",onclick:()=>go("story")},"All chapters")));
+  app.append(box);
+  RUN = null;
+}
+
+/* ---- step types ---- */
+function figHost(step, api, svg){
+  if (!svg) return;
+  const f = plate(svg, step.cap);
+  if (step.labelsToggle){
+    const b = h("button",{class:"mini","aria-pressed":"true"},"Labels");
+    b.addEventListener("click",()=>{ const on=b.getAttribute("aria-pressed")==="true"; b.setAttribute("aria-pressed",on?"false":"true"); f.classList.toggle("labels-off",on); });
+    f.prepend(h("div",{class:"tools"},b));
+  }
+  api.plateHost.innerHTML=""; api.plateHost.append(f);
+  if (step.onFig) step.onFig(f.querySelector("svg"));
+  return f;
+}
+const STEP_TYPES = {
+  brief(step, api){
+    figHost(step, api, step.fig && step.fig());
+    api.panel.append(h("h2",{},step.title), h("div",{html:rich(step.text)}));
+    if (step.terms) api.panel.append(termChips(step.terms));
+  },
+  review(step, api){
+    figHost(step, api, step.fig());
+    api.panel.append(h("h2",{},step.title), h("div",{html:rich(step.text)}));
+    const counter = h("p",{class:"explored"});
+    const seen = new Set();
+    const upd = ()=>{ counter.textContent = `Parts explored: ${seen.size} of ${step.terms.length}`; };
+    exploreHook = k=>{ if(step.terms.includes(k)){ seen.add(k); upd(); } };
+    upd(); api.panel.append(counter, termChips(step.terms));
+  },
+  mcq(step, api){
+    const f = figHost(step, api, step.fig && step.fig());
+    if (!step.fig) api.plateHost.remove(), api.panel.parentElement.classList.add("wide");
+    api.panel.append(h("p",{class:"kicker"},step.kicker||"Your call"), h("h2",{},step.title));
+    if (step.q) api.panel.append(h("div",{html:rich(step.q)}));
+    const box = h("div",{class:"opts"}), fb = h("div");
+    let solved=false, first=true;
+    const opts = step.keep ? step.opts : shuffle(step.opts);
+    opts.forEach(o=>{
+      const b = h("button",{class:"opt"},o[0]);
+      b.addEventListener("click",()=>{
+        if (solved) return;
+        if (first){ api.grade(o[1], step.terms); first=false; }
+        fb.innerHTML="";
+        if (o[1]){
+          solved=true; b.classList.add("right");
+          $$(".opt",box).forEach(x=>x.disabled=true);
+          fb.append(h("div",{class:"fb ok",html:`<b>Correct.</b>${rich(o[2]||"")}`}));
+          if (step.after) fb.append(h("div",{class:"fb",html:rich(step.after)}));
+          if (step.afterFig && f){ const nf = plate(step.afterFig(), step.afterCap||step.cap); api.plateHost.innerHTML=""; api.plateHost.append(nf); bindTerms(nf); }
+          api.unlock();
+        } else {
+          b.classList.add("wrong"); b.disabled=true;
+          fb.append(h("div",{class:"fb bad",html:`<b>Not quite.</b>${rich(o[2]||"")} Try another answer.`}));
+        }
+        bindRich(fb);
+      });
+      box.append(b);
+    });
+    api.panel.append(box, fb); api.lock();
+  },
+  order(step, api){
+    const f = figHost(step, api, step.fig && step.fig());
+    if (!step.fig) api.plateHost.remove(), api.panel.parentElement.classList.add("wide");
+    api.panel.append(h("p",{class:"kicker"},"Put these in order"), h("h2",{},step.title), h("div",{html:rich(step.q)}));
+    const n = step.items.length, slots = new Array(n).fill(null);
+    let pool = shuffle(step.items.map((t,i)=>({t,i})));
+    let first = true;
+    const slotBox = h("div",{class:"order"}), poolBox = h("div",{class:"pool"}), fb = h("div");
+    const check = h("button",{class:"btn",disabled:true},"Check order");
+    function draw(){
+      slotBox.innerHTML=""; poolBox.innerHTML="";
+      slots.forEach((s,i)=>{
+        const el = h("div",{class:"slot"+(s?" filled":"")+(s&&s.mark?" "+s.mark:""),tabindex:s?"0":null,role:s?"button":null}, h("span",{class:"n"},String(i+1)), h("span",{}, s?s.t:"Click a step below to place it here"));
+        if (s && !s.locked) el.addEventListener("click",()=>{ pool.push(s); slots[i]=null; delete s.mark; draw(); });
+        slotBox.append(el);
+      });
+      pool.forEach(p=>{ const b=h("button",{class:"card"},p.t); b.addEventListener("click",()=>{ const k=slots.indexOf(null); if(k<0) return; slots[k]=p; pool=pool.filter(x=>x!==p); draw(); }); poolBox.append(b); });
+      check.disabled = slots.includes(null);
+    }
+    check.addEventListener("click",()=>{
+      let all=true;
+      slots.forEach((s,i)=>{ s.mark = s.i===i?"right":"wrong"; if(s.i!==i) all=false; else s.locked=true; });
+      if (first){ api.grade(all, step.terms); first=false; }
+      fb.innerHTML="";
+      if (all){ fb.append(h("div",{class:"fb ok",html:"<b>That's the right order.</b>"+rich(step.after||"")})); check.remove(); api.unlock(); draw(); bindRich(fb); return; }
+      draw();
+      fb.append(h("div",{class:"fb bad",html:"<b>Some steps are out of place.</b> The green ones are right and locked in. Click a red one to send it back, then try again."}));
+    });
+    draw();
+    api.panel.append(slotBox, poolBox, h("div",{class:"row"},check), fb); api.lock();
+  },
+  sort(step, api){
+    figHost(step, api, step.fig && step.fig());
+    if (!step.fig) api.plateHost.remove(), api.panel.parentElement.classList.add("wide");
+    api.panel.append(h("p",{class:"kicker"},"Sort them"), h("h2",{},step.title), h("div",{html:rich(step.q)}));
+    let items = shuffle(step.items.map((it,i)=>({t:it[0],bin:it[1],why:it[2],i,at:null})));
+    let sel = null, first = true;
+    const poolBox = h("div",{class:"pool"}), binBox = h("div",{class:"bins"}), fb = h("div");
+    const check = h("button",{class:"btn",disabled:true},"Check");
+    function draw(){
+      poolBox.innerHTML=""; binBox.innerHTML="";
+      items.filter(x=>x.at===null).forEach(x=>{ const b=h("button",{class:"card"+(sel===x?" sel":"")},x.t); b.addEventListener("click",()=>{ sel = sel===x?null:x; draw(); }); poolBox.append(b); });
+      step.bins.forEach((name,bi)=>{
+        const bin = h("div",{class:"bin",tabindex:"0",role:"button","aria-label":"Place in "+name}, h("h4",{},name));
+        const place = ()=>{ if(sel){ sel.at=bi; delete sel.mark; sel=null; draw(); } };
+        bin.addEventListener("click",place); bin.addEventListener("keydown",e=>{ if(e.key==="Enter") place(); });
+        items.filter(x=>x.at===bi).forEach(x=>{ const c=h("button",{class:"card"+(x.mark?" "+x.mark:"")},x.t); c.addEventListener("click",e=>{ e.stopPropagation(); if(sel){ place(); return; } if(x.locked) return; x.at=null; delete x.mark; draw(); }); bin.append(c); });
+        binBox.append(bin);
+      });
+      if (!items.some(x=>x.at===null)) poolBox.append(h("p",{class:"muted small"},"All placed. Check your sort, or click a card in a box to take it back out."));
+      else if (!sel) poolBox.prepend(h("p",{class:"muted small",style:"margin:0"},"Click a card, then click the box it belongs in."));
+      check.disabled = items.some(x=>x.at===null);
+    }
+    check.addEventListener("click",()=>{
+      let all=true; const misses=[];
+      items.forEach(x=>{ if(x.at===x.bin){ x.mark="right"; x.locked=true; } else { x.mark="wrong"; all=false; misses.push(x); } });
+      if (first){ api.grade(all, step.terms); first=false; }
+      fb.innerHTML="";
+      if (all){
+        fb.append(h("div",{class:"fb ok",html:"<b>All sorted correctly.</b>"+rich(step.after||"")}));
+        check.remove(); api.unlock(); draw(); bindRich(fb);
+        if (step.onSolved) step.onSolved(api);
+        return;
+      }
+      draw();
+      const why = misses.filter(m=>m.why).map(m=>`<li>${m.t}: ${m.why}</li>`).join("");
+      fb.append(h("div",{class:"fb bad",html:`<b>${misses.length} in the wrong box.</b>${why?`<ul style="margin:6px 0 0;padding-left:18px">${why}</ul>`:""} Move the red ones and check again.`}));
+    });
+    draw();
+    api.panel.append(poolBox, binBox, h("div",{class:"row"},check), fb); api.lock();
+  },
+  custom(step, api){ step.render(api, step); }
+};
+
+const KEYICON = `<svg class="key" viewBox="0 0 32 32" aria-hidden="true"><circle cx="9" cy="10" r="6" fill="#e9b52f" stroke="#a57a0c" stroke-width="1.5"/><circle cx="9" cy="10" r="2.2" fill="#fff"/><path d="M13 14 L26 27 M20 21 l3 -3 M23 24 l3 -3" stroke="#a57a0c" stroke-width="3" stroke-linecap="round"/></svg>`;
+function remember(title, body){ return `<div class="remember">${KEYICON}<div><b>${title}</b>${body}</div></div>`; }
+function dyk(body){ return `<div class="dyk"><b>Did you know…</b> ${body}</div>`; }
+
+/* ============ chapters ============ */
+const CHAPTERS = [
+{ id:"seeing", title:"Seeing cells", pages:"p. 4", blurb:"What a cell is, what Hooke and Leeuwenhoek saw, and the three kinds of microscopy.",
+  terms:["cell","hooke","leeuwenhoek","light-microscopy","electron-microscopy","fluorescence-microscopy"],
+  wrap:"Cells are the basic unit of life, and almost all are too small to see without a microscope. Hooke saw empty walls; Leeuwenhoek saw living cells. Next: how those observations became a theory.",
+  steps:[
+  {type:"brief", title:"What is a cell?", fig:figScale, cap:"<b>Figure 1.0</b> Sizes of molecules, viruses and cells, on a scale where each step is ten times bigger.",
+   text:`<p>A [[cell|cell]] is the fundamental, basic unit of life. All organisms are made of either a single cell or a group of cells.</p><p>Most cells are far too small to see with the naked eye, so we use microscopes: [[light-microscopy|light]], [[electron-microscopy|electron]] and [[fluorescence-microscopy|fluorescence]] microscopy.</p><p>Look at the scale. A typical animal cell is 10 to 30 µm across; a bacterium only 1 to 5 µm.</p>`,
+   terms:["cell","light-microscopy","electron-microscopy"]},
+  {type:"custom", title:"Through the first microscopes", render:api=>simMicroscope(api), terms:["hooke","leeuwenhoek"]},
+  {type:"mcq", title:"What Hooke saw", q:"<p>In 1665 Robert Hooke described the chambers in a slice of cork as \"cells\". What was he actually looking at?</p>",
+   opts:[["Empty walls, the remains of dead cells",true," Cork is dead tissue. Hooke saw the walls left behind."],["Living cells dividing",false," Cork cells are dead; nothing in the slice was alive."],["Bacteria living on the cork",false," Bacteria were first seen later, by Leeuwenhoek."],["Nuclei inside plant cells",false," Hooke saw no internal structures, only empty chambers."]], terms:["hooke"]},
+  {type:"mcq", title:"Leeuwenhoek's contribution", q:"<p>How did Leeuwenhoek's observations differ from Hooke's?</p>",
+   opts:[["He improved lens magnification and saw living, moving \"animalcules\" in pond water",true," Hooke saw empty walls of dead cells; Leeuwenhoek saw cells that were alive."],["He was the first to name cells",false," Hooke named them."],["He used an electron microscope",false," Electron microscopes came much later. Leeuwenhoek was a light microscopist."],["He proposed the cell theory",false," That was Schleiden, Schwann and Virchow."]], terms:["leeuwenhoek","hooke"]},
+  {type:"sort", title:"Which microscope?", q:"<p>Your notes show three kinds of microscopy (Fig 1.2). Which would you use for each job?</p>", bins:["Light","Electron","Fluorescence"],
+   items:[["Watching living protists swim in pond water",0],["Looking at a stained slice of tissue at 25 µm",0],["Seeing the surface of Salmonella bacteria on a host cell",1],["Seeing something about 100 nm across, like a virus",1,"100 nm is below what a light microscope can show"],["Making the nucleus glow blue (DAPI) and actin glow (phalloidin)",2],["Labelling one specific structure with a glowing dye",2]], terms:["light-microscopy","electron-microscopy","fluorescence-microscopy"]}
+  ]},
+
+{ id:"theory", title:"The cell theory", pages:"p. 5", blurb:"Schleiden, Schwann and Virchow, and the three tenets of the cell theory.",
+  terms:["cell-theory","schleiden","schwann","virchow","unicellular"],
+  wrap:"All living things are made of cells, the cell is the unit of life, and cells come only from other cells. Next: the things that break the rule.",
+  steps:[
+  {type:"review", title:"Many scientists, one theory", fig:figTheory, cap:"<b>Figure 2.1</b> Who built the cell theory. Click each name. (Notes pp. 4–5)",
+   text:`<p>Cells differ in size and shape but share many features. The [[cell-theory|cell theory]] was built by several scientists and is a pillar of modern biology.</p><p>[[schleiden|Schleiden]] and [[schwann|Schwann]] proposed the first two tenets. [[virchow|Virchow]] added the third.</p>`,
+   terms:["hooke","leeuwenhoek","schleiden","schwann","virchow","cell-theory"]},
+  {type:"sort", title:"Who said what?", q:"<p>Sort each idea to the scientist it belongs to.</p>", bins:["Schleiden","Schwann","Virchow"],
+   items:[["A botanist",0],["All plant tissues are composed of cells",0],["Plant embryos arise from a single cell",0],["A zoologist",1],["Animals are made of cells too; plants and animals are similar",1],["A physician",2],["Cells can arise only from pre-existing cells",2]], terms:["schleiden","schwann","virchow"]},
+  {type:"mcq", title:"Not a tenet", q:"<p>Which statement is <em>not</em> part of the cell theory?</p>",
+   opts:[["Cells can form spontaneously from nonliving matter",true," The third tenet says the opposite: cells arise only from pre-existing cells."],["All living organisms are composed of one or more cells",false," That is tenet 1."],["Each cell is the structural and functional unit of life",false," That is tenet 2."],["Cells can arise only from pre-existing cells",false," That is tenet 3, from Virchow."]], terms:["cell-theory"]},
+  {type:"mcq", title:"Healing a cut", q:"<p>A cut on your arm heals as new skin cells fill the gap. Which tenet explains where those cells came from?</p>",
+   opts:[["Cells can arise only from pre-existing cells",true," The new cells came from the division of existing skin cells."],["All organisms are composed of one or more cells",false," True, but it doesn't say where new cells come from."],["Each cell is the structural and functional unit of life",false," True, but it doesn't explain new cells."],["Cells are made from nonliving material at the wound",false," That is spontaneous generation, which the cell theory rejects."]], terms:["cell-theory","virchow"]},
+  {type:"mcq", title:"One cell or many", q:"<p>A yeast is a single cell. A mouse is made of trillions. What are they called?</p>",
+   opts:[["Unicellular and multicellular",true," Tenet 1 covers both: one cell or more than one."],["Prokaryotic and eukaryotic",false," Both yeast and mouse cells are eukaryotic."],["Autotroph and heterotroph",false," Both are heterotrophs."],["Virus and host",false," Neither is a virus."]], terms:["unicellular"]}
+  ]},
+
+{ id:"exceptions", title:"Not quite alive", pages:"p. 5", blurb:"Viruses, viroids and prions: the exceptions to the cell theory.",
+  terms:["exception","virus","capsid","viral-genome","viroid","prion","host-cell"],
+  wrap:"Viruses are nucleic acid in a protein coat; viroids are bare circles of RNA; prions are protein only. None can reproduce without a living cell. Next: what every real cell has.",
+  steps:[
+  {type:"review", title:"Three exceptions", fig:figExceptions, cap:"<b>Figure 3.1</b> A virus, a viroid and a prion. Click each part. (Notes p. 5, Fig 1.3)",
+   text:`<p>Three things are [[exception|exceptions to the cell theory]]:</p><p style="margin-left:14px">1. [[virus|Viruses]]: small amounts of nucleic acid in a protein coat. Inert outside a living cell; a host cell is needed to reproduce.<br>2. [[viroid|Viroids]]: small circular RNA lacking a protein coat. They need host machinery to replicate.<br>3. [[prion|Prions]]: proteinaceous infectious particles with <b>no</b> nucleic acids.</p>`,
+   terms:["virus","capsid","viral-genome","viroid","prion"]},
+  {type:"custom", title:"How a virus copies itself", render:api=>simVirus(api), terms:["virus","host-cell"]},
+  {type:"sort", title:"Virus, viroid or prion?", q:"<p>Sort each description.</p>", bins:["Virus","Viroid","Prion"],
+   items:[["Nucleic acid inside a protein coat",0],["Envelope, capsid and genome",0],["Small circular RNA, no protein coat",1],["Potato spindle tuber disease",1],["Protein only, no nucleic acid",2],["A misfolded protein makes normal copies misfold",2]], terms:["virus","viroid","prion"]},
+  {type:"mcq", title:"Why not alive?", q:"<p>Why are viruses considered an exception to the cell theory?</p>",
+   opts:[["They are not cells, and outside a host cell they are inert; they can't reproduce on their own",true," They borrow the host's ribosomes, enzymes and energy."],["They have no genetic material",false," Viruses do have DNA or RNA. Prions are the ones with no nucleic acid."],["They are too small to see",false," Size isn't the reason; many cells are tiny too."],["They are made of a single cell",false," A single cell would follow the cell theory."]], terms:["virus","exception"]},
+  {type:"mcq", title:"No nucleic acid", q:"<p>Which infectious agent has no DNA or RNA at all?</p>",
+   opts:[["A prion",true," It is a misfolded protein."],["A viroid",false," A viroid is pure RNA."],["A virus",false," Every virus has DNA or RNA."],["A bacterium",false," Bacteria are cells with DNA."]], terms:["prion"]}
+  ]},
+
+{ id:"shared", title:"What every cell has", pages:"p. 6", blurb:"The basic properties of cells, cytoplasm vs cytosol, the central dogma and ATP.",
+  terms:["cell-properties","plasma-membrane","cytoplasm","cytosol","gene","central-dogma","transcription","translation","bioenergetics","metabolism","atp","self-regulation"],
+  wrap:"Every cell has a membrane, a genetic program read through the central dogma, and runs on energy carried by ATP. Next: the two kinds of cells.",
+  steps:[
+  {type:"brief", title:"Eight basic properties", fig:figProkEuk, cap:"<b>Figure 4.1</b> A prokaryotic and a eukaryotic cell, drawn to the same scale. (Notes p. 6, Fig 1.4)",
+   text:`<p>Cells range from tiny bacteria to large eukaryotic cells, but all share these [[cell-properties|basic properties]]:</p><ol style="margin:0 0 8px;padding-left:20px"><li>Highly complex and organized, enclosed by a [[plasma-membrane|cell (plasma) membrane]]</li><li>A genetic program: DNA and the [[central-dogma|central dogma]]</li><li>Capable of producing more of themselves</li><li>Acquire and use energy ([[bioenergetics|bioenergetics]])</li><li>Carry out a variety of chemical reactions ([[metabolism|metabolism]])</li><li>Engage in mechanical activities, such as moving material</li><li>Able to respond to stimuli, using receptors</li><li>Capable of [[self-regulation|self-regulation]]</li></ol>`,
+   terms:["cell-properties","plasma-membrane"]},
+  {type:"review", title:"Cytoplasm vs cytosol", fig:figAnimalCell, cap:"<b>Figure 4.2</b> An animal cell. Click the membrane, the cytosol and the labels. (Notes p. 9, Fig 1.14)",
+   text:`<p>The [[cytoplasm|cytoplasm]] is all the contents found inside the cell membrane.</p><p>The [[cytosol|cytosol]] is the jelly-like internal fluid: the cytoplasm minus the organelles. It contains water, dissolved ions and molecules.</p>`,
+   terms:["plasma-membrane","cytoplasm","cytosol"]},
+  {type:"mcq", title:"Which is which?", q:"<p>If you removed every organelle from a cell's cytoplasm, what would be left?</p>",
+   opts:[["The cytosol",true," Water, dissolved ions and molecules: the cytoplasm minus the organelles."],["The nucleus",false," The nucleus is an organelle, so it would be gone."],["The plasma membrane only",false," The membrane encloses the cytoplasm; the question is what fills it."],["Nothing at all",false," The fluid would remain."]], terms:["cytosol","cytoplasm"]},
+  {type:"review", title:"The genetic program", fig:figDogma1, cap:"<b>Figure 4.3</b> The central dogma. (Notes p. 6, Fig 1.5)",
+   text:`<p>A [[gene|gene]] is the DNA code for the information needed to produce a functional product, such as a protein.</p><p>The [[central-dogma|central dogma]]: DNA is copied into RNA by [[transcription|transcription]], and RNA is used to make protein by [[translation|translation]]. Cells also duplicate their genetic material before they divide.</p>`,
+   terms:["dna","rna","protein","gene","transcription","translation"]},
+  {type:"custom", title:"Build ATP", render:api=>simATP1(api), terms:["atp","bioenergetics"]},
+  {type:"sort", title:"Name the property", q:"<p>Each example shows one of the basic properties of cells. Sort them.</p>", bins:["Acquire and use energy","Chemical reactions","Respond to stimuli","Self-regulation"],
+   items:[["A leaf cell turns light energy into chemical energy",0],["Breaking the bonds between ATP's phosphates to power work",0],["Glycolysis and the citric acid cycle",1],["Metabolic pathways",1],["A receptor on the surface detects a hormone",2],["Losing it leads to uncontrolled growth",3]], terms:["bioenergetics","metabolism","self-regulation"]}
+  ]},
+
+{ id:"prokaryotes", title:"Prokaryotes and the tree of life", pages:"p. 7", blurb:"Three domains, two kinds of cell, and what a bacterium is made of.",
+  terms:["prokaryote","eukaryote","tree-of-life","bacteria","archaea","eukarya","nucleoid","plasmid","cell-wall","flagellum","ribosome","binary-fission","bacterial-shapes"],
+  wrap:"Prokaryotes (Bacteria and Archaea) have no nucleus and no membrane-bound organelles, a single circular chromosome, and divide by binary fission. Next: the eukaryotes.",
+  steps:[
+  {type:"review", title:"The tree of life", fig:figTree, cap:"<b>Figure 5.1</b> The tree of life. Click each domain. (Notes p. 7, Fig 1.7)",
+   text:`<p>There are two classes of cells:</p><p style="margin-left:14px">1. [[prokaryote|Prokaryotes]], \"before nucleus\": the most abundant organisms on Earth, in the domains [[bacteria|Bacteria]] and [[archaea|Archaea]].<br>2. [[eukaryote|Eukaryotes]], \"true nucleus\": the domain [[eukarya|Eukarya]].</p>`,
+   terms:["tree-of-life","bacteria","archaea","eukarya"]},
+  {type:"mcq", title:"Where eukaryotes came from", fig:figTree, cap:"<b>Figure 5.1</b> The tree of life.", q:"<p>According to the tree in your notes, eukaryotes are hypothesized to have descended from within which group?</p>",
+   opts:[["The Archaea",true," The Eukarya branch grows out of the Archaea."],["The Bacteria",false," Look where the green branch starts."],["Viruses",false," Viruses are not on the tree of cellular life."],["Plants",false," Plants are a twig within the Eukarya."]], terms:["archaea","eukarya"]},
+  {type:"review", title:"A bacterial cell", fig:figProkaryote, labelsToggle:true, cap:"<b>Figure 5.2</b> A bacterial cell. (Notes p. 7, Fig 1.8)",
+   text:`<p>Prokaryotes are single-celled organisms with no nucleus and no membrane-bound organelles: a simple organization.</p><p>Bacteria have a single circular chromosome folded in the [[nucleoid|nucleoid]], often extra DNA circles called [[plasmid|plasmids]], [[ribosome|ribosomes]], and both a cell membrane and a [[cell-wall|cell wall]]. Many swim with a [[flagellum|flagellum]].</p>`,
+   terms:["nucleoid","plasmid","ribosome","cell-wall","plasma-membrane","flagellum","cytoplasm"]},
+  {type:"sort", title:"Bacteria, Archaea, or both?", q:"<p>Sort each feature using your notes.</p>", bins:["Bacteria","Archaea","Both"],
+   items:[["Many have plasmids",0],["Cell wall surrounding the cell membrane",0,"your notes list this for Bacteria"],["Isoprenoid cell membrane",1],["Often inhabit extreme environments",1],["Single circular chromosome",2],["No nucleus",2],["Reproduce by binary fission",2]], terms:["bacteria","archaea","prokaryote"]},
+  {type:"mcq", title:"Shapes", q:"<p><i>Streptococcus</i> grows as strings of round cells; <i>E. coli</i> is a rod; <i>Streptomyces</i> is helical. What do these show?</p>",
+   opts:[["Bacteria come in different shapes: spheres, rods and helices",true," Fig 1.9 also shows sizes, up to the giant Thiomargarita."],["Only rods are true bacteria",false," All three are bacteria."],["They are eukaryotes",false," They are all prokaryotes."],["Shape tells you whether a cell has a nucleus",false," None of them has a nucleus."]], terms:["bacterial-shapes"]},
+  {type:"mcq", title:"Support and division", q:"<p>With no internal membranes, how do prokaryotes keep their shape, and how do they reproduce?</p>",
+   opts:[["Mainly the cell wall and an internal rigid protein framework; binary fission",true,""],["A large central vacuole; budding",false," Central vacuoles are a plant feature, and budding is how yeast divides."],["Cholesterol in the membrane; mitosis",false," Not what your notes give for prokaryotes."],["A nuclear envelope; spores",false," Prokaryotes have no nuclear envelope."]], terms:["cell-wall","binary-fission"]}
+  ]},
+
+{ id:"eukaryotes", title:"The eukaryotes", pages:"pp. 8–9", blurb:"Protists, fungi, plants and animals, and what sets plant cells apart.",
+  terms:["eukaryote","protists","fungi","chitin","heterotroph","autotroph","plants","animals","vacuole","plasmodesmata","chloroplast"],
+  wrap:"Protists are diverse and mostly single-celled; fungi have chitin walls and absorb food; plants have walls, vacuoles, chloroplasts and plasmodesmata; animals have no walls. Next: the organelles inside.",
+  steps:[
+  {type:"review", title:"Four groups", fig:figKingdoms, cap:"<b>Figure 6.1</b> The four groups of eukaryotes. Click each one. (Notes pp. 8–9)",
+   text:`<p>Eukaryotic cells have a membrane-bound nucleus. Eukaryotes include:</p><p style="margin-left:14px">i. [[protists|Protists]]: diverse, mostly single cells, some colonies. Algae, water molds, slime molds, protozoa.<br>ii. [[fungi|Fungi]]: cell walls with [[chitin|chitin]]; yeasts, rusts, smuts, mildews, molds, mushrooms. [[heterotroph|Heterotrophs]].<br>iii. [[plants|Plants]]: multicellular [[autotroph|autotrophs]] with polysaccharide cell walls.<br>iv. [[animals|Animals]]: multicellular heterotrophs with no cell walls.</p>`,
+   terms:["protists","fungi","plants","animals"]},
+  {type:"sort", title:"Name the group", q:"<p>Sort each organism from your notes into its group.</p>", bins:["Protists","Fungi","Plants","Animals"],
+   items:[["Volvox (algae)",0],["Pretzel slime mold",0],["Potato blight (a water mold)",0],["A ciliate",0],["Baker's yeast",1],["Vermillion waxcap mushroom",1],["Rusts and smuts",1],["Arabidopsis",2],["Fruit fly",3],["Mouse",3]], terms:["protists","fungi","plants","animals"]},
+  {type:"review", title:"A plant cell", fig:figPlantCell, labelsToggle:true, cap:"<b>Figure 6.2</b> A plant cell. (Notes p. 9, Fig 1.13)",
+   text:`<p>Plant cells have:</p><p style="margin-left:14px">• A [[cell-wall|cell wall]] made of polysaccharides.<br>• A large water-filled [[vacuole|vacuole]] that contributes to turgor pressure.<br>• [[plasmodesmata|Plasmodesmata]] connecting neighbouring cells.<br>• [[chloroplast|Chloroplasts]] that convert the sun's energy into chemical energy.</p>`,
+   terms:["cell-wall","vacuole","plasmodesmata","chloroplast"]},
+  {type:"sort", title:"Plant, animal or both?", q:"<p>Sort each feature.</p>", bins:["Plant cells","Animal cells","Both"],
+   items:[["Cell wall of polysaccharides",0],["Large water-filled vacuole",0],["Chloroplasts",0],["Plasmodesmata",0],["No cell wall",1],["Distinct mode of early development",1],["Nucleus",2],["Mitochondria",2],["Multicellular",2]], terms:["plants","animals"]},
+  {type:"mcq", title:"How fungi eat", q:"<p>A mushroom grows on a rotting log. How does it get its carbon and energy?</p>",
+   opts:[["It absorbs preformed organic molecules directly from its environment",true," Fungi are heterotrophs."],["Its chloroplasts capture sunlight",false," Fungi have no chloroplasts."],["It eats other cells by swallowing them whole",false," Fungi absorb; they don't swallow."],["It makes sugars from carbon dioxide like a plant",false," That is what autotrophs do."]], terms:["fungi","heterotroph"]},
+  {type:"mcq", title:"The big vacuole", q:"<p>What does the large water-filled vacuole of a plant cell do?</p>",
+   opts:[["Gives the cell structural rigidity by contributing to turgor pressure",true,""],["Makes most of the cell's ATP",false," That is mitochondria."],["Stores the chromosomes",false," That is the nucleus."],["Connects to neighbouring cells",false," That is plasmodesmata."]], terms:["vacuole"]}
+  ]},
+
+{ id:"organelles", title:"Inside a eukaryotic cell", pages:"p. 9", blurb:"The endomembrane system, the organelles outside it, and what each one does.",
+  terms:["organelle","nucleus","endomembrane","non-endomembrane","er","golgi","lysosome","vesicle","mitochondria","peroxisome","cytoskeleton","ribosome","nucleolus"],
+  wrap:"The endomembrane system builds, modifies and ships materials; mitochondria, chloroplasts, peroxisomes and ribosomes work outside it. Next: the organisms scientists use to study all this.",
+  steps:[
+  {type:"review", title:"An animal cell", fig:figAnimalCell, labelsToggle:true, cap:"<b>Figure 7.1</b> An animal cell. Click each organelle. (Notes p. 9, Fig 1.14)",
+   text:`<p>Eukaryotic cells have a membrane-bound [[nucleus|nucleus]] that contains the chromosomes, and many specialized [[organelle|organelles]]:</p><p style="margin-left:14px">• [[er|ER]]: protein and lipid synthesis.<br>• [[golgi|Golgi apparatus]]: modifies and sorts proteins and lipids.<br>• [[lysosome|Lysosomes]]: enzymes that break down macromolecules.<br>• [[mitochondria|Mitochondria]]: make most of the ATP.<br>• [[peroxisome|Peroxisomes]]: break down fatty acids; make cholesterol and some phospholipids.<br>• [[cytoskeleton|Cytoskeleton]]: protein filaments that give an internal framework.</p>`,
+   terms:["nucleus","er","golgi","lysosome","mitochondria","peroxisome","cytoskeleton","ribosome"]},
+  {type:"sort", title:"Endomembrane system or not?", q:"<p>The [[endomembrane|endomembrane system]] builds, modifies and transports materials. Sort each structure.</p>", bins:["Part of the endomembrane system","Not part of it"],
+   items:[["Nuclear envelope",0],["Rough ER",0],["Smooth ER",0],["Golgi apparatus",0],["Lysosomes",0],["Vesicles",0],["Plasma membrane",0],["Mitochondria",1],["Chloroplasts",1],["Peroxisomes",1],["Ribosomes",1,"no membrane at all"],["Nucleolus",1],["Cytoskeleton",1],["Centrosomes",1],["Cilia and flagella",1]], terms:["endomembrane","non-endomembrane"]},
+  {type:"order", title:"Making a protein for export", q:"<p>A cell makes a protein that will be sent out of the cell. Put the steps in order.</p>",
+   items:["The gene is transcribed into RNA in the nucleus","The RNA leaves the nucleus through a nuclear pore","Ribosomes on the rough ER translate it into protein","A vesicle carries the protein to the Golgi apparatus","The Golgi modifies and sorts the protein","A vesicle carries it to the plasma membrane and releases it"],
+   after:" Ribosomes, ER and Golgi work as an assembly line, with vesicles as the delivery trucks.", terms:["ribosome","er","golgi","vesicle","nucleus"]},
+  {type:"mcq", title:"The power supply", q:"<p>Which organelle produces most of the ATP that serves as the cell's energy currency?</p>",
+   opts:[["Mitochondrion",true,""],["Peroxisome",false," Peroxisomes break down fatty acids and make some lipids."],["Lysosome",false," Lysosomes break down macromolecules."],["Golgi apparatus",false," The Golgi sorts proteins and lipids."]], terms:["mitochondria"]},
+  {type:"mcq", title:"Fatty acids and cholesterol", q:"<p>Which organelle breaks down fatty acids and synthesizes cholesterol and some phospholipids?</p>",
+   opts:[["Peroxisome",true," It is not part of the endomembrane system."],["Lysosome",false," Lysosomes break down macromolecules with enzymes, but the fatty acid and cholesterol jobs are the peroxisome's."],["Nucleolus",false," The nucleolus makes ribosome parts."],["Cytoskeleton",false," The cytoskeleton is a structural framework."]], terms:["peroxisome"]}
+  ]},
+
+{ id:"models", title:"Model organisms", pages:"p. 10", blurb:"Why biologists study bacteria, yeast, cress, flies, worms and mice.",
+  terms:["model-organism","ecoli","yeast","arabidopsis","drosophila","celegans","mouse"],
+  wrap:"Model organisms are non-human species that are easy to study and tell us about biology in general. Last: build four cells.",
+  steps:[
+  {type:"brief", title:"Why a worm?", fig:()=>modelSVG(null), cap:"<b>Figure 8.0</b> Model organisms. (Notes p. 10, Fig 1.15)",
+   text:`<p>Researchers use [[model-organism|model organisms]]: non-human species used to understand biology. Because all cells share the same basic properties, what we learn in one organism often applies to others, including us.</p><p>Each model in your notes is used for particular questions. Click each one in the figure, then stock the lab.</p>`,
+   terms:["model-organism","ecoli","yeast","arabidopsis","drosophila","celegans","mouse"]},
+  {type:"custom", title:"Pick the right model", render:api=>simModels(api), terms:["model-organism"]},
+  {type:"mcq", title:"Every cell mapped", q:"<p>Which model organism was the first animal to have its genome sequenced, and is the one where the fate of every cell is known?</p>",
+   opts:[["Caenorhabditis elegans, a worm",true,""],["Drosophila melanogaster, a fly",false," Flies are used for genetics and development."],["Mus musculus, a mouse",false," The mouse is the model mammal."],["Saccharomyces cerevisiae, a yeast",false," Yeast is not an animal."]], terms:["celegans"]}
+  ]},
+
+{ id:"build", title:"Build a cell", pages:"pp. 3–11", blurb:"The finale: assemble a bacterium, an animal cell, a plant cell and a yeast cell.",
+  terms:["prokaryote","eukaryote","nucleoid","nucleus","cell-wall","chloroplast","vacuole","plasmodesmata","mitochondria","lysosome"],
+  wrap:"You can now build any of the four cell types from their parts, and explain why each part belongs. Try the \"Is it alive?\" desk next, or take the mini exam.",
+  steps:[
+  {type:"custom", title:"Build a cell", render:api=>simBuilder(api), wide:false, terms:["prokaryote","eukaryote"]}
+  ]}
+];
+
+/* ============ sim helpers ============ */
+function makeCanvas(W,H,label){
+  const cv = h("canvas",{role:"img","aria-label":label||""}); const dpr = Math.min(2, window.devicePixelRatio||1);
+  cv.width=W*dpr; cv.height=H*dpr; const ctx=cv.getContext("2d"); ctx.scale(dpr,dpr); return {cv,ctx,W,H};
+}
+function label(ctx,t,x,y,opts={}){ ctx.fillStyle=opts.col||"#1c2830"; ctx.font=`${opts.it?"italic ":""}${opts.w||400} ${opts.s||13}px Source Sans 3, Arial`; ctx.textAlign=opts.a||"left"; ctx.textBaseline="alphabetic"; ctx.fillText(t,x,y); }
+function inlineMCQ(host, q, opts, api, key, terms, onRight){
+  host.append(h("p",{style:"margin-top:10px"},h("b",{},q)));
+  const box=h("div",{class:"opts"}), fb=h("div"); let first=true, done=false;
+  shuffle(opts).forEach(o=>{ const b=h("button",{class:"opt"},o[0]); b.addEventListener("click",()=>{
+    if(done) return; if(first){ api.gradeKey(key,o[1],terms); first=false; }
+    fb.innerHTML="";
+    if(o[1]){ done=true; b.classList.add("right"); $$(".opt",box).forEach(x=>x.disabled=true); fb.append(h("div",{class:"fb ok",html:"<b>Correct.</b>"+o[2]})); onRight&&onRight(); }
+    else { b.classList.add("wrong"); b.disabled=true; fb.append(h("div",{class:"fb bad",html:"<b>Not quite.</b>"+o[2]+" Try another answer."})); }
+  }); box.append(b); });
+  host.append(box,fb);
+}
+
+
+/* ============ 1.1 Through the first microscopes ============ */
+function simMicroscope(api){
+  const W=760,H=460; const {cv,ctx}=makeCanvas(W,H,"View down a microscope: cork or pond water");
+  const S={spec:"cork",mag:30,focus:0.4,t:0}; const seen=new Set();
+  const cx=W/2, cy=H/2-6, R=190;
+  const crit=[]; for(let i=0;i<9;i++) crit.push({x:(Math.random()-.5)*300,y:(Math.random()-.5)*300,a:Math.random()*6.283,v:8+Math.random()*16,k:i%3,s:0.7+Math.random()*0.6});
+  // cork: honeycomb of empty boxes
+  function drawCork(sc){
+    const cw=34*sc, chh=22*sc; ctx.strokeStyle="#7a4f22"; ctx.lineWidth=Math.max(1.2,2.2*sc*0.6); ctx.fillStyle="#f3dfb8";
+    ctx.fillRect(cx-R,cy-R,2*R,2*R);
+    for(let r=-12;r<=12;r++){ for(let c=-12;c<=12;c++){ const x=cx+c*cw+(r%2?cw/2:0), y=cy+r*chh; ctx.beginPath(); ctx.rect(x-cw/2+1,y-chh/2+1,cw-2,chh-2); ctx.stroke(); } }
+  }
+  function drawPond(sc,dt){
+    ctx.fillStyle="#e7f2e0"; ctx.fillRect(cx-R,cy-R,2*R,2*R);
+    crit.forEach(c=>{ c.a+=(Math.random()-.5)*dt*2; c.x+=Math.cos(c.a)*c.v*dt; c.y+=Math.sin(c.a)*c.v*dt; if(Math.hypot(c.x,c.y)>170){ c.a+=Math.PI; }
+      const x=cx+c.x*sc/90*1.2, y=cy+c.y*sc/90*1.2; const z=sc/90*c.s;
+      if(c.k===0){ ctx.fillStyle="#9ccf8a"; ctx.strokeStyle="#4f8a3c"; ctx.lineWidth=1.5; ctx.beginPath(); ctx.ellipse(x,y,22*z,10*z,c.a,0,7); ctx.fill(); ctx.stroke(); ctx.fillStyle="#4f8a3c"; ctx.beginPath(); ctx.arc(x,y,3*z,0,7); ctx.fill();
+        ctx.strokeStyle="#4f8a3c"; ctx.beginPath(); ctx.moveTo(x+Math.cos(c.a)*22*z,y+Math.sin(c.a)*22*z); ctx.quadraticCurveTo(x+Math.cos(c.a)*34*z+Math.sin(S.t*12)*5*z,y+Math.sin(c.a)*34*z,x+Math.cos(c.a)*44*z,y+Math.sin(c.a)*44*z); ctx.stroke(); }
+      else if(c.k===1){ ctx.fillStyle="#cfe2f3"; ctx.strokeStyle="#5b86b0"; ctx.lineWidth=1.5; ctx.beginPath(); for(let k=0;k<=24;k++){ const a=k/24*6.283, rr=16*z*(1+0.18*Math.sin(a*3+S.t*2+c.x)); ctx.lineTo(x+rr*Math.cos(a),y+rr*Math.sin(a)); } ctx.closePath(); ctx.fill(); ctx.stroke(); ctx.fillStyle="#5b86b0"; ctx.beginPath(); ctx.arc(x,y,4*z,0,7); ctx.fill(); }
+      else { ctx.fillStyle="#d9a05b"; for(let k=0;k<4;k++){ ctx.beginPath(); ctx.ellipse(x+k*7*z,y+(k%2)*5*z,3.5*z,1.8*z,0.4,0,7); ctx.fill(); } }
+    });
+  }
+  loop(dt=>{ S.t+=dt;
+    ctx.fillStyle="#1d2226"; ctx.fillRect(0,0,W,H);
+    ctx.save(); ctx.beginPath(); ctx.arc(cx,cy,R,0,7); ctx.clip();
+    const blur=Math.abs(S.focus-0.6)*14; ctx.filter = blur>0.5?`blur(${blur.toFixed(1)}px)`:"none";
+    if(S.spec==="cork") drawCork(S.mag/30); else drawPond(S.mag,dt);
+    ctx.filter="none"; ctx.restore();
+    ctx.strokeStyle="#55606a"; ctx.lineWidth=10; ctx.beginPath(); ctx.arc(cx,cy,R+5,0,7); ctx.stroke();
+    label(ctx,`${S.spec==="cork"?"Thin slice of cork":"A drop of pond water"} at about ${S.mag}×`,18,28,{w:700,s:16,col:"#fff"});
+    label(ctx,blur>2?"Out of focus: turn the focus knob":"In focus",18,H-16,{s:14,col:blur>2?"#f2c94c":"#9fe0a8"});
+  });
+  api.plateHost.innerHTML=""; api.plateHost.append(plate(cv,"<b>Figure 1.1</b> What the first microscopists saw. Hooke's compound microscope magnified about 30×; Leeuwenhoek's single-lens microscopes reached about 270×."));
+  const note=h("div",{class:"fb"});
+  function say(){ const sharp=Math.abs(S.focus-0.6)<0.12;
+    if(S.spec==="cork") note.innerHTML=rich("<b>Robert Hooke, 1665.</b> Looking at cork, he saw tiny empty compartments and called them <i>cells</i>, after the small rooms monks lived in. Cork is dead tissue, so he was really seeing the [[cell-wall|cell walls]] left behind, not living cells.");
+    else note.innerHTML=rich("<b>Antonie van Leeuwenhoek, 1670s.</b> With better single lenses he saw living, moving single-celled organisms in pond water, which he called \"animalcules\": protists and even bacteria. Hooke saw empty walls; Leeuwenhoek saw cells that were alive.");
+    bindRich(note); if(sharp) seen.add(S.spec); if(seen.size===2) api.unlock(); }
+  const seg=h("div",{class:"seg"}); [["cork","Hooke: cork"],["pond","Leeuwenhoek: pond water"]].forEach(([k,t])=>{ const b=h("button",{"aria-pressed":String(k===S.spec)},t); b.onclick=()=>{ S.spec=k; S.mag=k==="cork"?30:120; mag.value=S.mag; S.focus=0.25; foc.value=0.25; $$("button",seg).forEach(x=>x.setAttribute("aria-pressed","false")); b.setAttribute("aria-pressed","true"); say(); }; seg.append(b); });
+  const mag=h("input",{type:"range",min:"10",max:"270",value:"30","aria-label":"Magnification"}); mag.oninput=()=>{ S.mag=+mag.value; };
+  const foc=h("input",{type:"range",min:"0",max:"1",step:"0.01",value:"0.4","aria-label":"Focus"}); foc.oninput=()=>{ S.focus=+foc.value; say(); };
+  api.panel.append(h("p",{class:"kicker"},"Look for yourself"), h("h2",{},"Through the first microscopes"),
+    h("p",{},"Pick a specimen, then turn the focus knob until it's sharp. Do this for both."),
+    h("div",{class:"ctl"},h("div",{},h("label",{},"Specimen"),seg),h("div",{},h("label",{},"Focus"),foc),h("div",{},h("label",{},"Magnification"),mag)), note);
+  say(); api.lock();
+}
+
+/* ============ 1.x Virus: can it reproduce on its own? ============ */
+const VSTEPS=["The virus attaches to a specific receptor on the host cell.","It injects its genetic material (DNA or RNA) into the cell.","The host cell's ribosomes, enzymes and energy copy the viral genes and make viral proteins.","New viruses assemble inside the host.","The new viruses burst out (or bud off) and infect more cells."];
+function virusSVG(st,host){
+  const W=760,H=360; let s=`<svg viewBox="0 0 ${W} ${H}" role="img" aria-label="Virus replication, step ${st+1}"><rect width="${W}" height="${H}" fill="#fff"/>`;
+  const vir=(x,y,sc=1,empty=false)=>`<g transform="translate(${x},${y}) scale(${sc})" data-term="virus"><polygon points="0,-22 19,-11 19,11 0,22 -19,11 -19,-11" fill="${empty?"#eef1f4":"#c9a0e0"}" stroke="#6f4a90" stroke-width="2"/>${empty?"":`<path d="M-8 -6 q8 -8 16 0 t-4 12" stroke="#d8463c" stroke-width="2.4" fill="none"/>`}<rect x="-5" y="22" width="10" height="22" fill="#b38bcf" stroke="#6f4a90"/><path d="M-5 44 l-10 12 M5 44 l10 12 M0 44 v14" stroke="#6f4a90" stroke-width="2"/></g>`;
+  if(host){ s+=`<g data-term="host-cell"><rect x="60" y="150" width="640" height="190" rx="40" fill="#fdf4d8" stroke="#2f5f93" stroke-width="4"/></g><text class="lbl it" x="80" y="330">Host cell</text>`;
+    s+=`<g data-term="ribosome">${[[200,250],[214,262],[520,240],[540,256],[600,300]].map(p=>`<circle cx="${p[0]}" cy="${p[1]}" r="5" fill="#4e3f82"/>`).join("")}</g>`; }
+  else s+=`<text class="lbl" x="${W/2}" y="250" text-anchor="middle" font-weight="700" fill="#a53838">No host cell: nothing happens. The virus has no ribosomes, no enzymes for metabolism and no energy source of its own.</text>`;
+  if(st===0||!host) s+=vir(380,host?100:130,1.3);
+  if(host && st>=1){ s+=vir(380,96,1.3,st>=1); }
+  if(host && st===1) s+=`<path d="M380 160 q-10 30 10 50 t-10 40" stroke="#d8463c" stroke-width="3" fill="none"/>`;
+  if(host && st>=2){ for(let k=0;k<5;k++) s+=`<path d="M${280+k*50} 220 q8 -10 16 0 t16 0" stroke="#d8463c" stroke-width="3" fill="none"/>`; s+=`<g>${[[300,280],[340,290],[420,282],[460,296]].map(p=>`<polygon points="${p[0]},${p[1]-8} ${p[0]+7},${p[1]-4} ${p[0]+7},${p[1]+4} ${p[0]},${p[1]+8} ${p[0]-7},${p[1]+4} ${p[0]-7},${p[1]-4}" fill="#c9a0e0" opacity=".7"/>`).join("")}</g>`; }
+  if(host && st>=3) [[240,260],[330,250],[440,262],[560,250]].forEach(p=>s+=vir(p[0],p[1]-10,0.8));
+  if(host && st===4){ [[140,120],[620,110],[700,190]].forEach(p=>s+=vir(p[0],p[1],0.8)); s+=`<path d="M690 170 l30 -20 M110 150 l-20 -20" stroke="#a53838" stroke-width="3"/>`; }
+  s+=`<text class="lbl" x="16" y="28" font-weight="700" font-size="15">${host?`Step ${st+1}: ${VSTEPS[st]}`:"A virus on its own"}</text></svg>`; return s;
+}
+function simVirus(api){
+  let st=0, host=true, max=0, triedNoHost=false; const host_=h("div"), info=h("div",{class:"fb"});
+  const draw=()=>{ host_.innerHTML=""; const f=plate(virusSVG(st,host),"<b>Figure 3.2</b> A virus can only make copies of itself inside a living host cell."); host_.append(f); bindTerms(f);
+    info.innerHTML= host? `<b>Step ${st+1} of 5.</b> ${VSTEPS[st]}` : rich("Take the host away and the virus is inert. It can't take in nutrients, make ATP or build proteins. That's why viruses are not considered living cells: they are an [[exception|exception]] to the cell theory."); bindRich(info);
+    if(host) max=Math.max(max,st); if(max===4 && triedNoHost) api.unlock(); };
+  api.plateHost.innerHTML=""; api.plateHost.append(host_);
+  const tog=h("button",{class:"mini","aria-pressed":"true"},"Host cell present"); tog.onclick=()=>{ host=!host; tog.setAttribute("aria-pressed",String(host)); tog.textContent=host?"Host cell present":"No host cell"; if(!host) triedNoHost=true; draw(); };
+  api.panel.append(h("p",{class:"kicker"},"Step through it"), h("h2",{},"How a virus copies itself"), h("p",{},"Step through the cycle, then take the host cell away."), info,
+    h("div",{class:"row"},h("button",{class:"btn ghost",onclick:()=>{ if(st>0){st--;draw();} }},"Previous step"),h("button",{class:"btn",onclick:()=>{ if(st<4){st++;draw();} }},"Next step"),tog));
+  api.lock(); draw();
+}
+
+/* ============ ATP builder (notes p. 6, Fig 1.6) ============ */
+function simATP1(api){
+  let n=0, reached=false, asked=false; const host=h("div"), note=h("div",{class:"fb"}), q=h("div");
+  api.plateHost.innerHTML=""; api.plateHost.append(host);
+  const NOTE=["<b>Adenosine</b>Adenine (a base) joined to ribose (a five-carbon sugar). No phosphate yet.",
+    "<b>AMP: adenosine monophosphate</b>One phosphate group.",
+    "<b>ADP: adenosine diphosphate</b>Two phosphate groups. The bond between them has high potential energy.",
+    "<b>ATP: adenosine triphosphate</b>Three phosphate groups. The bonds linking the phosphates have high potential energy, which is why cells use ATP to carry energy."];
+  const add=h("button",{class:"btn"},"Add a phosphate"), rem=h("button",{class:"btn ghost"},"Remove one");
+  function draw(){ host.innerHTML=""; const f=plate(atpBuildSVG(n),"<b>Figure 4.3</b> ATP structure: adenine, ribose and three phosphate groups. (Notes p. 6, Fig 1.6)"); host.append(f); bindTerms(f);
+    note.innerHTML=rich(NOTE[n]+(n===3?" Cells acquire and use energy ([[bioenergetics|bioenergetics]]); ATP is how much of it is passed around.":"")); bindRich(note);
+    add.disabled=n>=3; rem.disabled=n<=0;
+    if(n===3 && !asked){ asked=true; inlineMCQ(q,"A cell removes the last phosphate from ATP. What molecule is left?",[["ADP, adenosine diphosphate",1," Two phosphates remain."],["AMP, adenosine monophosphate",0," That has only one phosphate; removing one from ATP leaves two."],["Adenosine",0," Adenosine has no phosphates at all."],["Ribose",0," Adenine and the phosphates are still attached."]],api,"adp",["atp"],()=>api.unlock()); }
+  }
+  add.onclick=()=>{ if(n<3){ n++; draw(); } }; rem.onclick=()=>{ if(n>0){ n--; draw(); } };
+  api.panel.append(h("p",{class:"kicker"},"Build it"), h("h2",{},"Build ATP"),
+    h("div",{html:rich("<p>Every cell runs on [[atp|ATP]]. Start from adenosine and add phosphate groups one at a time. Watch the name change.</p>")}),
+    h("div",{class:"row",style:"margin:8px 0"},add,rem), note, q);
+  api.lock(); draw();
+}
+
+/* ============ Model organisms (notes p. 10) ============ */
+const MODELS=[
+ {k:"ecoli",n:"Escherichia coli",c:"bacterium",use:"DNA replication, gene transcription, translation"},
+ {k:"yeast",n:"Saccharomyces cerevisiae",c:"yeast",use:"the cell cycle: a \"minimal model eukaryote\""},
+ {k:"arabidopsis",n:"Arabidopsis thaliana",c:"plant",use:"flowering plants, which are closely related"},
+ {k:"drosophila",n:"Drosophila melanogaster",c:"fruit fly",use:"genetics and development"},
+ {k:"celegans",n:"Caenorhabditis elegans",c:"worm",use:"first animal genome sequenced; the location, lineage and fate of every cell is known"},
+ {k:"mouse",n:"Mus musculus",c:"mouse",use:"the \"model mammal\", with well understood genetics"}];
+const MQ=[
+ ["You want to study how DNA is copied, and how a gene is transcribed and translated, in the simplest possible cell.","ecoli"],
+ ["You want to study the cell cycle in a single-celled eukaryote that is easy to grow.","yeast"],
+ ["You want to learn how flowering plants grow and develop.","arabidopsis"],
+ ["You want to study genetics and how an embryo develops, using an insect with a short life cycle.","drosophila"],
+ ["You need an animal where the position, lineage and fate of every single cell, from embryo to adult, is already mapped.","celegans"],
+ ["You need a mammal with well understood genetics to study a human disease.","mouse"]];
+function modelSVG(k){
+  const W=760,H=250; let s=`<svg viewBox="0 0 ${W} ${H}" role="img" aria-label="The six model organisms in your notes"><rect width="${W}" height="${H}" fill="#fff"/>`;
+  MODELS.forEach((m,i)=>{ const x=20+i*122, on=m.k===k; s+=`<g data-term="${m.k}"><rect x="${x}" y="20" width="112" height="210" rx="10" fill="${on?"#e4f1e5":"#f7f8f6"}" stroke="${on?"#3f8a4c":"#cfd6d2"}" stroke-width="${on?3:1}"/>`;
+    const cx=x+56, cy=100;
+    if(m.k==="ecoli") s+=`<rect x="${cx-34}" y="${cy-14}" width="68" height="28" rx="14" fill="#e88a5a" stroke="#a5532c" stroke-width="2"/><path d="M${cx+34} ${cy} c10 -10 18 10 28 0" stroke="#a5532c" fill="none" stroke-width="2"/>`;
+    if(m.k==="yeast") s+=`<ellipse cx="${cx-6}" cy="${cy}" rx="26" ry="22" fill="#e9e0c8" stroke="#8a7a50" stroke-width="2"/><ellipse cx="${cx+24}" cy="${cy-18}" rx="11" ry="10" fill="#e9e0c8" stroke="#8a7a50" stroke-width="2"/>`;
+    if(m.k==="arabidopsis") s+=`<path d="M${cx} ${cy+50} V${cy-30}" stroke="#4f8a3c" stroke-width="3"/>${[0,1,2,3].map(j=>`<ellipse cx="${cx+(j%2?9:-9)}" cy="${cy-38+(j<2?-8:8)}" rx="8" ry="5" fill="#fff" stroke="#999"/>`).join("")}<ellipse cx="${cx-22}" cy="${cy+40}" rx="22" ry="8" fill="#6fae58"/><ellipse cx="${cx+22}" cy="${cy+40}" rx="22" ry="8" fill="#6fae58"/>`;
+    if(m.k==="drosophila") s+=`<ellipse cx="${cx}" cy="${cy+6}" rx="12" ry="26" fill="#c9a26a" stroke="#6b4e20" stroke-width="2"/><circle cx="${cx}" cy="${cy-26}" r="10" fill="#c9a26a" stroke="#6b4e20" stroke-width="2"/><circle cx="${cx-7}" cy="${cy-28}" r="5" fill="#c0392b"/><circle cx="${cx+7}" cy="${cy-28}" r="5" fill="#c0392b"/><ellipse cx="${cx-20}" cy="${cy}" rx="18" ry="8" fill="#e8eef4" stroke="#9aa" transform="rotate(-30 ${cx-20} ${cy})"/><ellipse cx="${cx+20}" cy="${cy}" rx="18" ry="8" fill="#e8eef4" stroke="#9aa" transform="rotate(30 ${cx+20} ${cy})"/>`;
+    if(m.k==="celegans") s+=`<path d="M${cx-40} ${cy+20} C${cx-20} ${cy-30} ${cx+10} ${cy+40} ${cx+40} ${cy-20}" stroke="#8a6a3a" stroke-width="7" fill="none" stroke-linecap="round"/>`;
+    if(m.k==="mouse") s+=`<ellipse cx="${cx}" cy="${cy+10}" rx="34" ry="20" fill="#a08a78" stroke="#5e4a3a" stroke-width="2"/><circle cx="${cx+30}" cy="${cy-4}" r="12" fill="#a08a78" stroke="#5e4a3a" stroke-width="2"/><circle cx="${cx+26}" cy="${cy-16}" r="6" fill="#d9b0a8"/><path d="M${cx-34} ${cy+12} q-20 0 -22 20" stroke="#5e4a3a" fill="none" stroke-width="2"/>`;
+    s+=`<text class="lbl sm" x="${cx}" y="180" text-anchor="middle" font-style="italic" font-weight="700">${m.n.split(" ")[0]}</text><text class="lbl sm" x="${cx}" y="196" text-anchor="middle" font-style="italic">${m.n.split(" ")[1]}</text><text class="lbl sm" x="${cx}" y="216" text-anchor="middle">(${m.c})</text></g>`; });
+  s+=`</svg>`; return s;
+}
+function simModels(api){
+  let i=0, first=true, right=0; const order=shuffle(MQ); const host=h("div"), body=h("div");
+  api.plateHost.innerHTML=""; api.plateHost.append(host);
+  function fig(k){ host.innerHTML=""; const f=plate(modelSVG(k),"<b>Figure 8.1</b> The six model organisms in your notes. Click one to read about it. (Notes p. 10, Fig 1.15)"); host.append(f); bindTerms(f); }
+  function draw(){ body.innerHTML=""; if(i>=order.length){ body.append(h("div",{class:"fb ok",html:`<b>Lab stocked.</b> ${right} of ${order.length} on the first try. Model organisms are non-human species we study to understand biology in general, including our own.`})); api.unlock(); return; }
+    const [qq,ans]=order[i]; first=true;
+    body.append(h("p",{class:"muted small"},`Request ${i+1} of ${order.length}`), h("p",{},h("b",{},qq)));
+    const box=h("div",{class:"opts"}), fb=h("div");
+    MODELS.forEach(m=>{ const b=h("button",{class:"opt"},h("i",{},m.n),` (${m.c})`); b.onclick=()=>{ const ok=m.k===ans; if(first){ api.gradeKey("m"+i,ok,["model-organism",ans]); if(ok) right++; first=false; }
+      fig(m.k);
+      if(ok){ b.classList.add("right"); $$(".opt",box).forEach(x=>x.disabled=true); fb.innerHTML=""; fb.append(h("div",{class:"fb ok",html:`<b>Yes.</b> <i>${m.n}</i> is used for ${m.use}.`}), h("button",{class:"btn",style:"margin-top:6px",onclick:()=>{ i++; fig(null); draw(); }},i+1<order.length?"Next request":"Finish")); }
+      else { b.classList.add("wrong"); b.disabled=true; fb.innerHTML=""; fb.append(h("div",{class:"fb bad",html:`<b>Not the best fit.</b> <i>${m.n}</i> is the model for ${m.use}. Try another.`})); } }; box.append(b); });
+    body.append(box,fb); }
+  api.panel.append(h("p",{class:"kicker"},"Stock the lab"), h("h2",{},"Pick the right model"), h("p",{},"Six researchers need an organism. Pick the best model for each."), body);
+  api.lock(); fig(null); draw();
+}
+
+/* ============ Finale: build a cell ============ */
+const PARTS=[
+ ["membrane","Plasma membrane","plasma-membrane"],["ribosomes","Ribosomes","ribosome"],["nucleoid","Nucleoid (DNA, no nucleus)","nucleoid"],["nucleus","Nucleus","nucleus"],
+ ["wall","Cell wall","cell-wall"],["mito","Mitochondria","mitochondria"],["er","Endoplasmic reticulum","er"],["golgi","Golgi apparatus","golgi"],["lyso","Lysosomes","lysosome"],
+ ["chloro","Chloroplasts","chloroplast"],["vac","Large central vacuole","vacuole"],["pd","Plasmodesmata","plasmodesmata"],["flag","Flagellum","flagellum"]];
+const BUILDS=[
+ {n:"Escherichia coli, a bacterium",req:["membrane","ribosomes","nucleoid","wall"],opt:["flag"],
+  why:{nucleus:"Prokaryotes have no nucleus: their single circular chromosome sits in the nucleoid.",mito:"Prokaryotes have no membrane-bound organelles.",er:"Prokaryotes have no membrane-bound organelles.",golgi:"Prokaryotes have no membrane-bound organelles.",lyso:"Prokaryotes have no membrane-bound organelles.",chloro:"No chloroplasts in E. coli; prokaryotes have no membrane-bound organelles.",vac:"No membrane-bound organelles in a prokaryote.",pd:"Plasmodesmata connect plant cells.",wall:"Bacteria have a cell wall surrounding the cell membrane.",nucleoid:"The DNA is a single circular chromosome in the nucleoid.",ribosomes:"Every cell needs ribosomes to make protein.",membrane:"Every cell is enclosed by a plasma membrane."}},
+ {n:"A liver cell from a mouse",req:["membrane","ribosomes","nucleus","mito","er","golgi","lyso"],opt:["flag"],
+  why:{wall:"Animal cells do not have cell walls.",chloro:"Animals are heterotrophs: no chloroplasts.",vac:"A large water-filled central vacuole is a plant feature.",pd:"Plasmodesmata connect plant cells.",nucleoid:"Eukaryotes keep their chromosomes in a membrane-bound nucleus.",nucleus:"Eukaryotic cells have a membrane-bound nucleus.",mito:"Mitochondria make most of the cell's ATP.",er:"The ER makes proteins and lipids.",golgi:"The Golgi modifies and sorts proteins and lipids.",lyso:"Lysosomes break down macromolecules.",ribosomes:"Every cell needs ribosomes.",membrane:"Every cell is enclosed by a plasma membrane."}},
+ {n:"A leaf cell from Arabidopsis",req:["membrane","ribosomes","nucleus","mito","er","golgi","wall","chloro","vac","pd"],opt:["lyso"],
+  why:{nucleoid:"Eukaryotes keep their chromosomes in a nucleus.",flag:"Leaf cells don't swim; no flagellum here.",wall:"Plants have cell walls made of polysaccharides.",chloro:"Plants are autotrophs: chloroplasts turn light energy into chemical energy.",vac:"The large water-filled vacuole maintains turgor pressure.",pd:"Plasmodesmata connect neighbouring plant cells.",mito:"Plant cells have mitochondria too.",nucleus:"Plants are eukaryotes.",er:"Plant cells have an ER.",golgi:"Plant cells have a Golgi apparatus.",ribosomes:"Every cell needs ribosomes.",membrane:"The plasma membrane sits just inside the wall."}},
+ {n:"Baker's yeast, a fungus",req:["membrane","ribosomes","nucleus","mito","er","golgi","wall"],opt:["lyso","vac"],
+  why:{chloro:"Fungi are heterotrophs: they absorb preformed organic molecules, so no chloroplasts.",pd:"Plasmodesmata connect plant cells.",nucleoid:"Yeast is a eukaryote with a nucleus.",flag:"Yeast cells have no flagellum.",wall:"Fungi have cell walls, made with chitin.",nucleus:"Yeast is a eukaryote.",mito:"Yeast has mitochondria.",er:"Yeast has an ER.",golgi:"Yeast has a Golgi apparatus.",ribosomes:"Every cell needs ribosomes.",membrane:"Every cell is enclosed by a plasma membrane."}}];
+function builderSVG(on,label){
+  const W=760,H=420; let s=`<svg viewBox="0 0 ${W} ${H}" role="img" aria-label="Your cell: ${[...on].join(", ")||"empty"}"><rect width="${W}" height="${H}" fill="#fff"/>`;
+  const euk=on.has("nucleus")||on.has("mito")||on.has("er")||on.has("golgi")||on.has("chloro")||on.has("vac");
+  const x0=euk?150:250, y0=euk?40:130, w=euk?460:260, hh=euk?340:150, r=euk?(on.has("wall")?18:120):70;
+  if(on.has("wall")) s+=`<g data-term="cell-wall"><rect x="${x0-14}" y="${y0-14}" width="${w+28}" height="${hh+28}" rx="${r+10}" fill="#d9e6bf" stroke="#5f8a2f" stroke-width="3"/></g>`;
+  if(on.has("pd")) s+=`<g data-term="plasmodesmata">${[[x0-14,y0+hh*0.3],[x0-14,y0+hh*0.7],[x0+w,y0+hh*0.5]].map(p=>`<rect x="${p[0]-2}" y="${p[1]-4}" width="18" height="8" rx="3" fill="#fdf4d8" stroke="#5f8a2f"/>`).join("")}</g>`;
+  s+=`<rect x="${x0}" y="${y0}" width="${w}" height="${hh}" rx="${r}" fill="#fdf4d8" stroke="${on.has("membrane")?"#2f5f93":"#c9cfd3"}" stroke-width="${on.has("membrane")?4:1.5}" ${on.has("membrane")?"":'stroke-dasharray="6 5"'}/>`;
+  if(on.has("membrane")) s+=`<g data-term="plasma-membrane"><rect x="${x0}" y="${y0}" width="${w}" height="${hh}" rx="${r}" fill="none" stroke="transparent" stroke-width="12"/></g>`;
+  const cx=x0+w/2, cy=y0+hh/2;
+  if(on.has("vac")) s+=`<g data-term="vacuole"><rect x="${cx-40}" y="${cy-110}" width="190" height="220" rx="50" fill="#d6e9f5" stroke="#5f8fb0" stroke-width="2"/></g>`;
+  if(on.has("nucleus")) s+=`<g data-term="nucleus"><circle cx="${cx-130}" cy="${cy-60}" r="48" fill="#e8def6" stroke="#6f55a0" stroke-width="3"/><circle cx="${cx-124}" cy="${cy-66}" r="14" fill="#8a67bd"/></g>`;
+  if(on.has("nucleoid")){ let d=`M${cx-60} ${cy}`; for(let i=0;i<10;i++) d+=` q6 ${i%2?-18:18} 12 0`; s+=`<g data-term="nucleoid"><ellipse cx="${cx}" cy="${cy}" rx="70" ry="34" fill="#ece4f7" opacity=".7"/><path d="${d}" stroke="#6f55a0" stroke-width="2.5" fill="none"/></g>`; }
+  if(on.has("er")) s+=`<g data-term="er"><path d="M${cx-70} ${cy-90} q-14 30 4 60 M${cx-58} ${cy-80} q-12 26 4 50" stroke="#8fc1d9" stroke-width="6" fill="none" stroke-linecap="round"/></g>`;
+  if(on.has("golgi")) s+=`<g data-term="golgi"><path d="M${cx-170} ${cy+60} a22 22 0 0 1 32 0 M${cx-174} ${cy+72} a26 26 0 0 1 40 0 M${cx-178} ${cy+84} a30 30 0 0 1 48 0" stroke="#eaa6c6" stroke-width="5" fill="none" stroke-linecap="round"/></g>`;
+  const mito=(x,y,rot)=>`<g transform="rotate(${rot} ${x} ${y})"><ellipse cx="${x}" cy="${y}" rx="24" ry="11" fill="#f6b48c" stroke="#c0703f" stroke-width="2"/></g>`;
+  if(on.has("mito")) s+=`<g data-term="mitochondria">${mito(cx-60,cy+120,15)}${mito(cx+190,cy-130,-10)}</g>`;
+  if(on.has("lyso")) s+=`<g data-term="lysosome"><circle cx="${cx-100}" cy="${cy+130}" r="13" fill="#bcd97f" stroke="#6d9636" stroke-width="2"/></g>`;
+  const chl=(x,y)=>`<ellipse cx="${x}" cy="${y}" rx="22" ry="11" fill="#86c46f" stroke="#3f7d34" stroke-width="2"/>`;
+  if(on.has("chloro")) s+=`<g data-term="chloroplast">${chl(cx-190,cy-140)}${chl(cx+200,cy+130)}${chl(cx-200,cy+20)}</g>`;
+  if(on.has("ribosomes")) s+=`<g data-term="ribosome">${[[-20,-30],[40,40],[-80,30],[90,-20],[10,60],[-40,-60],[70,10]].map(p=>`<circle cx="${cx+p[0]*(euk?2:1.2)}" cy="${cy+p[1]*(euk?1.6:1)}" r="3.5" fill="#4e3f82"/>`).join("")}</g>`;
+  if(on.has("flag")) s+=`<g data-term="flagellum"><path d="M${x0+w+(on.has("wall")?14:0)} ${cy} C${x0+w+40} ${cy-30} ${x0+w+60} ${cy+30} ${x0+w+100} ${cy} S${x0+w+130} ${cy-20} ${x0+w+150} ${cy}" stroke="#7a5a2c" stroke-width="4" fill="none"/></g>`;
+  s+=`<text class="lbl" x="16" y="26" font-weight="700">Target: ${label}</text>`;
+  s+=`</svg>`; return s;
+}
+function simBuilder(api){
+  let t=0, on=new Set(["membrane"]), first=true, right=0; const host=h("div"), body=h("div");
+  api.plateHost.innerHTML=""; api.plateHost.append(host);
+  function fig(){ host.innerHTML=""; const f=plate(builderSVG(on,BUILDS[Math.min(t,BUILDS.length-1)].n),"<b>Figure 9.1</b> Your cell. Click any part to read about it."); host.append(f); bindTerms(f); }
+  function draw(){ body.innerHTML="";
+    if(t>=BUILDS.length){ body.append(h("div",{class:"fb ok",html:`<b>Four cells built.</b> ${right} of ${BUILDS.length} right on the first check. You can now tell a prokaryote from a eukaryote, and a plant cell from an animal or fungal cell, by what's inside.`})); api.unlock(); return; }
+    const B=BUILDS[t];
+    body.append(h("p",{class:"muted small"},`Cell ${t+1} of ${BUILDS.length}`), h("p",{},"Build: ",h("b",{},B.n),". Switch on every part it has, and nothing it doesn't."));
+    const grid=h("div",{class:"row",style:"gap:6px"});
+    PARTS.forEach(([k,lbl,term])=>{ const b=h("button",{class:"mini","aria-pressed":String(on.has(k))},lbl); b.onclick=()=>{ on.has(k)?on.delete(k):on.add(k); b.setAttribute("aria-pressed",String(on.has(k))); fig(); }; grid.append(b); });
+    const fb=h("div"), chk=h("button",{class:"btn",style:"margin-top:10px"},"Check my cell");
+    chk.onclick=()=>{ const miss=B.req.filter(k=>!on.has(k)), extra=[...on].filter(k=>!B.req.includes(k)&&!B.opt.includes(k));
+      const ok=!miss.length&&!extra.length; if(first){ first=false; api.gradeKey("b"+t,ok,["prokaryote","eukaryote"]); if(ok) right++; }
+      fb.innerHTML="";
+      if(ok){ fb.append(h("div",{class:"fb ok",html:`<b>That's ${B.n.toLowerCase().startsWith("a ")?"it":"the cell"}.</b> ${B.opt.length?"Optional parts here: "+B.opt.map(k=>PARTS.find(p=>p[0]===k)[1].toLowerCase()).join(", ")+".":""}`}), h("button",{class:"btn",style:"margin-top:6px",onclick:()=>{ t++; first=true; on=new Set(["membrane"]); fig(); draw(); }},t+1<BUILDS.length?"Next cell":"Finish")); chk.remove(); }
+      else { const li=[...miss.map(k=>`<li><b>Missing: ${PARTS.find(p=>p[0]===k)[1]}.</b> ${B.why[k]||""}</li>`),...extra.map(k=>`<li><b>Doesn't belong: ${PARTS.find(p=>p[0]===k)[1]}.</b> ${B.why[k]||""}</li>`)].join("");
+        fb.append(h("div",{class:"fb bad",html:`<b>Not yet.</b><ul style="margin:6px 0 0;padding-left:18px">${li}</ul> Fix it and check again.`})); } };
+    body.append(grid,chk,fb); }
+  api.panel.append(h("p",{class:"kicker"},"Finale"), h("h2",{},"Build a cell"), h("p",{},"Four cells, from a bacterium to a fungus. Your score is how many you get right on the first check."), body);
+  api.lock(); fig(); draw();
+}
+
+/* ============ "Is it alive?" desk ============ */
+const ENTS=[
+ {n:"Escherichia coli",tag:"Gut bacterium",gm:"DNA (one circular chromosome, plus plasmids)",coat:"No",mem:"Yes, with a cell wall",rib:"Yes",nuc:"No (nucleoid)",rep:"Yes, by dividing in two",size:"about 2 µm",a:"pro",why:"A complete cell with membrane, DNA and ribosomes, but no nucleus: a prokaryote."},
+ {n:"Streptococcus pneumoniae",tag:"Bacterium from Griffith's experiment",gm:"DNA",coat:"No",mem:"Yes, with a cell wall and capsule",rib:"Yes",nuc:"No",rep:"Yes",size:"about 1 µm",a:"pro",why:"Bacteria are prokaryotic cells: DNA in a nucleoid, no membrane-bound organelles."},
+ {n:"A methanogen",tag:"Archaeon from a cow's gut",gm:"DNA",coat:"No",mem:"Yes, an isoprenoid membrane",rib:"Yes",nuc:"No",rep:"Yes",size:"about 1 µm",a:"pro",why:"Archaea are prokaryotes too: no nucleus, but they are complete living cells."},
+ {n:"Baker's yeast",tag:"Saccharomyces cerevisiae, a fungus",gm:"DNA in chromosomes",coat:"No",mem:"Yes, with a cell wall",rib:"Yes",nuc:"Yes",rep:"Yes, by budding",size:"about 5 µm",a:"euk",why:"Yeast has a nucleus and membrane-bound organelles: a eukaryotic cell (and a model organism)."},
+ {n:"Amoeba",tag:"Pond-water protist",gm:"DNA in chromosomes",coat:"No",mem:"Yes, no cell wall",rib:"Yes",nuc:"Yes",rep:"Yes",size:"about 500 µm",a:"euk",why:"A single-celled eukaryote with a nucleus: a protist."},
+ {n:"Leaf cell",tag:"From a spinach leaf",gm:"DNA in chromosomes",coat:"No",mem:"Yes, with a cellulose cell wall",rib:"Yes",nuc:"Yes",rep:"Yes",size:"about 50 µm",a:"euk",why:"Nucleus, chloroplasts, central vacuole and cell wall: a eukaryotic plant cell."},
+ {n:"Human skin cell",tag:"Fibroblast",gm:"DNA in 46 chromosomes",coat:"No",mem:"Yes, no cell wall",rib:"Yes",nuc:"Yes",rep:"Yes",size:"about 20 µm",a:"euk",why:"An animal cell: eukaryotic, with a nucleus and organelles but no cell wall."},
+ {n:"Influenza virus",tag:"Causes the flu",gm:"RNA",coat:"Yes, plus an envelope taken from the host's membrane",rib:"No",nuc:"No",rep:"Only inside a host cell",size:"about 100 nm",a:"virus",why:"Genetic material in a protein coat, no ribosomes and no metabolism: it can only copy itself inside a host cell."},
+ {n:"Bacteriophage T4",tag:"Infects E. coli",gm:"DNA",coat:"Yes",mem:"No",rib:"No",nuc:"No",rep:"Only inside a host bacterium",size:"about 200 nm",a:"virus",why:"A virus that infects bacteria. It injects its DNA and uses the bacterium's machinery."},
+ {n:"HIV",tag:"Human immunodeficiency virus",gm:"RNA (copied into DNA by reverse transcriptase)",coat:"Yes, with an envelope",rib:"No",nuc:"No",rep:"Only inside a host cell",size:"about 120 nm",a:"virus",why:"A virus: RNA genome in a protein coat, totally dependent on host cells."},
+ {n:"Potato spindle tuber viroid",tag:"Plant pathogen",gm:"A short circular RNA",coat:"No",mem:"No",rib:"No",nuc:"No",rep:"Only inside a host plant cell",size:"a few hundred nucleotides",a:"viroid",why:"Just a small circle of RNA with no protein coat: a viroid."},
+ {n:"Prion (PrP protein)",tag:"Causes mad cow disease",gm:"None",coat:"It is a protein",mem:"No",rib:"No",nuc:"No",rep:"Makes normal proteins misfold like itself",size:"a single protein",a:"prion",why:"An infectious misfolded protein with no nucleic acid at all: a prion."}
+];
+const GATES1=[["pro","Prokaryotic cell"],["euk","Eukaryotic cell"],["virus","Virus"],["viroid","Viroid"],["prion","Prion"]];
+function checkpointView(){
+  const app=$("#app"); app.innerHTML="";
+  app.append(h("div",{class:"banner"},h("span",{class:"num"},"1"),h("span",{class:"ttl"},"Is it alive?")));
+  app.append(h("p",{class:"muted"},"Something turns up under the microscope with a lab report. Decide what it is. Only cells count as alive under the cell theory."));
+  const box=h("div",{class:"panel",style:"max-width:820px"}); app.append(box);
+  const sess={r:0,t:0,streak:0}; let order=shuffle(ENTS), idx=0, cur=null, first=true;
+  const score=h("div",{class:"score"}), body=h("div"); box.append(score,body);
+  function drawScore(){ score.innerHTML=""; score.append(h("span",{},"This session: ",h("b",{},`${sess.r} of ${sess.t}`)),h("span",{},"Streak: ",h("b",{},String(sess.streak))),h("span",{},"Best streak: ",h("b",{},String(P.cp.best||0)))); }
+  function next(){ if(idx>=order.length){ order=shuffle(ENTS); idx=0; } cur=order[idx++]; first=true; draw(); }
+  function draw(){ body.innerHTML="";
+    const card=h("div",{class:"idcard"},h("div",{class:"hd"},h("b",{},cur.n),h("span",{},cur.tag)),
+      h("dl",{},...[["Genetic material",cur.gm],["Protein coat",cur.coat],["Membrane",cur.mem],["Ribosomes",cur.rib],["Nucleus",cur.nuc],["Reproduces",cur.rep],["Size",cur.size]].flatMap(([a,b])=>[h("dt",{},a),h("dd",{},b)])));
+    body.append(card, h("p",{style:"margin:12px 0 0"},h("b",{},"What is it?")));
+    const gates=h("div",{class:"gates"}), fb=h("div");
+    GATES1.forEach(([k,t])=>{ const b=h("button",{class:"gate"},t); b.addEventListener("click",()=>{
+      const ok=k===cur.a; if(first){ first=false; sess.t++; if(ok){ sess.r++; sess.streak++; if(sess.streak>(P.cp.best||0)) P.cp.best=sess.streak; } else sess.streak=0; save(); drawScore(); markTerm(cur.a==="pro"?"prokaryote":cur.a==="euk"?"eukaryote":cur.a,"tested"); }
+      if(ok){ b.classList.add("right"); $$(".gate",gates).forEach(x=>x.disabled=true); fb.innerHTML=""; fb.append(h("div",{class:"fb ok",html:`<b>Yes: ${t.toLowerCase()}.</b> ${cur.why}`}), h("button",{class:"btn",style:"margin-top:6px",onclick:next},"Next specimen")); }
+      else { b.classList.add("wrong"); b.disabled=true; fb.innerHTML=""; fb.append(h("div",{class:"fb bad",html:`<b>Not a ${t.toLowerCase()}.</b> ${hint(k)} Try again.`})); }
+    }); gates.append(b); });
+    body.append(gates, fb, termChips(["cell-theory","prokaryote","eukaryote","virus","viroid","prion"]));
+  }
+  function hint(k){ const c=cur;
+    if(k==="pro") return c.nuc==="Yes"?"It has a nucleus.": c.rib==="No"?"Prokaryotes are cells with their own ribosomes.":"";
+    if(k==="euk") return c.nuc!=="Yes"?"Eukaryotic cells have a nucleus.":"";
+    if(k==="virus") return c.rib==="Yes"?"It has its own ribosomes and reproduces on its own, so it's a cell.": c.coat==="No"?"Viruses have a protein coat.": c.gm==="None"?"Viruses carry DNA or RNA.":"";
+    if(k==="viroid") return c.gm==="None"?"Viroids are RNA.": c.coat!=="No"?"Viroids have no protein coat.":c.rib==="Yes"?"It's a whole cell.":"";
+    if(k==="prion") return c.gm!=="None"?"Prions have no nucleic acid.":"";
+    return ""; }
+  drawScore(); next();
+}
+
+
+/* ============ Cell atlas ============ */
+function atlasView(){
+  const app=$("#app"); app.innerHTML="";
+  app.append(h("div",{class:"banner"},h("span",{class:"num"},"1"),h("span",{class:"ttl"},"Cell atlas")));
+  app.append(h("p",{class:"muted"},"Explore freely. Click any labelled part to read about it and see where it is in your course notes."));
+  const grid=h("div",{class:"atlas"}), left=h("div"), right=h("div",{class:"panel"}); grid.append(left,right); app.append(grid);
+  const VIEWS=[["animal","Animal cell"],["plant","Plant cell"],["bact","Bacterium"],["compare","Prokaryote vs eukaryote"],["tree","Tree of life"],["groups","Eukaryote groups"],["exc","Virus, viroid, prion"],["theory","Cell theory"],["dogma","Central dogma"],["scale","Sizes"],["models","Model organisms"]];
+  let mode="animal"; const seg=h("div",{class:"seg",style:"margin-bottom:10px;flex-wrap:wrap"}), host=h("div");
+  VIEWS.forEach(v=>{ const b=h("button",{"aria-pressed":String(v[0]===mode)},v[1]); b.addEventListener("click",()=>{ mode=v[0]; $$("button",seg).forEach(x=>x.setAttribute("aria-pressed","false")); b.setAttribute("aria-pressed","true"); draw(); }); seg.append(b); });
+  left.append(seg,host);
+  function info(k){ const t=T[k]; if(!t) return; markTerm(k,"seen"); right.innerHTML="";
+    right.append(h("h2",{},t.n),h("p",{},t.d),h("p",{class:"notes-ref"},h("b",{},"Course notes: "),`p. ${t.p}`));
+    const rel=related(k); if(rel.length){ right.append(h("p",{class:"muted small",style:"margin:10px 0 0"},"Related")); right.append(termChips(rel)); } }
+  function intro(t){ right.innerHTML=""; right.append(h("h2",{},VIEWS.find(v=>v[0]===mode)[1]),h("p",{},t)); }
+  function draw(){ stopLoops(); host.innerHTML="";
+    const put=(svg,cap)=>{ const f=plate(svg,cap); host.append(f); bindTerms(f,info); return f; };
+    if(mode==="animal"){ put(figAnimalCell(),"<b>Atlas</b> An animal cell (Notes p. 9, Fig 1.14)"); intro("Nucleus, ER, Golgi, lysosomes, mitochondria, peroxisomes and the cytoskeleton. Click any part."); }
+    if(mode==="plant"){ put(figPlantCell(),"<b>Atlas</b> A plant cell (Notes p. 9, Fig 1.13)"); intro("Everything an animal cell has, plus a cell wall, a large central vacuole, chloroplasts and plasmodesmata."); }
+    if(mode==="bact"){ put(figProkaryote(),"<b>Atlas</b> A bacterial cell (Notes p. 7, Fig 1.8)"); intro("No nucleus and no membrane-bound organelles. One circular chromosome in the nucleoid, plasmids, ribosomes, a cell membrane and a cell wall."); }
+    if(mode==="compare"){ put(figProkEuk(),"<b>Atlas</b> Prokaryotic and eukaryotic cells to scale (Notes p. 6, Fig 1.4)"); intro("Eukaryotic cells are much bigger, with a nucleus and many organelles."); }
+    if(mode==="tree"){ put(figTree(),"<b>Atlas</b> The tree of life (Notes p. 7, Fig 1.7)"); intro("Three domains. Eukaryotes branch from within the Archaea."); }
+    if(mode==="groups"){ put(figKingdoms(),"<b>Atlas</b> Protists, fungi, plants and animals (Notes pp. 8–9)"); intro("The four groups of eukaryotes. Click each."); }
+    if(mode==="exc"){ put(figExceptions(),"<b>Atlas</b> Exceptions to the cell theory (Notes p. 5, Fig 1.3)"); intro("Not cells, and unable to reproduce without a host."); }
+    if(mode==="theory"){ put(figTheory(),"<b>Atlas</b> The cell theory (Notes pp. 4–5)"); intro("From Hooke's cork to Virchow's third tenet."); }
+    if(mode==="dogma"){ put(figDogma1(),"<b>Atlas</b> The central dogma (Notes p. 6, Fig 1.5)"); intro("DNA to RNA by transcription; RNA to protein by translation."); }
+    if(mode==="scale"){ put(figScale(),"<b>Atlas</b> Sizes on a scale where each step is ten times bigger"); intro("Light microscopes resolve whole cells; electron microscopes go down to viruses and molecules."); }
+    if(mode==="models"){ put(modelSVG(null),"<b>Atlas</b> Model organisms (Notes p. 10, Fig 1.15)"); intro("Six species biologists use to understand life in general."); }
+  }
+  draw();
+}
+
+/* ============ Home ============ */
+function homeView(){
+  const app=$("#app"); app.innerHTML="";
+  const nextIdx=CHAPTERS.findIndex(c=>!chState(c.id).done), startIdx=nextIdx<0?0:nextIdx;
+  app.append(h("div",{class:"banner"},h("span",{class:"num"},"Module 1"),h("span",{class:"ttl"},"Introduction to cell biology and the cell theory"),h("span",{class:"pg"},"Course notes pp. 3–11")));
+  const f=plate(figAnimalCell(),"<b>Figure</b> An animal cell. Click anything.");
+  const text=h("div",{},
+    h("h1",{},"Where it all starts: the cell."),
+    h("p",{class:"lede"},"This module covers the first microscopes, the cell theory and its exceptions, what all cells share, prokaryotes and eukaryotes, the tree of life, and model organisms."),
+    h("p",{style:"font-weight:700;margin-bottom:4px"},"Learning outcomes"),
+    h("ol",{style:"margin:0 0 12px;padding-left:20px"},h("li",{},"Explain why the cell is the fundamental unit of life and the three tenets of the cell theory."),h("li",{},"Explain the basic properties of cells and how structure relates to function."),h("li",{},"Compare and contrast prokaryotic and eukaryotic cells."),h("li",{},"Describe how model organisms are used to study biology.")),
+    h("p",{class:"muted small"},"Each chapter starts with a figure or experiment you can work with, then tests you. Your score is the share you get right on the first try. Every figure and term points back to a page in your course notes."),
+    h("div",{class:"row",style:"margin-top:10px"}, h("button",{class:"btn",onclick:()=>{RUN=null; renderChapter(startIdx,0);}}, nextIdx===0?"Start chapter 1.1":nextIdx<0?"Replay chapter 1.1":`Continue with chapter 1.${startIdx+1}`), h("button",{class:"btn ghost",onclick:()=>go("checkpoint")},"Is it alive?")));
+  app.append(h("div",{class:"hero"},f,text)); bindTerms(f);
+  const list=h("ol",{class:"chlist"});
+  CHAPTERS.forEach((c,i)=>{ const st=chState(c.id);
+    list.append(h("li",{},h("button",{class:"chitem",onclick:()=>{RUN=null; renderChapter(i,0);}}, h("span",{class:"chnum"},`1.${i+1}`), h("h3",{},c.title), h("span",{class:"meta"}, `${c.blurb} Notes ${c.pages}.`, st.done?h("span",{class:"done-tag"},`  Best: ${Math.round((st.best||0)*100)}%`):"")))); });
+  app.append(h("div",{class:"sect"},h("h2",{},"Chapters"),list));
+  app.append(h("div",{class:"sect"},h("h2",{},"Other ways in"),h("p",{class:"muted"},"The cell atlas lets you click through every figure in the module. \"Is it alive?\" gives you endless specimens to classify: prokaryote, eukaryote, virus, viroid or prion. The mini exam tests the whole module and tells you what to relearn. The glossary lists all the important terms from p. 11 of your notes.")));
+  const reset=h("button",{class:"mini",style:"margin-left:8px",onclick:()=>{ if(confirm("Clear all saved progress for Module 1 in this browser?")){ P={ch:{},terms:{},cp:{best:0}}; save(); homeView(); } }},"Reset progress");
+  app.append(h("p",{class:"foot"},"Made for BIOL 130 review. Content follows the Module 1 course notes (pp. 3 to 11), which use figures from Morris et al., Biology: How Life Works, 4th edition (Macmillan, 2023) and OpenStax Biology 2e. All figures here are original drawings. Progress is saved in this browser only.",reset));
+}
+
+/* ============ Glossary ============ */
+function glossaryView(){
+  const app=$("#app"); app.innerHTML="";
+  const keys=Object.keys(T), tested=keys.filter(k=>P.terms[k]==="tested").length, seen=keys.filter(k=>P.terms[k]).length;
+  const search=h("input",{type:"search",placeholder:"Find a term",style:"padding:8px 12px;border:1px solid var(--rule);border-radius:6px;background:var(--paper);color:var(--ink);font:inherit;min-width:240px","aria-label":"Find a term"});
+  app.append(h("div",{class:"banner"},h("span",{class:"num"},"1"),h("span",{class:"ttl"},"Important terms and concepts"),h("span",{class:"pg"},"Course notes p. 11")));
+  app.append(h("div",{class:"crumb"},h("p",{class:"muted",style:"margin:0"},`${seen} of ${keys.length} seen, ${tested} tested. Page numbers point to your course notes.`),h("div",{style:"margin-left:auto"},search)));
+  const box=h("div",{class:"gl"}); app.append(box);
+  function draw(q=""){ box.innerHTML="";
+    TERM_ORDER_GROUPS.forEach(g=>{ const ks=keys.filter(k=>T[k].g===g && (!q || (T[k].n+" "+T[k].d).toLowerCase().includes(q))); if(!ks.length) return;
+      const sec=h("section",{},h("h2",{},g));
+      ks.forEach(k=>{ const st=P.terms[k]; sec.append(h("div",{class:"gi"},h("b",{},T[k].n),h("span",{class:"st "+(st||"")},st==="tested"?"Tested":st==="seen"?"Seen":"Not yet"),h("p",{},T[k].d+" "),h("p",{class:"notes-ref",style:"grid-column:1/-1;margin:2px 0 0"},`Notes p. ${T[k].p}`))); });
+      box.append(sec); }); }
+  search.addEventListener("input",()=>draw(search.value.trim().toLowerCase())); draw();
+}
+
+
+
+/* ============ mini exam (shared engine in exam.js) ============ */
+function examView(){
+  const app=$("#app"); app.innerHTML="";
+  app.append(h("div",{class:"banner"},h("span",{class:"num"},"1"),h("span",{class:"ttl"},"Mini exam")));
+  const host=h("div"); app.append(host);
+  const items=((window.STUDY&&STUDY.exam&&STUDY.exam["m1"])||[]).map((q,i)=>({...q,mod:"m1",id:"m1-"+i}));
+  EXAM.mount(host,{key:"m1",title:"Module 1 mini exam",intro:`${items.length} questions covering every chapter of this module.`,items,sizes:[10]});
+}
+/* ============ router ============ */
+function go(view){
+  stopLoops(); exploreHook=null; RUN=null; tc.classList.remove("show"); tip.style.display="none";
+  $$(".tab").forEach(t=>t.setAttribute("aria-current",String(t.dataset.go===view)));
+  if(view==="atlas") atlasView(); else if(view==="checkpoint") checkpointView(); else if(view==="glossary") glossaryView(); else if(view==="exam") examView(); else homeView();
+  window.scrollTo(0,0);
+}
+$$(".tab").forEach(t=>t.addEventListener("click",()=>go(t.dataset.go)));
+$("#home").addEventListener("click",()=>go("story"));
+function fromHash(){
+  const m=location.hash.match(/^#ch=(\d+)/);
+  if(m && CHAPTERS[+m[1]-1]){ RUN=null; renderChapter(+m[1]-1,0); return true; }
+  if(location.hash==="#exam"){ go("exam"); return true; }
+  return false;
+}
+window.addEventListener("hashchange",fromHash);
+if(!fromHash()) go("story");
+</script></body></html>

@@ -1,53 +1,73 @@
-# BIOL 130 Interactive Modules
+# BIOL 130 Interactive
 
-Interactive study modules for BIOL 130: Introductory Cell Biology at the University of Waterloo. Each module turns one unit of the course notes into figures you can click, experiments you can run and simulations you can control, followed by questions that check your understanding.
+Interactive study modules for BIOL 130: Introductory Cell Biology at the University of Waterloo. Each module turns one unit of the course notes into figures you can click, experiments you can run and simulations you control. A mini exam at the end of each module shows you what to relearn, and a midterm prep page pulls everything together.
 
-**Live site:** https://manaall.github.io/biol130-interactive-/ 
+**Live site:** https://manaall.github.io/biol130-interactive-/
 
-## Why this exists
+## What's here
 
-Course notes explain each process in text, and videos show what happens but don't let you try it yourself. These modules sit in between. You make the prediction, run the process, and see what goes right or wrong. Every figure and term points back to a page in the course notes.
+| Page | What it covers |
+|---|---|
+| `index.html` | Landing page: all modules, your progress, a question of the day |
+| `module-1.html` | Introduction to Cell Biology and the Cell Theory |
+| `module-2.html` | Molecules of Life |
+| `module-3.html` | Cell Border Control: Cells and Membranes |
+| `module-4.html` | Nucleic Acids and Information Flow |
+| `midterm.html` | Midterm prep for Modules 1 to 5 |
 
-## Modules
+Module 5 (Protein Structure, Function and Synthesis) will be added once its notes are ready. Its review questions are already on the midterm page.
 
-| Module | Title | Covers |
-|---|---|---|
-| 3 | Cell Border Control: An Interactive Simulation of Membrane Transport in the Intestinal Epithelium | Organelles and the endomembrane system, membrane structure, osmosis and tonicity, passive and active transport, co-transport, and bulk transport. Follows glucose into an intestinal cell through the apical Na⁺/glucose symporter and out through basolateral GLUT. |
-| 4 | Nucleic Acids and Information Flow | Griffith and Avery experiments, nucleotides and phosphodiester bonds, the double helix, the central dogma, transcription in prokaryotes and eukaryotes, RNA processing and alternative splicing (course notes pp. 52–67). |
+## Inside each module
 
-More modules will be added as the course goes on.
+- **Chapters** that follow the course notes, with page references. Each opens with a figure, experiment or simulation, then tests you. Your score is the share you get right on the first try, and your best is saved so you can replay and beat it.
+- **A free-explore view** (cell atlas, molecule lab or viewer) where you can click through every structure.
+- **Endless practice** with randomized questions.
+- **A mini exam** that works like a real test: no feedback until you submit. Then you get a breakdown by chapter, a list of what to relearn with links back to those chapters, and an explanation for every question.
+- **A glossary** of every term, marked not yet seen, seen or tested, with the notes page.
 
-## What's in each module
+## Midterm prep
 
-- **Chapters** that follow the course notes. Each opens with a figure or experiment, then tests you. The score is the share of questions answered correctly on the first try, so a chapter can be replayed to improve it.
-- **A free-explore view** (Cell atlas in Module 3, Molecule viewer in Module 4) for clicking through every structure.
-- **Endless practice** with randomized questions (Checkpoint in Module 3, Sequence desk in Module 4).
-- **A glossary** of every important term, marked as not yet seen, seen or tested.
+- **Practice midterm** drawn from every module's mini exam. Pick which modules to include and how long it is.
+- **All of the prof's review questions** for Modules 1 to 5, each with an answer you can check yourself against and a self-rating (got it, shaky, no idea).
+- **My study plan**, built from your exam results and ratings, pointing to the exact chapters to go back to.
+- A countdown to your exam date.
 
-## Sources
+## Kip
 
-- Course notes for BIOL 130, University of Waterloo.
-- Morris, J. et al. (2023). *Biology: How Life Works* (4th ed.). Macmillan Learning.
-- Clark, M. A., Douglas, M., and Choi, J. (2018). *Biology 2e*. OpenStax.
+Kip is a kinesin, the motor protein that walks along microtubules carrying cargo to where it's needed. Here Kip carries your questions to the right page of the notes. Kip sits in the corner of every page and can:
 
-All figures are original drawings made in the style of textbook figures.
+- explain any term or idea from the course, with the notes page
+- compare two terms side by side
+- quiz you one question at a time
+- tell you what to study next, based on your results
+
+Kip works offline by searching the course material in `studydata.js`. Optionally, a Claude API key can be added in Kip's settings (⚙) so Kip can also explain things in its own words. The key is stored only in your browser and sent only to Anthropic.
+
+## Files
+
+```
+index.html       landing page
+module-1.html    to module-4.html, one page per module
+midterm.html     midterm prep
+studydata.js     shared data: glossary, mini exam questions, review questions and answers
+exam.js          the mini exam and practice midterm engine
+kip.js           Kip, the study guide
+README.md        this file
+```
+
+Plain HTML, CSS and JavaScript with no build step. Every page works in any modern browser, laptop first, phone second.
 
 ## Privacy
 
-There are no accounts, and nothing is sent anywhere. Progress is saved only in the student's own browser and can be reset from each module's home page.
+No accounts and no tracking. Progress, scores and ratings are saved only in your own browser and can be reset from each module's home page.
 
-## Technical notes
+## Sources
 
-Plain HTML, CSS and JavaScript with no build step. Each page is a single self-contained file:
+- BIOL 130 course notes, University of Waterloo
+- Morris, J. et al. (2023). *Biology: How Life Works* (4th ed.). Macmillan Learning.
+- Clark, M. A., Douglas, M., and Choi, J. (2018). *Biology 2e*. OpenStax.
 
-```
-index.html      landing page
-module-3.html   Cell Border Control
-module-4.html   Nucleic Acids and Information Flow
-README.md       this file
-```
-
-Works in any modern browser. Designed for laptop screens first, and also works on phones.
+All figures are original drawings in the style of textbook figures.
 
 ## Disclaimer
 

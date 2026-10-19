@@ -1,0 +1,1706 @@
+<!DOCTYPE html>
+<html lang="en" data-module="m2">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>Molecules of life | BIOL 130 Module 2</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Source+Sans+3:ital,wght@0,400;0,600;0,700;1,400&family=Source+Serif+4:ital,opsz,wght@0,8..60,500;0,8..60,650;1,8..60,400&display=swap" rel="stylesheet">
+<style>
+:root{
+  --page:#efeff6; --paper:#ffffff; --ink:#1c2830; --ink2:#4b5b64; --rule:#cbd5d7;
+  --head:#23282e; --accent:#5a5fc4; --accentInk:#ffffff; --accentSoft:#e8e8f8;
+  --ok:#2a7648; --okSoft:#e2f2e7; --bad:#a53838; --badSoft:#f7e4e2;
+  --plate:#ffffff; --plateRule:#c3cdd0; --cap:#3b4a52; --chip:#f1f5f5;
+  --serif:"Source Serif 4", Georgia, "Times New Roman", serif;
+  --sans:"Source Sans 3", "Segoe UI", system-ui, -apple-system, Roboto, Arial, sans-serif;
+  box-sizing:border-box;
+  padding-top:env(safe-area-inset-top,0px); padding-bottom:env(safe-area-inset-bottom,0px);
+}
+@media (prefers-color-scheme: dark){
+  :root:not([data-theme="light"]){
+    --page:#0f171b; --paper:#162228; --ink:#e2eaec; --ink2:#a5b5bb; --rule:#2b3b42;
+    --head:#e8eeea; --accent:#a3a7f2; --accentInk:#14152b; --accentSoft:#24264a;
+    --ok:#6cc394; --okSoft:#17311f; --bad:#e8908b; --badSoft:#3a1e1e;
+    --plate:#f4f7f7; --plateRule:#3a4a51; --cap:#b9c7cc; --chip:#1d2b31;
+  }
+}
+:root[data-theme="dark"]{
+  --page:#0f171b; --paper:#162228; --ink:#e2eaec; --ink2:#a5b5bb; --rule:#2b3b42;
+  --head:#e8eeea; --accent:#a3a7f2; --accentInk:#14152b; --accentSoft:#24264a;
+  --ok:#6cc394; --okSoft:#17311f; --bad:#e8908b; --badSoft:#3a1e1e;
+  --plate:#f4f7f7; --plateRule:#3a4a51; --cap:#b9c7cc; --chip:#1d2b31;
+}
+*,*::before,*::after{box-sizing:inherit}
+html{scroll-padding-top:env(safe-area-inset-top,0px)}
+body{margin:0;background:var(--page);color:var(--ink);font-family:var(--sans);font-size:17px;line-height:1.5;-webkit-text-size-adjust:100%}
+button{font:inherit;color:inherit}
+:focus-visible{outline:3px solid var(--accent);outline-offset:2px}
+h1,h2,h3{font-family:var(--serif);color:var(--head);font-weight:650;line-height:1.2;margin:0}
+p{margin:0 0 .8em}
+sup{font-size:.7em;line-height:0}
+
+/* top bar */
+.top{position:sticky;top:0;z-index:20;background:var(--paper);border-bottom:1px solid var(--rule);padding-top:env(safe-area-inset-top,0px)}
+.topin{max-width:1240px;margin:0 auto;display:flex;align-items:center;gap:20px;padding:10px 20px;flex-wrap:wrap}
+.brand{display:flex;align-items:baseline;gap:12px;cursor:pointer;background:none;border:0;padding:0;text-align:left}
+.brand b{font-family:var(--serif);font-size:1.45rem;color:var(--head);font-weight:650;letter-spacing:-.01em}
+.brand span{color:var(--ink2);font-size:.9rem}
+.tabs{display:flex;gap:4px;margin-left:auto;flex-wrap:wrap}
+.tab{background:none;border:1px solid transparent;border-radius:6px;padding:6px 12px;cursor:pointer;color:var(--ink2);font-weight:600}
+.tab:hover{color:var(--ink);background:var(--chip)}
+.tab[aria-current="true"]{color:var(--accent);border-color:var(--rule);background:var(--paper)}
+.wrap{max-width:1240px;margin:0 auto;padding:22px 20px 60px}
+
+/* figure plates */
+.plate{background:var(--plate);border:1px solid var(--plateRule);border-radius:4px;padding:10px 10px 8px;margin:0;position:relative}
+.plate svg,.plate canvas{display:block;width:100%;height:auto}
+.plate figcaption{font-family:var(--serif);font-size:.93rem;color:#3b4a52;padding:8px 4px 2px;line-height:1.4}
+.plate figcaption b{font-weight:650;color:#5a5fc4}
+.plate .tools{position:absolute;top:8px;right:8px;display:flex;gap:6px;z-index:2}
+.mini{font-size:.82rem;padding:4px 9px;border-radius:5px;border:1px solid #c3cdd0;background:#fff;color:#1c2830;cursor:pointer}
+.mini:hover{background:#eef4f4}
+.mini[aria-pressed="true"]{background:#5a5fc4;color:#fff;border-color:#5a5fc4}
+
+/* buttons */
+.btn{display:inline-flex;align-items:center;gap:8px;padding:10px 18px;border-radius:6px;border:1px solid var(--accent);background:var(--accent);color:var(--accentInk);font-weight:600;cursor:pointer}
+.btn:hover{filter:brightness(1.07)}
+.btn[disabled]{opacity:.45;cursor:not-allowed;filter:none}
+.btn.ghost{background:transparent;color:var(--accent)}
+.row{display:flex;gap:10px;flex-wrap:wrap;align-items:center}
+
+/* home */
+.hero{display:grid;grid-template-columns:minmax(0,1.55fr) minmax(0,1fr);gap:28px;align-items:start}
+.hero h1{font-size:2.3rem;letter-spacing:-.015em;margin-bottom:12px}
+.lede{font-size:1.08rem;color:var(--ink);max-width:36em}
+.muted{color:var(--ink2)}
+.small{font-size:.9rem}
+.chlist{list-style:none;margin:30px 0 0;padding:0;display:grid;grid-template-columns:repeat(auto-fill,minmax(270px,1fr));gap:12px}
+.chitem{background:var(--paper);border:1px solid var(--rule);border-radius:6px;padding:14px 16px;cursor:pointer;text-align:left;width:100%;display:grid;grid-template-columns:auto 1fr;gap:4px 12px;align-items:baseline}
+.chitem:hover{border-color:var(--accent)}
+.chnum{font-family:var(--serif);font-size:1.6rem;color:var(--accent);grid-row:span 2;line-height:1}
+.chitem h3{font-size:1.1rem}
+.chitem .meta{grid-column:2;color:var(--ink2);font-size:.88rem}
+.done-tag{color:var(--ok);font-weight:600}
+.sect{margin-top:34px}
+.sect h2{font-size:1.35rem;margin-bottom:6px}
+
+/* chapter */
+.crumb{display:flex;align-items:center;gap:14px;flex-wrap:wrap;margin-bottom:14px}
+.crumb h1{font-size:1.6rem}
+.crumb .back{background:none;border:0;color:var(--accent);cursor:pointer;font-weight:600;padding:0}
+.steps{display:flex;gap:4px;flex:1;min-width:160px;max-width:420px;margin-left:auto}
+.steps i{flex:1;height:6px;border-radius:3px;background:var(--rule)}
+.steps i.on{background:var(--accent)}
+.steps i.cur{background:var(--head)}
+.stage{display:grid;grid-template-columns:minmax(0,1.5fr) minmax(300px,1fr);gap:24px;align-items:start}
+.stage.wide{grid-template-columns:minmax(0,1fr)}
+.stage.wide>.panel{max-width:860px}
+.stage.wide>.panel:has(.pad){max-width:none}
+.panel{background:var(--paper);border:1px solid var(--rule);border-radius:6px;padding:18px 20px}
+.panel h2{font-size:1.3rem;margin-bottom:10px}
+.kicker{color:var(--accent);font-weight:600;font-size:.92rem;margin-bottom:4px}
+.opts{display:grid;gap:8px;margin:12px 0}
+.opt{text-align:left;padding:10px 14px;border:1px solid var(--rule);border-radius:6px;background:var(--paper);cursor:pointer;line-height:1.35}
+.opt:hover:not([disabled]){border-color:var(--accent)}
+.opt.right{border-color:var(--ok);background:var(--okSoft)}
+.opt.wrong{border-color:var(--bad);background:var(--badSoft)}
+.opt[disabled]{cursor:default}
+.fb{border-left:4px solid var(--accent);background:var(--accentSoft);padding:10px 14px;border-radius:0 6px 6px 0;margin:10px 0}
+.fb.ok{border-color:var(--ok);background:var(--okSoft)}
+.fb.bad{border-color:var(--bad);background:var(--badSoft)}
+.fb > b:first-child{display:block;margin-bottom:2px}
+.nav{display:flex;justify-content:space-between;gap:10px;margin-top:16px;flex-wrap:wrap}
+.explored{font-size:.9rem;color:var(--ink2);margin-top:6px}
+.termlinks{display:flex;flex-wrap:wrap;gap:6px;margin:8px 0}
+.tl{border:1px solid var(--rule);background:var(--chip);border-radius:14px;padding:3px 10px;font-size:.86rem;cursor:pointer}
+.tl:hover{border-color:var(--accent)}
+.tl.inl{background:none;border:0;border-bottom:1.5px dotted var(--accent);border-radius:0;color:var(--accent);padding:0 1px!important;font-weight:600}
+.tl.inl:hover{background:var(--accentSoft)}
+.tl.seen{border-color:var(--accent);color:var(--accent)}
+
+/* order + sort */
+.order{display:grid;gap:8px;margin:10px 0}
+.pool .card,.slot{border:1px dashed var(--rule);border-radius:6px;padding:9px 12px;min-height:44px;background:var(--paper);line-height:1.35}
+.pool{display:grid;gap:8px;margin:10px 0}
+.pool .card{border-style:solid;cursor:pointer;text-align:left}
+.pool .card:hover{border-color:var(--accent)}
+.pool .card.sel{border-color:var(--accent);box-shadow:0 0 0 2px var(--accent) inset}
+.slot{display:flex;gap:10px;align-items:flex-start}
+.slot .n{font-family:var(--serif);color:var(--accent);font-weight:650;min-width:1.2em}
+.slot.filled{border-style:solid;cursor:pointer}
+.slot.right{border-color:var(--ok);background:var(--okSoft)}
+.slot.wrong{border-color:var(--bad);background:var(--badSoft)}
+.bins{display:grid;grid-template-columns:repeat(auto-fit,minmax(150px,1fr));gap:8px;margin:10px 0}
+.bin{border:1px solid var(--rule);border-radius:6px;padding:8px;min-height:90px;background:var(--chip);cursor:pointer}
+.bin h4{margin:0 0 6px;font-size:.92rem;font-family:var(--sans);color:var(--head)}
+.bin .card{display:block;width:100%;font-size:.88rem;padding:5px 8px;margin-bottom:5px;border:1px solid var(--rule);border-radius:5px;background:var(--paper);text-align:left;cursor:pointer}
+.bin .card.right{border-color:var(--ok);background:var(--okSoft)}
+.bin .card.wrong{border-color:var(--bad);background:var(--badSoft)}
+.bin:hover{border-color:var(--accent)}
+
+/* controls in sims */
+.ctl{display:grid;gap:10px;margin:10px 0}
+.ctl label{font-weight:600;font-size:.92rem;display:block;margin-bottom:3px}
+.seg{display:flex;flex-wrap:wrap;border:1px solid var(--rule);border-radius:6px;overflow:hidden}
+.seg button{flex:1;padding:7px 10px;background:var(--paper);border:0;border-right:1px solid var(--rule);cursor:pointer;font-size:.9rem;min-width:70px}
+.seg button:last-child{border-right:0}
+.seg button[aria-pressed="true"]{background:var(--accent);color:var(--accentInk)}
+input[type=range]{width:100%;accent-color:var(--accent)}
+.readout{font-variant-numeric:tabular-nums;font-size:.92rem;color:var(--ink2)}
+.meter{height:10px;background:var(--rule);border-radius:5px;overflow:hidden}
+.meter i{display:block;height:100%;background:var(--accent);transition:width .5s}
+.stat{display:grid;grid-template-columns:130px 1fr;gap:8px;align-items:center;font-size:.9rem;margin:6px 0}
+
+/* tray */
+.tray{display:flex;flex-wrap:wrap;gap:8px;margin:10px 0}
+.tok{border:1px solid var(--rule);background:var(--paper);border-radius:6px;padding:7px 11px;cursor:pointer;font-size:.9rem;display:flex;align-items:center;gap:8px}
+.tok.sel{border-color:var(--accent);box-shadow:0 0 0 2px var(--accent) inset}
+.tok.used{opacity:.4}
+.sw{width:14px;height:14px;border-radius:3px;display:inline-block;border:1px solid rgba(0,0,0,.25)}
+
+/* term card */
+.termcard{position:fixed;right:18px;bottom:calc(18px + env(safe-area-inset-bottom,0px));width:min(380px,calc(100vw - 36px));background:var(--paper);border:1px solid var(--rule);border-radius:8px;box-shadow:0 10px 30px rgba(10,30,40,.18);padding:16px 18px;z-index:50;display:none;max-height:70vh;overflow:auto}
+.termcard.show{display:block}
+.termcard h3{font-size:1.2rem;margin-bottom:6px;padding-right:28px}
+.termcard .x{position:absolute;top:10px;right:10px;background:none;border:0;font-size:1.3rem;cursor:pointer;color:var(--ink2);line-height:1;padding:4px 8px}
+.termcard .rel{font-size:.86rem;color:var(--ink2);margin-top:8px}
+.tip{position:fixed;pointer-events:none;background:#2a2e35;color:#fff;font-size:.82rem;padding:4px 8px;border-radius:4px;z-index:60;display:none;white-space:nowrap}
+
+/* svg hotspots */
+[data-term]{cursor:pointer}
+[data-term]:hover > .hl, [data-term]:focus > .hl{stroke:#5a5fc4;stroke-width:3}
+[data-term]:focus{outline:none}
+[data-term].hit > .hl{stroke:#5a5fc4}
+[data-term]:hover{filter:brightness(1.06)}
+.lbl{font-family:"Source Sans 3",Arial,sans-serif;font-size:13px;fill:#1c2830}
+.lbl.sm{font-size:11.5px}
+.lbl.it{font-style:italic;fill:#3b4a52}
+.lead{stroke:#5b6b73;stroke-width:1;fill:none}
+.labels-off .lbls{display:none}
+
+/* checkpoint */
+.idcard{border:1px solid var(--rule);border-radius:8px;overflow:hidden;background:var(--paper)}
+.idcard .hd{background:var(--head);color:#fff;padding:10px 14px;display:flex;justify-content:space-between;align-items:baseline;gap:10px}
+:root[data-theme="dark"] .idcard .hd{color:#0f171b}
+@media (prefers-color-scheme: dark){:root:not([data-theme="light"]) .idcard .hd{color:#0f171b}}
+.idcard .hd b{font-family:var(--serif);font-size:1.25rem}
+.idcard dl{display:grid;grid-template-columns:auto 1fr;gap:4px 14px;margin:0;padding:12px 14px}
+.idcard dt{color:var(--ink2);font-size:.9rem}
+.idcard dd{margin:0;font-weight:600}
+.gates{display:grid;grid-template-columns:repeat(auto-fit,minmax(140px,1fr));gap:8px;margin:12px 0}
+.gate{border:1px solid var(--rule);border-radius:6px;padding:9px 10px;background:var(--paper);cursor:pointer;text-align:left;font-size:.92rem;line-height:1.3}
+.gate:hover:not([disabled]){border-color:var(--accent)}
+.gate small{display:block;color:var(--ink2);font-size:.8rem;margin-top:2px}
+.gate.right{border-color:var(--ok);background:var(--okSoft)}
+.gate.wrong{border-color:var(--bad);background:var(--badSoft)}
+.score{display:flex;gap:18px;flex-wrap:wrap;font-size:.92rem;color:var(--ink2);margin-bottom:10px}
+.score b{color:var(--ink);font-variant-numeric:tabular-nums}
+
+/* glossary */
+.gl{columns:2 360px;column-gap:28px}
+.gl section{break-inside:avoid;margin-bottom:22px}
+.gl h2{font-size:1.2rem;margin-bottom:8px;border-bottom:1px solid var(--rule);padding-bottom:4px}
+.gi{display:grid;grid-template-columns:1fr auto;gap:2px 10px;padding:8px 0;border-bottom:1px solid var(--rule)}
+.gi b{font-weight:700}
+.gi p{grid-column:1 / -1;margin:0;color:var(--ink2);font-size:.94rem}
+.st{font-size:.78rem;border-radius:10px;padding:1px 8px;border:1px solid var(--rule);color:var(--ink2);white-space:nowrap}
+.st.tested{border-color:var(--ok);color:var(--ok)}
+.st.seen{border-color:var(--accent);color:var(--accent)}
+
+/* atlas */
+.atlas{display:grid;grid-template-columns:minmax(0,1.6fr) minmax(290px,1fr);gap:24px;align-items:start}
+.atlas svg{touch-action:manipulation}
+.quizbar{display:flex;align-items:center;gap:10px;flex-wrap:wrap;background:var(--accentSoft);border-radius:6px;padding:10px 14px;margin-bottom:12px}
+
+.summary{max-width:720px}
+.big{font-family:var(--serif);font-size:3rem;color:var(--accent);line-height:1}
+.foot{margin-top:40px;color:var(--ink2);font-size:.85rem;border-top:1px solid var(--rule);padding-top:12px}
+
+
+/* course-notes styling */
+.banner{display:flex;align-items:stretch;margin:0 0 16px;min-height:44px}
+.banner .num{background:#43479f;color:#fff;font-family:var(--serif);font-weight:650;font-size:1.25rem;padding:8px 16px;display:flex;align-items:center;box-shadow:2px 2px 0 rgba(0,0,0,.18);position:relative;z-index:1}
+.banner .ttl{flex:1;background:#6d72d3;color:#fff;display:flex;align-items:center;padding:6px 18px;font-variant:small-caps;letter-spacing:.04em;font-weight:700;font-size:1.15rem;margin-left:-2px}
+.banner .pg{background:#6d72d3;color:#ffffff;display:flex;align-items:center;padding:0 14px;font-size:.85rem;white-space:nowrap}
+.remember{display:flex;gap:12px;align-items:flex-start;background:#e4ebf2;border-radius:4px;padding:10px 14px;margin:10px 0;color:#1c2830;box-shadow:1px 1px 0 rgba(0,0,0,.08)}
+.remember .key{flex:none;width:28px;height:28px}
+.remember b{display:block;font-family:var(--serif)}
+.dyk{background:#ecebf8;border-left:4px solid #5a5fc4;border-radius:0 4px 4px 0;padding:10px 14px;margin:10px 0;font-style:italic;color:#2a1c18}
+.dyk b{font-style:normal}
+.notes-ref{font-size:.85rem;color:var(--ink2);margin:4px 0 10px}
+.notes-ref b{color:var(--accent)}
+.homelink{color:var(--ink2);font-size:.88rem;text-decoration:none;border:1px solid var(--rule);border-radius:6px;padding:5px 10px;margin-right:4px}
+.homelink:hover{color:var(--accent);border-color:var(--accent)}
+.seqrow{display:flex;gap:3px;flex-wrap:wrap;align-items:center;font-family:ui-monospace,Menlo,Consolas,monospace;margin:6px 0}
+.seqrow .end{font-weight:700;color:var(--ink2);min-width:26px;text-align:center}
+.nt{width:30px;height:34px;border:1px solid var(--rule);border-radius:4px;display:inline-flex;align-items:center;justify-content:center;font-weight:700;font-size:1rem;background:var(--paper);color:var(--ink)}
+.nt.A{background:#8e6cc4;color:#fff;border-color:#6a4e9b}.nt.G{background:#dd5f45;color:#fff;border-color:#b0452f}
+.nt.T{background:#3a9a9a;color:#fff;border-color:#2a7676}.nt.C{background:#f0cf4f;color:#3a2e00;border-color:#c9a92c}
+.nt.U{background:#86b851;color:#fff;border-color:#618f33}
+.nt.slot{border-style:dashed;cursor:pointer}.nt.slot.cur{box-shadow:0 0 0 2px var(--accent)}
+.nt.ok{outline:2px solid var(--ok)}.nt.no{outline:2px solid var(--bad)}
+.pad{display:flex;gap:6px;flex-wrap:wrap;margin:8px 0}
+.pad button{width:46px;height:42px;border-radius:6px;border:1px solid var(--rule);font-weight:700;font-size:1.05rem;cursor:pointer}
+.pad button.A{background:#8e6cc4;color:#fff}.pad button.G{background:#dd5f45;color:#fff}.pad button.T{background:#3a9a9a;color:#fff}.pad button.C{background:#f0cf4f;color:#3a2e00}.pad button.U{background:#86b851;color:#fff}
+.pad button.del{width:auto;padding:0 12px;background:var(--paper);font-size:.9rem}
+
+@media (max-width: 880px){
+  body{font-size:16px}
+  .hero,.stage,.atlas{grid-template-columns:minmax(0,1fr)}
+  .hero h1{font-size:1.8rem}
+  .topin{padding:8px 14px;gap:8px}
+  .tabs{margin-left:0;width:100%}
+  .tab{padding:5px 9px;font-size:.92rem}
+  .brand span{display:none}
+  .wrap{padding:16px 12px 60px}
+  .steps{max-width:none;min-width:100%;order:3}
+  .termcard{right:0;left:0;bottom:0;width:100%;border-radius:12px 12px 0 0;padding-bottom:calc(16px + env(safe-area-inset-bottom,0px))}
+}
+@media (prefers-reduced-motion: reduce){
+  *{transition:none!important;animation:none!important}
+}
+@media (max-width:640px){.banner{flex-wrap:wrap}.banner .pg{flex-basis:100%;padding:4px 14px 6px;white-space:normal}}
+</style>
+</head>
+<body>
+<header class="top"><div class="topin">
+  <button class="brand" id="home" aria-label="Module 2 home"><b>Molecules of Life</b><span>BIOL 130, Module 2</span></button>
+  <nav class="tabs" aria-label="Sections">
+    <a class="homelink" id="hubLink" href="index.html" target="_top">All modules</a>
+    <button class="tab" data-go="story">Chapters</button>
+    <button class="tab" data-go="atlas">Molecule lab</button>
+    <button class="tab" data-go="checkpoint">Chemistry desk</button>
+    <button class="tab" data-go="exam">Mini exam</button>
+    <button class="tab" data-go="glossary">Glossary</button>
+  </nav>
+</div></header>
+<main class="wrap" id="app"></main>
+<aside class="termcard" id="termcard" role="dialog" aria-live="polite"><button class="x" aria-label="Close">×</button><div id="tcbody"></div></aside>
+<div class="tip" id="tip"></div>
+<script src="studydata.js"></script>
+<script src="exam.js"></script>
+<script src="kip.js"></script>
+<script>
+"use strict";
+/* ============ storage ============ */
+const KEY = "biol130-m2-progress-v1";
+let P = { ch:{}, terms:{}, cp:{best:0} };
+try { const s = localStorage.getItem(KEY); if (s) P = Object.assign(P, JSON.parse(s)); } catch(e) {}
+function save(){ try { localStorage.setItem(KEY, JSON.stringify(P)); } catch(e) {} }
+function markTerm(k, level){
+  const order = {seen:1, tested:2};
+  const cur = P.terms[k];
+  if (!cur || order[level] > order[cur]) { P.terms[k] = level; save(); }
+}
+/* ============ glossary data (p = course notes page) ============ */
+const T = {
+ "element":{n:"Element",g:"Atoms",p:"13",d:"A substance made of only one type of atom. Around a dozen elements make up living things; carbon, hydrogen, oxygen, nitrogen and phosphorus are the most abundant in cells."},
+ "atom":{n:"Atom",g:"Atoms",p:"13",d:"The basic unit of matter: a dense central nucleus of protons and neutrons, with electrons moving around it."},
+ "nucleus-atom":{n:"Atomic nucleus",g:"Atoms",p:"13",d:"The dense centre of an atom, made of positively charged protons and neutral neutrons."},
+ "proton":{n:"Proton",g:"Atoms",p:"13",d:"A positively charged particle in the atomic nucleus. The number of protons decides which element an atom is."},
+ "neutron":{n:"Neutron",g:"Atoms",p:"13",d:"A neutral (uncharged) particle in the atomic nucleus."},
+ "electron":{n:"Electron",g:"Atoms",p:"13",d:"A negatively charged particle that moves around the nucleus in orbitals."},
+ "orbital":{n:"Orbital",g:"Atoms",p:"13",d:"The region of space around the nucleus where electrons move. An orbital holds at most 2 electrons."},
+ "valence":{n:"Valence electrons",g:"Atoms",p:"13",d:"Electrons in the outermost orbitals of an atom. Their number determines how many bonds the atom can make."},
+ "molecule":{n:"Molecule",g:"Atoms",p:"13",d:"Two or more atoms combined by chemical bonds, for example H₂, CH₄ or H₂O."},
+ "covalent-bond":{n:"Covalent bond",g:"Bonds",p:"14",d:"A bond in which atoms share valence electrons in a molecular orbital. Covalent bonds are the strong bonds in biological systems."},
+ "electronegativity":{n:"Electronegativity",g:"Bonds",p:"14",d:"How strongly an atom attracts shared electrons. Oxygen and nitrogen are highly electronegative; hydrogen and carbon much less so."},
+ "polar-covalent":{n:"Polar covalent bond",g:"Bonds",p:"14",d:"Unequal sharing of electrons: the more electronegative atom pulls them closer and gets a slight negative charge (δ⁻), leaving the other slightly positive (δ⁺). The O–H bonds in water are polar."},
+ "nonpolar-covalent":{n:"Nonpolar covalent bond",g:"Bonds",p:"14",d:"Equal sharing of electrons between atoms with the same, or nearly the same, electronegativity, as in H–H or C–H."},
+ "polar":{n:"Polar",g:"Bonds",p:"14",d:"Having an uneven distribution of charge. Water is a polar molecule: the oxygen is slightly negative and the two hydrogens slightly positive, giving it an angular (bent) shape."},
+ "nonpolar":{n:"Nonpolar",g:"Bonds",p:"14",d:"Having an even distribution of charge, so there are no partial charges. Hydrocarbons such as oils and the methyl group are nonpolar."},
+ "ionic-bond":{n:"Ionic bond",g:"Bonds",p:"15",d:"Forms when one atom \"steals\" an electron from another because of a large difference in electronegativity. The resulting ions are held together by opposite charges, as in NaCl."},
+ "cation":{n:"Cation",g:"Bonds",p:"15",d:"A positively charged ion: it has an extra proton relative to its number of electrons. Na⁺ is a cation."},
+ "anion":{n:"Anion",g:"Bonds",p:"15",d:"A negatively charged ion: it has an extra electron relative to its number of protons. Cl⁻ is an anion."},
+ "chemical-reaction":{n:"Chemical reaction",g:"Water",p:"16",d:"The breaking and forming of chemical bonds, which transforms starting substances into different molecules."},
+ "reactants":{n:"Reactants",g:"Water",p:"16",d:"The starting substances in a chemical reaction."},
+ "products":{n:"Products",g:"Water",p:"16",d:"The new molecules formed by a chemical reaction."},
+ "solvent":{n:"Water as a solvent",g:"Water",p:"16",d:"Water is the medium of life and the most abundant molecule in organisms. It dissolves more kinds of molecules than any other liquid, thanks to its polarity."},
+ "hydrogen-bond":{n:"Hydrogen bond",g:"Water",p:"16",d:"A weak bond between an electronegative atom (such as O or N) and a hydrogen atom that is already covalently bonded to another electronegative atom. Water molecules hydrogen-bond to each other."},
+ "hydrophilic":{n:"Hydrophilic",g:"Water",p:"16",d:"\"Water loving\": highly attracted to water. Polar and charged molecules, such as NaCl or sugars, are hydrophilic and dissolve."},
+ "hydrophobic":{n:"Hydrophobic",g:"Water",p:"16",d:"\"Water fearing\": not attracted to water. Nonpolar molecules such as oils clump together in water."},
+ "amphipathic":{n:"Amphipathic (amphiphilic)",g:"Water",p:"16, 30",d:"Having both a hydrophilic and a hydrophobic region. Phospholipids are amphipathic, an important feature in biology: in water they form micelles and bilayers."},
+ "ph":{n:"pH",g:"Water",p:"17",d:"A measure of the concentration of protons (H⁺) in a solution, on a scale from 0 to 14. Pure water is pH 7. pH matters for cell function, such as protein structure and enzyme activity."},
+ "acid":{n:"Acidic",g:"Water",p:"17",d:"A solution with pH lower than 7: more H⁺ than pure water. Lemon juice (pH 2) and stomach fluid are acidic."},
+ "base":{n:"Basic",g:"Water",p:"17",d:"A solution with pH higher than 7: less H⁺ than pure water. Baking soda (pH 9) and bleach are basic."},
+ "hydrogen-ion":{n:"Hydrogen ion (H⁺)",g:"Water",p:"17",d:"A proton. A small proportion of water molecules dissociate into H⁺ and OH⁻."},
+ "hydroxide":{n:"Hydroxide ion (OH⁻)",g:"Water",p:"17",d:"The other product when a water molecule dissociates."},
+ "organic-molecule":{n:"Organic molecule",g:"Carbon",p:"18",d:"A molecule that contains carbon. With water removed, the human body is mostly carbon (52% of dry mass), oxygen, hydrogen and nitrogen."},
+ "carbon":{n:"Carbon",g:"Carbon",p:"18",d:"Forms four covalent bonds, single or double, so it can link into chains and rings with many other elements. In methane its four bonds point to the corners of a tetrahedron."},
+ "functional-group":{n:"Functional group",g:"Carbon",p:"20",d:"A group of atoms attached to a carbon chain that gives it chemical properties of its own. Groups with N, O, P or S are polar; the methyl group is nonpolar. They take part in reactions that build polymers."},
+ "fg-amino":{n:"Amino group (–NH₂)",g:"Carbon",p:"20",d:"Polar, positively charged at the pH of a cell, behaves as a base, hydrophilic. Found in amino acids and proteins."},
+ "fg-amide":{n:"Amide group",g:"Carbon",p:"20",d:"Polar and hydrophilic. Found in proteins."},
+ "fg-carboxyl":{n:"Carboxyl group (–COOH)",g:"Carbon",p:"20",d:"Polar, negatively charged at the pH of a cell, behaves as an acid, hydrophilic. Found in fatty acids, amino acids and proteins."},
+ "fg-carbonyl":{n:"Carbonyl group (>C=O)",g:"Carbon",p:"20",d:"Polar and hydrophilic. Found in carbohydrates and proteins."},
+ "fg-hydroxyl":{n:"Hydroxyl group (–OH)",g:"Carbon",p:"20",d:"Polar and hydrophilic. Found in carbohydrates, proteins and nucleic acids."},
+ "fg-sulfhydryl":{n:"Sulfhydryl group (–SH)",g:"Carbon",p:"20",d:"Polar; two of them can form an S–S disulfide bond. Found in the amino acid cysteine and in proteins."},
+ "fg-methyl":{n:"Methyl group (–CH₃)",g:"Carbon",p:"20",d:"Nonpolar. Found in amino acids, proteins and nucleic acids."},
+ "fg-phosphate":{n:"Phosphate group",g:"Carbon",p:"20",d:"Polar, negatively charged at the pH of a cell, hydrophilic. Found in phospholipids, nucleic acids and ATP."},
+ "macromolecule":{n:"Macromolecule",g:"Macromolecules",p:"19",d:"A large molecule built from smaller organic molecules. The four types of biological molecules are proteins, nucleic acids, carbohydrates and lipids."},
+ "polymer":{n:"Polymer",g:"Macromolecules",p:"19",d:"A large molecule made of many repeating building blocks (monomers) joined by covalent bonds."},
+ "monomer":{n:"Monomer",g:"Macromolecules",p:"19",d:"A building block of a polymer: amino acids, nucleotides and monosaccharides."},
+ "condensation":{n:"Condensation reaction",g:"Macromolecules",p:"19",d:"Making the chain. Monomers form a covalent bond and a water molecule is released as a byproduct. Requires energy; sped up by enzymes."},
+ "hydrolysis":{n:"Hydrolysis",g:"Macromolecules",p:"19",d:"Breaking the chain. A water molecule is inserted across the bond, splitting the polymer. Releases energy; sped up by enzymes."},
+ "protein":{n:"Proteins",g:"Proteins",p:"19, 21",d:"Polymers of amino acids. They provide structural support and act as catalysts, and have more kinds of functions than any other macromolecule."},
+ "protein-functions":{n:"Functions of proteins",g:"Proteins",p:"21",d:"Enzymes (catalysts), transport (across membranes, in circulation), signalling and regulation (hormones, receptors, messengers), movement (contractile proteins, flagella, motor proteins), support (cytoskeleton, extracellular matrix) and defense (antibodies, complement)."},
+ "amino-acid":{n:"Amino acid",g:"Proteins",p:"21",d:"The monomer of proteins. A central α carbon bonded to a carboxyl group, an amino group, a hydrogen and an R group (side chain). There are 20 genetically encoded amino acids."},
+ "alpha-carbon":{n:"α (alpha) carbon",g:"Proteins",p:"21",d:"The central carbon of an amino acid, covalently linked to four groups: carboxyl, amino, hydrogen and R group."},
+ "r-group":{n:"R group (side chain)",g:"Proteins",p:"21",d:"The part of an amino acid that distinguishes one amino acid from another."},
+ "polypeptide":{n:"Polypeptide",g:"Proteins",p:"21",d:"A linear polymer of amino acids joined by peptide bonds. Sometimes two or more polypeptide chains combine to form a mature protein."},
+ "zwitterion":{n:"Zwitterion",g:"Proteins",p:"22",d:"A molecule with both positive and negative charges. At physiological pH (7.4) an amino acid's amino group is –NH₃⁺ and its carboxyl group is –COO⁻."},
+ "peptide-bond":{n:"Peptide bond",g:"Proteins",p:"22",d:"The covalent bond between the carboxyl carbon of one amino acid and the amino nitrogen of the next. As it forms, the carboxyl group gives up an oxygen and the nitrogen two hydrogens, making a water molecule."},
+ "nucleic-acid":{n:"Nucleic acids (DNA and RNA)",g:"Nucleic acids",p:"19, 23",d:"Information molecules that encode and transmit genetic information in their sequence of nucleotides. DNA is the genetic material of all cellular organisms; RNA has many roles, especially in protein synthesis and gene regulation."},
+ "dna":{n:"DNA",g:"Nucleic acids",p:"23",d:"Deoxyribonucleic acid: the genetic material in all cellular organisms. Contains the information used to direct protein synthesis. Bases A, G, C, T; sugar deoxyribose."},
+ "rna":{n:"RNA",g:"Nucleic acids",p:"23",d:"Ribonucleic acid. A key player in protein synthesis and the regulation of gene expression. Bases A, G, C, U; sugar ribose."},
+ "nucleotide":{n:"Nucleotide",g:"Nucleic acids",p:"23–24",d:"The monomer of nucleic acids, with three parts (nucleoTide has Three parts): a nitrogenous base, a five-carbon sugar, and one or more phosphate groups."},
+ "nucleoside":{n:"Nucleoside",g:"Nucleic acids",p:"24",d:"Just a base and a sugar, with no phosphate (nucleoSide = base and Sugar)."},
+ "nitrogenous-base":{n:"Nitrogenous base",g:"Nucleic acids",p:"23",d:"The nitrogen-containing part of a nucleotide, attached to the 1′ carbon of the sugar. The order of bases carries the information in DNA and RNA."},
+ "pyrimidine":{n:"Pyrimidines",g:"Nucleic acids",p:"23",d:"Bases with a single ring: cytosine (C), thymine (T) and uracil (U)."},
+ "purine":{n:"Purines",g:"Nucleic acids",p:"23",d:"Bases with a double ring: adenine (A) and guanine (G)."},
+ "deoxyribose":{n:"Deoxyribose",g:"Nucleic acids",p:"23–24",d:"The five-carbon sugar in DNA. It has just –H on the 2′ carbon."},
+ "ribose":{n:"Ribose",g:"Nucleic acids",p:"23–24",d:"The five-carbon sugar in RNA (and ATP). It has an –OH on the 2′ carbon."},
+ "adenine":{n:"Adenine",g:"Nucleic acids",p:"23",d:"A purine base (two rings), found in DNA, RNA and ATP."},
+ "phosphate-grp":{n:"Phosphate group (in a nucleotide)",g:"Nucleic acids",p:"24",d:"One or more phosphates attached to the 5′ carbon of the sugar. In a chain, a phosphate links the 3′ carbon of one sugar to the 5′ carbon of the next."},
+ "nucleotide-functions":{n:"Functions of nucleotides",g:"Nucleic acids",p:"24",d:"i. Monomers of DNA and RNA. ii. Signal molecules, such as cyclic AMP (cAMP). iii. Energy transfer: ATP → ADP + Pᵢ + energy. iv. Coenzymes, such as NAD (made with vitamin B3)."},
+ "atp":{n:"ATP",g:"Nucleic acids",p:"24",d:"Adenosine triphosphate, a nucleotide. Cleaving off the terminal phosphate releases stored energy: ATP → ADP + Pᵢ + energy."},
+ "phosphodiester":{n:"Phosphodiester bond",g:"Nucleic acids",p:"25",d:"The covalent link between the phosphate of one nucleotide and the 3′–OH of the sugar of another. Its formation releases a water molecule and gives the strand direction."},
+ "five-three":{n:"5′ to 3′ direction",g:"Nucleic acids",p:"25",d:"The chain begins at the 5′ end (with a phosphate); new nucleotides are added to the free 3′–OH end. Chains are always built 5′ → 3′."},
+ "carbohydrate":{n:"Carbohydrates",g:"Carbohydrates",p:"19, 26",d:"Sugars, made of C, H and O, usually in a 1:2:1 ratio. A major source of energy and also structural molecules, such as cellulose in plants."},
+ "monosaccharide":{n:"Monosaccharide",g:"Carbohydrates",p:"26",d:"A simple sugar (mono = one), with 5 or 6 carbons, linear or (more commonly) cyclic. In cells, virtually all are in cyclic form: for glucose, C1 bonds to the O of the –OH on C5."},
+ "isomer":{n:"Isomers (6-carbon sugars)",g:"Carbohydrates",p:"26",d:"Molecules with the same formula but a different arrangement. Glucose, galactose and fructose are all C₆H₁₂O₆ but work differently. Galactose differs from glucose at carbon 4; fructose has a ketone group instead of an aldehyde."},
+ "glycosidic":{n:"Glycosidic bond",g:"Carbohydrates",p:"27",d:"The covalent link between two monosaccharides, formed between C1 of one and an –OH on a carbon of the other. Forming it releases a water molecule."},
+ "disaccharide":{n:"Disaccharide",g:"Carbohydrates",p:"28",d:"Two linked monosaccharides (di = two). Sucrose (table sugar, C₁₂H₂₂O₁₁) is glucose plus fructose."},
+ "oligosaccharide":{n:"Oligosaccharide",g:"Carbohydrates",p:"28",d:"A few linked monosaccharides (oligo = few). Attached to proteins they form glycoproteins; attached to lipids, glycolipids."},
+ "polysaccharide":{n:"Polysaccharide",g:"Carbohydrates",p:"28",d:"Many linked monosaccharides (poly = many). Long-term energy storage (starch in plants, glycogen) or structural support (cellulose)."},
+ "glycogen-starch":{n:"Starch and glycogen",g:"Carbohydrates",p:"28",d:"Storage forms of glucose. Glycogen is a large, branched chain of glucose attached to a central protein. Starch is a large, branched chain of glucose found in plants such as potatoes, wheat and corn."},
+ "lipid":{n:"Lipids",g:"Lipids",p:"19, 29",d:"A chemically diverse group, and the only macromolecule that is NOT a polymer. Grouped together because they are all hydrophobic. They make up membranes, store energy and help in cell communication."},
+ "triacylglycerol":{n:"Triacylglycerol",g:"Lipids",p:"29",d:"Glycerol joined to three fatty acids. The major component of animal fat and vegetable oil; used for energy storage."},
+ "fatty-acid":{n:"Fatty acid",g:"Lipids",p:"29",d:"A long chain of carbons with a carboxyl group (–COOH) at one end."},
+ "glycerol":{n:"Glycerol",g:"Lipids",p:"29",d:"A three-carbon molecule with a hydroxyl (–OH) group on each carbon. The backbone of triacylglycerols and phospholipids."},
+ "saturated":{n:"Saturated fatty acid",g:"Lipids",p:"29",d:"No double bonds between the carbon atoms, so the chain is straight and packs tightly."},
+ "unsaturated":{n:"Unsaturated fatty acid",g:"Lipids",p:"29",d:"Has one or more carbon–carbon double bonds, which put kinks in the chain."},
+ "steroid":{n:"Steroids",g:"Lipids",p:"30",d:"Lipids made of many carbon atoms bonded into four characteristic fused rings."},
+ "cholesterol":{n:"Cholesterol",g:"Lipids",p:"30",d:"A steroid that is a component of animal cell membranes and the precursor for steroid hormones such as cortisol."},
+ "phospholipid":{n:"Phospholipid",g:"Lipids",p:"30",d:"A major component of cell membranes: a glycerol backbone attached to a polar phosphate-containing head group (hydrophilic) and two nonpolar fatty acid tails (hydrophobic). Amphipathic."}
+};
+const TERM_ORDER_GROUPS = ["Atoms","Bonds","Water","Carbon","Macromolecules","Proteins","Nucleic acids","Carbohydrates","Lipids"];
+const REL = {
+ "atom":["proton","neutron","electron","nucleus-atom"], "electron":["orbital","valence"], "valence":["covalent-bond","orbital"],
+ "covalent-bond":["polar-covalent","nonpolar-covalent","electronegativity"], "electronegativity":["polar-covalent","ionic-bond"], "ionic-bond":["cation","anion"],
+ "polar":["hydrophilic","hydrogen-bond"], "nonpolar":["hydrophobic"], "hydrophilic":["hydrophobic","amphipathic"], "hydrophobic":["hydrophilic","amphipathic"],
+ "ph":["acid","base","hydrogen-ion"], "chemical-reaction":["reactants","products"], "functional-group":["fg-amino","fg-carboxyl","fg-hydroxyl","fg-phosphate","fg-methyl"],
+ "polymer":["monomer","condensation","hydrolysis"], "condensation":["hydrolysis"], "hydrolysis":["condensation"],
+ "amino-acid":["alpha-carbon","r-group","peptide-bond"], "peptide-bond":["condensation","polypeptide"], "protein":["amino-acid","protein-functions"],
+ "nucleotide":["nucleoside","nitrogenous-base","phosphate-grp"], "pyrimidine":["purine"], "purine":["pyrimidine"], "phosphodiester":["five-three"],
+ "monosaccharide":["isomer","disaccharide","glycosidic"], "glycosidic":["disaccharide","polysaccharide"], "polysaccharide":["glycogen-starch"],
+ "lipid":["triacylglycerol","steroid","phospholipid"], "triacylglycerol":["fatty-acid","glycerol"], "saturated":["unsaturated"], "unsaturated":["saturated"], "phospholipid":["amphipathic"]
+};
+
+/* ============ utilities ============ */
+const $ = (s, r=document) => r.querySelector(s);
+const $$ = (s, r=document) => Array.from(r.querySelectorAll(s));
+function h(tag, attrs={}, ...kids){
+  const e = document.createElement(tag);
+  for (const k in attrs){
+    const v = attrs[k];
+    if (k === "class") e.className = v;
+    else if (k === "html") e.innerHTML = v;
+    else if (k.startsWith("on")) e.addEventListener(k.slice(2), v);
+    else if (v !== false && v != null) e.setAttribute(k, v);
+  }
+  for (const c of kids.flat()){ if (c == null) continue; e.append(c.nodeType ? c : document.createTextNode(c)); }
+  return e;
+}
+function shuffle(a){ a = a.slice(); for (let i=a.length-1;i>0;i--){ const j=Math.floor(Math.random()*(i+1)); [a[i],a[j]]=[a[j],a[i]]; } return a; }
+const reduceMotion = window.matchMedia && window.matchMedia("(prefers-reduced-motion: reduce)").matches;
+let activeLoops = [];
+function loop(fn){ let on = true, last = performance.now(); const tick = t => { if(!on) return; const dt = Math.min(0.05,(t-last)/1000); last = t; fn(dt,t); requestAnimationFrame(tick); }; requestAnimationFrame(tick); const s = {stop(){on=false;}}; activeLoops.push(s); return s; }
+function stopLoops(){ activeLoops.forEach(l=>l.stop()); activeLoops = []; }
+function plate(svgOrEl, caption){
+  const f = h("figure",{class:"plate"});
+  if (typeof svgOrEl === "string") f.insertAdjacentHTML("beforeend", svgOrEl); else f.append(svgOrEl);
+  if (caption) f.append(h("figcaption",{html:caption}));
+  return f;
+}
+
+/* ============ term card and tooltip ============ */
+const tc = $("#termcard"), tip = $("#tip");
+let exploreHook = null;
+function openTerm(k){
+  const t = T[k]; if (!t) return;
+  markTerm(k,"seen");
+  $("#tcbody").innerHTML = "";
+  $("#tcbody").append(h("h3",{},t.n), h("p",{},t.d), h("p",{class:"notes-ref"},h("b",{},"Course notes: "),`p. ${t.p}`));
+  const rel = related(k);
+  if (rel.length){
+    const box = h("div",{class:"rel"},"Related: ");
+    rel.forEach((r,i)=>{ box.append(h("button",{class:"tl",style:"margin:2px",onclick:()=>openTerm(r)},T[r].n)); });
+    $("#tcbody").append(box);
+  }
+  tc.classList.add("show");
+  if (exploreHook) exploreHook(k);
+}
+$(".x", tc).addEventListener("click", ()=>tc.classList.remove("show"));
+document.addEventListener("keydown", e=>{ if(e.key==="Escape") tc.classList.remove("show"); });
+const REL_OLD = {
+  "integral-protein":["transmembrane-protein","peripheral-protein"], "transmembrane-protein":["integral-protein","channel","carrier"],
+  "peripheral-protein":["integral-protein","cytoskeleton"], "cytoplasm":["cytosol"], "cytosol":["cytoplasm"],
+  "endomembrane":["er","golgi","lysosome","vesicle","nucleus"], "er":["ribosome","golgi","endomembrane"], "golgi":["er","vesicle","endomembrane"],
+  "nucleus":["nucleolus","nuclear-pores"], "chloroplast":["plastid"], "plastid":["chloroplast"],
+  "channel":["carrier","aquaporin","facilitated-diffusion"], "carrier":["channel","uniporter","facilitated-diffusion"],
+  "osmosis":["osmotic-pressure","hypotonic","hypertonic","isotonic"], "secondary-active":["primary-active","symporter","antiporter","nak-pump"],
+  "nak-pump":["primary-active","electrochemical-gradient","importer","exporter"], "electrochemical-gradient":["membrane-potential","concentration-gradient"],
+  "endocytosis":["phagocytosis","pinocytosis","rme"], "bulk-transport":["exocytosis","endocytosis"],
+  "apical":["basolateral","microvilli","tight-junction"], "basolateral":["apical","interstitial-fluid"],
+  "phospholipid":["hydrophilic-head","fatty-acid-tails","bilayer"], "fatty-acid-tails":["phospholipid","selective-permeability"]
+};
+function related(k){ return (REL[k]||[]).filter(r=>T[r]); }
+function bindTerms(root, onPick){
+  $$("[data-term]", root).forEach(g=>{
+    const k = g.getAttribute("data-term");
+    if (!T[k]) return;
+    g.setAttribute("tabindex","0"); g.setAttribute("role","button"); g.setAttribute("aria-label", T[k].n);
+    const pick = ()=>{ (onPick||openTerm)(k, g); g.classList.add("hit"); };
+    g.addEventListener("click", e=>{ e.stopPropagation(); pick(); });
+    g.addEventListener("keydown", e=>{ if(e.key==="Enter"||e.key===" "){ e.preventDefault(); e.stopPropagation(); pick(); }});
+    g.addEventListener("mousemove", e=>{ tip.textContent = T[k].n; tip.style.display="block"; tip.style.left=(e.clientX+14)+"px"; tip.style.top=(e.clientY+12)+"px"; });
+    g.addEventListener("mouseleave", ()=>{ tip.style.display="none"; });
+  });
+}
+function termChips(keys){
+  const box = h("div",{class:"termlinks"});
+  keys.forEach(k=>{ if(!T[k]) return; box.append(h("button",{class:"tl"+(P.terms[k]?" seen":""),onclick:(e)=>{openTerm(k); e.currentTarget.classList.add("seen");}},T[k].n)); });
+  return box;
+}
+// inline term text in copy: [[key|text]]
+function rich(s){
+  return s.replace(/\[\[([a-z0-9-]+)\|([^\]]+)\]\]/g, (m,k,txt)=>`<button class="tl inl" data-open="${k}" style="font-size:inherit">${txt}</button>`);
+}
+function bindRich(root){ $$("[data-open]",root).forEach(b=>b.addEventListener("click",()=>openTerm(b.dataset.open))); }
+/* ============ shared drawing helpers ============ */
+function lab(text, term, tx, ty, px, py, anchor="start", cls="lbl"){
+  const lines = text.split("\n");
+  const t = lines.map((l,i)=>`<tspan x="${tx}" dy="${i?14:0}">${l}</tspan>`).join("");
+  const cw = cls.includes("sm")?5.7:6.4, wdt = Math.max(...lines.map(l=>l.length))*cw, hgt=(lines.length-1)*14;
+  const x0 = anchor==="end"?tx-wdt: anchor==="middle"?tx-wdt/2 : tx, x1 = x0+wdt;
+  let lx, ly=ty-4;
+  if (px!=null && px>=x0-6 && px<=x1+6){ lx=Math.max(x0,Math.min(x1,px)); ly = py>ty ? ty+hgt+5 : ty-15; }
+  else if (px!=null && px<x0) lx=x0-4; else lx=x1+4;
+  const lead = (px!=null) ? `<line class="lead" x1="${lx}" y1="${ly}" x2="${px}" y2="${py}"/><circle cx="${px}" cy="${py}" r="2" fill="#5b6b73"/>` : "";
+  return `<g ${term?`data-term="${term}"`:""}>${lead}<text class="${cls}" x="${tx}" y="${ty}" text-anchor="${anchor}">${t}</text></g>`;
+}
+
+function arrow(x1,y1,x2,y2,col="#34454e",w=2.2,dash=""){
+  const a=Math.atan2(y2-y1,x2-x1), L=10;
+  const p1=[x2-L*Math.cos(a-0.4),y2-L*Math.sin(a-0.4)], p2=[x2-L*Math.cos(a+0.4),y2-L*Math.sin(a+0.4)];
+  return `<line x1="${x1}" y1="${y1}" x2="${(x2-6*Math.cos(a)).toFixed(1)}" y2="${(y2-6*Math.sin(a)).toFixed(1)}" stroke="${col}" stroke-width="${w}" ${dash?`stroke-dasharray="${dash}"`:""}/><polygon points="${x2},${y2} ${p1[0].toFixed(1)},${p1[1].toFixed(1)} ${p2[0].toFixed(1)},${p2[1].toFixed(1)}" fill="${col}"/>`;
+}
+
+/* ============ Module 2 figures ============ */
+const MC={C:"#55585c",H:"#9aa8b6",O:"#d8463c",N:"#4a7fd0",P:"#e58a2c",S:"#c9a400",ink:"#23282e",sug:"#f6d36b",sugS:"#b8901c",pro:"#8fd19e",proS:"#3f8f52",nuc:"#c1b2e2",nucS:"#6f5aa3",lip:"#f2c94c",lipS:"#b8901c"};
+const atomT=(x,y,t,c,sz=16,w=700)=>`<text x="${x}" y="${y}" text-anchor="middle" font-family="Source Sans 3,Arial" font-size="${sz}" font-weight="${w}" fill="${c||MC[t]||MC.ink}">${t}</text>`;
+const bond=(x1,y1,x2,y2,c="#34454e",w=2)=>`<line x1="${x1}" y1="${y1}" x2="${x2}" y2="${y2}" stroke="${c}" stroke-width="${w}"/>`;
+const dbl=(x1,y1,x2,y2,c="#34454e")=>{ const a=Math.atan2(y2-y1,x2-x1), dx=3*Math.sin(a), dy=-3*Math.cos(a); return bond(x1+dx,y1+dy,x2+dx,y2+dy,c)+bond(x1-dx,y1-dy,x2-dx,y2-dy,c); };
+
+/* elements in the human body, dry mass (notes Fig 2.10) */
+function figElements(){
+  const W=760,H=360; let s=`<svg viewBox="0 0 ${W} ${H}" role="img" aria-label="Pie chart of elements in human dry mass: carbon 52 percent"><rect width="${W}" height="${H}" fill="#fff"/>`;
+  const D=[["Carbon (C)",52,"#3f8a4c"],["Oxygen (O)",21.5,"#e58a2c"],["Nitrogen (N)",8.5,"#3d6fb6"],["Hydrogen (H)",7.5,"#7fb6e0"],["Calcium (Ca)",4.5,"#e2b33c"],["Phosphorus (P)",3,"#c0392b"],["S, K, Na, Cl, Mg",2,"#8a67bd"],["Other",1,"#a8d08d"]];
+  const cx=200, cy=180, r=140; let a=-Math.PI/2;
+  s+=`<g data-term="organic-molecule">`;
+  D.forEach(([n,v,c])=>{ const b=a+v/100*2*Math.PI, large=v>50?1:0; s+=`<path d="M${cx} ${cy} L${(cx+r*Math.cos(a)).toFixed(1)} ${(cy+r*Math.sin(a)).toFixed(1)} A${r} ${r} 0 ${large} 1 ${(cx+r*Math.cos(b)).toFixed(1)} ${(cy+r*Math.sin(b)).toFixed(1)} Z" fill="${c}" stroke="#fff" stroke-width="2"/>`; a=b; });
+  s+=`</g>`;
+  D.forEach(([n,v,c],i)=>{ const y=50+i*36; s+=`<rect x="400" y="${y-14}" width="18" height="18" rx="3" fill="${c}"/><text class="lbl" x="428" y="${y}">${n}</text><text class="lbl" x="${W-30}" y="${y}" text-anchor="end" font-weight="700">${v}%</text>`; });
+  s+=`<text class="lbl it" x="400" y="${H-20}">Human body, dry mass (water removed)</text>`;
+  s+=`</svg>`; return s;
+}
+
+/* a chemical reaction (notes Fig 2.7) */
+function figReaction(){
+  const W=760,H=240; let s=`<svg viewBox="0 0 ${W} ${H}" role="img" aria-label="Two hydrogen molecules and one oxygen molecule react to form two water molecules"><rect width="${W}" height="${H}" fill="#fff"/>`;
+  const sp=(x,y,r,c)=>`<circle cx="${x}" cy="${y}" r="${r}" fill="${c}" stroke="rgba(0,0,0,.25)"/>`;
+  const H2=(x,y)=>sp(x-11,y,16,"#9fc3e8")+sp(x+11,y,16,"#9fc3e8");
+  s+=`<g data-term="reactants">${H2(70,80)}${H2(150,80)}<text class="lbl" x="110" y="130" text-anchor="middle">2H₂, hydrogen gas</text>${atomT(210,88,"+","#333",24)}${sp(255,80,22,"#e0857c")}${sp(285,80,22,"#e0857c")}<text class="lbl" x="270" y="130" text-anchor="middle">O₂, oxygen gas</text></g>`;
+  s+=`<g data-term="chemical-reaction">${arrow(330,80,410,80,"#34454e",3)}</g>`;
+  const W2=(x,y)=>sp(x,y,22,"#e0857c")+sp(x-20,y+16,13,"#9fc3e8")+sp(x+20,y+16,13,"#9fc3e8");
+  s+=`<g data-term="products">${W2(480,72)}${W2(580,72)}<text class="lbl" x="530" y="130" text-anchor="middle">2H₂O, water</text></g>`;
+  s+=`<path d="M40 160 v8 H320 v-8" stroke="#55606a" fill="none"/><text class="lbl" x="180" y="190" text-anchor="middle" font-weight="700">Reactants: the starting substances</text>`;
+  s+=`<path d="M440 160 v8 H630 v-8" stroke="#55606a" fill="none"/><text class="lbl" x="535" y="190" text-anchor="middle" font-weight="700">Products: the new molecules</text>`;
+  s+=`<text class="lbl it" x="${W/2}" y="${H-14}" text-anchor="middle">Bonds break (H–H, O=O) and new bonds form (O–H). Atoms are rearranged, not created or destroyed.</text>`;
+  s+=`</svg>`; return s;
+}
+
+/* carbon's bonding (notes Fig 2.11) */
+function figCarbon(){
+  const W=860,H=300; let s=`<svg viewBox="0 0 ${W} ${H}" role="img" aria-label="Carbon forms four bonds: methane, a double bond, a chain and a ring"><rect width="${W}" height="${H}" fill="#fff"/>`;
+  // methane tetrahedron
+  s+=`<g data-term="carbon"><path d="M110 60 L40 190 L150 220 L190 150 Z M110 60 L150 220 M40 190 L190 150" stroke="#b9c2c8" fill="none" stroke-dasharray="4 3"/>`;
+  [[110,60],[40,190],[150,220],[190,150]].forEach(([x,y])=>{ s+=`<path d="M120 160 L${x} ${y}" stroke="#f0a04b" stroke-width="10" stroke-linecap="round" opacity=".55"/>${atomT(x,y+6,"H",MC.H)}`; });
+  s+=`<circle cx="120" cy="160" r="15" fill="#55585c"/>${atomT(120,166,"C","#fff")}<text class="lbl" x="115" y="262" text-anchor="middle" font-weight="700">Methane, CH₄</text><text class="lbl sm" x="115" y="280" text-anchor="middle">four bonds to the corners of a tetrahedron</text></g>`;
+  // ethylene
+  s+=`<g data-term="carbon">${dbl(290,140,340,140)}${bond(290,140,265,112)}${bond(290,140,265,168)}${bond(340,140,365,112)}${bond(340,140,365,168)}${atomT(290,146,"C")}${atomT(340,146,"C")}${atomT(258,108,"H",MC.H,14)}${atomT(258,182,"H",MC.H,14)}${atomT(372,108,"H",MC.H,14)}${atomT(372,182,"H",MC.H,14)}<text class="lbl" x="315" y="262" text-anchor="middle" font-weight="700">C₂H₄</text><text class="lbl sm" x="315" y="280" text-anchor="middle">a C=C double bond</text></g>`;
+  // chain
+  let d="M430 160"; const pts=[]; for(let i=0;i<7;i++){ const x=430+i*30, y=i%2?130:160; pts.push([x,y]); d+=` L${x} ${y}`; }
+  s+=`<g data-term="carbon"><path d="${d}" stroke="#34454e" stroke-width="2.5" fill="none"/>${dbl(pts[2][0],pts[2][1],pts[3][0],pts[3][1])}${pts.map(p=>`<circle cx="${p[0]}" cy="${p[1]}" r="5" fill="#55585c"/>`).join("")}<text class="lbl" x="520" y="262" text-anchor="middle" font-weight="700">C₇H₁₄</text><text class="lbl sm" x="520" y="280" text-anchor="middle">a chain (Hs not drawn)</text></g>`;
+  // benzene ring
+  const rp=[]; for(let i=0;i<6;i++){ const a=(-90+60*i)*Math.PI/180; rp.push([720+50*Math.cos(a),145+50*Math.sin(a)]); }
+  s+=`<g data-term="carbon">`; for(let i=0;i<6;i++){ const p=rp[i], q=rp[(i+1)%6]; s+= i%2? bond(p[0],p[1],q[0],q[1],"#34454e",2.5) : dbl(p[0],p[1],q[0],q[1]); } s+=rp.map(p=>`<circle cx="${p[0]}" cy="${p[1]}" r="5" fill="#55585c"/>`).join("");
+  s+=`<text class="lbl" x="720" y="262" text-anchor="middle" font-weight="700">C₆H₆</text><text class="lbl sm" x="720" y="280" text-anchor="middle">a ring</text></g>`;
+  s+=`</svg>`; return s;
+}
+
+/* functional groups (notes Table 2.1) */
+const FG=[
+ {k:"fg-amino",n:"Amino",f:"–NH₂",pol:"Polar",ch:"+ (acts as a base)",in:"Amino acids, proteins"},
+ {k:"fg-amide",n:"Amide",f:"–C(=O)NH–",pol:"Polar",ch:"none",in:"Proteins"},
+ {k:"fg-carboxyl",n:"Carboxyl",f:"–COOH",pol:"Polar",ch:"– (acts as an acid)",in:"Fatty acids, amino acids, proteins"},
+ {k:"fg-carbonyl",n:"Carbonyl",f:">C=O",pol:"Polar",ch:"none",in:"Carbohydrates, proteins"},
+ {k:"fg-hydroxyl",n:"Hydroxyl",f:"–OH",pol:"Polar",ch:"none",in:"Carbohydrates, proteins, nucleic acids"},
+ {k:"fg-sulfhydryl",n:"Sulfhydryl",f:"–SH",pol:"Polar",ch:"none; forms S–S disulfide bonds",in:"Cysteine, proteins"},
+ {k:"fg-methyl",n:"Methyl",f:"–CH₃",pol:"Nonpolar",ch:"none",in:"Amino acids, proteins, nucleic acids"},
+ {k:"fg-phosphate",n:"Phosphate",f:"–OPO₃H₂",pol:"Polar",ch:"– ",in:"Phospholipids, nucleic acids, ATP"}];
+function figGroups(){
+  const W=860,H=420; let s=`<svg viewBox="0 0 ${W} ${H}" role="img" aria-label="Table of eight functional groups"><rect width="${W}" height="${H}" fill="#fff"/>`;
+  const cols=[[20,"Name"],[150,"Formula"],[300,"Polar?"],[400,"Charge at cell pH"],[620,"Found in"]];
+  s+=`<rect x="10" y="10" width="${W-20}" height="34" rx="6" fill="#43479f"/>`+cols.map(([x,t])=>`<text x="${x+6}" y="32" font-family="Source Sans 3,Arial" font-size="14" font-weight="700" fill="#fff">${t}</text>`).join("");
+  FG.forEach((g,i)=>{ const y=48+i*45;
+    s+=`<g data-term="${g.k}"><rect x="10" y="${y}" width="${W-20}" height="42" rx="4" fill="${i%2?"#f4f4fa":"#fff"}"/><text class="lbl" x="26" y="${y+26}" font-weight="700">${g.n}</text><text x="156" y="${y+27}" font-family="Source Sans 3,Arial" font-size="17" font-weight="600" fill="${g.pol==="Polar"?"#2c5aa0":"#b0342c"}">${g.f}</text><text class="lbl" x="306" y="${y+26}" fill="${g.pol==="Polar"?"#2c5aa0":"#b0342c"}" font-weight="700">${g.pol}</text><text class="lbl" x="406" y="${y+26}">${g.ch}</text><text class="lbl sm" x="626" y="${y+26}">${g.in}</text></g>`; });
+  s+=`</svg>`; return s;
+}
+
+/* four kinds of macromolecule */
+function figMacro4(){
+  const W=860,H=330; let s=`<svg viewBox="0 0 ${W} ${H}" role="img" aria-label="The four kinds of biological molecules, their monomers and functions"><rect width="${W}" height="${H}" fill="#fff"/>`;
+  const R=[["protein","Proteins","amino acids","structure; catalysts (enzymes)","#8fd19e","#3f8f52","c"],["nucleic-acid","Nucleic acids","nucleotides","encode and transmit genetic information","#c1b2e2","#6f5aa3","n"],["carbohydrate","Carbohydrates","monosaccharides","structure; a source of energy","#f6d36b","#b8901c","h"],["lipid","Lipids","not a polymer","membranes, energy storage, signalling","#f2c94c","#b8901c","l"]];
+  R.forEach(([k,n,m,f,c,cs,sh],i)=>{ const x=20+i*210;
+    s+=`<g data-term="${k}"><rect x="${x}" y="16" width="196" height="298" rx="10" fill="#fafafa" stroke="#d5d8e2"/><text x="${x+98}" y="46" text-anchor="middle" font-family="Source Serif 4,Georgia" font-size="19" font-weight="650" fill="#23282e">${n}</text>`;
+    for(let j=0;j<4;j++){ const cx=x+38+j*40, cy=110;
+      if(sh==="c") s+=`<circle cx="${cx}" cy="${cy}" r="15" fill="${c}" stroke="${cs}" stroke-width="2"/>`;
+      if(sh==="n") s+=`<circle cx="${cx-6}" cy="${cy-8}" r="6" fill="#f4c64f" stroke="#b88a14"/><polygon points="${cx},${cy-8} ${cx+12},${cy-2} ${cx+8},${cy+10} ${cx-6},${cy+10} ${cx-9},${cy-2}" fill="${c}" stroke="${cs}"/>`;
+      if(sh==="h"){ let p=[]; for(let k2=0;k2<6;k2++){ const a=Math.PI/3*k2+Math.PI/6; p.push((cx+15*Math.cos(a)).toFixed(1)+","+(cy+15*Math.sin(a)).toFixed(1)); } s+=`<polygon points="${p.join(" ")}" fill="${c}" stroke="${cs}" stroke-width="2"/>`; }
+      if(sh==="l" && j<3) s+=`<path d="M${x+50+j*36} ${cy-26} v56" stroke="${cs}" stroke-width="4"/>`;
+      if(sh!=="l" && j<3) s+=bond(cx+15,cy,cx+25,cy,"#34454e",3); }
+    if(sh==="l") s+=`<rect x="${x+40}" y="${100-36}" width="90" height="12" rx="4" fill="#e9b52f"/>`;
+    s+=`<text class="lbl" x="${x+98}" y="170" text-anchor="middle" font-weight="700">Building blocks:</text><text class="lbl" x="${x+98}" y="190" text-anchor="middle">${m}</text>`;
+    const fw=f.split("; "); fw.forEach((t,j)=>s+=`<text class="lbl sm" x="${x+98}" y="${230+j*18}" text-anchor="middle">${t}</text>`); s+=`</g>`; });
+  s+=`</svg>`; return s;
+}
+
+/* amino acid (notes Figs 2.13, 2.14) */
+function figAminoAcid(ion){
+  const W=640,H=320; let s=`<svg viewBox="0 0 ${W} ${H}" role="img" aria-label="${ion?"Ionized amino acid (zwitterion)":"General structure of an amino acid"}"><rect width="${W}" height="${H}" fill="#fff"/>`;
+  const cx=300, cy=160;
+  s+=`<g data-term="alpha-carbon">${atomT(cx,cy+6,"C",MC.C,26)}</g>`;
+  s+=`<g data-term="fg-amino">${bond(cx-16,cy,cx-70,cy)}${atomT(cx-100,cy+7,ion?"H₃N⁺":"H₂N",MC.N,24)}</g>`;
+  s+=`<g data-term="fg-carboxyl">${bond(cx+16,cy,cx+70,cy)}${atomT(cx+84,cy+7,"C",MC.C,24)}${dbl(cx+92,cy-12,cx+120,cy-46)}${atomT(cx+128,cy-52,"O","#a5532c",22)}${bond(cx+94,cy+10,cx+120,cy+42)}${atomT(cx+136,cy+60,ion?"O⁻":"OH","#a5532c",22)}</g>`;
+  s+=`${bond(cx,cy-16,cx,cy-56)}${atomT(cx,cy-64,"H",MC.H,22)}`;
+  s+=`<g data-term="r-group">${bond(cx,cy+12,cx,cy+56)}<circle cx="${cx}" cy="${cy+76}" r="20" fill="#d7efd9" stroke="#3f8a4c" stroke-width="2"/>${atomT(cx,cy+84,"R","#2e6b39",22)}</g>`;
+  s+=`<g class="lbls">${lab("Amino group","fg-amino",40,60,cx-104,cy-14)}${lab("α carbon","alpha-carbon",400,90,cx+8,cy-8)}${lab("Carboxyl group","fg-carboxyl",470,170,cx+140,cy+4)}${lab("R group (side chain):\ndiffers for each amino acid","r-group",380,280,cx+22,cy+80)}</g>`;
+  if(ion) s+=`<text class="lbl it" x="20" y="${H-16}">At physiological pH (7.4) both groups are ionized: a zwitterion.</text>`;
+  s+=`</svg>`; return s;
+}
+
+/* a dipeptide (notes Fig 2.15) */
+function figPeptide(){
+  const W=760,H=320; let s=`<svg viewBox="0 0 ${W} ${H}" role="img" aria-label="Two amino acids joined by a peptide bond, releasing water"><rect width="${W}" height="${H}" fill="#fff"/>`;
+  const y=160;
+  s+=`<g data-term="fg-amino">${atomT(70,y+7,"H₃N⁺",MC.N,22)}</g>${bond(100,y,140,y)}${atomT(156,y+7,"C",MC.C,22)}${bond(156,y-14,156,y-44)}${atomT(156,y-52,"H",MC.H,18)}${bond(156,y+14,156,y+44)}<circle cx="156" cy="${y+62}" r="16" fill="#d7efd9" stroke="#3f8a4c" stroke-width="2"/>${atomT(156,y+69,"R₁","#2e6b39",16)}`;
+  s+=`${bond(170,y,214,y)}${atomT(228,y+7,"C",MC.C,22)}${dbl(228,y-14,228,y-48)}${atomT(228,y-56,"O","#a5532c",20)}`;
+  s+=`<g data-term="peptide-bond"><line x1="242" y1="${y}" x2="292" y2="${y}" stroke="#d8463c" stroke-width="5"/></g>${atomT(306,y+7,"N",MC.N,22)}${bond(306,y+14,306,y+42)}${atomT(306,y+60,"H",MC.H,18)}`;
+  s+=`${bond(320,y,360,y)}${atomT(376,y+7,"C",MC.C,22)}${bond(376,y-14,376,y-44)}${atomT(376,y-52,"H",MC.H,18)}${bond(376,y+14,376,y+44)}<circle cx="376" cy="${y+62}" r="16" fill="#d7efd9" stroke="#3f8a4c" stroke-width="2"/>${atomT(376,y+69,"R₂","#2e6b39",16)}`;
+  s+=`<g data-term="fg-carboxyl">${bond(390,y,430,y)}${atomT(446,y+7,"C",MC.C,22)}${dbl(452,y-12,474,y-40)}${atomT(482,y-46,"O","#a5532c",20)}${bond(454,y+10,476,y+36)}${atomT(492,y+52,"O⁻","#a5532c",20)}</g>`;
+  s+=`<g data-term="condensation"><circle cx="640" cy="${y-10}" r="22" fill="#d8463c"/><circle cx="616" cy="${y+12}" r="12" fill="#eef2f6" stroke="#8a98a8"/><circle cx="664" cy="${y+12}" r="12" fill="#eef2f6" stroke="#8a98a8"/><text class="lbl" x="640" y="${y+56}" text-anchor="middle" font-weight="700">+ H₂O released</text></g>`;
+  s+=`<g class="lbls">${lab("Peptide bond (C–N)","peptide-bond",230,40,267,y-4)}${lab("Amino end","fg-amino",30,280,70,y+18)}${lab("Carboxyl end","fg-carboxyl",440,280,470,y+60)}</g>`;
+  s+=`<path d="M40 ${y+100} H260 M300 ${y+100} H520" stroke="none"/>`;
+  s+=`</svg>`; return s;
+}
+
+/* nucleotide (notes Fig 2.17) */
+function figNucleotide2(rna){
+  const W=640,H=330; let s=`<svg viewBox="0 0 ${W} ${H}" role="img" aria-label="${rna?"A ribonucleotide":"A deoxyribonucleotide"}: phosphate, sugar and base"><rect width="${W}" height="${H}" fill="#fff"/>`;
+  s+=`<g data-term="phosphate-grp"><circle cx="110" cy="150" r="34" fill="#f4c64f" stroke="#b88a14" stroke-width="2"/>${atomT(110,158,"P","#5a4300",22)}</g>${bond(144,150,200,150,"#34454e",3)}`;
+  const pts=[[260,95],[318,128],[300,198],[220,198],[202,128]];
+  s+=`<g data-term="${rna?"ribose":"deoxyribose"}"><polygon points="${pts.map(p=>p.join(",")).join(" ")}" fill="${rna?"#f3b3c1":"#c1b2e2"}" stroke="${rna?"#b0566e":"#6f5aa3"}" stroke-width="2.5"/>${atomT(260,90,"O","#a5532c",16)}`;
+  [["4′",200,124],["3′",216,220],["2′",304,220],["1′",326,124]].forEach(([t,x,y])=>s+=`<text class="lbl sm" x="${x}" y="${y}" fill="#b0342c" font-weight="700">${t}</text>`);
+  s+=`<text class="lbl sm" x="178" y="146" fill="#b0342c" font-weight="700">5′</text>`;
+  s+=`${bond(220,198,212,236)}${atomT(206,254,"OH","#a5532c",15)}${bond(300,198,308,236)}<g data-term="${rna?"ribose":"deoxyribose"}"><circle cx="314" cy="250" r="20" fill="#ffe2e8" stroke="#d65a7a" stroke-width="2"/>${atomT(314,256,rna?"OH":"H",rna?"#a5532c":MC.H,15)}</g></g>`;
+  s+=`${bond(318,128,390,128,"#34454e",3)}<g data-term="nitrogenous-base"><rect x="390" y="100" width="160" height="56" rx="8" fill="#e9eaf0" stroke="#55606a"/><text class="lbl" x="470" y="134" text-anchor="middle" font-weight="700">Base (${rna?"A, G, U or C":"A, G, T or C"})</text></g>`;
+  s+=`<text class="lbl" x="${W/2}" y="30" text-anchor="middle" font-weight="700">${rna?"Ribonucleotide":"Deoxyribonucleotide"}</text>`;
+  s+=`<g class="lbls">${lab("One or more\nphosphate groups","phosphate-grp",40,250,100,184)}${lab(rna?"Ribose: –OH on the 2′ carbon":"Deoxyribose: just –H on the 2′ carbon",rna?"ribose":"deoxyribose",380,250,330,250)}${lab("A base containing nitrogen","nitrogenous-base",420,70,470,100)}</g>`;
+  s+=`</svg>`; return s;
+}
+
+/* purines and pyrimidines (notes Fig 2.16) */
+function figBases2(){
+  const W=760,H=300; let s=`<svg viewBox="0 0 ${W} ${H}" role="img" aria-label="Pyrimidines have one ring; purines have two"><rect width="${W}" height="${H}" fill="#fff"/>`;
+  const hex=(cx,cy,r,c)=>{ let p=[]; for(let i=0;i<6;i++){ const a=(-90+60*i)*Math.PI/180; p.push((cx+r*Math.cos(a)).toFixed(1)+","+(cy+r*Math.sin(a)).toFixed(1)); } return `<polygon points="${p.join(" ")}" fill="${c}" stroke="rgba(0,0,0,.35)" stroke-width="2"/>`; };
+  const pent=(cx,cy,r,c)=>{ let p=[]; for(let i=0;i<5;i++){ const a=(180+72*i)*Math.PI/180; p.push((cx+r*Math.cos(a)).toFixed(1)+","+(cy+r*Math.sin(a)).toFixed(1)); } return `<polygon points="${p.join(" ")}" fill="${c}" stroke="rgba(0,0,0,.35)" stroke-width="2"/>`; };
+  s+=`<g data-term="pyrimidine">`;
+  [["C","Cytosine","#f0cf4f"],["T","Thymine","#3a9a9a"],["U","Uracil","#86b851"]].forEach(([b,n,c],i)=>{ const x=70+i*110; s+=hex(x,130,38,c)+atomT(x,138,b,"#fff",22)+`<text class="lbl" x="${x}" y="200" text-anchor="middle">${n}</text>`; });
+  s+=`<text class="lbl" x="180" y="40" text-anchor="middle" font-weight="700">Pyrimidines: one ring</text></g>`;
+  s+=`<g data-term="purine">`;
+  [["G","Guanine","#dd5f45"],["A","Adenine","#8e6cc4"]].forEach(([b,n,c],i)=>{ const x=500+i*150; s+=pent(x-50,130,30,c)+hex(x,130,38,c)+atomT(x-6,138,b,"#fff",22)+`<text class="lbl" x="${x-20}" y="200" text-anchor="middle">${n}</text>`; });
+  s+=`<text class="lbl" x="560" y="40" text-anchor="middle" font-weight="700">Purines: two rings</text></g>`;
+  s+=`<text class="lbl it" x="${W/2}" y="250" text-anchor="middle">DNA uses A, G, C and T. RNA uses A, G, C and U.</text><text class="lbl it" x="${W/2}" y="272" text-anchor="middle">Ring shapes are simplified; the order of bases carries the information.</text>`;
+  s+=`</svg>`; return s;
+}
+
+/* a short strand with phosphodiester bonds (notes Fig 2.18) */
+function figStrand2(){
+  const W=520,H=480; let s=`<svg viewBox="0 0 ${W} ${H}" role="img" aria-label="Three nucleotides linked by phosphodiester bonds, 5 prime end at top and 3 prime end at bottom"><rect width="${W}" height="${H}" fill="#fff"/>`;
+  s+=`<rect x="120" y="20" width="200" height="400" rx="16" fill="#eaf3fb"/>`;
+  for(let i=0;i<3;i++){ const y=60+i*125;
+    s+=`<g data-term="phosphate-grp"><circle cx="160" cy="${y}" r="20" fill="#f4c64f" stroke="#b88a14" stroke-width="2"/>${atomT(160,y+6,"P","#5a4300",16)}</g>`;
+    s+=`<g data-term="phosphodiester">${bond(160,y+20,190,y+46,i?"#d8463c":"#34454e",i?4:2.5)}</g>`;
+    const px=230, py=y+70; s+=`<polygon points="${px},${py-30} ${px+30},${py-10} ${px+20},${py+24} ${px-20},${py+24} ${px-30},${py-10}" fill="#c1b2e2" stroke="#6f5aa3" stroke-width="2"/>`;
+    s+=`<text class="lbl sm" x="${px-46}" y="${py-14}" fill="#b0342c" font-weight="700">5′</text><text class="lbl sm" x="${px-36}" y="${py+40}" fill="#b0342c" font-weight="700">3′</text>`;
+    s+=`${bond(px+30,py-10,px+70,py-10,"#34454e",2.5)}<rect x="${px+70}" y="${py-26}" width="70" height="32" rx="6" fill="#e9eaf0" stroke="#55606a"/><text class="lbl" x="${px+105}" y="${py-5}" text-anchor="middle">Base</text>`;
+    if(i<2) s+=`<g data-term="phosphodiester">${bond(px-20,py+24,170,py+52,"#d8463c",4)}</g>`;
+    else s+=`${bond(px-20,py+24,200,py+50)}${atomT(196,py+66,"OH","#a5532c",15)}`; }
+  s+=`<text x="40" y="66" font-family="Source Sans 3,Arial" font-size="26" font-weight="700" fill="#23282e">5′</text><text x="40" y="410" font-family="Source Sans 3,Arial" font-size="26" font-weight="700" fill="#23282e">3′</text>`;
+  s+=`<g data-term="five-three">${arrow(60,90,60,380,"#2c5aa0",3)}</g>`;
+  s+=`<g class="lbls">${lab("Phosphodiester bond:\n3′ carbon–O–P–O–5′ carbon","phosphodiester",340,210,190,205)}${lab("Free 3′–OH: new\nnucleotides add here","five-three",270,462,214,450)}</g>`;
+  s+=`</svg>`; return s;
+}
+
+/* glucose, galactose and fructose in linear form (notes Fig 2.20) */
+function figSugars6(){
+  const W=760,H=400; let s=`<svg viewBox="0 0 ${W} ${H}" role="img" aria-label="Glucose, galactose and fructose: same formula, different arrangement"><rect width="${W}" height="${H}" fill="#fff"/>`;
+  const SG=[["Glucose","glucose",["ald","R","L","R","R"],"Product of photosynthesis","#d7efd9"],["Galactose","galactose",["ald","R","L","L","R"],"Found in dairy products","#dbe8f6"],["Fructose","fructose",["CH2OH","ket","L","R","R"],"Commercial sweetener","#f8dde6"]];
+  SG.forEach(([n,k,arr,note,col],i)=>{ const x=130+i*250; s+=`<g data-term="${k==="glucose"?"monosaccharide":k==="galactose"?"isomer":"isomer"}">`;
+    s+=`<text x="${x}" y="34" text-anchor="middle" font-family="Source Serif 4,Georgia" font-size="19" font-weight="650">${n}</text>`;
+    for(let c=0;c<6;c++){ const y=70+c*44; s+= c<5? bond(x,y+12,x,y+32):"";
+      if(c===0 && arr[0]==="ald"){ s+=atomT(x,y+6,"C")+bond(x-12,y,x-30,y)+atomT(x-40,y+6,"H",MC.H,15)+dbl(x+12,y,x+34,y,"#d8463c")+atomT(x+46,y+6,"O","#d8463c",16); continue; }
+      if(c===0){ s+=atomT(x,y+6,"C")+bond(x-12,y,x-30,y)+atomT(x-40,y+6,"H",MC.H,15)+bond(x+12,y,x+30,y)+atomT(x+48,y+6,"OH","#a5532c",15)+`<text class="lbl sm" x="${x+70}" y="${y+6}">(CH₂OH)</text>`; continue; }
+      if(c===5){ s+=atomT(x,y+6,"C")+bond(x-12,y,x-30,y)+atomT(x-40,y+6,"H",MC.H,15)+bond(x+12,y,x+30,y)+atomT(x+48,y+6,"OH","#a5532c",15)+bond(x,y+12,x,y+28)+atomT(x,y+42,"H",MC.H,15); continue; }
+      const o=arr[c]; if(o==="ket"){ s+=atomT(x,y+6,"C")+dbl(x+12,y,x+34,y,"#2c5aa0")+atomT(x+46,y+6,"O","#2c5aa0",16); continue; }
+      const L=o==="L"; s+=atomT(x,y+6,"C")+bond(x-12,y,x-30,y)+bond(x+12,y,x+30,y)+(L?atomT(x-46,y+6,"HO","#a5532c",15)+atomT(x+40,y+6,"H",MC.H,15):atomT(x-40,y+6,"H",MC.H,15)+atomT(x+48,y+6,"OH","#a5532c",15)); }
+    if(i===1) s+=`<rect x="${x-70}" y="${70+3*44-16}" width="140" height="32" rx="6" fill="none" stroke="#c0392b" stroke-width="2" stroke-dasharray="4 3"/>`;
+    s+=`<rect x="${x-90}" y="${H-44}" width="180" height="28" rx="6" fill="${col}"/><text class="lbl sm" x="${x}" y="${H-25}" text-anchor="middle">${note}</text></g>`; });
+  s+=`<text class="lbl sm" x="196" y="62" fill="#d8463c">aldehyde group</text><text class="lbl sm" x="700" y="56" text-anchor="end" fill="#2c5aa0">ketone group at carbon 2</text>`;
+  s+=`</svg>`; return s;
+}
+
+/* triacylglycerol (notes Fig 2.25) */
+function figTAG(){
+  const W=760,H=320; let s=`<svg viewBox="0 0 ${W} ${H}" role="img" aria-label="Triacylglycerol: glycerol joined to three fatty acids"><rect width="${W}" height="${H}" fill="#fff"/>`;
+  s+=`<g data-term="glycerol"><rect x="40" y="50" width="90" height="220" rx="12" fill="#e7e1f4" stroke="#6f5aa3" stroke-width="2"/><text class="lbl" x="85" y="40" text-anchor="middle" font-weight="700">Glycerol</text>`;
+  ["CH₂","CH","CH₂"].forEach((t,i)=>s+=atomT(85,98+i*70,t,MC.C,18));
+  s+=`</g>`;
+  for(let i=0;i<3;i++){ const y=92+i*70; s+=`<g data-term="fatty-acid">${bond(130,y,160,y)}${atomT(170,y+6,"O",MC.O,16)}${bond(180,y,206,y)}${atomT(216,y+6,"C",MC.C,16)}${dbl(216,y-10,216,y-30)}${atomT(216,y-34,"O",MC.O,14)}`;
+    let d=`M226 ${y}`; for(let k=0;k<14;k++) d+=` L${246+k*26} ${k%2?y:y-14}`; s+=`<path d="${d}" stroke="#4b4f55" stroke-width="3" fill="none" stroke-linejoin="round"/></g>`; }
+  s+=`<text class="lbl" x="420" y="296" text-anchor="middle" font-weight="700">Three fatty acids: long hydrocarbon chains</text>`;
+  s+=`<g class="lbls">${lab("Each fatty acid's carboxyl end\nlinks to one glycerol –OH","fatty-acid",440,40,216,74)}</g>`;
+  s+=`</svg>`; return s;
+}
+
+/* steroid: four fused rings (notes Fig 2.26) */
+function figSteroid(){
+  const W=640,H=320; let s=`<svg viewBox="0 0 ${W} ${H}" role="img" aria-label="Cholesterol: four fused carbon rings with a hydroxyl group and a hydrocarbon tail"><rect width="${W}" height="${H}" fill="#fff"/>`;
+  const hex=(cx,cy,r)=>{ const p=[]; for(let i=0;i<6;i++){ const a=(30+60*i)*Math.PI/180; p.push([cx+r*Math.cos(a),cy+r*Math.sin(a)]); } return p; };
+  const r=38, A=hex(150,200,r), B=hex(150+r*Math.sqrt(3),200,r), Cc=hex(150+r*Math.sqrt(3)*1.5,200-r*1.5,r);
+  const poly=p=>`<polygon points="${p.map(q=>q[0].toFixed(1)+","+q[1].toFixed(1)).join(" ")}" fill="#fdf0c8" stroke="#34454e" stroke-width="2.5"/>`;
+  s+=`<g data-term="cholesterol">${poly(A)}${poly(B)}${poly(Cc)}`;
+  // ring D: pentagon sharing an edge with ring C
+  const e1=Cc[5], e2=Cc[0]; const mx=(e1[0]+e2[0])/2+40, my=(e1[1]+e2[1])/2;
+  const D=[e1,[e1[0]+46,e1[1]-14],[mx+30,my],[e2[0]+46,e2[1]+14],e2];
+  s+=`<polygon points="${D.map(q=>q[0].toFixed(1)+","+q[1].toFixed(1)).join(" ")}" fill="#fdf0c8" stroke="#34454e" stroke-width="2.5"/>`;
+  s+=`${bond(mx+30,my,mx+80,my-30,"#34454e",2.5)}${bond(mx+80,my-30,mx+120,my-10,"#34454e",2.5)}${bond(mx+120,my-10,mx+160,my-40,"#34454e",2.5)}${bond(mx+160,my-40,mx+200,my-20,"#34454e",2.5)}${bond(mx+200,my-20,mx+220,my-50,"#34454e",2.5)}</g>`;
+  s+=`<g data-term="fg-hydroxyl">${bond(A[3][0],A[3][1],A[3][0]-34,A[3][1]+10,"#34454e",2.5)}${atomT(A[3][0]-52,A[3][1]+18,"HO","#a5532c",18)}</g>`;
+  s+=`<g data-term="steroid"><text class="lbl" x="130" y="70" font-weight="700">Four fused rings</text></g>`;
+  s+=`<g class="lbls">${lab("Hydroxyl (–OH)","fg-hydroxyl",20,300,A[3][0]-40,A[3][1]+20)}${lab("Hydrocarbon tail","cholesterol",470,80,mx+150,my-36)}</g>`;
+  s+=`<text class="lbl it" x="${W-20}" y="${H-16}" text-anchor="end">Cholesterol. Steroid hormones such as cortisol share the four rings.</text>`;
+  s+=`</svg>`; return s;
+}
+
+/* phospholipid (notes Fig 2.27) */
+function figPhospholipid(){
+  const W=640,H=420; let s=`<svg viewBox="0 0 ${W} ${H}" role="img" aria-label="A phospholipid: polar head with choline and phosphate, glycerol backbone, two nonpolar fatty acid tails"><rect width="${W}" height="${H}" fill="#fff"/>`;
+  s+=`<rect x="0" y="0" width="${W}" height="190" fill="#e4effa"/><rect x="0" y="190" width="${W}" height="${H-190}" fill="#f8efd9"/>`;
+  s+=`<text x="${W-16}" y="30" text-anchor="end" font-family="Source Sans 3,Arial" font-size="15" font-weight="700" fill="#2c5aa0" letter-spacing="2">HYDROPHILIC</text><text x="${W-16}" y="${H-16}" text-anchor="end" font-family="Source Sans 3,Arial" font-size="15" font-weight="700" fill="#a5532c" letter-spacing="2">HYDROPHOBIC</text>`;
+  s+=`<g data-term="phospholipid"><circle cx="240" cy="60" r="30" fill="#7aa8d8" stroke="#2c5aa0" stroke-width="2"/>${atomT(240,66,"N⁺",'#fff',16)}<text class="lbl sm" x="240" y="104" text-anchor="middle"></text></g>`;
+  s+=`<g data-term="fg-phosphate">${bond(240,90,240,118,"#34454e",3)}<circle cx="240" cy="140" r="22" fill="#f4c64f" stroke="#b88a14" stroke-width="2"/>${atomT(240,146,"P","#5a4300",16)}</g>`;
+  s+=`<g data-term="glycerol">${bond(240,162,240,180,"#34454e",3)}<rect x="190" y="180" width="110" height="34" rx="8" fill="#e7e1f4" stroke="#6f5aa3" stroke-width="2"/><text class="lbl sm" x="245" y="202" text-anchor="middle">glycerol</text></g>`;
+  s+=`<g data-term="saturated"><path d="M215 214 ${Array.from({length:9},(_,k)=>`L${k%2?205:225} ${236+k*20}`).join(" ")}" stroke="#4b4f55" stroke-width="4" fill="none"/></g>`;
+  s+=`<g data-term="unsaturated"><path d="M275 214 L285 236 L265 256 L285 276 L300 300 L330 316 L345 340 L370 352 L382 380" stroke="#4b4f55" stroke-width="4" fill="none"/><circle cx="293" cy="288" r="10" fill="none" stroke="#d8463c" stroke-width="2"/></g>`;
+  s+=`<g class="lbls">${lab("Choline","phospholipid",40,50,210,60)}${lab("Phosphate","fg-phosphate",40,140,218,140)}${lab("Polar head group","phospholipid",380,90,272,70)}${lab("Glycerol backbone","glycerol",40,200,190,197)}${lab("Nonpolar fatty acid tail","saturated",40,330,208,320)}${lab("Kink at a C=C double bond","unsaturated",400,260,302,288)}</g>`;
+  s+=`</svg>`; return s;
+}
+
+/* ============ story engine ============ */
+let RUN = null; // {id, first:{}}
+function chState(id){ return P.ch[id] || (P.ch[id] = {done:false, best:null, last:null}); }
+function recordFirst(stepIdx, correct, terms){
+  if (!RUN) return;
+  if (!(stepIdx in RUN.first)) RUN.first[stepIdx] = !!correct;
+  (terms||[]).forEach(k=>markTerm(k,"tested"));
+}
+function runScore(){ const v=Object.values(RUN.first); return {right:v.filter(Boolean).length, total:v.length}; }
+
+function renderChapter(ci, si=0){
+  stopLoops(); exploreHook=null; window.scrollTo(0,0);
+  $$(".tab").forEach(t=>t.setAttribute("aria-current",String(t.dataset.go==="story")));
+  const ch = CHAPTERS[ci];
+  if (!RUN || RUN.id !== ch.id) RUN = {id:ch.id, first:{}};
+  const app = $("#app"); app.innerHTML = "";
+  const bar = h("div",{class:"steps","aria-hidden":"true"});
+  ch.steps.forEach((_,i)=>bar.append(h("i",{class:i<si?"on":i===si?"cur":""})));
+  app.append(h("div",{class:"banner"}, h("span",{class:"num"},`2.${ci+1}`), h("span",{class:"ttl"},ch.title), h("span",{class:"pg"},`Course notes ${ch.pages}`)));
+  app.append(h("div",{class:"crumb"}, h("button",{class:"back",onclick:()=>go("story")},"All chapters"), h("span",{class:"muted small"},`Step ${si+1} of ${ch.steps.length}`), bar));
+  const step = ch.steps[si];
+  const stage = h("div",{class:"stage"+(step.wide?" wide":"")});
+  const plateHost = h("div"), panel = h("div",{class:"panel"});
+  stage.append(plateHost, panel); app.append(stage);
+  const next = h("button",{class:"btn",onclick:()=>{ if(si+1<ch.steps.length) renderChapter(ci,si+1); else finishChapter(ci); }}, si+1<ch.steps.length?"Continue":"Finish chapter");
+  const back = h("button",{class:"btn ghost",onclick:()=>{ if(si>0) renderChapter(ci,si-1); else go("story"); }}, si>0?"Back":"All chapters");
+  const api = {
+    ci, si, panel, plateHost, next,
+    lock(){ next.disabled = true; }, unlock(){ next.disabled = false; },
+    grade(ok, terms){ recordFirst(si, ok, terms||step.terms); },
+    gradeKey(key, ok, terms){ recordFirst(si+'.'+key, ok, terms); },
+  };
+  (STEP_TYPES[step.type])(step, api);
+  panel.append(h("div",{class:"nav"}, back, next));
+  bindTerms(app); bindRich(app);
+  tc.classList.remove("show");
+}
+function finishChapter(ci){
+  stopLoops(); window.scrollTo(0,0);
+  const ch = CHAPTERS[ci], sc = runScore(), st = chState(ch.id);
+  const frac = sc.total ? sc.right/sc.total : 1;
+  const prevBest = st.best;
+  st.done = true; st.last = frac; if (st.best==null || frac>st.best) st.best = frac; save();
+  const app=$("#app"); app.innerHTML="";
+  const box = h("div",{class:"summary"});
+  box.append(h("div",{class:"banner"}, h("span",{class:"num"},`2.${ci+1}`), h("span",{class:"ttl"},ch.title+": complete")));
+  box.append(h("div",{class:"row",style:"gap:26px;margin:10px 0 18px"},
+     h("div",{}, h("div",{class:"big"},`${sc.right}/${sc.total}`), h("div",{class:"muted small"},"right on the first try")),
+     h("div",{}, h("div",{class:"big",style:"color:var(--head)"},Math.round((st.best||0)*100)+"%"), h("div",{class:"muted small"}, prevBest==null?"your best so far": (frac>prevBest?"new personal best":"your best"))) ));
+  box.append(h("p",{},ch.wrap));
+  box.append(h("p",{class:"muted small"},"Terms from this chapter. Click one to review it."), termChips(ch.terms));
+  const nextBtn = ci+1<CHAPTERS.length ? h("button",{class:"btn",onclick:()=>{RUN=null; renderChapter(ci+1,0);}},`Start chapter ${ci+2}: ${CHAPTERS[ci+1].title}`) : h("button",{class:"btn",onclick:()=>go("checkpoint")},"Go to the chemistry desk");
+  box.append(h("div",{class:"row",style:"margin-top:16px"}, nextBtn, h("button",{class:"btn ghost",onclick:()=>{RUN=null; renderChapter(ci,0);}},"Replay chapter"), h("button",{class:"btn ghost",onclick:()=>go("story")},"All chapters")));
+  app.append(box);
+  RUN = null;
+}
+
+/* ---- step types ---- */
+function figHost(step, api, svg){
+  if (!svg) return;
+  const f = plate(svg, step.cap);
+  if (step.labelsToggle){
+    const b = h("button",{class:"mini","aria-pressed":"true"},"Labels");
+    b.addEventListener("click",()=>{ const on=b.getAttribute("aria-pressed")==="true"; b.setAttribute("aria-pressed",on?"false":"true"); f.classList.toggle("labels-off",on); });
+    f.prepend(h("div",{class:"tools"},b));
+  }
+  api.plateHost.innerHTML=""; api.plateHost.append(f);
+  if (step.onFig) step.onFig(f.querySelector("svg"));
+  return f;
+}
+const STEP_TYPES = {
+  brief(step, api){
+    figHost(step, api, step.fig && step.fig());
+    api.panel.append(h("h2",{},step.title), h("div",{html:rich(step.text)}));
+    if (step.terms) api.panel.append(termChips(step.terms));
+  },
+  review(step, api){
+    figHost(step, api, step.fig());
+    api.panel.append(h("h2",{},step.title), h("div",{html:rich(step.text)}));
+    const counter = h("p",{class:"explored"});
+    const seen = new Set();
+    const upd = ()=>{ counter.textContent = `Parts explored: ${seen.size} of ${step.terms.length}`; };
+    exploreHook = k=>{ if(step.terms.includes(k)){ seen.add(k); upd(); } };
+    upd(); api.panel.append(counter, termChips(step.terms));
+  },
+  mcq(step, api){
+    const f = figHost(step, api, step.fig && step.fig());
+    if (!step.fig) api.plateHost.remove(), api.panel.parentElement.classList.add("wide");
+    api.panel.append(h("p",{class:"kicker"},step.kicker||"Your call"), h("h2",{},step.title));
+    if (step.q) api.panel.append(h("div",{html:rich(step.q)}));
+    const box = h("div",{class:"opts"}), fb = h("div");
+    let solved=false, first=true;
+    const opts = step.keep ? step.opts : shuffle(step.opts);
+    opts.forEach(o=>{
+      const b = h("button",{class:"opt"},o[0]);
+      b.addEventListener("click",()=>{
+        if (solved) return;
+        if (first){ api.grade(o[1], step.terms); first=false; }
+        fb.innerHTML="";
+        if (o[1]){
+          solved=true; b.classList.add("right");
+          $$(".opt",box).forEach(x=>x.disabled=true);
+          fb.append(h("div",{class:"fb ok",html:`<b>Correct.</b>${rich(o[2]||"")}`}));
+          if (step.after) fb.append(h("div",{class:"fb",html:rich(step.after)}));
+          if (step.afterFig && f){ const nf = plate(step.afterFig(), step.afterCap||step.cap); api.plateHost.innerHTML=""; api.plateHost.append(nf); bindTerms(nf); }
+          api.unlock();
+        } else {
+          b.classList.add("wrong"); b.disabled=true;
+          fb.append(h("div",{class:"fb bad",html:`<b>Not quite.</b>${rich(o[2]||"")} Try another answer.`}));
+        }
+        bindRich(fb);
+      });
+      box.append(b);
+    });
+    api.panel.append(box, fb); api.lock();
+  },
+  order(step, api){
+    const f = figHost(step, api, step.fig && step.fig());
+    if (!step.fig) api.plateHost.remove(), api.panel.parentElement.classList.add("wide");
+    api.panel.append(h("p",{class:"kicker"},"Put these in order"), h("h2",{},step.title), h("div",{html:rich(step.q)}));
+    const n = step.items.length, slots = new Array(n).fill(null);
+    let pool = shuffle(step.items.map((t,i)=>({t,i})));
+    let first = true;
+    const slotBox = h("div",{class:"order"}), poolBox = h("div",{class:"pool"}), fb = h("div");
+    const check = h("button",{class:"btn",disabled:true},"Check order");
+    function draw(){
+      slotBox.innerHTML=""; poolBox.innerHTML="";
+      slots.forEach((s,i)=>{
+        const el = h("div",{class:"slot"+(s?" filled":"")+(s&&s.mark?" "+s.mark:""),tabindex:s?"0":null,role:s?"button":null}, h("span",{class:"n"},String(i+1)), h("span",{}, s?s.t:"Click a step below to place it here"));
+        if (s && !s.locked) el.addEventListener("click",()=>{ pool.push(s); slots[i]=null; delete s.mark; draw(); });
+        slotBox.append(el);
+      });
+      pool.forEach(p=>{ const b=h("button",{class:"card"},p.t); b.addEventListener("click",()=>{ const k=slots.indexOf(null); if(k<0) return; slots[k]=p; pool=pool.filter(x=>x!==p); draw(); }); poolBox.append(b); });
+      check.disabled = slots.includes(null);
+    }
+    check.addEventListener("click",()=>{
+      let all=true;
+      slots.forEach((s,i)=>{ s.mark = s.i===i?"right":"wrong"; if(s.i!==i) all=false; else s.locked=true; });
+      if (first){ api.grade(all, step.terms); first=false; }
+      fb.innerHTML="";
+      if (all){ fb.append(h("div",{class:"fb ok",html:"<b>That's the right order.</b>"+rich(step.after||"")})); check.remove(); api.unlock(); draw(); bindRich(fb); return; }
+      draw();
+      fb.append(h("div",{class:"fb bad",html:"<b>Some steps are out of place.</b> The green ones are right and locked in. Click a red one to send it back, then try again."}));
+    });
+    draw();
+    api.panel.append(slotBox, poolBox, h("div",{class:"row"},check), fb); api.lock();
+  },
+  sort(step, api){
+    figHost(step, api, step.fig && step.fig());
+    if (!step.fig) api.plateHost.remove(), api.panel.parentElement.classList.add("wide");
+    api.panel.append(h("p",{class:"kicker"},"Sort them"), h("h2",{},step.title), h("div",{html:rich(step.q)}));
+    let items = shuffle(step.items.map((it,i)=>({t:it[0],bin:it[1],why:it[2],i,at:null})));
+    let sel = null, first = true;
+    const poolBox = h("div",{class:"pool"}), binBox = h("div",{class:"bins"}), fb = h("div");
+    const check = h("button",{class:"btn",disabled:true},"Check");
+    function draw(){
+      poolBox.innerHTML=""; binBox.innerHTML="";
+      items.filter(x=>x.at===null).forEach(x=>{ const b=h("button",{class:"card"+(sel===x?" sel":"")},x.t); b.addEventListener("click",()=>{ sel = sel===x?null:x; draw(); }); poolBox.append(b); });
+      step.bins.forEach((name,bi)=>{
+        const bin = h("div",{class:"bin",tabindex:"0",role:"button","aria-label":"Place in "+name}, h("h4",{},name));
+        const place = ()=>{ if(sel){ sel.at=bi; delete sel.mark; sel=null; draw(); } };
+        bin.addEventListener("click",place); bin.addEventListener("keydown",e=>{ if(e.key==="Enter") place(); });
+        items.filter(x=>x.at===bi).forEach(x=>{ const c=h("button",{class:"card"+(x.mark?" "+x.mark:"")},x.t); c.addEventListener("click",e=>{ e.stopPropagation(); if(sel){ place(); return; } if(x.locked) return; x.at=null; delete x.mark; draw(); }); bin.append(c); });
+        binBox.append(bin);
+      });
+      if (!items.some(x=>x.at===null)) poolBox.append(h("p",{class:"muted small"},"All placed. Check your sort, or click a card in a box to take it back out."));
+      else if (!sel) poolBox.prepend(h("p",{class:"muted small",style:"margin:0"},"Click a card, then click the box it belongs in."));
+      check.disabled = items.some(x=>x.at===null);
+    }
+    check.addEventListener("click",()=>{
+      let all=true; const misses=[];
+      items.forEach(x=>{ if(x.at===x.bin){ x.mark="right"; x.locked=true; } else { x.mark="wrong"; all=false; misses.push(x); } });
+      if (first){ api.grade(all, step.terms); first=false; }
+      fb.innerHTML="";
+      if (all){
+        fb.append(h("div",{class:"fb ok",html:"<b>All sorted correctly.</b>"+rich(step.after||"")}));
+        check.remove(); api.unlock(); draw(); bindRich(fb);
+        if (step.onSolved) step.onSolved(api);
+        return;
+      }
+      draw();
+      const why = misses.filter(m=>m.why).map(m=>`<li>${m.t}: ${m.why}</li>`).join("");
+      fb.append(h("div",{class:"fb bad",html:`<b>${misses.length} in the wrong box.</b>${why?`<ul style="margin:6px 0 0;padding-left:18px">${why}</ul>`:""} Move the red ones and check again.`}));
+    });
+    draw();
+    api.panel.append(poolBox, binBox, h("div",{class:"row"},check), fb); api.lock();
+  },
+  custom(step, api){ step.render(api, step); }
+};
+
+const KEYICON = `<svg class="key" viewBox="0 0 32 32" aria-hidden="true"><circle cx="9" cy="10" r="6" fill="#e9b52f" stroke="#a57a0c" stroke-width="1.5"/><circle cx="9" cy="10" r="2.2" fill="#fff"/><path d="M13 14 L26 27 M20 21 l3 -3 M23 24 l3 -3" stroke="#a57a0c" stroke-width="3" stroke-linecap="round"/></svg>`;
+function remember(title, body){ return `<div class="remember">${KEYICON}<div><b>${title}</b>${body}</div></div>`; }
+function dyk(body){ return `<div class="dyk"><b>Did you know…</b> ${body}</div>`; }
+
+/* ============ chapters ============ */
+const CHAPTERS = [
+{ id:"atoms", title:"Atoms", pages:"p. 13", blurb:"Elements, protons, neutrons, electrons, orbitals and valence electrons.",
+  terms:["element","atom","nucleus-atom","proton","neutron","electron","orbital","valence","molecule"],
+  wrap:"An atom is a nucleus of protons and neutrons with electrons around it. The valence electrons in the outer shell decide how many bonds it makes. Next: the bonds themselves.",
+  steps:[
+  {type:"brief", title:"A dozen elements", fig:figElements, cap:"<b>Figure 1.0</b> Elements in the human body by dry mass. (Notes p. 18, Fig 2.10)",
+   text:`<p>How can only around a dozen chemical [[element|elements]] generate all the molecules of life? The answer is basic chemistry.</p><p>Each element contains only one type of [[atom|atom]], the basic unit of matter. The most abundant in cells are carbon (C), hydrogen (H), oxygen (O), nitrogen (N) and phosphorus (P).</p>`, terms:["element","atom"]},
+  {type:"custom", title:"Build an atom", render:api=>simAtom(api), terms:["proton","neutron","electron","valence","orbital"]},
+  {type:"mcq", title:"Orbitals", q:"<p>What is the maximum number of electrons one orbital can hold?</p>",
+   opts:[["2",true,""],["8",false," Eight is how many fill the second shell, which has several orbitals."],["1",false," An orbital can hold a pair."],["Unlimited",false," Each orbital is limited."]], terms:["orbital"]},
+  {type:"mcq", title:"Why valence matters", q:"<p>Carbon has 4 valence electrons; oxygen has 6. What do valence electrons determine?</p>",
+   opts:[["How many bonds the atom can make",true," Carbon makes 4 bonds, oxygen 2."],["The atom's mass",false," Mass comes mostly from protons and neutrons."],["Which element the atom is",false," The number of protons decides that."],["Whether the nucleus is stable",false," Not what valence is about."]], terms:["valence"]},
+  {type:"mcq", title:"Charges in an atom", q:"<p>Which particles carry which charges?</p>", keep:true,
+   opts:[["Protons +, electrons –, neutrons neutral",true,""],["Protons –, electrons +, neutrons neutral",false," Reversed."],["Protons neutral, electrons –, neutrons +",false," Neutrons have no charge."],["All three are neutral",false," Only neutrons are neutral."]], terms:["proton","neutron","electron"]}
+  ]},
+
+{ id:"bonds", title:"Bonds", pages:"pp. 14–15", blurb:"Covalent bonds, polar and nonpolar, electronegativity, and ionic bonds.",
+  terms:["covalent-bond","electronegativity","polar-covalent","nonpolar-covalent","polar","nonpolar","ionic-bond","cation","anion"],
+  wrap:"Equal sharing gives a nonpolar covalent bond, unequal sharing a polar one, and stealing an electron gives ions held by an ionic bond. Next: water, the molecule that makes polarity matter.",
+  steps:[
+  {type:"custom", title:"Equal sharing, unequal sharing, stealing", render:api=>simBond(api), terms:["covalent-bond","electronegativity","polar-covalent","nonpolar-covalent","ionic-bond"]},
+  {type:"sort", title:"Name the bond", q:"<p>Use what you saw in the simulation. Sort each bond.</p>", bins:["Nonpolar covalent","Polar covalent","Ionic"],
+   items:[["H–H in hydrogen gas",0],["C–H in methane",0,"carbon and hydrogen have nearly the same electronegativity"],["O=O in oxygen gas",0],["O–H in water",1],["N–H in ammonia",1],["Na and Cl in table salt",2]], terms:["polar-covalent","nonpolar-covalent","ionic-bond"]},
+  {type:"mcq", title:"Water's shape", q:"<p>Why does the oxygen in water carry a slight negative charge?</p>",
+   opts:[["Oxygen is more electronegative and pulls the shared electrons closer",true," The two hydrogens are left slightly positive, and the molecule is bent."],["Oxygen steals an electron from each hydrogen",false," That would be ionic. Water's bonds are polar covalent."],["Oxygen has more neutrons",false," Neutrons have no charge."],["Hydrogen is more electronegative",false," It's the other way round."]], terms:["polar","electronegativity"]},
+  {type:"mcq", title:"Cation or anion?", q:"<p>When sodium chloride forms, which statement is right?</p>",
+   opts:[["Na loses an electron and becomes a cation (Na⁺); Cl gains it and becomes an anion (Cl⁻)",true," A cation has an extra proton relative to its electrons; an anion has an extra electron."],["Na gains an electron and becomes an anion",false," Chlorine is the one that takes the electron."],["They share electrons equally",false," The electronegativity difference is too large for sharing."],["Both become cations",false," Opposite charges hold them together."]], terms:["cation","anion","ionic-bond"]}
+  ]},
+
+{ id:"water", title:"Water", pages:"pp. 15–16", blurb:"Chemical reactions, hydrogen bonds, dissolving salt, and hydrophilic vs hydrophobic.",
+  terms:["chemical-reaction","reactants","products","solvent","hydrogen-bond","hydrophilic","hydrophobic","amphipathic"],
+  wrap:"Water is polar, so its molecules hydrogen-bond to each other, pull ions apart, and push nonpolar molecules together. Next: how acidic or basic a solution is.",
+  steps:[
+  {type:"custom", title:"Water up close", render:api=>simWater(api), terms:["hydrogen-bond","hydrophilic","hydrophobic","polar"]},
+  {type:"mcq", title:"Dissolving salt", q:"<p>NaCl dissolves in water. Which part of each water molecule faces the Na⁺ ions?</p>",
+   opts:[["The δ⁻ oxygen",true," Opposite charges attract. The δ⁺ hydrogens face the Cl⁻ ions."],["The δ⁺ hydrogens",false," Those face Cl⁻."],["Both hydrogens and oxygen equally",false," Water molecules turn to face the ion with the opposite partial charge."],["No part; water doesn't interact with ions",false," It surrounds them, which is why salt dissolves."]], terms:["hydrophilic","polar"]},
+  {type:"review", title:"Chemical reactions", fig:figReaction, cap:"<b>Figure 3.2</b> A chemical reaction. (Notes p. 16, Fig 2.7)",
+   text:`<p>A [[chemical-reaction|chemical reaction]] is the breaking and forming of chemical bonds. The starting substances are the [[reactants|reactants]]; they are transformed into different molecules, the [[products|products]].</p>`, terms:["chemical-reaction","reactants","products"]},
+  {type:"mcq", title:"The hydrogen bond", q:"<p>Which best describes a hydrogen bond?</p>",
+   opts:[["A weak bond between an electronegative atom and a hydrogen already covalently bonded to another atom",true," In water: the δ⁺ H of one molecule and the δ⁻ O of the next."],["A strong bond where two hydrogens share electrons",false," That's the covalent bond in H₂."],["A bond where hydrogen steals an electron",false," That would be ionic."],["The bond that holds the two hydrogens to oxygen inside one water molecule",false," Those are polar covalent bonds. Hydrogen bonds are between molecules."]], terms:["hydrogen-bond"]},
+  {type:"sort", title:"Water loving or water fearing?", q:"<p>Sort each substance.</p>", bins:["Hydrophilic","Hydrophobic"],
+   items:[["Table salt, NaCl",0],["Glucose (many –OH groups)",0],["Ions such as K⁺",0],["Olive oil",1],["A long hydrocarbon chain",1],["The fatty acid tails of a phospholipid",1]],
+   after:" Molecules with both kinds of region, like phospholipids, are amphipathic.", terms:["hydrophilic","hydrophobic","amphipathic"]},
+  {type:"mcq", title:"The universal solvent", q:"<p>Why can water dissolve more kinds of molecules than any other liquid?</p>",
+   opts:[["Its polarity lets it surround and attract charged and polar molecules",true,""],["It is nonpolar",false," Water is polar."],["It forms covalent bonds with everything it dissolves",false," It surrounds molecules through weak attractions."],["It has a pH of 7",false," pH doesn't explain dissolving."]], terms:["solvent","polar"]}
+  ]},
+
+{ id:"ph", title:"pH", pages:"p. 17", blurb:"Hydrogen ions, the pH scale, acids and bases.",
+  terms:["ph","acid","base","hydrogen-ion","hydroxide"],
+  wrap:"pH measures H⁺: below 7 is acidic, above 7 basic, and each step is tenfold. Next: carbon, the backbone of organic molecules.",
+  steps:[
+  {type:"custom", title:"The pH scale", render:api=>simPH(api), terms:["ph","acid","base","hydrogen-ion"]},
+  {type:"mcq", title:"Tenfold steps", q:"<p>Lemon juice is about pH 2. Black coffee is about pH 5. How much more H⁺ does lemon juice have?</p>",
+   opts:[["1,000 times more",true," Three pH units, and each is a factor of 10: 10 × 10 × 10."],["3 times more",false," pH is a log scale; each step is tenfold."],["30 times more",false," Multiply 10 by itself three times."],["Less, because 2 is a smaller number",false," Lower pH means more H⁺."]], terms:["ph"]},
+  {type:"sort", title:"Acidic, neutral or basic?", q:"<p>Sort the examples from your notes (Fig 2.9).</p>", bins:["Acidic (below 7)","Neutral (7)","Basic (above 7)"],
+   items:[["Stomach fluid",0],["Apple juice",0],["Black coffee",0],["Pure water",1],["Seawater",2],["Baking soda",2],["Household bleach",2]], terms:["acid","base","ph"]},
+  {type:"mcq", title:"Why cells care", q:"<p>Why does pH matter inside cells?</p>",
+   opts:[["It affects protein structure and enzyme activity",true,""],["It decides which element an atom is",false," That's the number of protons in the nucleus."],["It controls how many valence electrons atoms have",false," pH doesn't change atoms."],["It doesn't; cells work at any pH",false," Your notes say pH is important for cell function."]], terms:["ph"]}
+  ]},
+
+{ id:"carbon", title:"Carbon and functional groups", pages:"pp. 18, 20", blurb:"Why carbon is the backbone of life, and the functional groups that give molecules their character.",
+  terms:["organic-molecule","carbon","functional-group","fg-amino","fg-carboxyl","fg-hydroxyl","fg-carbonyl","fg-sulfhydryl","fg-methyl","fg-phosphate","fg-amide"],
+  wrap:"Carbon makes four bonds, forming chains and rings. Functional groups with N, O, P or S are polar; methyl is nonpolar. Next: how small molecules become macromolecules.",
+  steps:[
+  {type:"review", title:"Carbon", fig:figCarbon, cap:"<b>Figure 5.1</b> Carbon makes four bonds: chains, double bonds and rings. (Notes p. 18, Fig 2.11)",
+   text:`<p>Cells are mostly water, but their dry mass is mostly carbon, oxygen, hydrogen and nitrogen. Molecules that contain carbon are [[organic-molecule|organic molecules]].</p><p>[[carbon|Carbon]] can form four covalent bonds, in many combinations of single and double bonds, and can link into chains or rings. In methane, carbon shares each of its four valence electrons with a hydrogen; the four bonds point to the corners of a tetrahedron.</p>`, terms:["carbon","organic-molecule"]},
+  {type:"mcq", title:"Why carbon?", q:"<p>Why is carbon so well suited to be the backbone of biological molecules?</p>",
+   opts:[["It forms four covalent bonds, so it can build chains, rings and branches with many elements",true,""],["It is the most abundant element in water",false," Water has no carbon."],["It forms ionic bonds easily",false," Carbon shares electrons."],["It has no valence electrons",false," It has four."]], terms:["carbon"]},
+  {type:"review", title:"Functional groups", fig:figGroups, cap:"<b>Figure 5.2</b> Functional groups commonly found in biological molecules. Click each row. (Notes p. 20, Table 2.1)",
+   text:`<p>[[functional-group|Functional groups]] change the chemical character of a carbon chain. Groups containing N, O, P or S are more electronegative and form <b>polar</b> groups. The methyl group is <b>nonpolar</b>.</p>`+remember("Key:"," These functional groups are typically involved in the reactions that combine simpler molecules into polymers."),
+   terms:["fg-amino","fg-amide","fg-carboxyl","fg-carbonyl","fg-hydroxyl","fg-sulfhydryl","fg-methyl","fg-phosphate"]},
+  {type:"sort", title:"Polar or nonpolar?", fig:figGroups, cap:"<b>Figure 5.2</b> Functional groups.", q:"<p>Sort each group.</p>", bins:["Polar","Nonpolar"],
+   items:[["Hydroxyl, –OH",0],["Carboxyl, –COOH",0],["Amino, –NH₂",0],["Phosphate",0],["Sulfhydryl, –SH",0],["Methyl, –CH₃",1]], terms:["fg-methyl","fg-hydroxyl","functional-group"]},
+  {type:"sort", title:"Charged at the pH of a cell?", q:"<p>Some groups carry a charge at the pH of a cell. Sort them.</p>", bins:["Positive","Negative","Uncharged"],
+   items:[["Amino (acts as a base)",0],["Carboxyl (acts as an acid)",1],["Phosphate",1],["Hydroxyl",2],["Methyl",2],["Carbonyl",2]], terms:["fg-amino","fg-carboxyl","fg-phosphate"]},
+  {type:"mcq", title:"Disulfide bonds", q:"<p>Which functional group can form S–S (disulfide) bonds, and where is it found?</p>",
+   opts:[["Sulfhydryl, in the amino acid cysteine",true,""],["Carbonyl, in sugars",false," Carbonyl has no sulfur."],["Methyl, in nucleic acids",false," Methyl has no sulfur."],["Phosphate, in ATP",false," Phosphate has no sulfur."]], terms:["fg-sulfhydryl"]}
+  ]},
+
+{ id:"macro", title:"Building macromolecules", pages:"p. 19", blurb:"The four kinds of biological molecule, monomers and polymers, condensation and hydrolysis.",
+  terms:["macromolecule","protein","nucleic-acid","carbohydrate","lipid","polymer","monomer","condensation","hydrolysis"],
+  wrap:"Condensation links monomers and releases water; hydrolysis uses water to break them apart. Next: the first of the four, proteins.",
+  steps:[
+  {type:"review", title:"Four kinds of molecule", fig:figMacro4, cap:"<b>Figure 6.1</b> The four types of biological molecules. (Notes p. 19)",
+   text:`<p>There are four types of biological molecules:</p><p style="margin-left:14px">1. [[protein|Proteins]]: structural support, and catalysts for chemical reactions.<br>2. [[nucleic-acid|Nucleic acids]]: encode and transmit genetic information.<br>3. [[carbohydrate|Carbohydrates]]: structural support, and a source of energy.<br>4. [[lipid|Lipids]]: make up cell membranes, store energy, help in cell communication.</p><p>These are large molecules, many of them [[polymer|polymers]] built from [[monomer|monomers]].</p>`,
+   terms:["protein","nucleic-acid","carbohydrate","lipid"]},
+  {type:"sort", title:"Which molecule does that?", q:"<p>Sort each job to the molecule your notes give it to.</p>", bins:["Proteins","Nucleic acids","Carbohydrates","Lipids"],
+   items:[["Catalysts that speed up reactions",0],["Encode and transmit genetic information",1],["A quick source of energy, and plant structure",2],["Make up cell membranes",3],["Long-term energy storage as fat",3]], terms:["protein","nucleic-acid","carbohydrate","lipid"]},
+  {type:"custom", title:"Build and break a polymer", render:api=>simPolymer(api), terms:["condensation","hydrolysis","polymer","monomer"]},
+  {type:"mcq", title:"Energy in, energy out", q:"<p>According to your notes, which reaction requires energy and which releases it?</p>", keep:true,
+   opts:[["Condensation requires energy; hydrolysis releases energy",true," Both are sped up by specific enzymes."],["Condensation releases energy; hydrolysis requires it",false," Reversed."],["Both release energy",false," Making the chain costs energy."],["Neither involves energy",false," Bonds store energy."]], terms:["condensation","hydrolysis"]},
+  {type:"mcq", title:"Odd one out", q:"<p>Which macromolecule is not a polymer?</p>",
+   opts:[["Lipids",true," They are grouped together because they are all hydrophobic, not because they share a monomer."],["Proteins",false," Polymers of amino acids."],["Nucleic acids",false," Polymers of nucleotides."],["Polysaccharides",false," Polymers of monosaccharides."]], terms:["lipid","polymer"]}
+  ]},
+
+{ id:"proteins", title:"Proteins", pages:"pp. 21–22", blurb:"What proteins do, amino acid structure, zwitterions and peptide bonds.",
+  terms:["protein","protein-functions","amino-acid","alpha-carbon","r-group","polypeptide","zwitterion","peptide-bond"],
+  wrap:"Amino acids share a backbone and differ only in their R groups; peptide bonds join them into polypeptides. Next: nucleic acids.",
+  steps:[
+  {type:"sort", title:"What proteins do", q:"<p>Proteins have more kinds of [[protein-functions|functions]] than any other macromolecule. Match each example.</p>", bins:["Enzyme","Transport","Signalling","Movement","Support","Defense"],
+   items:[["Speeds up a reaction as a catalyst",0],["Carries molecules across a membrane",1],["A hormone or a receptor",2],["A motor protein, or a flagellum",3],["The cytoskeleton",4],["Antibodies",5]], terms:["protein-functions"]},
+  {type:"review", title:"An amino acid", fig:()=>figAminoAcid(false), cap:"<b>Figure 7.1</b> General structure of an amino acid. (Notes p. 21, Fig 2.13)",
+   text:`<p>Proteins are linear polymers of [[amino-acid|amino acids]], also called [[polypeptide|polypeptides]].</p><p>The central [[alpha-carbon|α carbon]] is covalently linked to four groups: a carboxyl (–COOH), an amino (–NH₂), a hydrogen (H), and an [[r-group|R group]] (side chain), which distinguishes one amino acid from another.</p>`,
+   terms:["alpha-carbon","fg-amino","fg-carboxyl","r-group"]},
+  {type:"mcq", title:"At pH 7.4", fig:()=>figAminoAcid(true), cap:"<b>Figure 7.2</b> An ionized amino acid. (Notes p. 22, Fig 2.14)", q:"<p>At physiological pH (7.4), an amino acid has –NH₃⁺ at one end and –COO⁻ at the other. What is a molecule like this called?</p>",
+   opts:[["A zwitterion",true," It carries both a positive and a negative charge."],["An anion",false," It has a negative charge, but also a positive one."],["A nucleoside",false," That's base plus sugar."],["A fatty acid",false," Fatty acids have a carboxyl group but no amino group."]], terms:["zwitterion"]},
+  {type:"review", title:"The peptide bond", fig:figPeptide, cap:"<b>Figure 7.3</b> Formation of a peptide bond. (Notes p. 22, Fig 2.15)",
+   text:`<p>Amino acids are joined by a covalent bond, the [[peptide-bond|peptide bond]], between the carboxyl carbon of one and the amino nitrogen of the next.</p><p>As it forms, the carboxyl group releases an oxygen atom and the nitrogen loses two hydrogen atoms, producing a water molecule. That's a [[condensation|condensation reaction]].</p><p>There are 20 genetically encoded amino acids (more in Module 5), and their order is the information the protein carries out. Sometimes two or more polypeptide chains must combine to form a mature protein.</p>`,
+   terms:["peptide-bond","fg-amino","fg-carboxyl","condensation"]},
+  {type:"mcq", title:"What makes them different?", q:"<p>Glycine and serine are both amino acids. Which part of their structure differs?</p>",
+   opts:[["The R group (side chain)",true,""],["The α carbon",false," Every amino acid has one."],["The amino group",false," Shared by all amino acids."],["The carboxyl group",false," Shared by all amino acids."]], terms:["r-group"]},
+  {type:"mcq", title:"Counting water", q:"<p>A polypeptide of 50 amino acids is made. How many water molecules are released?</p>",
+   opts:[["49",true," One per peptide bond, and a chain of 50 has 49 bonds."],["50",false," Count the bonds between them."],["51",false," More than the number of bonds."],["0",false," Each peptide bond releases a water."]], terms:["peptide-bond","condensation"]}
+  ]},
+
+{ id:"nucleic", title:"Nucleic acids", pages:"pp. 23–25", blurb:"Nucleotides and nucleosides, purines and pyrimidines, DNA vs RNA, phosphodiester bonds and ATP.",
+  terms:["nucleic-acid","dna","rna","nucleotide","nucleoside","nitrogenous-base","pyrimidine","purine","deoxyribose","ribose","nucleotide-functions","atp","phosphodiester","five-three"],
+  wrap:"A nucleotide is a base, a sugar and a phosphate; phosphodiester bonds link them into strands that grow 5′ → 3′. Nucleotides also carry energy (ATP), signal (cAMP) and help enzymes (NAD). Next: carbohydrates.",
+  steps:[
+  {type:"review", title:"The nucleotide", fig:()=>figNucleotide2(false), cap:"<b>Figure 8.1</b> A deoxyribonucleotide. (Notes p. 24, Fig 2.17)",
+   text:`<p>[[nucleic-acid|Nucleic acids]] are information molecules: they encode genetic information in the sequence of nucleotides. [[dna|DNA]] is the genetic material of all cellular organisms; [[rna|RNA]] is a key player in protein synthesis and gene regulation.</p>`+remember("Remember:"," Nucleo<u>t</u>ide has <u>t</u>hree parts: a nitrogenous base, a five-carbon sugar, and one or more phosphate groups.")+`<p>A [[nucleoside|nucleoside]] has just base and sugar.</p>`,
+   terms:["phosphate-grp","deoxyribose","nitrogenous-base"]},
+  {type:"review", title:"Purines and pyrimidines", fig:figBases2, cap:"<b>Figure 8.2</b> Pyrimidine and purine bases. (Notes p. 23, Fig 2.16)",
+   text:`<p>[[pyrimidine|Pyrimidines]] have a single ring: cytosine (C), thymine (T) and uracil (U). [[purine|Purines]] have a double ring: adenine (A) and guanine (G).</p><p>DNA uses A, G, C and T, with the sugar [[deoxyribose|deoxyribose]]. RNA uses A, G, C and U, with the sugar [[ribose|ribose]].</p>`, terms:["pyrimidine","purine"]},
+  {type:"sort", title:"DNA, RNA or both?", q:"<p>Sort each part.</p>", bins:["DNA only","RNA only","Both"],
+   items:[["Thymine (T)",0],["Deoxyribose",0],["Uracil (U)",1],["Ribose",1],["Adenine (A)",2],["Guanine (G)",2],["Cytosine (C)",2],["Phosphate groups",2]], terms:["dna","rna","deoxyribose","ribose"]},
+  {type:"mcq", title:"Nucleoside or nucleotide?", q:"<p>A molecule has adenine and ribose but no phosphate. What is it?</p>",
+   opts:[["A nucleoside",true," Base plus sugar. Add a phosphate and it's a nucleotide."],["A nucleotide",false," A nucleotide needs three parts."],["A pyrimidine",false," Adenine is a purine, and there's a sugar too."],["ATP",false," ATP has three phosphates."]], terms:["nucleoside","nucleotide"]},
+  {type:"review", title:"Connecting nucleotides", fig:figStrand2, cap:"<b>Figure 8.3</b> The phosphodiester bond. (Notes p. 25, Fig 2.18)",
+   text:`<p>The phosphate group of one nucleotide links covalently to the 3′–OH of the sugar of another: a [[phosphodiester|phosphodiester bond]]. Its formation releases a water molecule.</p><p>The bond also gives the strand [[five-three|direction]]: the chain begins at the 5′ end, and new nucleotides are added to the 3′ end. Chains are always built 5′ → 3′.</p>`, terms:["phosphodiester","five-three","phosphate-grp"]},
+  {type:"custom", title:"ATP: the energy currency", render:api=>simATP(api), terms:["atp","adenine","ribose"]},
+  {type:"sort", title:"What nucleotides do", q:"<p>Your notes list four [[nucleotide-functions|functions of nucleotides]]. Match each example.</p>", bins:["Monomers of DNA and RNA","Signal molecules","Energy transfer","Coenzymes"],
+   items:[["Linked by phosphodiester bonds into strands",0],["Cyclic AMP (cAMP)",1],["ATP → ADP + Pᵢ + energy",2],["NAD, made with vitamin B3",3]], terms:["nucleotide-functions"]}
+  ]},
+
+{ id:"carbs", title:"Carbohydrates", pages:"pp. 26–28", blurb:"Monosaccharides and isomers, ring forms, glycosidic bonds, and di-, oligo- and polysaccharides.",
+  terms:["carbohydrate","monosaccharide","isomer","glycosidic","disaccharide","oligosaccharide","polysaccharide","glycogen-starch"],
+  wrap:"Monosaccharides close into rings, link by glycosidic bonds, and build up into disaccharides, oligosaccharides and polysaccharides for energy or structure. Next: lipids.",
+  steps:[
+  {type:"custom", title:"Sugar lab", render:api=>simSugar(api), terms:["monosaccharide","glycosidic","disaccharide","polysaccharide"]},
+  {type:"review", title:"Same formula, different sugar", fig:figSugars6, cap:"<b>Figure 9.2</b> Three 6-carbon sugars. (Notes p. 26, Fig 2.20)",
+   text:`<p>All 6-carbon sugars have the same formula, C₆H₁₂O₆, but differ in configuration. They are [[isomer|isomers]], so they are functionally different from one another.</p><p>Glucose and galactose differ only at carbon 4. Fructose has a ketone group (C=O at carbon 2) instead of an aldehyde.</p>`, terms:["isomer","monosaccharide"]},
+  {type:"mcq", title:"The formula", q:"<p>Carbohydrates have C, H and O in about a 1:2:1 ratio. Which is the formula of a 6-carbon sugar?</p>",
+   opts:[["C₆H₁₂O₆",true,""],["C₆H₆O₆",false," Not the 1:2:1 ratio."],["C₁₂H₂₂O₁₁",false," That's sucrose, a disaccharide (a water was lost when it formed)."],["CH₄",false," That's methane."]], terms:["monosaccharide"]},
+  {type:"sort", title:"How many sugars?", q:"<p>Sort each by the number of monosaccharide units.</p>", bins:["Monosaccharide","Disaccharide","Polysaccharide"],
+   items:[["Glucose",0],["Fructose",0],["Galactose",0],["Sucrose (table sugar)",1],["Starch",2],["Glycogen",2],["Cellulose",2]], terms:["monosaccharide","disaccharide","polysaccharide"]},
+  {type:"mcq", title:"Storage or structure", q:"<p>Which polysaccharide gives structural support, rather than storing energy?</p>",
+   opts:[["Cellulose, in plants",true,""],["Starch",false," Starch stores glucose in plants such as potatoes."],["Glycogen",false," Glycogen stores glucose; it is a branched chain attached to a central protein."],["Sucrose",false," Sucrose is a disaccharide."]], terms:["polysaccharide","glycogen-starch"]},
+  {type:"mcq", title:"Sugar on proteins", q:"<p>A few monosaccharides attached to a protein make a:</p>",
+   opts:[["Glycoprotein (the sugar part is an oligosaccharide)",true," Attached to a lipid, it's a glycolipid."],["Disaccharide",false," That's two sugars on their own."],["Phospholipid",false," That's glycerol, phosphate and fatty acids."],["Nucleotide",false," That's base, sugar and phosphate."]], terms:["oligosaccharide"]}
+  ]},
+
+{ id:"lipids", title:"Lipids", pages:"pp. 29–30", blurb:"Triacylglycerols, saturated and unsaturated fatty acids, steroids and phospholipids.",
+  terms:["lipid","triacylglycerol","fatty-acid","glycerol","saturated","unsaturated","steroid","cholesterol","phospholipid","amphipathic"],
+  wrap:"Lipids are hydrophobic and not polymers: triacylglycerols store energy, steroids like cholesterol sit in membranes and make hormones, and amphipathic phospholipids build membranes. Last: the finale.",
+  steps:[
+  {type:"review", title:"Triacylglycerol", fig:figTAG, cap:"<b>Figure 10.1</b> Triacylglycerol and its components. (Notes p. 29, Fig 2.25)",
+   text:`<p>[[lipid|Lipids]] are a chemically diverse group, the only macromolecule that is not a polymer. They are grouped together because they are all hydrophobic.</p><p>A [[triacylglycerol|triacylglycerol]], the major component of animal fat and vegetable oil, is made of three [[fatty-acid|fatty acids]] (long carbon chains with a carboxyl group at one end) and [[glycerol|glycerol]] (three carbons, each with an –OH).</p>`, terms:["triacylglycerol","fatty-acid","glycerol"]},
+  {type:"custom", title:"Straight tails and kinked tails", render:api=>simFatty(api), terms:["saturated","unsaturated"]},
+  {type:"review", title:"Steroids", fig:figSteroid, cap:"<b>Figure 10.3</b> Cholesterol. (Notes p. 30, Fig 2.26)",
+   text:`<p>[[steroid|Steroids]] are many carbon atoms bonded into four characteristic fused rings.</p><p>[[cholesterol|Cholesterol]] is a component of animal cell membranes, and the precursor for steroid hormone synthesis, such as cortisol (the stress hormone).</p>`, terms:["steroid","cholesterol","fg-hydroxyl"]},
+  {type:"review", title:"Phospholipids", fig:figPhospholipid, cap:"<b>Figure 10.4</b> Phospholipid structure. (Notes p. 30, Fig 2.27)",
+   text:`<p>[[phospholipid|Phospholipids]] are a major component of cell membranes. Each has:</p><p style="margin-left:14px">1. A glycerol backbone attached to a polar phosphate group: hydrophilic.<br>2. Two nonpolar fatty acid tails: hydrophobic.</p><p>Molecules with both hydrophilic and hydrophobic regions are [[amphipathic|amphipathic]].</p>`+remember("Key:"," An important feature in biology: this is why phospholipids form membranes (Module 3)."),
+   terms:["phospholipid","fg-phosphate","glycerol","saturated","unsaturated"]},
+  {type:"sort", title:"Which lipid?", q:"<p>Sort each description.</p>", bins:["Triacylglycerol","Steroid","Phospholipid"],
+   items:[["Glycerol + three fatty acids",0],["Energy storage in fats and oils",0],["Four fused rings",1],["Precursor to cortisol",1],["Polar phosphate head and two nonpolar tails",2],["Major component of membranes",2]], terms:["triacylglycerol","steroid","phospholipid"]},
+  {type:"mcq", title:"Saturated or not", q:"<p>A fatty acid has no double bonds between its carbon atoms. It is:</p>",
+   opts:[["Saturated",true," Straight tails that pack tightly."],["Unsaturated",false," Unsaturated fatty acids have C=C double bonds."],["A steroid",false," Steroids have four fused rings."],["Amphipathic",false," A fatty acid tail on its own is mostly hydrophobic."]], terms:["saturated","unsaturated"]}
+  ]},
+
+{ id:"finale", title:"Name that molecule", pages:"pp. 12–31", blurb:"The finale: ten mystery molecules. Read the clues and name them.",
+  terms:["protein","nucleic-acid","carbohydrate","lipid"],
+  wrap:"From atoms to macromolecules: you can now read a molecule's makeup and say what kind it is. Try the chemistry desk for endless practice, or take the mini exam.",
+  steps:[
+  {type:"custom", title:"Name that molecule", render:api=>simMystery(api), terms:["protein","nucleic-acid","carbohydrate","lipid"]}
+  ]}
+];
+
+/* ============ sim helpers ============ */
+function makeCanvas(W,H,label){
+  const cv = h("canvas",{role:"img","aria-label":label||""}); const dpr = Math.min(2, window.devicePixelRatio||1);
+  cv.width=W*dpr; cv.height=H*dpr; const ctx=cv.getContext("2d"); ctx.scale(dpr,dpr); return {cv,ctx,W,H};
+}
+function label(ctx,t,x,y,opts={}){ ctx.fillStyle=opts.col||"#1c2830"; ctx.font=`${opts.it?"italic ":""}${opts.w||400} ${opts.s||13}px Source Sans 3, Arial`; ctx.textAlign=opts.a||"left"; ctx.textBaseline="alphabetic"; ctx.fillText(t,x,y); }
+function inlineMCQ(host, q, opts, api, key, terms, onRight){
+  host.append(h("p",{style:"margin-top:10px"},h("b",{},q)));
+  const box=h("div",{class:"opts"}), fb=h("div"); let first=true, done=false;
+  shuffle(opts).forEach(o=>{ const b=h("button",{class:"opt"},o[0]); b.addEventListener("click",()=>{
+    if(done) return; if(first){ api.gradeKey(key,o[1],terms); first=false; }
+    fb.innerHTML="";
+    if(o[1]){ done=true; b.classList.add("right"); $$(".opt",box).forEach(x=>x.disabled=true); fb.append(h("div",{class:"fb ok",html:"<b>Correct.</b>"+o[2]})); onRight&&onRight(); }
+    else { b.classList.add("wrong"); b.disabled=true; fb.append(h("div",{class:"fb bad",html:"<b>Not quite.</b>"+o[2]+" Try another answer."})); }
+  }); box.append(b); });
+  host.append(box,fb);
+}
+
+
+/* ============ 2.1 Atom builder ============ */
+const ELEM = [null,
+ {s:"H",n:"Hydrogen",nn:0,b:"1 bond"},{s:"He",n:"Helium",nn:2,b:"none (full shell)"},{s:"Li",n:"Lithium",nn:4,b:"loses 1"},{s:"Be",n:"Beryllium",nn:5,b:"loses 2"},
+ {s:"B",n:"Boron",nn:6,b:"3 bonds"},{s:"C",n:"Carbon",nn:6,b:"4 bonds"},{s:"N",n:"Nitrogen",nn:7,b:"3 bonds"},{s:"O",n:"Oxygen",nn:8,b:"2 bonds"},
+ {s:"F",n:"Fluorine",nn:10,b:"1 bond"},{s:"Ne",n:"Neon",nn:10,b:"none (full shell)"},{s:"Na",n:"Sodium",nn:12,b:"gives up 1 electron"},{s:"Mg",n:"Magnesium",nn:12,b:"gives up 2 electrons"},
+ {s:"Al",n:"Aluminum",nn:14,b:"gives up 3"},{s:"Si",n:"Silicon",nn:14,b:"4 bonds"},{s:"P",n:"Phosphorus",nn:16,b:"3 or 5 bonds"},{s:"S",n:"Sulfur",nn:16,b:"2 bonds"},
+ {s:"Cl",n:"Chlorine",nn:18,b:"1 bond, or gains 1 electron"},{s:"Ar",n:"Argon",nn:22,b:"none (full shell)"},{s:"K",n:"Potassium",nn:20,b:"gives up 1 electron"},{s:"Ca",n:"Calcium",nn:20,b:"gives up 2 electrons"}];
+const SHELL_CAP=[2,8,8,2];
+function shellsOf(e){ const out=[]; let left=e; for(const c of SHELL_CAP){ if(left<=0) break; const k=Math.min(c,left); out.push(k); left-=k; } return out; }
+function atomSVG(p,nn,e,opts={}){
+  const W=520,H=440,cx=250,cy=220; let s=`<svg viewBox="0 0 ${W} ${H}" role="img" aria-label="Atom with ${p} protons, ${nn} neutrons and ${e} electrons">`;
+  s+=`<rect width="${W}" height="${H}" fill="#fff"/>`;
+  const sh=shellsOf(e), R=[78,128,172,206];
+  R.slice(0,Math.max(1,sh.length)).forEach((r,i)=>{ const val=i===sh.length-1; s+=`<g data-term="${val?"valence":"orbital"}"><circle cx="${cx}" cy="${cy}" r="${r}" fill="none" stroke="${val&&e?"#e2a23a":"#c9cfe3"}" stroke-width="${val&&e?3:1.6}" ${val&&e?"":'stroke-dasharray="5 5"'}/></g>`; });
+  // nucleus: sunflower packing
+  const N=p+nn, parts=[]; for(let i=0;i<N;i++) parts.push(i<p?"p":"n");
+  const order=parts.map((t,i)=>({t,k:(i*7)%Math.max(1,N)})).sort((a,b)=>a.k-b.k).map(x=>x.t);
+  s+=`<g data-term="nucleus-atom">`;
+  order.forEach((t,i)=>{ const r=6.2*Math.sqrt(i+0.5), a=i*2.39996; const x=cx+r*Math.cos(a), y=cy+r*Math.sin(a);
+    s+= t==="p" ? `<circle cx="${x.toFixed(1)}" cy="${y.toFixed(1)}" r="7.5" fill="#4a7fd0" stroke="#2c5aa0"/><text x="${x.toFixed(1)}" y="${(y+3.5).toFixed(1)}" text-anchor="middle" font-size="10" font-weight="700" fill="#fff" font-family="Arial">+</text>`
+                : `<circle cx="${x.toFixed(1)}" cy="${y.toFixed(1)}" r="7.5" fill="#7d8a86" stroke="#55615d"/>`; });
+  s+=`</g>`;
+  sh.forEach((k,i)=>{ for(let j=0;j<k;j++){ const a=-Math.PI/2+j*2*Math.PI/SHELL_CAP[i]+(i*0.35); const x=cx+R[i]*Math.cos(a), y=cy+R[i]*Math.sin(a);
+    s+=`<g data-term="electron"><circle cx="${x.toFixed(1)}" cy="${y.toFixed(1)}" r="8" fill="#f08a2c" stroke="#b85f0e"/><text x="${x.toFixed(1)}" y="${(y+3.5).toFixed(1)}" text-anchor="middle" font-size="9" font-weight="700" fill="#fff" font-family="Arial">e⁻</text></g>`; } });
+  const el=ELEM[p];
+  if(el){ s+=`<text x="${W-14}" y="40" text-anchor="end" font-family="Source Serif 4,Georgia" font-size="40" font-weight="650" fill="#23282e">${el.s}</text><text x="${W-14}" y="62" text-anchor="end" class="lbl">${el.n}</text>`; }
+  s+=`<g class="lbls">${lab("Nucleus: protons (+)\nand neutrons","nucleus-atom",16,30,cx-14,cy-14)}${e?lab("Valence (outermost) shell","valence",16,H-24,cx-R[sh.length-1]*0.7,cy+R[sh.length-1]*0.7):""}</g>`;
+  s+=`</svg>`; return s;
+}
+function simAtom(api){
+  const st={p:6,nn:6,e:6}; const done=[false,false,false,false];
+  const TASKS=[["Build a neutral carbon atom: 6 protons, 6 neutrons, 6 electrons.",s=>s.p===6&&s.nn===6&&s.e===6],
+               ["Build a neutral oxygen atom (8 protons, 8 neutrons). How many valence electrons does it have?",s=>s.p===8&&s.nn===8&&s.e===8],
+               ["Turn a sodium atom (11 protons, 12 neutrons) into a sodium ion, Na⁺.",s=>s.p===11&&s.nn===12&&s.e===10],
+               ["Make a chloride ion, Cl⁻ (17 protons, 18 neutrons).",s=>s.p===17&&s.nn===18&&s.e===18]];
+  done[0]=false;
+  const host=h("div"); api.plateHost.innerHTML=""; api.plateHost.append(host);
+  const info=h("div",{class:"fb"}), list=h("ol",{style:"padding-left:20px;margin:6px 0"});
+  function draw(){
+    host.innerHTML=""; const f=plate(atomSVG(st.p,st.nn,st.e),"<b>Figure 1.1</b> Build an atom. Blue: protons (+). Grey: neutrons. Orange: electrons (–). Shells shown hold 2, then 8, then 8. (Notes p. 13, Fig 2.2)"); host.append(f); bindTerms(f);
+    const el=ELEM[st.p], sh=shellsOf(st.e), val=sh.length?sh[sh.length-1]:0, ch=st.p-st.e;
+    const chTxt = ch===0?"neutral atom": ch>0?`cation, charge +${ch} (more protons than electrons)`:`anion, charge ${ch} (more electrons than protons)`;
+    info.innerHTML = el ? `<b>${el.n} (${el.s}${ch>0?(ch>1?ch:"")+"⁺":ch<0?(ch<-1?-ch:"")+"⁻":""})</b>: ${chTxt}.<br>Mass number ${st.p+st.nn}. Valence electrons: <b>${val}</b>. Typical bonding: ${el.b}.` : "Add protons to make an element. The number of protons decides which element it is.";
+    TASKS.forEach((t,i)=>{ if(!done[i] && t[1](st) && (i===0||done[i-1])) done[i]=true; });
+    list.innerHTML=""; TASKS.forEach((t,i)=>list.append(h("li",{style:done[i]?"color:var(--ok);font-weight:600":(i===done.indexOf(false)?"font-weight:600":"color:var(--ink2)")},(done[i]?"Done: ":"")+t[0])));
+    if(done.every(Boolean)) api.unlock();
+  }
+  const ctl=h("div",{class:"ctl"});
+  [["p","Protons"],["nn","Neutrons"],["e","Electrons"]].forEach(([k,lbl])=>{
+    const val=h("b",{style:"min-width:2ch;display:inline-block;text-align:center"});
+    const row=h("div",{class:"row"}, h("span",{style:"min-width:84px;font-weight:600"},lbl),
+      h("button",{class:"btn ghost",style:"padding:4px 14px",onclick:()=>{ if(st[k]>0){ st[k]--; upd(); } },"aria-label":"Remove one "+lbl.toLowerCase().slice(0,-1)},"−"), val,
+      h("button",{class:"btn ghost",style:"padding:4px 14px",onclick:()=>{ if(st[k]<(k==="nn"?24:20)){ st[k]++; upd(); } },"aria-label":"Add one "+lbl.toLowerCase().slice(0,-1)},"+"));
+    function upd(){ val.textContent=st[k]; draw(); } val.textContent=st[k]; row._upd=upd; ctl.append(row); });
+  const presets=h("div",{class:"row",style:"margin:4px 0"},h("span",{class:"muted small"},"Start from:"));
+  [["Sodium",11,12,11],["Chlorine",17,18,17],["Oxygen",8,8,8]].forEach(([nm,p,nn,e])=>presets.append(h("button",{class:"tl",onclick:()=>{ st.p=p; st.nn=nn; st.e=e; $$(".ctl b",api.panel).forEach((b,i)=>b.textContent=[st.p,st.nn,st.e][i]); draw(); }},nm)));
+  api.panel.append(h("p",{class:"kicker"},"Build it"), h("h2",{},"Build an atom"),
+    h("div",{html:rich("<p>Every atom has a dense [[nucleus-atom|nucleus]] of positive [[proton|protons]] and neutral [[neutron|neutrons]], with negative [[electron|electrons]] moving around it in [[orbital|orbitals]] (each orbital holds at most 2 electrons). The electrons in the outermost shell are the [[valence|valence electrons]], and they decide how many bonds an atom makes.</p>")}),
+    ctl, presets, info, h("b",{},"Tasks"), list);
+  api.lock(); draw();
+}
+
+/* ============ 2.1 Bond polarity ============ */
+const EN = {H:2.20,C:2.55,N:3.04,O:3.44,P:2.19,S:2.58,Cl:3.16,Na:0.93,K:0.82};
+const ATOMCOL = {H:"#e9eef5",C:"#55585c",N:"#4a7fd0",O:"#d8463c",P:"#e58a2c",S:"#e2c341",Cl:"#5fbf5a",Na:"#9a6fd0",K:"#8a5fc0"};
+function bondKind(a,b){ const d=Math.abs(EN[a]-EN[b]); return d>=1.7?"ionic": d>=0.5?"polar":"nonpolar"; }
+function bondSVG(a,b){
+  const W=600,H=300, xa=180, xb=420, y=150, d=EN[b]-EN[a], kind=bondKind(a,b);
+  const ra = a==="H"?44:58, rb = b==="H"?44:58;
+  let s=`<svg viewBox="0 0 ${W} ${H}" role="img" aria-label="${a} bonded to ${b}: ${kind} bond"><rect width="${W}" height="${H}" fill="#fff"/>`;
+  if(kind!=="ionic"){
+    // shared electron cloud, shifted toward the more electronegative atom
+    const shift=Math.max(-1,Math.min(1,d/1.7)); const cx=300+shift*70;
+    s+=`<g data-term="${kind==="polar"?"polar-covalent":"nonpolar-covalent"}"><ellipse cx="${cx}" cy="${y}" rx="${150-Math.abs(shift)*30}" ry="70" fill="#f9d9a6" opacity=".7"/></g>`;
+    s+=`<circle cx="${xa}" cy="${y}" r="${ra}" fill="${ATOMCOL[a]}" stroke="#555"/><circle cx="${xb}" cy="${y}" r="${rb}" fill="${ATOMCOL[b]}" stroke="#555"/>`;
+    s+=`<g data-term="electron"><circle cx="${cx-9}" cy="${y-2}" r="7" fill="#f08a2c" stroke="#b85f0e"/><circle cx="${cx+9}" cy="${y-2}" r="7" fill="#f08a2c" stroke="#b85f0e"/></g>`;
+    if(kind==="polar"){ const neg = d>0?xb:xa, pos= d>0?xa:xb; s+=`<text x="${neg}" y="${y-80}" text-anchor="middle" font-size="22" font-weight="700" fill="#d8463c" font-family="Arial">δ⁻</text><text x="${pos}" y="${y-80}" text-anchor="middle" font-size="22" font-weight="700" fill="#4a7fd0" font-family="Arial">δ⁺</text>`; }
+  } else {
+    const cat = d>0?a:b, an = d>0?b:a, xc = d>0?xa-20:xb+20, xn = d>0?xb+20:xa-20;
+    s+=`<g data-term="ionic-bond"><circle cx="${xc}" cy="${y}" r="46" fill="${ATOMCOL[cat]}" stroke="#555"/><circle cx="${xn}" cy="${y}" r="66" fill="${ATOMCOL[an]}" stroke="#555"/></g>`;
+    s+=`<text x="${xc}" y="${y-62}" text-anchor="middle" font-size="26" font-weight="700" fill="#4a7fd0" font-family="Arial">+</text><text x="${xn}" y="${y-82}" text-anchor="middle" font-size="30" font-weight="700" fill="#d8463c" font-family="Arial">−</text>`;
+    s+=`<g data-term="electron"><circle cx="${xn+(d>0?-40:40)}" cy="${y-38}" r="7" fill="#f08a2c" stroke="#b85f0e"/></g>`;
+    s+=arrow(xc+(d>0?30:-30),y-50,xn+(d>0?-46:46),y-46,"#b85f0e",2,"4 3");
+    s+=`<text class="lbl" x="300" y="${H-46}" text-anchor="middle">${cat==="Na"||cat==="K"?cat+"⁺ ":"cation "} ${d>0?"gave":"gave"} an electron to ${an==="Cl"?"Cl⁻":an}. The ions attract each other.</text>`;
+  }
+  const lbl=(x,t,c)=>`<text x="${x}" y="${y+7}" text-anchor="middle" font-size="26" font-weight="700" font-family="Arial" fill="${c}">${t}</text>`;
+  if(kind!=="ionic"){ s+=lbl(xa,a,a==="H"?"#333":"#fff")+lbl(xb,b,b==="H"?"#333":"#fff"); }
+  else { const cat=d>0?a:b, an=d>0?b:a; s+=lbl(d>0?xa-20:xb+20,cat+"⁺","#fff")+lbl(d>0?xb+20:xa-20,an+"⁻","#fff"); }
+  s+=`<text class="lbl" x="${xa}" y="${H-14}" text-anchor="middle">electronegativity ${EN[a].toFixed(2)}</text><text class="lbl" x="${xb}" y="${H-14}" text-anchor="middle">electronegativity ${EN[b].toFixed(2)}</text>`;
+  s+=`</svg>`; return s;
+}
+function simBond(api){
+  let a="H", b="H"; const found={nonpolar:false,polar:false,ionic:false};
+  const host=h("div"); api.plateHost.innerHTML=""; api.plateHost.append(host);
+  const info=h("div",{class:"fb"}), tasks=h("div");
+  const KN={nonpolar:"Nonpolar covalent bond",polar:"Polar covalent bond",ionic:"Ionic bond"};
+  const KD={nonpolar:"The atoms have the same, or nearly the same, electronegativity, so they share the electrons equally.",polar:"One atom is more electronegative and pulls the shared electrons closer. It gets a slight negative charge (δ⁻); the other gets a slight positive charge (δ⁺).",ionic:"The difference in electronegativity is so large that one atom takes an electron from the other. The cation (+) and anion (–) are held together by their opposite charges."};
+  function draw(){ host.innerHTML=""; const f=plate(bondSVG(a,b),"<b>Figure 2.1</b> Two atoms bonding. The orange cloud shows where the shared electrons spend their time. (Notes pp. 14–15, Figs 2.3 to 2.5)"); host.append(f); bindTerms(f);
+    const k=bondKind(a,b), dd=Math.abs(EN[a]-EN[b]); found[k]=true;
+    info.innerHTML=`<b>${a}–${b}: ${KN[k]}.</b> Difference in electronegativity: ${dd.toFixed(2)}. ${KD[k]}`;
+    tasks.innerHTML=""; tasks.append(h("b",{},"Find one of each"), h("ul",{style:"margin:4px 0;padding-left:20px"}, ...Object.keys(KN).map(x=>h("li",{style:found[x]?"color:var(--ok);font-weight:600":""},(found[x]?"Found: ":"")+KN[x]))));
+    if(found.nonpolar&&found.polar&&found.ionic) api.unlock(); }
+  function picker(label,get,set){ const seg=h("div",{class:"seg"}); Object.keys(EN).forEach(x=>{ const bt=h("button",{"aria-pressed":String(get()===x)},x); bt.addEventListener("click",()=>{ set(x); $$("button",seg).forEach(z=>z.setAttribute("aria-pressed",String(z.textContent===x))); draw(); }); seg.append(bt); }); return h("div",{},h("label",{},label),seg); }
+  api.panel.append(h("p",{class:"kicker"},"Try it"), h("h2",{},"Equal sharing, unequal sharing, stealing"),
+    h("div",{html:rich("<p>A [[covalent-bond|covalent bond]] forms when atoms share valence electrons. How they share depends on [[electronegativity|electronegativity]]: how strongly each atom pulls on electrons. Pick two atoms and watch where the electrons go.</p>")}),
+    h("div",{class:"ctl"},picker("Atom 1",()=>a,x=>a=x),picker("Atom 2",()=>b,x=>b=x)), info, tasks,
+    h("p",{class:"muted small"},"Rough guide used here: a difference under 0.5 is nonpolar, 0.5 to 1.7 is polar, above 1.7 is ionic. Real bonds sit on a continuum."));
+  api.lock(); draw();
+}
+
+/* ============ 2.2 Water lab: hydrogen bonds, dissolving salt, oil ============ */
+function simWater(api, opts={}){
+  const W=760,H=440; const {cv,ctx}=makeCanvas(W,H,"Animation: water molecules, with salt or oil added");
+  const S={mode:"water", hb:true, t:0, mols:[], ions:[], oil:[], dissolved:0};
+  const R=13; // oxygen radius
+  function initWater(n){ S.mols=[]; for(let i=0;i<n;i++) S.mols.push({x:20+Math.random()*(W-40),y:20+Math.random()*(H-40),vx:(Math.random()-.5)*30,vy:(Math.random()-.5)*30,a:Math.random()*6.283,va:(Math.random()-.5)*2}); }
+  function addSalt(){ S.ions=[]; const g=4, s0=24, x0=W/2-1.5*s0, y0=H/2-1.5*s0; for(let i=0;i<g;i++) for(let j=0;j<g;j++){ const na=(i+j)%2===0; S.ions.push({na,x:x0+i*s0,y:y0+j*s0,hx:x0+i*s0,hy:y0+j*s0,free:false,vx:0,vy:0,t:1+Math.random()*5+((Math.abs(i-1.5)+Math.abs(j-1.5))<2?3:0)}); }
+    S.mols=S.mols.filter(m=>Math.hypot(m.x-W/2,m.y-H/2)>70); }
+  function addOil(){ S.oil=[]; for(let i=0;i<18;i++) S.oil.push({x:60+Math.random()*(W-120),y:60+Math.random()*(H-120),vx:0,vy:0}); }
+  function setMode(m){ S.mode=m; S.t=0; S.ions=[]; S.oil=[]; initWater(m==="water"?70:58); if(m==="salt") addSalt(); if(m==="oil") addOil(); }
+  setMode("water");
+  function oxy(m){ return [m.x,m.y]; }
+  function hyd(m){ const d=17, sp=0.913; return [[m.x+d*Math.cos(m.a-sp),m.y+d*Math.sin(m.a-sp)],[m.x+d*Math.cos(m.a+sp),m.y+d*Math.sin(m.a+sp)]]; }
+  function step(dt){
+    S.t+=dt;
+    // ions: break off one at a time from the crystal
+    S.ions.forEach(io=>{ if(!io.free && S.t>io.t){ io.free=true; const a=Math.atan2(io.y-H/2,io.x-W/2)+(Math.random()-.5); io.vx=Math.cos(a)*40; io.vy=Math.sin(a)*40; }
+      if(io.free){ io.vx+=(Math.random()-.5)*60*dt; io.vy+=(Math.random()-.5)*60*dt; const sp=Math.hypot(io.vx,io.vy); if(sp>45){ io.vx*=45/sp; io.vy*=45/sp; } io.x+=io.vx*dt; io.y+=io.vy*dt;
+        if(io.x<20||io.x>W-20) io.vx*=-1; if(io.y<20||io.y>H-20) io.vy*=-1; io.x=Math.max(20,Math.min(W-20,io.x)); io.y=Math.max(20,Math.min(H-20,io.y)); } });
+    // oil: nonpolar molecules drift together (water excludes them)
+    if(S.oil.length){ const cx=S.oil.reduce((a,o)=>a+o.x,0)/S.oil.length, cy=S.oil.reduce((a,o)=>a+o.y,0)/S.oil.length;
+      S.oil.forEach(o=>{ o.vx+=(cx-o.x)*0.9*dt+(Math.random()-.5)*20*dt; o.vy+=(cy-o.y)*0.9*dt+(Math.random()-.5)*20*dt; o.vx*=0.96; o.vy*=0.96;
+        S.oil.forEach(q=>{ if(q!==o){ const dx=o.x-q.x, dy=o.y-q.y, d=Math.hypot(dx,dy)||1; if(d<22){ o.vx+=dx/d*30*dt; o.vy+=dy/d*30*dt; } } }); o.x+=o.vx*dt*20; o.y+=o.vy*dt*20; }); }
+    S.mols.forEach(m=>{
+      m.vx+=(Math.random()-.5)*80*dt; m.vy+=(Math.random()-.5)*80*dt; const sp=Math.hypot(m.vx,m.vy); if(sp>40){ m.vx*=40/sp; m.vy*=40/sp; }
+      m.x+=m.vx*dt; m.y+=m.vy*dt; if(m.x<16||m.x>W-16) m.vx*=-1; if(m.y<16||m.y>H-16) m.vy*=-1; m.x=Math.max(16,Math.min(W-16,m.x)); m.y=Math.max(16,Math.min(H-16,m.y));
+      // orientation: face nearby ions the right way
+      let target=null, best=60;
+      S.ions.forEach(io=>{ if(!io.free) return; const d=Math.hypot(io.x-m.x,io.y-m.y); if(d<best){ best=d; target=io; } });
+      if(target){ const toIon=Math.atan2(target.y-m.y,target.x-m.x); const want = target.na ? toIon+Math.PI : toIon; let da=want-m.a; while(da>Math.PI) da-=2*Math.PI; while(da<-Math.PI) da+=2*Math.PI; m.a+=da*Math.min(1,dt*5);
+        const d=best, ideal=target.na?30:34; if(d>ideal){ m.x+=(target.x-m.x)/d*20*dt; m.y+=(target.y-m.y)/d*20*dt; } }
+      else { m.a+=m.va*dt; m.va+=(Math.random()-.5)*dt*4; m.va*=0.98; }
+      // keep out of oil drop and crystal
+      S.oil.forEach(o=>{ const dx=m.x-o.x, dy=m.y-o.y, d=Math.hypot(dx,dy)||1; if(d<28){ m.x+=dx/d*40*dt; m.y+=dy/d*40*dt; } });
+      S.ions.forEach(io=>{ if(io.free) return; const dx=m.x-io.x, dy=m.y-io.y, d=Math.hypot(dx,dy)||1; if(d<26){ m.x+=dx/d*40*dt; m.y+=dy/d*40*dt; } });
+    });
+    S.dissolved=S.ions.filter(i=>i.free).length;
+  }
+  function draw(){
+    ctx.fillStyle="#eaf4fb"; ctx.fillRect(0,0,W,H);
+    // hydrogen bonds
+    if(S.hb){ ctx.strokeStyle="#5f8fd0"; ctx.lineWidth=1.4; ctx.setLineDash([3,3]);
+      for(let i=0;i<S.mols.length;i++){ const m=S.mols[i], hs=hyd(m); for(let j=0;j<S.mols.length;j++){ if(i===j) continue; const o=S.mols[j]; for(const hh of hs){ const d=Math.hypot(hh[0]-o.x,hh[1]-o.y); if(d<26){ ctx.beginPath(); ctx.moveTo(hh[0],hh[1]); ctx.lineTo(o.x,o.y); ctx.stroke(); } } } }
+      ctx.setLineDash([]); }
+    // ion attractions
+    ctx.strokeStyle="#9a6fd0"; ctx.setLineDash([2,3]);
+    S.ions.forEach(io=>{ if(!io.free) return; S.mols.forEach(m=>{ const p = io.na? [m.x,m.y] : hyd(m).sort((a,b)=>Math.hypot(a[0]-io.x,a[1]-io.y)-Math.hypot(b[0]-io.x,b[1]-io.y))[0]; const d=Math.hypot(p[0]-io.x,p[1]-io.y); if(d<34){ ctx.beginPath(); ctx.moveTo(p[0],p[1]); ctx.lineTo(io.x,io.y); ctx.stroke(); } }); });
+    ctx.setLineDash([]);
+    // oil
+    S.oil.forEach(o=>{ ctx.fillStyle="#f2c94c"; ctx.strokeStyle="#b8901c"; ctx.lineWidth=1.5; ctx.beginPath(); ctx.ellipse(o.x,o.y,13,8,0.6,0,7); ctx.fill(); ctx.stroke(); });
+    // water
+    S.mols.forEach(m=>{ hyd(m).forEach(hh=>{ ctx.strokeStyle="#9fb3c8"; ctx.lineWidth=3; ctx.beginPath(); ctx.moveTo(m.x,m.y); ctx.lineTo(hh[0],hh[1]); ctx.stroke(); ctx.fillStyle="#f4f6f9"; ctx.strokeStyle="#8a98a8"; ctx.lineWidth=1; ctx.beginPath(); ctx.arc(hh[0],hh[1],7,0,7); ctx.fill(); ctx.stroke(); });
+      ctx.fillStyle="#d8463c"; ctx.beginPath(); ctx.arc(m.x,m.y,R-2,0,7); ctx.fill(); });
+    // ions
+    S.ions.forEach(io=>{ ctx.fillStyle=io.na?"#9a6fd0":"#5fbf5a"; ctx.strokeStyle="rgba(0,0,0,.35)"; ctx.lineWidth=1; ctx.beginPath(); ctx.arc(io.x,io.y,io.na?9:13,0,7); ctx.fill(); ctx.stroke();
+      ctx.fillStyle="#fff"; ctx.font="700 10px Arial"; ctx.textAlign="center"; ctx.textBaseline="middle"; ctx.fillText(io.na?"Na⁺":"Cl⁻",io.x,io.y+0.5); });
+    ctx.textBaseline="alphabetic";
+    label(ctx, S.mode==="water"?"Pure water":S.mode==="salt"?`Salt in water: ${S.dissolved} of ${S.ions.length} ions pulled into solution`:"Oil in water", 12, 24, {w:700,s:15});
+    if(S.hb) label(ctx,"Blue dashes: hydrogen bonds"+(S.mode==="salt"?". Purple dashes: water attracted to ions":""),12,H-12,{s:13,col:"#3b4a52"});
+  }
+  loop(dt=>{ step(dt); draw(); });
+  api.plateHost.innerHTML=""; api.plateHost.append(plate(cv,"<b>Figure 3.1</b> Water molecules (red O, white H). Each δ⁺ hydrogen is attracted to the δ⁻ oxygen of a neighbour. (Notes pp. 14–15, Figs 2.4 and 2.6)"));
+  const seg=h("div",{class:"seg"}); const seen={water:true,salt:false,oil:false};
+  [["water","Pure water"],["salt","Add salt (NaCl)"],["oil","Add oil"]].forEach(([k,t])=>{ const b=h("button",{"aria-pressed":String(k==="water")},t); b.addEventListener("click",()=>{ setMode(k); seen[k]=true; $$("button",seg).forEach(x=>x.setAttribute("aria-pressed","false")); b.setAttribute("aria-pressed","true"); say(); if(seen.salt&&seen.oil) api.unlock(); }); seg.append(b); });
+  const hbB=h("button",{class:"mini","aria-pressed":"true"},"Hydrogen bonds"); hbB.addEventListener("click",()=>{ S.hb=!S.hb; hbB.setAttribute("aria-pressed",String(S.hb)); });
+  const note=h("div",{class:"fb"});
+  function say(){ note.innerHTML = S.mode==="water" ? rich("Water is [[polar|polar]]: oxygen is more electronegative, so it is slightly negative and the hydrogens slightly positive. Neighbouring molecules attract each other through [[hydrogen-bond|hydrogen bonds]], which constantly break and re-form.")
+     : S.mode==="salt" ? rich("Watch the crystal. Water molecules pull Na⁺ and Cl⁻ apart and surround them: the δ⁻ <strong>oxygens</strong> face Na⁺, and the δ⁺ <strong>hydrogens</strong> face Cl⁻. That is why NaCl [[hydrophilic|dissolves]] in water.")
+     : rich("Oil is [[nonpolar|nonpolar]], so water can't form hydrogen bonds with it. Water molecules stick to each other instead and push the oil molecules together into a drop. Oil is [[hydrophobic|hydrophobic]]."); bindRich(note); }
+  api.panel.append(h("p",{class:"kicker"},"Try it"), h("h2",{},opts.title||"Water up close"), h("p",{},"Try all three: pure water, then add salt, then add oil."), seg, h("div",{style:"margin:8px 0"},hbB), note);
+  say(); api.lock();
+}
+
+/* ============ 2.x pH scale ============ */
+const PH_EX=[[0,"Battery acid"],[1.5,"Stomach fluid"],[2,"Lemon juice"],[3.5,"Apple juice"],[5,"Black coffee"],[7,"Pure water"],[7.4,"Human blood"],[8,"Seawater"],[9,"Baking soda"],[11,"Ammonia"],[13,"Household bleach"],[14,"Sodium hydroxide"]];
+function phSVG(ph){
+  const W=720,H=360; let s=`<svg viewBox="0 0 ${W} ${H}" role="img" aria-label="pH scale set to ${ph.toFixed(1)}"><rect width="${W}" height="${H}" fill="#fff"/>`;
+  // scale bar
+  const x0=40,x1=W-40,y=232, X=v=>x0+(x1-x0)*v/14;
+  for(let i=0;i<14;i++){ const hue = i<7? 0+i*8 : 140+(i-7)*25; s+=`<rect x="${X(i)}" y="${y}" width="${X(i+1)-X(i)}" height="26" fill="hsl(${hue},65%,${i===7?80:58}%)"/>`; }
+  for(let i=0;i<=14;i++) s+=`<text class="lbl sm" x="${X(i)}" y="${y+44}" text-anchor="middle">${i}</text>`;
+  s+=`<g data-term="acid"><text class="lbl" x="${X(2.5)}" y="${y+66}" text-anchor="middle" font-weight="700">Acidic: pH below 7</text></g><g data-term="ph"><text class="lbl" x="${X(7)}" y="${y+66}" text-anchor="middle" font-weight="700">Neutral</text></g><g data-term="base"><text class="lbl" x="${X(11.5)}" y="${y+66}" text-anchor="middle" font-weight="700">Basic: pH above 7</text></g>`;
+  PH_EX.forEach(([v,t],i)=>{ s+=`<line x1="${X(v)}" y1="${y-4}" x2="${X(v)}" y2="${y-16-(i%3)*28}" stroke="#8a949a"/><text class="lbl sm" x="${X(v)}" y="${y-20-(i%3)*28}" text-anchor="${v<1?"start":v>13?"end":"middle"}">${t} (${v})</text>`; });
+  s+=`<path d="M${X(ph)} ${y-2} l-9 -14 h18 z" fill="#23282e" transform="translate(0,0)"/><rect x="${X(ph)-2}" y="${y-2}" width="4" height="30" fill="#23282e"/>`;
+  // beaker with ions
+  const hp=Math.round(Math.max(1,Math.min(26,6*Math.pow(1.5,7-ph)))), oh=Math.round(Math.max(1,Math.min(26,6*Math.pow(1.5,ph-7))));
+  const bx=W/2-70, by=10, bw=140, bh=90;
+  s+=`<path d="M${bx} ${by} v${bh} q0 10 10 10 h${bw-20} q10 0 10 -10 v-${bh}" fill="#eef5fb" stroke="#7a8a96" stroke-width="2"/>`;
+  const rnd=i=>((Math.sin(i*12.9898)*43758.5453)%1+1)%1;
+  for(let i=0;i<hp;i++) s+=`<g data-term="hydrogen-ion"><circle cx="${bx+12+rnd(i)*(bw-24)}" cy="${by+14+rnd(i+50)*(bh-20)}" r="6" fill="#d8463c"/></g>`;
+  for(let i=0;i<oh;i++) s+=`<g data-term="hydroxide"><circle cx="${bx+12+rnd(i+100)*(bw-24)}" cy="${by+14+rnd(i+150)*(bh-20)}" r="6" fill="#4a7fd0"/></g>`;
+  s+=`<text class="lbl sm" x="${bx+bw+14}" y="${by+30}"><tspan fill="#d8463c" font-weight="700">●</tspan> H⁺</text><text class="lbl sm" x="${bx+bw+14}" y="${by+50}"><tspan fill="#4a7fd0" font-weight="700">●</tspan> OH⁻</text>`;
+  s+=`<text class="lbl" x="${bx-14}" y="${by+40}" text-anchor="end" font-weight="700">pH ${ph.toFixed(1)}</text><text class="lbl sm" x="${bx-14}" y="${by+60}" text-anchor="end">[H⁺] = 10^−${ph.toFixed(1)} M</text>`;
+  s+=`</svg>`; return s;
+}
+function simPH(api){
+  let ph=7; const host=h("div"); api.plateHost.innerHTML=""; api.plateHost.append(host); const note=h("div",{class:"fb"});
+  const visited=new Set();
+  function draw(){ host.innerHTML=""; const f=plate(phSVG(ph),"<b>Figure 4.1</b> The pH scale, with the examples from your notes. Each step of 1 is a tenfold change in H⁺ concentration (the dots are not to scale). (Notes p. 17, Fig 2.9)"); host.append(f); bindTerms(f);
+    const z= ph<6.9?"acidic":ph>7.1?"basic":"neutral"; visited.add(z);
+    note.innerHTML= z==="neutral"? "<b>Neutral.</b> H⁺ and OH⁻ are equal, as in pure water." : z==="acidic"? `<b>Acidic.</b> More H⁺ than OH⁻. At pH ${ph.toFixed(1)} there is ${Math.pow(10,7-ph)>=10?Math.round(Math.pow(10,7-ph)).toLocaleString():(Math.pow(10,7-ph)).toFixed(1)} times more H⁺ than in pure water.` : `<b>Basic.</b> Fewer H⁺ and more OH⁻. At pH ${ph.toFixed(1)} there is ${Math.pow(10,ph-7)>=10?Math.round(Math.pow(10,ph-7)).toLocaleString():(Math.pow(10,ph-7)).toFixed(1)} times less H⁺ than in pure water.`;
+    if(visited.size===3) api.unlock(); }
+  const rng=h("input",{type:"range",min:"0",max:"14",step:"0.1",value:"7","aria-label":"pH"}); rng.addEventListener("input",()=>{ ph=+rng.value; draw(); });
+  api.panel.append(h("p",{class:"kicker"},"Try it"), h("h2",{},"The pH scale"),
+    h("div",{html:rich("<p>[[ph|pH]] measures the concentration of hydrogen ions (H⁺). Lower pH means more H⁺: an [[acid|acid]]. Higher pH means fewer H⁺ (and more OH⁻): a [[base|base]]. Drag the slider into the acidic, neutral and basic ranges.</p>")}),
+    h("div",{class:"ctl"},h("label",{},"pH"),rng), note);
+  api.lock(); draw();
+}
+
+/* ============ 2.x Polymer workshop: condensation and hydrolysis ============ */
+const POLY={
+  carb:{n:"Carbohydrate",mono:"Glucose",poly:"Polysaccharide (e.g. starch, glycogen)",bond:"glycosidic bond",term:"glycosidic"},
+  prot:{n:"Protein",mono:"Amino acid",poly:"Polypeptide",bond:"peptide bond",term:"peptide-bond"},
+  nuc:{n:"Nucleic acid",mono:"Nucleotide",poly:"Nucleic acid (DNA or RNA)",bond:"phosphodiester bond",term:"phosphodiester"}
+};
+function monoSVG(kind,x,y,i){
+  if(kind==="carb"){ let p=[]; for(let k=0;k<6;k++){ const a=Math.PI/3*k+Math.PI/6; p.push((x+24*Math.cos(a)).toFixed(1)+","+(y+24*Math.sin(a)).toFixed(1)); } return `<polygon points="${p.join(" ")}" fill="#f6d36b" stroke="#b8901c" stroke-width="2"/><text x="${x}" y="${y+4}" text-anchor="middle" font-size="11" font-weight="700" font-family="Arial" fill="#5a4300">Glc</text>`; }
+  if(kind==="prot"){ const R=["Gly","Ala","Ser","Lys","Phe","Val","Asp","Leu"][i%8]; return `<circle cx="${x}" cy="${y}" r="24" fill="#8fd19e" stroke="#3f8f52" stroke-width="2"/><text x="${x}" y="${y+4}" text-anchor="middle" font-size="11" font-weight="700" font-family="Arial" fill="#1f4a28">${R}</text>`; }
+  const B="AGCT"[i%4], col={A:"#8e6cc4",G:"#dd5f45",C:"#f0cf4f",T:"#3a9a9a"}[B];
+  return `<circle cx="${x-20}" cy="${y-14}" r="9" fill="#f4c64f" stroke="#b88a14"/><text x="${x-20}" y="${y-10}" text-anchor="middle" font-size="9" font-weight="700" font-family="Arial">P</text><polygon points="${x-8},${y-16} ${x+10},${y-10} ${x+6},${y+10} ${x-10},${y+10} ${x-14},${y-8}" fill="#c1b2e2" stroke="#6f5aa3" stroke-width="1.5"/><rect x="${x+12}" y="${y-8}" width="18" height="16" rx="3" fill="${col}"/><text x="${x+21}" y="${y+4}" text-anchor="middle" font-size="10" font-weight="700" fill="#fff" font-family="Arial">${B}</text>`;
+}
+function polySVG(kind,n,phase,released,added){
+  const W=760,H=260; let s=`<svg viewBox="0 0 ${W} ${H}" role="img" aria-label="${POLY[kind].n} chain of ${n} monomers"><rect width="${W}" height="${H}" fill="#fff"/>`;
+  const gap=82, x0=60, y=120;
+  for(let i=0;i<n;i++){ const x=x0+i*gap; if(i>0) s+=`<g data-term="${POLY[kind].term}"><line x1="${x-gap+26}" y1="${y}" x2="${x-26}" y2="${y}" stroke="#23282e" stroke-width="${phase==="split"&&i===n-1?1:4}" ${phase==="split"&&i===n-1?'stroke-dasharray="4 4"':""}/></g>`; s+=`<g data-term="monomer">${monoSVG(kind,x,y,i)}</g>`; }
+  if(phase==="join"){ const x=x0+n*gap; s+=`<g opacity=".95">${monoSVG(kind,x+30,y,n)}</g><text class="lbl sm" x="${x-46}" y="${y-30}" fill="#d8463c" font-weight="700">–OH</text><text class="lbl sm" x="${x+2}" y="${y-30}" fill="#d8463c" font-weight="700">H–</text>`;
+    s+=`<g data-term="condensation"><circle cx="${x-16}" cy="${y+56}" r="11" fill="#d8463c"/><circle cx="${x-28}" cy="${y+66}" r="6" fill="#eef2f6" stroke="#8a98a8"/><circle cx="${x-4}" cy="${y+66}" r="6" fill="#eef2f6" stroke="#8a98a8"/><text class="lbl sm" x="${x+4}" y="${y+90}" font-weight="700">H₂O out</text></g>`; }
+  if(phase==="split"){ const x=x0+(n-1)*gap-gap/2; s+=`<g data-term="hydrolysis"><circle cx="${x}" cy="${y-50}" r="11" fill="#d8463c"/><circle cx="${x-12}" cy="${y-40}" r="6" fill="#eef2f6" stroke="#8a98a8"/><circle cx="${x+12}" cy="${y-40}" r="6" fill="#eef2f6" stroke="#8a98a8"/><text class="lbl sm" x="${x+18}" y="${y-58}" font-weight="700">H₂O in</text>${arrow(x,y-36,x,y-14,"#4a7fd0",2)}</g>`; }
+  s+=`<text class="lbl" x="20" y="28" font-weight="700">${POLY[kind].n}: ${n} ${POLY[kind].mono.toLowerCase()} unit${n===1?"":"s"}, ${Math.max(0,n-1)} ${POLY[kind].bond}${n-1===1?"":"s"}</text>`;
+  s+=`<text class="lbl" x="20" y="${H-18}">Water released by condensation: <tspan font-weight="700">${released}</tspan>. Water used by hydrolysis: <tspan font-weight="700">${added}</tspan>.</text>`;
+  s+=`</svg>`; return s;
+}
+function simPolymer(api){
+  let kind="carb", n=1, phase="", rel=0, add=0, busy=false; const did={join:0,split:0,kinds:new Set(["carb"])};
+  const host=h("div"); api.plateHost.innerHTML=""; api.plateHost.append(host); const note=h("div",{class:"fb"}), q=h("div");
+  function draw(){ host.innerHTML=""; const f=plate(polySVG(kind,n,phase,rel,add),`<b>Figure 6.2</b> Building and breaking a polymer. Each new bond releases one water; breaking a bond uses one.`); host.append(f); bindTerms(f); }
+  const seg=h("div",{class:"seg"});
+  Object.keys(POLY).forEach(k=>{ const b=h("button",{"aria-pressed":String(k===kind)},POLY[k].n); b.addEventListener("click",()=>{ if(busy) return; kind=k; n=1; rel=0; add=0; phase=""; did.kinds.add(k); $$("button",seg).forEach(x=>x.setAttribute("aria-pressed","false")); b.setAttribute("aria-pressed","true"); note.innerHTML=`<b>${POLY[k].n}.</b> Monomer: ${POLY[k].mono.toLowerCase()}. Polymer: ${POLY[k].poly}. Linking bond: ${POLY[k].bond}.`; draw(); check(); }); seg.append(b); });
+  const join=h("button",{class:"btn"},"Condensation: add a monomer"), split=h("button",{class:"btn ghost"},"Hydrolysis: break a bond");
+  join.addEventListener("click",()=>{ if(busy||n>=8) return; busy=true; phase="join"; draw(); setTimeout(()=>{ n++; rel++; phase=""; busy=false; did.join++; note.innerHTML=`<b>Condensation (dehydration).</b> An –OH from one monomer and an –H from the other leave as H₂O, and a ${POLY[kind].bond} forms.`; draw(); check(); }, reduceMotion?50:900); });
+  split.addEventListener("click",()=>{ if(busy||n<=1) return; busy=true; phase="split"; draw(); setTimeout(()=>{ n--; add++; phase=""; busy=false; did.split++; note.innerHTML=`<b>Hydrolysis.</b> A water molecule is added across the ${POLY[kind].bond}: –H goes to one monomer, –OH to the other, and the bond breaks. Digestion works this way.`; draw(); check(); }, reduceMotion?50:900); });
+  let asked=false;
+  function check(){ if(!asked && did.join>=3 && did.split>=1 && did.kinds.size>=2){ asked=true;
+    inlineMCQ(q,"How many water molecules are released when 10 glucose molecules are joined into one chain?",[["9",1," One water per bond, and a chain of 10 has 9 bonds."],["10",0," Count the bonds: a chain of 10 units has 9 links."],["11",0," That is more than the number of bonds."],["0",0," Every condensation reaction releases water."]],api,"water",["condensation","polymer"],()=>api.unlock()); } }
+  api.panel.append(h("p",{class:"kicker"},"Build it"), h("h2",{},"Build and break a polymer"),
+    h("div",{html:rich("<p>Macromolecules are [[polymer|polymers]] built from smaller [[monomer|monomers]]. A [[condensation|condensation reaction]] links two monomers and releases water. [[hydrolysis|Hydrolysis]] does the reverse: it uses water to break the bond.</p><p>Try at least two kinds of polymer. Add three monomers, then break one bond.</p>")}),
+    seg, h("div",{class:"row",style:"margin:10px 0"},join,split), note, q);
+  api.lock(); draw();
+}
+
+/* ============ 2.x Saturated vs unsaturated fatty acids ============ */
+function fattySVG(unsat,temp){
+  const W=720,H=330; let s=`<svg viewBox="0 0 ${W} ${H}" role="img" aria-label="${unsat?"Unsaturated":"Saturated"} fatty acids at ${temp} degrees"><rect width="${W}" height="${H}" fill="#fff"/>`;
+  const jit=Math.max(0,(temp-0)/40);
+  const rnd=i=>((Math.sin(i*78.233)*43758.5453)%1+1)%1;
+  const N= 10, gap = unsat? 58 : 40;
+  for(let i=0;i<N;i++){ const x0=70+i*gap+(rnd(i)-.5)*jit*12, y0=60+(rnd(i+9)-.5)*jit*14;
+    s+=`<g data-term="${unsat?"unsaturated":"saturated"}"><circle cx="${x0}" cy="${y0}" r="11" fill="#d8463c" opacity=".85"/><text x="${x0}" y="${y0+4}" text-anchor="middle" font-size="9" font-weight="700" fill="#fff" font-family="Arial">COOH</text>`;
+    let d=`M${x0} ${y0+11}`, x=x0, y=y0+11;
+    for(let k=0;k<14;k++){ const dx=(k%2?6:-6); let ny=y+14, nx=x+dx; if(unsat && k===7){ nx=x+22; ny=y+10; } d+=` L${nx.toFixed(1)} ${ny.toFixed(1)}`; x=nx; y=ny; }
+    s+=`<path d="${d}" stroke="#4b4f55" stroke-width="3" fill="none" stroke-linejoin="round"/>`;
+    if(unsat){ s+=`<circle cx="${x0+12}" cy="${y0+11+14*7+4}" r="5" fill="none" stroke="#d8463c" stroke-width="2"/>`; }
+    s+=`</g>`; }
+  const solid = unsat ? temp < 13 : temp < 69; // melting points: oleic acid ~13 °C, stearic acid ~69 °C
+  s+=`<rect x="20" y="20" width="${W-40}" height="${H-70}" rx="10" fill="none" stroke="${solid?"#7a8a96":"#9fc3e0"}" stroke-width="2" stroke-dasharray="${solid?"":"6 5"}"/>`;
+  s+=`<text class="lbl" x="${W/2}" y="${H-24}" text-anchor="middle" font-weight="700">${unsat?"Unsaturated (oleic acid): a cis double bond puts a kink in the tail":"Saturated (stearic acid): no double bonds, straight tails"}</text>`;
+  s+=`<text class="lbl" x="${W-30}" y="44" text-anchor="end" font-weight="700" fill="${solid?"#55615d":"#2f6fb0"}">${solid?"Packs tightly: solid at "+temp+" °C":"Loosely packed: liquid at "+temp+" °C"}</text>`;
+  s+=`</svg>`; return s;
+}
+function simFatty(api, opts={}){
+  let unsat=false, temp=22; const seen=new Set();
+  const host=h("div"); api.plateHost.innerHTML=""; api.plateHost.append(host); const note=h("div",{class:"fb"});
+  function draw(){ host.innerHTML=""; const f=plate(fattySVG(unsat,temp),opts.cap||"<b>Figure 10.2</b> Saturated vs unsaturated fatty acids. The red circle marks the double bond. (Notes p. 29, Fig 2.25)"); host.append(f); bindTerms(f);
+    seen.add(unsat?"u":"s"); note.innerHTML = unsat ? rich("Each [[unsaturated|unsaturated]] tail has a C=C double bond that kinks it. Kinked tails can't pack tightly, so the fat stays liquid at room temperature (like olive oil) and membranes stay more fluid.") : rich("[[saturated|Saturated]] tails have only single bonds, so they are straight and pack tightly. The fat is solid at room temperature (like butter), and membranes made of them are less fluid.");
+    if(seen.size===2) api.unlock(); }
+  const seg=h("div",{class:"seg"}); [["s","Saturated"],["u","Unsaturated"]].forEach(([k,t])=>{ const b=h("button",{"aria-pressed":String(k==="s")},t); b.addEventListener("click",()=>{ unsat=k==="u"; $$("button",seg).forEach(x=>x.setAttribute("aria-pressed","false")); b.setAttribute("aria-pressed","true"); draw(); }); seg.append(b); });
+  const rng=h("input",{type:"range",min:"-20",max:"80",step:"1",value:"22","aria-label":"Temperature"}); const tl=h("span",{class:"readout"},"22 °C");
+  rng.addEventListener("input",()=>{ temp=+rng.value; tl.textContent=temp+" °C"; draw(); });
+  api.panel.append(h("p",{class:"kicker"},"Try it"), h("h2",{},opts.title||"Straight tails and kinked tails"), h("div",{html:rich(opts.text||"<p>Fatty acids are long hydrocarbon chains with a carboxyl group at one end. Switch between saturated and unsaturated, and change the temperature.</p>")}),
+    h("div",{class:"ctl"},h("div",{},h("label",{},"Fatty acid"),seg),h("div",{},h("label",{},"Temperature ",tl),rng)), note);
+  api.lock(); draw();
+}
+
+/* ============ 2.x Protein structure levels ============ */
+const PROT_LEVELS=[
+ {n:"Primary structure",term:"primary-structure",d:"The sequence of amino acids, joined by peptide bonds. It is written from the N-terminus (free amino group) to the C-terminus (free carboxyl group). Everything else about the protein's shape follows from this sequence."},
+ {n:"Secondary structure",term:"secondary-structure",d:"Local folding of the backbone into α-helices and β-sheets, held by hydrogen bonds between backbone atoms (C=O of one amino acid and N–H of another), not the R groups."},
+ {n:"Tertiary structure",term:"tertiary-structure",d:"The overall 3-D shape of one polypeptide, set by interactions between R groups: hydrophobic R groups cluster inside away from water, plus hydrogen bonds, ionic bonds and disulfide bridges."},
+ {n:"Quaternary structure",term:"quaternary-structure",d:"Two or more folded polypeptides (subunits) joined into one functional protein. Hemoglobin, with four subunits, is the classic example."}
+];
+function protSVG(L){
+  const W=740,H=330; let s=`<svg viewBox="0 0 ${W} ${H}" role="img" aria-label="${PROT_LEVELS[L].n}"><rect width="${W}" height="${H}" fill="#fff"/>`;
+  const col=i=>["#f2c94c","#8fd19e","#7fb2e8","#e88f8f","#f2c94c","#c7a0e0"][i%6];
+  if(L===0){ for(let i=0;i<14;i++){ const x=50+i*47, y=165+ (i%2?10:-10); if(i) s+=`<line x1="${x-47}" y1="${165+((i-1)%2?10:-10)}" x2="${x}" y2="${y}" stroke="#555" stroke-width="3"/>`; s+=`<g data-term="amino-acid"><circle cx="${x}" cy="${y}" r="17" fill="${col(i)}" stroke="#555"/><text x="${x}" y="${y+4}" text-anchor="middle" font-size="10" font-weight="700" font-family="Arial">${["Met","Gly","Ser","Leu","Lys","Ala","Phe","Asp","Val","Cys","Thr","Glu","Ile","His"][i]}</text></g>`; }
+    s+=`<text class="lbl" x="34" y="120" font-weight="700">N-terminus (H₃N⁺–)</text><text class="lbl" x="${W-30}" y="230" text-anchor="end" font-weight="700">(–COO⁻) C-terminus</text><g data-term="peptide-bond"><text class="lbl sm" x="${50+47*0.5}" y="210" text-anchor="middle">peptide bond</text></g>`; }
+  if(L===1){ // helix
+    let d=""; for(let t=0;t<=Math.PI*8;t+=0.12){ const x=60+t*12, y=165+48*Math.sin(t); d+=(t===0?"M":"L")+x.toFixed(1)+" "+y.toFixed(1); }
+    s+=`<g data-term="secondary-structure"><path d="${d}" stroke="#d8463c" stroke-width="10" fill="none" stroke-linecap="round"/></g>`;
+    for(let k=0;k<6;k++){ const x=80+k*48; s+=`<line x1="${x}" y1="128" x2="${x+20}" y2="200" stroke="#4a7fd0" stroke-width="2" stroke-dasharray="4 3"/>`; }
+    s+=`<text class="lbl" x="200" y="285" text-anchor="middle" font-weight="700">α-helix</text>`;
+    // sheet
+    for(let r=0;r<3;r++){ const y=90+r*60, dir=r%2?-1:1, x0=430, x1=700; s+=`<g data-term="secondary-structure"><path d="M${dir>0?x0:x1} ${y} L${dir>0?x1-24:x0+24} ${y} L${dir>0?x1-24:x0+24} ${y-12} L${dir>0?x1:x0} ${y+6} L${dir>0?x1-24:x0+24} ${y+24} L${dir>0?x1-24:x0+24} ${y+12} L${dir>0?x0:x1} ${y+12} Z" fill="#f2c94c" stroke="#b8901c" stroke-width="1.5"/></g>`; if(r<2) for(let k=0;k<5;k++) s+=`<line x1="${450+k*50}" y1="${y+14}" x2="${450+k*50}" y2="${y+58}" stroke="#4a7fd0" stroke-width="2" stroke-dasharray="4 3"/>`; }
+    s+=`<text class="lbl" x="565" y="285" text-anchor="middle" font-weight="700">β-pleated sheet</text><g data-term="hydrogen-bond"><text class="lbl sm" x="370" y="40" text-anchor="middle" fill="#4a7fd0" font-weight="700">Blue dashes: hydrogen bonds between backbone C=O and N–H</text></g>`; }
+  if(L===2){ s+=`<g data-term="tertiary-structure"><path d="M210 90 C300 40 420 60 470 120 C540 200 470 280 380 270 C300 262 260 300 200 250 C140 200 130 130 210 90 Z" fill="#eef4fb" stroke="#7a8a96" stroke-width="2"/></g>`;
+    let d="M190 110"; const pts=[[240,80],[300,120],[260,170],[330,190],[400,110],[450,170],[400,240],[320,240],[260,220],[200,200],[180,150]]; pts.forEach(p=>d+=` Q${p[0]+20} ${p[1]-25} ${p[0]} ${p[1]}`);
+    s+=`<path d="${d}" stroke="#d8463c" stroke-width="7" fill="none"/>`;
+    [[300,150],[320,170],[340,150],[310,195]].forEach(p=>s+=`<g data-term="hydrophobic"><circle cx="${p[0]}" cy="${p[1]}" r="10" fill="#f2c94c" stroke="#b8901c"/></g>`);
+    s+=`<g data-term="disulfide"><line x1="260" y1="170" x2="250" y2="218" stroke="#e2c341" stroke-width="4"/><text class="lbl sm" x="214" y="196">S–S</text></g>`;
+    s+=`<g data-term="ionic-bond"><text x="430" y="166" font-size="16" font-weight="700" fill="#4a7fd0" font-family="Arial">+</text><text x="446" y="186" font-size="18" font-weight="700" fill="#d8463c" font-family="Arial">−</text></g>`;
+    s+=`<g class="lbls">${lab("Hydrophobic R groups\ncluster inside","hydrophobic",520,70,342,150)}${lab("Disulfide bridge","disulfide",60,280,252,200)}${lab("Ionic bond between\ncharged R groups","ionic-bond",560,220,446,180)}</g>`; }
+  if(L===3){ const sub=(x,y,c)=>`<g data-term="quaternary-structure"><ellipse cx="${x}" cy="${y}" rx="78" ry="60" fill="${c}" stroke="#555" stroke-width="2"/><path d="M${x-50} ${y-10} q20 -30 40 0 t40 0 t20 20" stroke="#555" stroke-width="3" fill="none" opacity=".5"/></g>`;
+    s+=sub(290,110,"#f4a6a6")+sub(450,110,"#a6c8f4")+sub(290,225,"#a6c8f4")+sub(450,225,"#f4a6a6");
+    [[370,168]].forEach(p=>s+=`<circle cx="${p[0]}" cy="${p[1]}" r="14" fill="#c0392b" stroke="#7a1d14"/><text x="${p[0]}" y="${p[1]+4}" text-anchor="middle" font-size="9" font-weight="700" fill="#fff" font-family="Arial">heme</text>`);
+    s+=`<text class="lbl" x="${W/2}" y="${H-12}" text-anchor="middle" font-weight="700">Hemoglobin: four polypeptide subunits (two α, two β)</text>`; }
+  s+=`<text class="lbl" x="16" y="26" font-weight="700" font-size="16">${L+1}. ${PROT_LEVELS[L].n}</text></svg>`; return s;
+}
+function simProteinLevels(api){
+  let L=0, max=0; const host=h("div"), info=h("div",{class:"fb"}), cnt=h("p",{class:"readout"});
+  const draw=()=>{ host.innerHTML=""; const f=plate(protSVG(L),`<b>Figure 2.9</b> The four levels of protein structure, level ${L+1} of 4.`); host.append(f); bindTerms(f); info.innerHTML=`<b>${PROT_LEVELS[L].n}.</b> ${PROT_LEVELS[L].d}`; cnt.textContent=`Level ${L+1} of 4`; max=Math.max(max,L); if(max===3) api.unlock(); };
+  api.plateHost.innerHTML=""; api.plateHost.append(host);
+  api.panel.append(h("p",{class:"kicker"},"Step through it"), h("h2",{},"From a chain to a working protein"),
+    h("p",{},"A protein's shape decides its function, and its shape comes from its amino acid sequence. Fold the chain one level at a time."), cnt, info,
+    h("div",{class:"row"},h("button",{class:"btn ghost",onclick:()=>{ if(L>0){L--;draw();} }},"Back a level"),h("button",{class:"btn",onclick:()=>{ if(L<3){L++;draw();} }},"Fold further")));
+  api.lock(); draw();
+}
+
+/* ============ 2.x ATP ============ */
+function atpSVG(split){
+  const W=720,H=260; let s=`<svg viewBox="0 0 ${W} ${H}" role="img" aria-label="${split?"ADP and phosphate":"ATP"}"><rect width="${W}" height="${H}" fill="#fff"/>`;
+  s+=`<g data-term="adenine"><rect x="40" y="70" width="110" height="60" rx="10" fill="#8e6cc4"/><text x="95" y="106" text-anchor="middle" font-size="15" font-weight="700" fill="#fff" font-family="Arial">Adenine</text></g>`;
+  s+=`<line x1="150" y1="100" x2="190" y2="110" stroke="#333" stroke-width="3"/><g data-term="ribose"><polygon points="230,70 270,95 258,140 202,140 190,95" fill="#f3b3c1" stroke="#b0566e" stroke-width="2"/><text x="230" y="114" text-anchor="middle" font-size="13" font-weight="700" font-family="Arial">Ribose</text></g>`;
+  const P=(x,lbl)=>`<g data-term="atp"><circle cx="${x}" cy="105" r="26" fill="#f4c64f" stroke="#b88a14" stroke-width="2"/><text x="${x}" y="111" text-anchor="middle" font-size="16" font-weight="700" font-family="Arial">P</text><text class="lbl sm" x="${x}" y="150" text-anchor="middle">${lbl}</text></g>`;
+  s+=`<line x1="268" y1="100" x2="300" y2="105" stroke="#333" stroke-width="3"/>`+P(326,"α")+`<line x1="352" y1="105" x2="380" y2="105" stroke="#333" stroke-width="3"/>`+P(406,"β");
+  if(!split){ s+=`<line x1="432" y1="105" x2="460" y2="105" stroke="#d8463c" stroke-width="5"/>`+P(486,"γ")+`<text class="lbl" x="${W/2}" y="210" text-anchor="middle" font-weight="700">ATP: adenine + ribose + three phosphates</text>`; }
+  else { s+=P(600,"Pᵢ")+`<g><text x="520" y="60" font-size="34" font-family="Arial">⚡</text><text class="lbl" x="520" y="40" font-weight="700" fill="#b0342c">energy released</text></g><text class="lbl" x="${W/2}" y="210" text-anchor="middle" font-weight="700">ATP + H₂O → ADP + Pᵢ + energy (hydrolysis)</text>`; }
+  s+=`</svg>`; return s;
+}
+function simATP(api){
+  let split=false, both=new Set(); const host=h("div"); api.plateHost.innerHTML=""; api.plateHost.append(host); const note=h("div",{class:"fb"});
+  const draw=()=>{ host.innerHTML=""; const f=plate(atpSVG(split),"<b>Figure 8.4</b> ATP: adenine, ribose and three phosphates. (Notes p. 24)"); host.append(f); bindTerms(f); both.add(split);
+    note.innerHTML= split? rich("Hydrolysis of the last phosphate releases energy the cell can use: to run [[atp|pumps]], build molecules and move things. What's left is ADP plus a free phosphate (Pᵢ).") : rich("[[atp|ATP]] (adenosine triphosphate) is a nucleotide: the base adenine, the sugar ribose, and a chain of three phosphates. The bonds between the phosphates store a lot of usable energy.");
+    btn.textContent= split?"Rebuild ATP":"Break off a phosphate"; if(both.size===2) api.unlock(); };
+  const btn=h("button",{class:"btn"},""); btn.addEventListener("click",()=>{ split=!split; draw(); });
+  api.panel.append(h("p",{class:"kicker"},"Try it"), h("h2",{},"ATP: the energy currency"), btn, note); api.lock(); draw();
+}
+
+/* ============ Sugar lab: ring closure, glycosidic bonds, chain length (notes pp. 26–28) ============ */
+function ringPoly(cx,cy,r){ const p=[]; for(let i=0;i<6;i++){ const a=(-30+60*i)*Math.PI/180; p.push([cx+r*Math.cos(a),cy+r*Math.sin(a)]); } return p; }
+function sugarSVG(st){
+  const W=760,H=360; let s=`<svg viewBox="0 0 ${W} ${H}" role="img" aria-label="Sugar lab"><rect width="${W}" height="${H}" fill="#fff"/>`;
+  if(st.phase===0){ // linear glucose
+    const x=300; s+=`<text class="lbl" x="${x}" y="30" text-anchor="middle" font-weight="700">Linear glucose</text>`;
+    const side=["ald","R","L","R","R","end"];
+    for(let c=0;c<6;c++){ const y=60+c*44; if(c<5) s+=bond(x,y+12,x,y+32); s+=`<text class="lbl sm" x="${x-80}" y="${y+5}" fill="#b0342c" font-weight="700">${c+1}</text>`;
+      if(c===0){ s+=`<g data-term="monosaccharide">${atomT(x,y+6,"C")}${bond(x-12,y,x-30,y)}${atomT(x-40,y+6,"H",MC.H,15)}${dbl(x+12,y,x+34,y,"#d8463c")}${atomT(x+46,y+6,"O","#d8463c",16)}</g><text class="lbl sm" x="${x+64}" y="${y+5}" fill="#d8463c">aldehyde group</text>`; continue; }
+      const L=side[c]==="L"; s+=atomT(x,y+6,"C")+bond(x-12,y,x-30,y)+bond(x+12,y,x+30,y)+(L?atomT(x-46,y+6,"HO","#a5532c",15)+atomT(x+40,y+6,"H",MC.H,15):atomT(x-40,y+6,"H",MC.H,15)+atomT(x+48,y+6,"OH",c===4?"#d8463c":"#a5532c",15));
+      if(c===4) s+=`<text class="lbl sm" x="${x+70}" y="${y+5}" fill="#d8463c">this –OH on carbon 5</text>`; }
+    s+=`<text class="lbl it" x="${W/2}" y="${H-14}" text-anchor="middle">In cells, virtually all monosaccharides are in cyclic form.</text>`;
+  } else {
+    const n=st.n, gap=n>8?Math.max(34,600/n):110, r=n>8?Math.min(26,gap*0.42):36, y=170, x0=Math.max(70,W/2-(n-1)*gap/2);
+    for(let i=0;i<n;i++){ const cx=x0+i*gap, p=ringPoly(cx,y,r); const fr=st.second==="fructose"&&i===1&&n===2;
+      s+=`<g data-term="${n===1?"monosaccharide":"glycosidic"}"><polygon points="${p.map(q=>q[0].toFixed(1)+","+q[1].toFixed(1)).join(" ")}" fill="${fr?"#f8dde6":"#f6d36b"}" stroke="${fr?"#b0566e":"#b8901c"}" stroke-width="2"/>`;
+      if(r>=30){ s+=atomT(p[5][0],p[5][1]+6,"O",MC.O,14)+`<text class="lbl sm" x="${p[0][0]+6}" y="${p[0][1]+4}" fill="#b0342c" font-weight="700">1</text><text class="lbl sm" x="${p[4][0]-14}" y="${p[4][1]-2}" fill="#b0342c" font-weight="700">5</text>`; s+=`<text class="lbl sm" x="${cx}" y="${y+5}" text-anchor="middle" font-weight="700">${fr?"Fru":(i===1&&st.second==="galactose"&&n===2)?"Gal":"Glc"}</text>`; }
+      s+=`</g>`;
+      if(i>0){ const px=x0+(i-1)*gap; s+=`<g data-term="glycosidic"><path d="M${px+r*0.86} ${y+r*0.5} L${px+gap/2} ${y+r*0.9} L${cx-r*0.86} ${y+r*0.5}" stroke="#2c5aa0" stroke-width="3" fill="none"/>${r>=24?atomT(px+gap/2,y+r*0.9+16,"O",MC.O,13):""}</g>`; } }
+    if(n===1) s+=`<text class="lbl" x="${W/2}" y="60" text-anchor="middle">Carbon 1 has bonded to the oxygen of the –OH on carbon 5, closing the ring.</text>`;
+    if(st.water>0) s+=`<g data-term="condensation"><circle cx="${W-70}" cy="70" r="16" fill="#d8463c"/><circle cx="${W-88}" cy="84" r="9" fill="#eef2f6" stroke="#8a98a8"/><circle cx="${W-52}" cy="84" r="9" fill="#eef2f6" stroke="#8a98a8"/><text class="lbl sm" x="${W-70}" y="114" text-anchor="middle" font-weight="700">${st.water} H₂O released</text></g>`;
+    const cls=n===1?"Monosaccharide":n===2?(st.second==="fructose"?"Disaccharide: sucrose (table sugar)":"Disaccharide"):n<10?"Oligosaccharide (a few units)":"Polysaccharide (many units)";
+    s+=`<text x="${W/2}" y="${H-40}" text-anchor="middle" font-family="Source Serif 4,Georgia" font-size="22" font-weight="650" fill="#23282e">${cls}</text>`;
+    if(n>=10) s+=`<text class="lbl it" x="${W/2}" y="${H-14}" text-anchor="middle">Long-term energy storage (starch, glycogen) or structural support (cellulose).</text>`;
+  }
+  s+=`</svg>`; return s;
+}
+function simSugar(api){
+  const st={phase:0,n:1,second:null,water:0}; const did={ring:false,sucrose:false,poly:false};
+  const host=h("div"), note=h("div",{class:"fb"},"Glucose starts as a straight chain with an aldehyde group at carbon 1."), ctl=h("div"); api.plateHost.innerHTML=""; api.plateHost.append(host);
+  function draw(){ host.innerHTML=""; const f=plate(sugarSVG(st),"<b>Figure 9.1</b> Sugar lab. (Notes pp. 26–28, Figs 2.21 to 2.24)"); host.append(f); bindTerms(f); ctl.innerHTML="";
+    if(st.phase===0){ ctl.append(h("button",{class:"btn",onclick:()=>{ st.phase=1; did.ring=true; note.innerHTML=rich("The aldehyde carbon (C1) forms a covalent bond with the oxygen of the –OH group on C5. Now it's a ring: the form almost all [[monosaccharide|monosaccharides]] take in cells."); bindRich(note); draw(); }},"Close the ring")); }
+    else {
+      if(st.n===1){ const row=h("div",{class:"row"},h("span",{class:"muted small"},"Link a second sugar:")); [["glucose","Glucose"],["fructose","Fructose"],["galactose","Galactose"]].forEach(([k,t])=>row.append(h("button",{class:"btn ghost",onclick:()=>{ st.n=2; st.second=k; st.water=1; if(k==="fructose") did.sucrose=true;
+          note.innerHTML=rich(`A [[glycosidic|glycosidic bond]] forms between C1 of one sugar and an –OH on the other, and one water is released. ${k==="fructose"?"Glucose + fructose = <strong>sucrose</strong>, table sugar (C₁₂H₂₂O₁₁).":"Two linked monosaccharides make a [[disaccharide|disaccharide]] (di = two)."}`); bindRich(note); draw(); check(); }},t))); ctl.append(row); }
+      else { const rng=h("input",{type:"range",min:"2",max:"24",value:String(st.n),"aria-label":"Number of sugar units"}); rng.oninput=()=>{ st.n=+rng.value; st.water=st.n-1; if(st.n>=10) did.poly=true; if(st.n>2) st.second=null;
+          note.innerHTML=rich(st.n<10?`A few linked monosaccharides: an [[oligosaccharide|oligosaccharide]] (oligo = few). Oligosaccharides can be attached to proteins (glycoproteins) or lipids (glycolipids).`:`Many linked monosaccharides: a [[polysaccharide|polysaccharide]] (poly = many). ${st.n-1} glycosidic bonds, ${st.n-1} waters released.`); bindRich(note); host.innerHTML=""; const f=plate(sugarSVG(st),"<b>Figure 9.1</b> Sugar lab. (Notes pp. 26–28, Figs 2.21 to 2.24)"); host.append(f); bindTerms(f); check(); };
+        ctl.append(h("div",{class:"ctl"},h("label",{},"Chain length"),rng), h("button",{class:"btn ghost",style:"margin-top:6px",onclick:()=>{ st.n=1; st.second=null; st.water=0; note.innerHTML="Back to one glucose ring."; draw(); }},"Start over with one ring")); }
+    }
+    check(); }
+  function check(){ tasks.innerHTML=""; tasks.append(h("b",{},"Tasks"),h("ul",{style:"margin:4px 0;padding-left:20px"},...[["ring","Close the glucose ring"],["sucrose","Make sucrose"],["poly","Build a polysaccharide"]].map(([k,t])=>h("li",{style:did[k]?"color:var(--ok);font-weight:600":""},(did[k]?"Done: ":"")+t)))); if(did.ring&&did.sucrose&&did.poly) api.unlock(); }
+  const tasks=h("div");
+  api.panel.append(h("p",{class:"kicker"},"Build it"), h("h2",{},"Sugar lab"), h("div",{html:rich("<p>[[carbohydrate|Carbohydrates]] are made of C, H and O, usually in a 1:2:1 ratio. Start with linear glucose, close the ring, then link sugars together.</p>")}), ctl, note, tasks);
+  api.lock(); draw();
+}
+
+/* ============ Finale: name that molecule ============ */
+const MYST=[
+ {c:"carb",clue:"Contains only C, H and O, in about a 1:2:1 ratio. Formula C₆H₁₂O₆. In a cell it is almost always a ring.",ans:"Glucose, a monosaccharide."},
+ {c:"prot",clue:"Contains N and sometimes S. Each monomer has an α carbon, an amino group, a carboxyl group and an R group.",ans:"A protein (polypeptide)."},
+ {c:"nuc",clue:"Contains P and N. A chain of monomers, each with a base, a five-carbon sugar and a phosphate, joined by phosphodiester bonds. It has a 5′ end and a 3′ end.",ans:"A nucleic acid (DNA or RNA)."},
+ {c:"lip",clue:"Not a polymer. Glycerol joined to three long hydrocarbon chains. Used for energy storage in fats and oils.",ans:"A triacylglycerol."},
+ {c:"lip",clue:"Four fused carbon rings with an –OH group. Found in animal cell membranes, and the starting point for cortisol.",ans:"Cholesterol, a steroid."},
+ {c:"carb",clue:"A large, branched chain of glucose units attached to a central protein.",ans:"Glycogen, a polysaccharide."},
+ {c:"prot",clue:"Speeds up a chemical reaction as a catalyst. What it does depends on the order of its 20 kinds of monomers.",ans:"An enzyme, a protein."},
+ {c:"nuc",clue:"Adenine + ribose + three phosphate groups. Breaking off the last phosphate releases energy.",ans:"ATP, a nucleotide."},
+ {c:"lip",clue:"A polar head with a phosphate group and two nonpolar tails. Amphipathic. The main component of cell membranes.",ans:"A phospholipid."},
+ {c:"carb",clue:"Glucose and fructose joined by a glycosidic bond. C₁₂H₂₂O₁₁.",ans:"Sucrose, a disaccharide."}];
+const MCLS=[["prot","Protein"],["nuc","Nucleic acid or nucleotide"],["carb","Carbohydrate"],["lip","Lipid"]];
+function simMystery(api){
+  const order=shuffle(MYST); let i=0, right=0, first=true; const body=h("div");
+  api.plateHost.innerHTML=""; const f=plate(figMacro4(),"<b>Figure 11.1</b> The four kinds of biological molecules. Click one for a reminder."); api.plateHost.append(f); bindTerms(f);
+  const bar=h("div",{class:"meter",style:"margin:6px 0 10px"});
+  function drawBar(){ bar.innerHTML=""; order.forEach((_,k)=>bar.append(h("i",{style:`display:inline-block;width:${100/order.length-1}%;height:8px;margin-right:1%;border-radius:4px;background:${k<i?"var(--accent)":"var(--rule)"}`}))); }
+  function draw(){ body.innerHTML=""; drawBar();
+    if(i>=order.length){ body.append(h("div",{class:"fb ok",html:`<b>${right} of ${order.length} on the first try.</b> Proteins, nucleic acids, carbohydrates and lipids: you can tell them apart by their elements, their building blocks and their bonds.`})); api.unlock(); return; }
+    const m=order[i]; first=true;
+    body.append(h("div",{class:"idcard"},h("div",{class:"hd"},h("b",{},`Mystery molecule ${i+1}`),h("span",{},`${i+1} of ${order.length}`)),h("p",{style:"padding:12px 14px;margin:0"},m.clue)));
+    const box=h("div",{class:"gates"}), fb=h("div");
+    MCLS.forEach(([k,t])=>{ const b=h("button",{class:"gate"},t); b.onclick=()=>{ const ok=k===m.c; if(first){ first=false; api.gradeKey("q"+i,ok,[{prot:"protein",nuc:"nucleic-acid",carb:"carbohydrate",lip:"lipid"}[m.c]]); if(ok) right++; }
+      if(ok){ b.classList.add("right"); $$(".gate",box).forEach(x=>x.disabled=true); fb.innerHTML=""; fb.append(h("div",{class:"fb ok",html:`<b>${t}.</b> ${m.ans}`}), h("button",{class:"btn",style:"margin-top:6px",onclick:()=>{ i++; draw(); }},i+1<order.length?"Next molecule":"Finish")); }
+      else { b.classList.add("wrong"); b.disabled=true; fb.innerHTML=""; fb.append(h("div",{class:"fb bad",html:"<b>Not that one.</b> Look again at the elements and the building blocks."})); } }; box.append(b); });
+    body.append(box,fb); }
+  api.panel.append(h("p",{class:"kicker"},"Finale"), h("h2",{},"Name that molecule"), h("p",{},"Ten mystery molecules. Read the clues and name the kind of molecule. Your score is how many you get on the first try."), bar, body);
+  api.lock(); draw();
+}
+
+/* ============ Chemistry desk: endless practice ============ */
+const DESK_EL=[[1,"H","hydrogen"],[6,"C","carbon"],[7,"N","nitrogen"],[8,"O","oxygen"],[11,"Na","sodium"],[12,"Mg","magnesium"],[15,"P","phosphorus"],[16,"S","sulfur"],[17,"Cl","chlorine"],[19,"K","potassium"],[20,"Ca","calcium"]];
+const pick=a=>a[Math.floor(Math.random()*a.length)];
+function makeChemTask(){
+  const k=Math.floor(Math.random()*8);
+  if(k===0){ const pairs=[["H","H"],["C","H"],["O","H"],["N","H"],["Na","Cl"],["K","Cl"],["C","O"],["O","O"],["C","C"],["N","O"]]; const [a,b]=pick(pairs); const kind=bondKind(a,b);
+    return {title:"Name the bond",prompt:`What kind of bond forms between ${a} and ${b}?`,opts:["Nonpolar covalent","Polar covalent","Ionic"],ans:kind==="ionic"?"Ionic":kind==="polar"?"Polar covalent":"Nonpolar covalent",why:`Electronegativity: ${a} ${EN[a]}, ${b} ${EN[b]}. Similar values share equally; a moderate difference shares unequally; a big difference (like Na and Cl) means one atom takes an electron.`,t:["covalent-bond","electronegativity","ionic-bond"]}; }
+  if(k===1){ const [p,sym,nm]=pick(DESK_EL); const sh=shellsOf(p), v=sh[sh.length-1];
+    return {title:"Valence electrons",prompt:`A neutral ${nm} atom (${sym}) has ${p} electrons. How many valence electrons does it have?`,opts:shuffle([...new Set([v,(v%8)+1,p,Math.max(1,v-2),8].filter(x=>x>0))]).slice(0,4).map(String).concat([]),ans:String(v),why:`Shells fill 2, then 8, then 8: ${sh.join(", ")}. The outermost shell holds ${v}.`,t:["valence"]}; }
+  if(k===2){ const ion=pick([["Na",11,10],["K",19,18],["Cl",17,18],["Ca",20,18],["Mg",12,10],["O",8,10]]); const ch=ion[1]-ion[2]; const lab2=ch>0?`+${ch}`:String(ch);
+    return {title:"Ion charge",prompt:`An ion of ${ion[0]} has ${ion[1]} protons and ${ion[2]} electrons. What is its charge, and is it a cation or an anion?`,opts:shuffle([`${lab2}, ${ch>0?"cation":"anion"}`,`${lab2}, ${ch>0?"anion":"cation"}`,`${ch>0?"-"+ch:"+"+(-ch)}, ${ch>0?"anion":"cation"}`,"0, neutral"]),ans:`${lab2}, ${ch>0?"cation":"anion"}`,why:"Charge = protons − electrons. Positive ions are cations; negative ions are anions.",t:["cation","anion"]}; }
+  if(k===3){ const a=pick([1,2,3,4,5]), b=a+pick([1,2,3,4]); const f=Math.pow(10,b-a);
+    return {title:"pH",prompt:`Solution X is pH ${a}; solution Y is pH ${b}. Which has more H⁺, and how many times more?`,opts:shuffle([`X, ${f.toLocaleString()} times more`,`Y, ${f.toLocaleString()} times more`,`X, ${b-a} times more`,`Y, ${b-a} times more`]),ans:`X, ${f.toLocaleString()} times more`,why:"Lower pH means more H⁺, and each pH unit is a tenfold change.",t:["ph","acid"]}; }
+  if(k===4){ const n=pick([4,6,10,12,20,25,50,100]); const kind=pick(["glucose units into starch","amino acids into a polypeptide","nucleotides into a strand of DNA"]); const hyd=Math.random()<0.4;
+    return {title:hyd?"Hydrolysis":"Condensation",prompt:hyd?`A chain of ${n} ${kind.split(" into ")[0]} is completely broken down by hydrolysis. How many water molecules are used?`:`${n} ${kind} are joined. How many water molecules are released?`,opts:shuffle([n-1,n,n+1,2*n].map(String)),ans:String(n-1),why:`A chain of ${n} has ${n-1} bonds, and each bond ${hyd?"uses":"releases"} one water.`,t:[hyd?"hydrolysis":"condensation","polymer"]}; }
+  if(k===5){ const m=pick([["amino acids","peptide bond"],["monosaccharides","glycosidic bond"],["nucleotides","phosphodiester bond"]]);
+    return {title:"Linking bonds",prompt:`What bond links ${m[0]} together?`,opts:shuffle(["Peptide bond","Glycosidic bond","Phosphodiester bond","Hydrogen bond"]),ans:m[1][0].toUpperCase()+m[1].slice(1),why:"Amino acids: peptide bonds. Sugars: glycosidic bonds. Nucleotides: phosphodiester bonds.",t:["peptide-bond","glycosidic","phosphodiester"]}; }
+  if(k===6){ const g=pick(FG);
+    return {title:"Functional groups",prompt:`Which group is ${g.f}?`,opts:shuffle([g.n,...shuffle(FG.filter(x=>x!==g)).slice(0,3).map(x=>x.n)]),ans:g.n,why:`${g.n} (${g.f}): ${g.pol.toLowerCase()}${g.ch!=="none"?", charge "+g.ch.trim():""}. Found in ${g.in.toLowerCase()}.`,t:[g.k]}; }
+  const b=pick([["Adenine","Purine (two rings)","both DNA and RNA"],["Guanine","Purine (two rings)","both DNA and RNA"],["Cytosine","Pyrimidine (one ring)","both DNA and RNA"],["Thymine","Pyrimidine (one ring)","DNA only"],["Uracil","Pyrimidine (one ring)","RNA only"]]);
+  return {title:"Bases",prompt:`Is ${b[0].toLowerCase()} a purine or a pyrimidine?`,opts:["Purine (two rings)","Pyrimidine (one ring)"],ans:b[1],why:`Purines (A, G) have two rings; pyrimidines (C, T, U) have one. ${b[0]} is found in ${b[2]}.`,t:["purine","pyrimidine"]};
+}
+function checkpointView(){
+  const app=$("#app"); app.innerHTML="";
+  app.append(h("div",{class:"banner"},h("span",{class:"num"},"2"),h("span",{class:"ttl"},"Chemistry desk")));
+  app.append(h("p",{class:"muted"},"Endless practice: bonds, valence electrons, ions, pH, polymers, functional groups and bases. New questions every time."));
+  const box=h("div",{class:"panel",style:"max-width:860px"}); app.append(box);
+  const sess={r:0,t:0,streak:0}; let task=null, first=true, solved=false;
+  const score=h("div",{class:"score"}), body=h("div"); box.append(score,body);
+  function drawScore(){ score.innerHTML=""; score.append(h("span",{},"This session: ",h("b",{},`${sess.r} of ${sess.t}`)),h("span",{},"Streak: ",h("b",{},String(sess.streak))),h("span",{},"Best streak: ",h("b",{},String(P.cp.best||0)))); }
+  function result(ok){ if(!first) return; first=false; sess.t++; if(ok){ sess.r++; sess.streak++; if(sess.streak>(P.cp.best||0)) P.cp.best=sess.streak; } else sess.streak=0; task.t.forEach(k=>markTerm(k,"tested")); save(); drawScore(); }
+  function next(){ task=makeChemTask(); if(!task.opts.includes(task.ans)) task.opts[0]=task.ans; task.opts=[...new Set(task.opts)]; first=true; solved=false; draw(); }
+  function draw(){ body.innerHTML=""; body.append(h("p",{class:"kicker"},task.title), h("p",{},h("b",{},task.prompt)));
+    const fb=h("div"), opts=h("div",{class:"opts"});
+    task.opts.forEach(o=>{ const b=h("button",{class:"opt"},o); b.addEventListener("click",()=>{ if(solved) return; const ok=o===task.ans; result(ok);
+      if(ok){ solved=true; b.classList.add("right"); $$(".opt",opts).forEach(x=>x.disabled=true); fb.innerHTML=""; fb.append(h("div",{class:"fb ok",html:"<b>Correct.</b> "+task.why}), h("button",{class:"btn",style:"margin-top:8px",onclick:next},"Next question")); }
+      else { b.classList.add("wrong"); b.disabled=true; fb.innerHTML=""; fb.append(h("div",{class:"fb bad",html:"<b>Not quite.</b> "+task.why})); } }); opts.append(b); });
+    body.append(opts,fb,termChips(task.t)); }
+  drawScore(); next();
+}
+
+
+/* ============ Molecule lab (free explore) ============ */
+function atlasView(){
+  const app=$("#app"); app.innerHTML="";
+  app.append(h("div",{class:"banner"},h("span",{class:"num"},"2"),h("span",{class:"ttl"},"Molecule lab")));
+  app.append(h("p",{class:"muted"},"Explore freely. Click any labelled part to read about it and see where it is in your course notes."));
+  const grid=h("div",{class:"atlas"}), left=h("div"), right=h("div",{class:"panel"}); grid.append(left,right); app.append(grid);
+  const VIEWS=[["atom","Carbon atom"],["elements","Elements in you"],["water","Water bond"],["salt","Salt"],["reaction","A reaction"],["ph","pH scale"],["carbon","Carbon"],["groups","Functional groups"],["macro","Four molecules"],["aa","Amino acid"],["pep","Peptide bond"],["nucD","DNA nucleotide"],["nucR","RNA nucleotide"],["bases","Bases"],["strand","Strand"],["sugars","6-carbon sugars"],["tag","Triacylglycerol"],["steroid","Cholesterol"],["pl","Phospholipid"]];
+  let mode="atom"; const seg=h("div",{class:"seg",style:"margin-bottom:10px;flex-wrap:wrap"}), host=h("div");
+  VIEWS.forEach(v=>{ const b=h("button",{"aria-pressed":String(v[0]===mode)},v[1]); b.addEventListener("click",()=>{ mode=v[0]; $$("button",seg).forEach(x=>x.setAttribute("aria-pressed","false")); b.setAttribute("aria-pressed","true"); draw(); }); seg.append(b); });
+  left.append(seg,host);
+  function info(k){ const t=T[k]; if(!t) return; markTerm(k,"seen"); right.innerHTML="";
+    right.append(h("h2",{},t.n),h("p",{},t.d),h("p",{class:"notes-ref"},h("b",{},"Course notes: "),`p. ${t.p}`));
+    const rel=related(k); if(rel.length){ right.append(h("p",{class:"muted small",style:"margin:10px 0 0"},"Related")); right.append(termChips(rel)); } }
+  function intro(t){ right.innerHTML=""; right.append(h("h2",{},VIEWS.find(v=>v[0]===mode)[1]),h("p",{},t)); }
+  function draw(){ stopLoops(); host.innerHTML="";
+    const put=(svg,cap)=>{ const f=plate(svg,cap); host.append(f); bindTerms(f,info); return f; };
+    const M={
+      atom:()=>{ put(atomSVG(6,6,6),"<b>Lab</b> A carbon atom (Notes p. 13, Fig 2.2)"); intro("6 protons and 6 neutrons in the nucleus, 6 electrons around it. Four of them are valence electrons."); },
+      elements:()=>{ put(figElements(),"<b>Lab</b> Elements in the human body, dry mass (Notes p. 18, Fig 2.10)"); intro("Mostly carbon, then oxygen, nitrogen and hydrogen."); },
+      water:()=>{ put(bondSVG("O","H"),"<b>Lab</b> An O–H bond (Notes p. 14)"); intro("Oxygen pulls the shared electrons closer: a polar covalent bond."); },
+      salt:()=>{ put(bondSVG("Na","Cl"),"<b>Lab</b> Sodium chloride (Notes p. 15, Fig 2.5)"); intro("Chlorine takes sodium's electron: Na⁺ and Cl⁻ held by an ionic bond."); },
+      reaction:()=>{ put(figReaction(),"<b>Lab</b> 2H₂ + O₂ → 2H₂O (Notes p. 16, Fig 2.7)"); intro("Reactants become products as bonds break and form."); },
+      ph:()=>{ put(phSVG(7),"<b>Lab</b> The pH scale (Notes p. 17, Fig 2.9)"); intro("Below 7 is acidic, above 7 basic. Use the pH chapter to move the slider."); },
+      carbon:()=>{ put(figCarbon(),"<b>Lab</b> Carbon's four bonds (Notes p. 18, Fig 2.11)"); intro("Single and double bonds, chains and rings."); },
+      groups:()=>{ put(figGroups(),"<b>Lab</b> Functional groups (Notes p. 20, Table 2.1)"); intro("Click a row for its properties."); },
+      macro:()=>{ put(figMacro4(),"<b>Lab</b> The four kinds of biological molecules (Notes p. 19)"); intro("Proteins, nucleic acids, carbohydrates and lipids."); },
+      aa:()=>{ put(figAminoAcid(false),"<b>Lab</b> An amino acid (Notes p. 21, Fig 2.13)"); intro("Four groups on the α carbon."); },
+      pep:()=>{ put(figPeptide(),"<b>Lab</b> A peptide bond (Notes p. 22, Fig 2.15)"); intro("Condensation joins two amino acids and releases water."); },
+      nucD:()=>{ put(figNucleotide2(false),"<b>Lab</b> A deoxyribonucleotide (Notes p. 24, Fig 2.17)"); intro("Phosphate, deoxyribose (–H on the 2′ carbon) and a base."); },
+      nucR:()=>{ put(figNucleotide2(true),"<b>Lab</b> A ribonucleotide (Notes p. 24, Fig 2.17)"); intro("Phosphate, ribose (–OH on the 2′ carbon) and a base."); },
+      bases:()=>{ put(figBases2(),"<b>Lab</b> Pyrimidines and purines (Notes p. 23, Fig 2.16)"); intro("One ring or two."); },
+      strand:()=>{ put(figStrand2(),"<b>Lab</b> Phosphodiester bonds (Notes p. 25, Fig 2.18)"); intro("Built 5′ to 3′."); },
+      sugars:()=>{ put(figSugars6(),"<b>Lab</b> Glucose, galactose and fructose (Notes p. 26, Fig 2.20)"); intro("Isomers: same formula, different arrangement."); },
+      tag:()=>{ put(figTAG(),"<b>Lab</b> Triacylglycerol (Notes p. 29, Fig 2.25)"); intro("Glycerol plus three fatty acids."); },
+      steroid:()=>{ put(figSteroid(),"<b>Lab</b> Cholesterol (Notes p. 30, Fig 2.26)"); intro("Four fused rings."); },
+      pl:()=>{ put(figPhospholipid(),"<b>Lab</b> A phospholipid (Notes p. 30, Fig 2.27)"); intro("A hydrophilic head and two hydrophobic tails."); }
+    }; M[mode]();
+  }
+  draw();
+}
+
+/* ============ Home ============ */
+function homeView(){
+  const app=$("#app"); app.innerHTML="";
+  const nextIdx=CHAPTERS.findIndex(c=>!chState(c.id).done), startIdx=nextIdx<0?0:nextIdx;
+  app.append(h("div",{class:"banner"},h("span",{class:"num"},"Module 2"),h("span",{class:"ttl"},"Molecules of life"),h("span",{class:"pg"},"Course notes pp. 12–31")));
+  const f=plate(figMacro4(),"<b>Figure</b> The four kinds of biological molecules. Click one.");
+  const text=h("div",{},
+    h("h1",{},"Everything a cell is made of."),
+    h("p",{class:"lede"},"This module goes from atoms and bonds to water and pH, then carbon, functional groups, and the four kinds of macromolecules: proteins, nucleic acids, carbohydrates and lipids."),
+    h("p",{style:"font-weight:700;margin-bottom:4px"},"Learning outcomes"),
+    h("ol",{style:"margin:0 0 12px;padding-left:20px"},h("li",{},"Name and describe the parts of an atom and how bonds form between atoms to make molecules."),h("li",{},"Explain the properties of water and its role in life."),h("li",{},"Describe the structures and functions of proteins, nucleic acids, carbohydrates and lipids.")),
+    h("p",{class:"muted small"},"Each chapter starts with a figure or experiment you can work with, then tests you. Your score is the share you get right on the first try. Every figure and term points back to a page in your course notes."),
+    h("div",{class:"row",style:"margin-top:10px"}, h("button",{class:"btn",onclick:()=>{RUN=null; renderChapter(startIdx,0);}}, nextIdx===0?"Start chapter 2.1":nextIdx<0?"Replay chapter 2.1":`Continue with chapter 2.${startIdx+1}`), h("button",{class:"btn ghost",onclick:()=>go("checkpoint")},"Chemistry desk")));
+  app.append(h("div",{class:"hero"},f,text)); bindTerms(f);
+  const list=h("ol",{class:"chlist"});
+  CHAPTERS.forEach((c,i)=>{ const st=chState(c.id);
+    list.append(h("li",{},h("button",{class:"chitem",onclick:()=>{RUN=null; renderChapter(i,0);}}, h("span",{class:"chnum"},`2.${i+1}`), h("h3",{},c.title), h("span",{class:"meta"}, `${c.blurb} Notes ${c.pages}.`, st.done?h("span",{class:"done-tag"},`  Best: ${Math.round((st.best||0)*100)}%`):"")))); });
+  app.append(h("div",{class:"sect"},h("h2",{},"Chapters"),list));
+  app.append(h("div",{class:"sect"},h("h2",{},"Other ways in"),h("p",{class:"muted"},"The molecule lab lets you click through every structure in the module. The chemistry desk gives you endless random questions on bonds, ions, pH, polymers, functional groups and bases. The mini exam tests the whole module and tells you what to relearn. The glossary lists all the important terms from p. 31 of your notes.")));
+  const reset=h("button",{class:"mini",style:"margin-left:8px",onclick:()=>{ if(confirm("Clear all saved progress for Module 2 in this browser?")){ P={ch:{},terms:{},cp:{best:0}}; save(); homeView(); } }},"Reset progress");
+  app.append(h("p",{class:"foot"},"Made for BIOL 130 review. Content follows the Module 2 course notes (pp. 12 to 31), which use figures from Morris et al., Biology: How Life Works, 4th edition (Macmillan, 2023) and OpenStax Biology 2e. All figures here are original drawings. Progress is saved in this browser only.",reset));
+}
+
+/* ============ Glossary ============ */
+function glossaryView(){
+  const app=$("#app"); app.innerHTML="";
+  const keys=Object.keys(T), tested=keys.filter(k=>P.terms[k]==="tested").length, seen=keys.filter(k=>P.terms[k]).length;
+  const search=h("input",{type:"search",placeholder:"Find a term",style:"padding:8px 12px;border:1px solid var(--rule);border-radius:6px;background:var(--paper);color:var(--ink);font:inherit;min-width:240px","aria-label":"Find a term"});
+  app.append(h("div",{class:"banner"},h("span",{class:"num"},"2"),h("span",{class:"ttl"},"Important terms and concepts"),h("span",{class:"pg"},"Course notes p. 31")));
+  app.append(h("div",{class:"crumb"},h("p",{class:"muted",style:"margin:0"},`${seen} of ${keys.length} seen, ${tested} tested. Page numbers point to your course notes.`),h("div",{style:"margin-left:auto"},search)));
+  const box=h("div",{class:"gl"}); app.append(box);
+  function draw(q=""){ box.innerHTML="";
+    TERM_ORDER_GROUPS.forEach(g=>{ const ks=keys.filter(k=>T[k].g===g && (!q || (T[k].n+" "+T[k].d).toLowerCase().includes(q))); if(!ks.length) return;
+      const sec=h("section",{},h("h2",{},g));
+      ks.forEach(k=>{ const st=P.terms[k]; sec.append(h("div",{class:"gi"},h("b",{},T[k].n),h("span",{class:"st "+(st||"")},st==="tested"?"Tested":st==="seen"?"Seen":"Not yet"),h("p",{},T[k].d+" "),h("p",{class:"notes-ref",style:"grid-column:1/-1;margin:2px 0 0"},`Notes p. ${T[k].p}`))); });
+      box.append(sec); }); }
+  search.addEventListener("input",()=>draw(search.value.trim().toLowerCase())); draw();
+}
+
+
+
+/* ============ mini exam (shared engine in exam.js) ============ */
+function examView(){
+  const app=$("#app"); app.innerHTML="";
+  app.append(h("div",{class:"banner"},h("span",{class:"num"},"2"),h("span",{class:"ttl"},"Mini exam")));
+  const host=h("div"); app.append(host);
+  const items=((window.STUDY&&STUDY.exam&&STUDY.exam["m2"])||[]).map((q,i)=>({...q,mod:"m2",id:"m2-"+i}));
+  EXAM.mount(host,{key:"m2",title:"Module 2 mini exam",intro:`${items.length} questions covering every chapter of this module.`,items,sizes:[10]});
+}
+/* ============ router ============ */
+function go(view){
+  stopLoops(); exploreHook=null; RUN=null; tc.classList.remove("show"); tip.style.display="none";
+  $$(".tab").forEach(t=>t.setAttribute("aria-current",String(t.dataset.go===view)));
+  if(view==="atlas") atlasView(); else if(view==="checkpoint") checkpointView(); else if(view==="glossary") glossaryView(); else if(view==="exam") examView(); else homeView();
+  window.scrollTo(0,0);
+}
+$$(".tab").forEach(t=>t.addEventListener("click",()=>go(t.dataset.go)));
+$("#home").addEventListener("click",()=>go("story"));
+function fromHash(){
+  const m=location.hash.match(/^#ch=(\d+)/);
+  if(m && CHAPTERS[+m[1]-1]){ RUN=null; renderChapter(+m[1]-1,0); return true; }
+  if(location.hash==="#exam"){ go("exam"); return true; }
+  return false;
+}
+window.addEventListener("hashchange",fromHash);
+if(!fromHash()) go("story");
+</script></body></html>
