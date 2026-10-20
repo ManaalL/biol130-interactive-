@@ -13,32 +13,36 @@ const lsSet = (k,v)=>{ try{ localStorage.setItem(k,JSON.stringify(v)); }catch(e)
 const esc = s => String(s).replace(/[&<>"]/g,c=>({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;"}[c]));
 const modById = id => STUDY.modules.find(m=>m.id===id);
 
-/* ---------- Kip drawing ---------- */
+/* ---------- Kip drawing: a kinesin-1 dimer drawn like a textbook figure ----------
+   two motor heads on the track, neck linkers, a coiled-coil stalk, light chains, and a cargo vesicle */
 function kipSVG(size=64, opts={}){
   const walk = opts.walk ? " kip-walk" : "";
+  let coil=""; for(let i=0;i<6;i++){ const y=44+i*6; coil+=`M${i%2?55:65} ${y} C${i%2?55:65} ${y+3} ${i%2?65:55} ${y+3} ${i%2?65:55} ${y+6} `; }
   return `<svg class="kip-svg${walk}" width="${size}" height="${size}" viewBox="0 0 120 120" aria-hidden="true">
-    ${opts.track?`<g class="kip-track"><rect x="-200" y="104" width="520" height="12" rx="6" fill="#cfe6dd"/>${Array.from({length:40},(_,i)=>`<circle cx="${-196+i*13}" cy="110" r="5.2" fill="${i%2?"#9fd0bf":"#6fb8a3"}"/>`).join("")}</g>`:""}
-    <g class="kip-cargo"><circle cx="60" cy="22" r="17" fill="#fde7a8" stroke="#d9a62c" stroke-width="2.5"/><circle cx="54" cy="18" r="3" fill="#e9b84a"/><circle cx="65" cy="25" r="2.4" fill="#e9b84a"/><circle cx="62" cy="15" r="1.8" fill="#e9b84a"/><path d="M50 13 q4 -5 9 -6" stroke="#fff" stroke-width="2.5" fill="none" stroke-linecap="round"/></g>
-    <path d="M60 39 L60 47" stroke="#2f8f7a" stroke-width="5" stroke-linecap="round"/>
-    <g class="kip-body"><ellipse cx="60" cy="64" rx="24" ry="20" fill="#3fb39b" stroke="#2a8a76" stroke-width="2.5"/>
-      <ellipse cx="51" cy="61" rx="4" ry="5" fill="#173b34"/><ellipse cx="69" cy="61" rx="4" ry="5" fill="#173b34"/>
-      <circle cx="52.4" cy="59.3" r="1.5" fill="#fff"/><circle cx="70.4" cy="59.3" r="1.5" fill="#fff"/>
-      <ellipse cx="44" cy="70" rx="4.5" ry="2.6" fill="#f59b8f" opacity=".8"/><ellipse cx="76" cy="70" rx="4.5" ry="2.6" fill="#f59b8f" opacity=".8"/>
-      <path d="M55 71 q5 5 10 0" stroke="#173b34" stroke-width="2.4" fill="none" stroke-linecap="round"/></g>
-    <g class="kip-leg kip-leg-a"><path d="M52 80 L46 98" stroke="#2a8a76" stroke-width="6" stroke-linecap="round"/><ellipse cx="44" cy="100" rx="9" ry="6" fill="#2f8f7a"/></g>
-    <g class="kip-leg kip-leg-b"><path d="M68 80 L74 98" stroke="#2a8a76" stroke-width="6" stroke-linecap="round"/><ellipse cx="76" cy="100" rx="9" ry="6" fill="#2f8f7a"/></g>
+    <g class="kip-cargo"><circle cx="60" cy="22" r="19" fill="#eef7f3" stroke="#2f8f7a" stroke-width="2.2"/><circle cx="60" cy="22" r="15.5" fill="none" stroke="#2f8f7a" stroke-width=".9" stroke-dasharray="2.2 2"/>
+      <circle cx="53.5" cy="21" r="2.3" fill="#173b34"/><circle cx="66.5" cy="21" r="2.3" fill="#173b34"/><circle cx="54.2" cy="20.2" r=".7" fill="#fff"/><circle cx="67.2" cy="20.2" r=".7" fill="#fff"/></g>
+    <g class="kip-body"><ellipse cx="54" cy="44" rx="4" ry="2.6" fill="#9fd0bf"/><ellipse cx="66" cy="44" rx="4" ry="2.6" fill="#9fd0bf"/>
+      <path d="${coil}" stroke="#2a8a76" stroke-width="2.2" fill="none"/><path d="${coil}" stroke="#7cc6b2" stroke-width="2.2" fill="none" transform="translate(120,0) scale(-1,1)"/></g>
+    <g class="kip-leg kip-leg-a"><path d="M58 80 Q52 86 48 94" stroke="#2a8a76" stroke-width="2.4" fill="none"/><path d="M36 98 C36 88 58 88 58 98 C58 106 36 106 36 98 Z" fill="#3fb39b" stroke="#24786a" stroke-width="1.8"/></g>
+    <g class="kip-leg kip-leg-b"><path d="M62 80 Q68 86 72 94" stroke="#2a8a76" stroke-width="2.4" fill="none"/><path d="M62 98 C62 88 84 88 84 98 C84 106 62 106 62 98 Z" fill="#5cc4ad" stroke="#24786a" stroke-width="1.8"/></g>
   </svg>`;
 }
 window.KIP_SVG = kipSVG;
 
 /* ---------- styles ---------- */
 const css = `
-.kip-fab{position:fixed;left:18px;bottom:calc(18px + env(safe-area-inset-bottom,0px));z-index:45;display:flex;align-items:flex-end;gap:8px;background:none;border:0;padding:0;cursor:pointer}
-.kip-fab .kip-bubble-btn{transition:opacity .6s;background:#fff;color:#173b34;border:2px solid #3fb39b;border-radius:16px 16px 16px 4px;padding:6px 12px;font:600 .9rem "Source Sans 3",system-ui,sans-serif;box-shadow:0 4px 14px rgba(20,60,50,.18);margin-bottom:40px;white-space:nowrap}
-.kip-fab .kip-face{width:62px;height:62px;border-radius:50%;background:#e9f6f1;border:2px solid #3fb39b;display:flex;align-items:center;justify-content:center;box-shadow:0 6px 18px rgba(20,60,50,.25);transition:transform .2s}
-.kip-fab:hover .kip-face{transform:translateY(-3px) rotate(-4deg)}
-.kip-fab:focus-visible{outline:3px solid #3fb39b;outline-offset:3px;border-radius:30px}
-.kip-panel{position:fixed;left:18px;bottom:calc(92px + env(safe-area-inset-bottom,0px));z-index:60;width:min(390px,calc(100vw - 36px));height:min(580px,calc(100vh - 130px));background:#fbfefd;color:#1f2a28;border:1px solid #bfe0d6;border-radius:18px;box-shadow:0 18px 50px rgba(15,50,42,.28);display:none;flex-direction:column;overflow:hidden;font-family:"Source Sans 3",system-ui,sans-serif;font-size:15.5px;line-height:1.45}
+.kip-dock{position:fixed;left:14px;bottom:calc(12px + env(safe-area-inset-bottom,0px));z-index:45;width:250px;height:100px;pointer-events:none;border-radius:12px;font-family:"IBM Plex Mono",ui-monospace,SFMono-Regular,Menlo,monospace}
+.kip-dock::before{content:"";position:absolute;inset:18px 0 0 0;border-radius:12px;background:rgba(250,252,250,.82);border:1px solid rgba(47,143,122,.22);backdrop-filter:blur(6px);-webkit-backdrop-filter:blur(6px);box-shadow:0 8px 24px -14px rgba(20,48,43,.45)}
+.kip-dock .kip-mt{position:absolute;left:10px;right:10px;bottom:10px;height:11px;pointer-events:auto;cursor:pointer;display:flex;gap:1px;padding:0;border-radius:6px}
+.kip-dock .kip-mt i{flex:1;border-radius:5px;background:#bfe0d4}.kip-dock .kip-mt i:nth-child(2n){background:#8fcab6}
+.kip-dock .kip-end{position:absolute;bottom:24px;font-size:10px;color:#4b7d71;letter-spacing:.04em;opacity:.85}
+.kip-dock .kip-end.minus{left:12px}.kip-dock .kip-end.plus{right:12px}
+.kip-me{position:absolute;bottom:14px;left:0;width:78px;height:78px;padding:0;border:0;background:none;cursor:grab;pointer-events:auto;touch-action:none;transition:opacity .4s}
+.kip-me:active{cursor:grabbing}.kip-me svg{display:block;transition:transform .25s}.kip-me.left svg{transform:scaleX(-1)}
+.kip-me:focus-visible{outline:2px solid #2f8f7a;outline-offset:2px;border-radius:10px}
+.kip-cap{position:absolute;left:0;bottom:104px;font-size:10.5px;line-height:1.3;color:#2c5c51;background:rgba(255,255,255,.92);border:1px solid #cfe6dd;border-radius:6px;padding:3px 7px;white-space:nowrap;opacity:0;transform:translateY(4px);transition:opacity .3s,transform .3s;pointer-events:none}
+.kip-dock.show-cap .kip-cap,.kip-dock:hover .kip-cap{opacity:1;transform:none}
+.kip-panel{position:fixed;left:18px;bottom:calc(104px + env(safe-area-inset-bottom,0px));z-index:60;width:min(390px,calc(100vw - 36px));height:min(580px,calc(100vh - 130px));background:#fbfefd;color:#1f2a28;border:1px solid #bfe0d6;border-radius:18px;box-shadow:0 18px 50px rgba(15,50,42,.28);display:none;flex-direction:column;overflow:hidden;font-family:"Source Sans 3",system-ui,sans-serif;font-size:15.5px;line-height:1.45}
 .kip-panel.open{display:flex}
 .kip-hd{display:flex;align-items:center;gap:10px;padding:10px 12px;background:linear-gradient(180deg,#e3f5ee,#d3eee4);border-bottom:1px solid #bfe0d6}
 .kip-hd b{font-family:"Source Serif 4",Georgia,serif;font-size:1.12rem;color:#173b34;display:block;line-height:1.1}
@@ -75,11 +79,11 @@ const css = `
 .kip-set button{border:1px solid #9fd0bf;background:#fff;border-radius:8px;padding:4px 10px;cursor:pointer;font:600 .85rem "Source Sans 3",system-ui,sans-serif;color:#1f6b5b}
 .kip-typing{display:inline-flex;gap:3px}.kip-typing i{width:6px;height:6px;border-radius:50%;background:#3fb39b;animation:kipdot 1s infinite}.kip-typing i:nth-child(2){animation-delay:.15s}.kip-typing i:nth-child(3){animation-delay:.3s}
 @keyframes kipdot{0%,100%{opacity:.25;transform:translateY(0)}50%{opacity:1;transform:translateY(-3px)}}
-.kip-walk .kip-leg-a{animation:kipstepA .9s ease-in-out infinite;transform-origin:52px 80px}
-.kip-walk .kip-leg-b{animation:kipstepB .9s ease-in-out infinite;transform-origin:68px 80px}
+.kip-walk .kip-leg-a{animation:kipstepA .7s ease-in-out infinite;transform-origin:60px 80px}
+.kip-walk .kip-leg-b{animation:kipstepB .7s ease-in-out infinite;transform-origin:60px 80px}
 .kip-walk .kip-body,.kip-walk .kip-cargo{animation:kipbob .45s ease-in-out infinite alternate}
-@keyframes kipstepA{0%,100%{transform:rotate(-14deg)}50%{transform:rotate(16deg)}}
-@keyframes kipstepB{0%,100%{transform:rotate(16deg)}50%{transform:rotate(-14deg)}}
+@keyframes kipstepA{0%,100%{transform:rotate(-12deg) translateY(0)}25%{transform:rotate(0) translateY(-5px)}50%{transform:rotate(14deg) translateY(0)}}
+@keyframes kipstepB{0%,100%{transform:rotate(14deg) translateY(0)}50%{transform:rotate(-12deg) translateY(0)}75%{transform:rotate(0) translateY(-5px)}}
 @keyframes kipbob{from{transform:translateY(0)}to{transform:translateY(-2.5px)}}
 @media (prefers-color-scheme: dark){
  .kip-panel{background:#14201d;color:#e2eeea;border-color:#2e4a43}
@@ -90,10 +94,10 @@ const css = `
  .kip-card .t{color:#d9f2ea}.kip-card .src{color:#9cc4b9}
  .kip-chips button{background:#1d332d;border-color:#2e4a43;color:#bfe7da}
  .kip-set{background:#192b27;border-color:#2e4a43}.kip-set input{background:#14201d;color:#e2eeea;border-color:#2e4a43}
- .kip-fab .kip-bubble-btn{background:#1d332d;color:#d9f2ea}
+ .kip-dock::before{background:rgba(20,32,29,.85);border-color:#2e4a43} .kip-dock .kip-mt i{background:#2e5a4f} .kip-dock .kip-mt i:nth-child(2n){background:#3f7a6b} .kip-dock .kip-end{color:#8fc4b6} .kip-cap{background:rgba(20,32,29,.94);color:#cfe9e1;border-color:#2e4a43} .kip-cargo circle:first-child{fill:#1d332d}
  .kip-opt.right{background:#17311f}.kip-opt.wrong{background:#3a1e1e}
 }
-@media (max-width:600px){ .kip-fab .kip-bubble-btn{display:none} .kip-fab .kip-face{width:54px;height:54px} .kip-panel{left:8px;right:8px;width:auto;bottom:calc(80px + env(safe-area-inset-bottom,0px));height:min(70vh,560px)} }
+@media (max-width:600px){ body{padding-bottom:70px} .kip-dock{width:128px;height:64px;left:6px;bottom:calc(6px + env(safe-area-inset-bottom,0px))} .kip-dock::before{inset:14px 0 0 0;background:rgba(250,252,250,.7)} .kip-dock .kip-mt{left:6px;right:6px;bottom:6px;height:8px} .kip-dock .kip-end{display:none} .kip-me{width:50px;height:50px;bottom:8px} .kip-me svg{width:50px;height:50px} .kip-cap{display:none} .kip-panel{left:8px;right:8px;width:auto;bottom:calc(84px + env(safe-area-inset-bottom,0px));height:min(70vh,560px)} }
 @media (prefers-reduced-motion: reduce){ .kip-walk *{animation:none!important} }
 `;
 
@@ -157,18 +161,57 @@ function srcLine(d){
 
 /* ---------- UI ---------- */
 let panel, log, input, setBox, fab, built=false, history=[];
+/* ---------- the dock: Kip walks a short microtubule in the corner. Drag him, push him, or click the track. ---------- */
+function dock(){
+  const reduce = window.matchMedia && matchMedia("(prefers-reduced-motion: reduce)").matches;
+  const d=document.createElement("div"); d.className="kip-dock";
+  d.innerHTML=`<div class="kip-cap">Kip · kinesin-1 · drag me, or tap me to ask</div><span class="kip-end minus">−</span><span class="kip-end plus">+</span><div class="kip-mt" title="Microtubule: click to send Kip there">${"<i></i>".repeat(18)}</div><button class="kip-me" aria-label="Kip, your study guide. Click to ask a question; arrow keys move him.">${kipSVG(78)}</button>`;
+  const me=d.querySelector(".kip-me"), mt=d.querySelector(".kip-mt"), cap=d.querySelector(".kip-cap"), svg=()=>me.querySelector("svg");
+  let x=10, v=0, target=null, drag=null, moved=false, steps=0, last=performance.now(), idleT=0, mode="idle", fade=0;
+  const MIN=4, W=()=>d.clientWidth-me.clientWidth-4;
+  const capText=()=>{ cap.textContent = steps ? `Kip · ${steps} step${steps===1?"":"s"} × 8 nm · ${steps} ATP used` : "Kip · kinesin-1 · drag me, or tap me to ask"; };
+  function place(){ me.style.left=Math.round(x)+"px"; }
+  function walking(on){ svg().classList.toggle("kip-walk",!!on); }
+  function face(dir){ if(dir) me.classList.toggle("left",dir<0); }
+  let acc=0; function count(dx){ acc+=Math.abs(dx); while(acc>=9){ acc-=9; steps++; } capText(); }
+  function tick(t){
+    const dt=Math.min(.05,(t-last)/1000); last=t;
+    if(!drag){
+      if(target!=null){ const dx=target-x, sp=90*dt; if(Math.abs(dx)<=sp){ x=target; target=null; walking(false); } else { x+=Math.sign(dx)*sp; face(Math.sign(dx)); count(sp); walking(true); } idleT=0; }
+      else if(Math.abs(v)>8){ const ox=x; x+=v*dt; v*=Math.pow(.12,dt); if(x<0||x>W()){ x=Math.max(0,Math.min(W(),x)); v=-v*.4; } face(Math.sign(v)); count(x-ox); walking(true); idleT=0; }
+      else if(!reduce && !(panel&&panel.classList.contains("open"))){ v=0; idleT+=dt;
+        if(mode==="idle" && idleT>4){ mode="plus"; }
+        if(mode==="plus"){ const sp=18*dt; x+=sp; face(1); count(sp); walking(true); if(x>=W()){ x=W(); mode="fadeout"; walking(false); fade=0; } }
+        else if(mode==="fadeout"){ fade+=dt; me.style.opacity=String(Math.max(0,1-fade/0.5)); if(fade>1.2){ x=MIN; place(); mode="fadein"; fade=0; } }
+        else if(mode==="fadein"){ fade+=dt; me.style.opacity=String(Math.min(1,fade/0.5)); if(fade>=.5){ me.style.opacity="1"; mode="idle"; idleT=0; } }
+        else walking(false);
+      } else { v=0; walking(false); }
+    }
+    x=Math.max(MIN,Math.min(W(),x)); place(); requestAnimationFrame(tick);
+  }
+  function stopIdle(){ if(mode!=="idle"){ mode="idle"; me.style.opacity="1"; } idleT=0; }
+  me.addEventListener("pointerdown",e=>{ me.setPointerCapture(e.pointerId); drag={sx:e.clientX, x0:x, lx:e.clientX, lt:performance.now(), vx:0}; moved=false; stopIdle(); target=null; v=0; });
+  me.addEventListener("pointermove",e=>{ if(!drag) return; const dx=e.clientX-drag.sx; if(Math.abs(dx)>4) moved=true; if(!moved) return;
+    const nx=Math.max(0,Math.min(W(),drag.x0+dx)); count(nx-x); face(Math.sign(e.clientX-drag.lx)); x=nx; walking(true);
+    const now=performance.now(); drag.vx=(e.clientX-drag.lx)/Math.max(1,(now-drag.lt))*1000; drag.lx=e.clientX; drag.lt=now; place(); d.classList.add("show-cap"); });
+  me.addEventListener("pointerup",()=>{ if(!drag) return; const vx=drag.vx; drag=null; d.classList.remove("show-cap");
+    if(moved){ v=Math.max(-500,Math.min(500,vx)); if(Math.abs(v)<20) walking(false); } else { panel&&panel.classList.contains("open")?close():open(); } });
+  me.addEventListener("click",e=>{ if(e.detail===0){ panel&&panel.classList.contains("open")?close():open(); } });
+  me.addEventListener("keydown",e=>{ if(e.key==="ArrowLeft"||e.key==="ArrowRight"){ e.preventDefault(); stopIdle(); target=Math.max(0,Math.min(W(),x+(e.key==="ArrowRight"?40:-40))); } });
+  mt.addEventListener("pointerdown",e=>{ const r=d.getBoundingClientRect(); stopIdle(); v=0; target=Math.max(0,Math.min(W(),e.clientX-r.left-me.clientWidth/2)); });
+  setTimeout(()=>{ d.classList.add("show-cap"); setTimeout(()=>d.classList.remove("show-cap"),5000); },900);
+  place(); requestAnimationFrame(tick);
+  return d;
+}
 function build(){
   if(built) return; built=true;
   const st=document.createElement("style"); st.textContent=css; document.head.append(st);
-  fab=document.createElement("button"); fab.className="kip-fab"; fab.setAttribute("aria-label","Ask Kip, your study guide");
-  fab.innerHTML=`<span class="kip-face">${kipSVG(50)}</span><span class="kip-bubble-btn">Ask Kip</span>`;
-  fab.addEventListener("click",()=>panel.classList.contains("open")?close():open());
+  fab=dock();
   panel=document.createElement("section"); panel.className="kip-panel"; panel.setAttribute("aria-label","Kip study guide chat");
   panel.innerHTML=`<div class="kip-hd">${kipSVG(40)}<div><b>Kip</b><span>your kinesin study guide</span></div><button class="kip-gear" title="Settings" aria-label="Settings">⚙</button><button class="kip-x" aria-label="Close">×</button></div>
    <div class="kip-set"></div><div class="kip-log" aria-live="polite"></div><div class="kip-chips"></div>
    <form class="kip-in"><input type="text" placeholder="Ask about anything in BIOL 130…" aria-label="Ask Kip a question" autocomplete="off"><button type="submit">Ask</button></form>`;
   document.body.append(fab,panel);
-  setTimeout(()=>{ const b=fab.querySelector(".kip-bubble-btn"); if(b){ b.style.opacity="0"; setTimeout(()=>b.remove(),700); } }, 7000);
   log=panel.querySelector(".kip-log"); input=panel.querySelector("input"); setBox=panel.querySelector(".kip-set");
   panel.querySelector(".kip-x").addEventListener("click",close);
   panel.querySelector(".kip-gear").addEventListener("click",toggleSettings);

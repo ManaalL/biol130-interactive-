@@ -1,0 +1,1415 @@
+<!DOCTYPE html>
+<html lang="en" data-module="m5">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>Proteins | BIOL 130 Module 5</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Source+Sans+3:ital,wght@0,400;0,600;0,700;1,400&family=Source+Serif+4:ital,opsz,wght@0,8..60,500;0,8..60,650;1,8..60,400&display=swap" rel="stylesheet">
+<style>
+:root{
+  --page:#f6f2ea; --paper:#ffffff; --ink:#1c2830; --ink2:#4b5b64; --rule:#cbd5d7;
+  --head:#23282e; --accent:#a8690f; --accentInk:#ffffff; --accentSoft:#f6ead6;
+  --ok:#2a7648; --okSoft:#e2f2e7; --bad:#a53838; --badSoft:#f7e4e2;
+  --plate:#ffffff; --plateRule:#c3cdd0; --cap:#3b4a52; --chip:#f1f5f5;
+  --serif:"Source Serif 4", Georgia, "Times New Roman", serif;
+  --sans:"Source Sans 3", "Segoe UI", system-ui, -apple-system, Roboto, Arial, sans-serif;
+  box-sizing:border-box;
+  padding-top:env(safe-area-inset-top,0px); padding-bottom:env(safe-area-inset-bottom,0px);
+}
+@media (prefers-color-scheme: dark){
+  :root:not([data-theme="light"]){
+    --page:#0f171b; --paper:#162228; --ink:#e2eaec; --ink2:#a5b5bb; --rule:#2b3b42;
+    --head:#e8eeea; --accent:#e8b35a; --accentInk:#1f1608; --accentSoft:#3a2a12;
+    --ok:#6cc394; --okSoft:#17311f; --bad:#e8908b; --badSoft:#3a1e1e;
+    --plate:#f4f7f7; --plateRule:#3a4a51; --cap:#b9c7cc; --chip:#1d2b31;
+  }
+}
+:root[data-theme="dark"]{
+  --page:#0f171b; --paper:#162228; --ink:#e2eaec; --ink2:#a5b5bb; --rule:#2b3b42;
+  --head:#e8eeea; --accent:#e8b35a; --accentInk:#1f1608; --accentSoft:#3a2a12;
+  --ok:#6cc394; --okSoft:#17311f; --bad:#e8908b; --badSoft:#3a1e1e;
+  --plate:#f4f7f7; --plateRule:#3a4a51; --cap:#b9c7cc; --chip:#1d2b31;
+}
+*,*::before,*::after{box-sizing:inherit}
+html{scroll-padding-top:env(safe-area-inset-top,0px)}
+body{margin:0;background:var(--page);color:var(--ink);font-family:var(--sans);font-size:17px;line-height:1.5;-webkit-text-size-adjust:100%}
+button{font:inherit;color:inherit}
+:focus-visible{outline:3px solid var(--accent);outline-offset:2px}
+h1,h2,h3{font-family:var(--serif);color:var(--head);font-weight:650;line-height:1.2;margin:0}
+p{margin:0 0 .8em}
+sup{font-size:.7em;line-height:0}
+
+/* top bar */
+.top{position:sticky;top:0;z-index:20;background:var(--paper);border-bottom:1px solid var(--rule);padding-top:env(safe-area-inset-top,0px)}
+.topin{max-width:1240px;margin:0 auto;display:flex;align-items:center;gap:20px;padding:10px 20px;flex-wrap:wrap}
+.brand{display:flex;align-items:baseline;gap:12px;cursor:pointer;background:none;border:0;padding:0;text-align:left}
+.brand b{font-family:var(--serif);font-size:1.45rem;color:var(--head);font-weight:650;letter-spacing:-.01em}
+.brand span{color:var(--ink2);font-size:.9rem}
+.tabs{display:flex;gap:4px;margin-left:auto;flex-wrap:wrap}
+.tab{background:none;border:1px solid transparent;border-radius:6px;padding:6px 12px;cursor:pointer;color:var(--ink2);font-weight:600}
+.tab:hover{color:var(--ink);background:var(--chip)}
+.tab[aria-current="true"]{color:var(--accent);border-color:var(--rule);background:var(--paper)}
+.wrap{max-width:1240px;margin:0 auto;padding:22px 20px 60px}
+
+/* figure plates */
+.plate{background:var(--plate);border:1px solid var(--plateRule);border-radius:4px;padding:10px 10px 8px;margin:0;position:relative}
+.plate svg,.plate canvas{display:block;width:100%;height:auto}
+.plate figcaption{font-family:var(--serif);font-size:.93rem;color:#3b4a52;padding:8px 4px 2px;line-height:1.4}
+.plate figcaption b{font-weight:650;color:#a8690f}
+.plate .tools{position:absolute;top:8px;right:8px;display:flex;gap:6px;z-index:2}
+.mini{font-size:.82rem;padding:4px 9px;border-radius:5px;border:1px solid #c3cdd0;background:#fff;color:#1c2830;cursor:pointer}
+.mini:hover{background:#eef4f4}
+.mini[aria-pressed="true"]{background:#a8690f;color:#fff;border-color:#a8690f}
+
+/* buttons */
+.btn{display:inline-flex;align-items:center;gap:8px;padding:10px 18px;border-radius:6px;border:1px solid var(--accent);background:var(--accent);color:var(--accentInk);font-weight:600;cursor:pointer}
+.btn:hover{filter:brightness(1.07)}
+.btn[disabled]{opacity:.45;cursor:not-allowed;filter:none}
+.btn.ghost{background:transparent;color:var(--accent)}
+.row{display:flex;gap:10px;flex-wrap:wrap;align-items:center}
+
+/* home */
+.hero{display:grid;grid-template-columns:minmax(0,1.55fr) minmax(0,1fr);gap:28px;align-items:start}
+.hero h1{font-size:2.3rem;letter-spacing:-.015em;margin-bottom:12px}
+.lede{font-size:1.08rem;color:var(--ink);max-width:36em}
+.muted{color:var(--ink2)}
+.small{font-size:.9rem}
+.chlist{list-style:none;margin:30px 0 0;padding:0;display:grid;grid-template-columns:repeat(auto-fill,minmax(270px,1fr));gap:12px}
+.chitem{background:var(--paper);border:1px solid var(--rule);border-radius:6px;padding:14px 16px;cursor:pointer;text-align:left;width:100%;display:grid;grid-template-columns:auto 1fr;gap:4px 12px;align-items:baseline}
+.chitem:hover{border-color:var(--accent)}
+.chnum{font-family:var(--serif);font-size:1.6rem;color:var(--accent);grid-row:span 2;line-height:1}
+.chitem h3{font-size:1.1rem}
+.chitem .meta{grid-column:2;color:var(--ink2);font-size:.88rem}
+.done-tag{color:var(--ok);font-weight:600}
+.sect{margin-top:34px}
+.sect h2{font-size:1.35rem;margin-bottom:6px}
+
+/* chapter */
+.crumb{display:flex;align-items:center;gap:14px;flex-wrap:wrap;margin-bottom:14px}
+.crumb h1{font-size:1.6rem}
+.crumb .back{background:none;border:0;color:var(--accent);cursor:pointer;font-weight:600;padding:0}
+.steps{display:flex;gap:4px;flex:1;min-width:160px;max-width:420px;margin-left:auto}
+.steps i{flex:1;height:6px;border-radius:3px;background:var(--rule)}
+.steps i.on{background:var(--accent)}
+.steps i.cur{background:var(--head)}
+.stage{display:grid;grid-template-columns:minmax(0,1.5fr) minmax(300px,1fr);gap:24px;align-items:start}
+.stage.wide{grid-template-columns:minmax(0,1fr)}
+.stage.wide>.panel{max-width:860px}
+.stage.wide>.panel:has(.pad){max-width:none}
+.panel{background:var(--paper);border:1px solid var(--rule);border-radius:6px;padding:18px 20px}
+.panel h2{font-size:1.3rem;margin-bottom:10px}
+.kicker{color:var(--accent);font-weight:600;font-size:.92rem;margin-bottom:4px}
+.opts{display:grid;gap:8px;margin:12px 0}
+.opt{text-align:left;padding:10px 14px;border:1px solid var(--rule);border-radius:6px;background:var(--paper);cursor:pointer;line-height:1.35}
+.opt:hover:not([disabled]){border-color:var(--accent)}
+.opt.right{border-color:var(--ok);background:var(--okSoft)}
+.opt.wrong{border-color:var(--bad);background:var(--badSoft)}
+.opt[disabled]{cursor:default}
+.fb{border-left:4px solid var(--accent);background:var(--accentSoft);padding:10px 14px;border-radius:0 6px 6px 0;margin:10px 0}
+.fb.ok{border-color:var(--ok);background:var(--okSoft)}
+.fb.bad{border-color:var(--bad);background:var(--badSoft)}
+.fb > b:first-child{display:block;margin-bottom:2px}
+.nav{display:flex;justify-content:space-between;gap:10px;margin-top:16px;flex-wrap:wrap}
+.explored{font-size:.9rem;color:var(--ink2);margin-top:6px}
+.termlinks{display:flex;flex-wrap:wrap;gap:6px;margin:8px 0}
+.tl{border:1px solid var(--rule);background:var(--chip);border-radius:14px;padding:3px 10px;font-size:.86rem;cursor:pointer}
+.tl:hover{border-color:var(--accent)}
+.tl.inl{background:none;border:0;border-bottom:1.5px dotted var(--accent);border-radius:0;color:var(--accent);padding:0 1px!important;font-weight:600}
+.tl.inl:hover{background:var(--accentSoft)}
+.tl.seen{border-color:var(--accent);color:var(--accent)}
+
+/* order + sort */
+.order{display:grid;gap:8px;margin:10px 0}
+.pool .card,.slot{border:1px dashed var(--rule);border-radius:6px;padding:9px 12px;min-height:44px;background:var(--paper);line-height:1.35}
+.pool{display:grid;gap:8px;margin:10px 0}
+.pool .card{border-style:solid;cursor:pointer;text-align:left}
+.pool .card:hover{border-color:var(--accent)}
+.pool .card.sel{border-color:var(--accent);box-shadow:0 0 0 2px var(--accent) inset}
+.slot{display:flex;gap:10px;align-items:flex-start}
+.slot .n{font-family:var(--serif);color:var(--accent);font-weight:650;min-width:1.2em}
+.slot.filled{border-style:solid;cursor:pointer}
+.slot.right{border-color:var(--ok);background:var(--okSoft)}
+.slot.wrong{border-color:var(--bad);background:var(--badSoft)}
+.bins{display:grid;grid-template-columns:repeat(auto-fit,minmax(150px,1fr));gap:8px;margin:10px 0}
+.bin{border:1px solid var(--rule);border-radius:6px;padding:8px;min-height:90px;background:var(--chip);cursor:pointer}
+.bin h4{margin:0 0 6px;font-size:.92rem;font-family:var(--sans);color:var(--head)}
+.bin .card{display:block;width:100%;font-size:.88rem;padding:5px 8px;margin-bottom:5px;border:1px solid var(--rule);border-radius:5px;background:var(--paper);text-align:left;cursor:pointer}
+.bin .card.right{border-color:var(--ok);background:var(--okSoft)}
+.bin .card.wrong{border-color:var(--bad);background:var(--badSoft)}
+.bin:hover{border-color:var(--accent)}
+
+/* controls in sims */
+.ctl{display:grid;gap:10px;margin:10px 0}
+.ctl label{font-weight:600;font-size:.92rem;display:block;margin-bottom:3px}
+.seg{display:flex;flex-wrap:wrap;border:1px solid var(--rule);border-radius:6px;overflow:hidden}
+.seg button{flex:1;padding:7px 10px;background:var(--paper);border:0;border-right:1px solid var(--rule);cursor:pointer;font-size:.9rem;min-width:70px}
+.seg button:last-child{border-right:0}
+.seg button[aria-pressed="true"]{background:var(--accent);color:var(--accentInk)}
+input[type=range]{width:100%;accent-color:var(--accent)}
+.readout{font-variant-numeric:tabular-nums;font-size:.92rem;color:var(--ink2)}
+.meter{height:10px;background:var(--rule);border-radius:5px;overflow:hidden}
+.meter i{display:block;height:100%;background:var(--accent);transition:width .5s}
+.stat{display:grid;grid-template-columns:130px 1fr;gap:8px;align-items:center;font-size:.9rem;margin:6px 0}
+
+/* tray */
+.tray{display:flex;flex-wrap:wrap;gap:8px;margin:10px 0}
+.tok{border:1px solid var(--rule);background:var(--paper);border-radius:6px;padding:7px 11px;cursor:pointer;font-size:.9rem;display:flex;align-items:center;gap:8px}
+.tok.sel{border-color:var(--accent);box-shadow:0 0 0 2px var(--accent) inset}
+.tok.used{opacity:.4}
+.sw{width:14px;height:14px;border-radius:3px;display:inline-block;border:1px solid rgba(0,0,0,.25)}
+
+/* term card */
+.termcard{position:fixed;right:18px;bottom:calc(18px + env(safe-area-inset-bottom,0px));width:min(380px,calc(100vw - 36px));background:var(--paper);border:1px solid var(--rule);border-radius:8px;box-shadow:0 10px 30px rgba(10,30,40,.18);padding:16px 18px;z-index:50;display:none;max-height:70vh;overflow:auto}
+.termcard.show{display:block}
+.termcard h3{font-size:1.2rem;margin-bottom:6px;padding-right:28px}
+.termcard .x{position:absolute;top:10px;right:10px;background:none;border:0;font-size:1.3rem;cursor:pointer;color:var(--ink2);line-height:1;padding:4px 8px}
+.termcard .rel{font-size:.86rem;color:var(--ink2);margin-top:8px}
+.tip{position:fixed;pointer-events:none;background:#2a2e35;color:#fff;font-size:.82rem;padding:4px 8px;border-radius:4px;z-index:60;display:none;white-space:nowrap}
+
+/* svg hotspots */
+[data-term]{cursor:pointer}
+[data-term]:hover > .hl, [data-term]:focus > .hl{stroke:#a8690f;stroke-width:3}
+[data-term]:focus{outline:none}
+[data-term].hit > .hl{stroke:#a8690f}
+[data-term]:hover{filter:brightness(1.06)}
+.lbl{font-family:"Source Sans 3",Arial,sans-serif;font-size:13px;fill:#1c2830}
+.lbl.sm{font-size:11.5px}
+.lbl.it{font-style:italic;fill:#3b4a52}
+.lead{stroke:#5b6b73;stroke-width:1;fill:none}
+.labels-off .lbls{display:none}
+
+/* checkpoint */
+.idcard{border:1px solid var(--rule);border-radius:8px;overflow:hidden;background:var(--paper)}
+.idcard .hd{background:var(--head);color:#fff;padding:10px 14px;display:flex;justify-content:space-between;align-items:baseline;gap:10px}
+:root[data-theme="dark"] .idcard .hd{color:#0f171b}
+@media (prefers-color-scheme: dark){:root:not([data-theme="light"]) .idcard .hd{color:#0f171b}}
+.idcard .hd b{font-family:var(--serif);font-size:1.25rem}
+.idcard dl{display:grid;grid-template-columns:auto 1fr;gap:4px 14px;margin:0;padding:12px 14px}
+.idcard dt{color:var(--ink2);font-size:.9rem}
+.idcard dd{margin:0;font-weight:600}
+.gates{display:grid;grid-template-columns:repeat(auto-fit,minmax(140px,1fr));gap:8px;margin:12px 0}
+.gate{border:1px solid var(--rule);border-radius:6px;padding:9px 10px;background:var(--paper);cursor:pointer;text-align:left;font-size:.92rem;line-height:1.3}
+.gate:hover:not([disabled]){border-color:var(--accent)}
+.gate small{display:block;color:var(--ink2);font-size:.8rem;margin-top:2px}
+.gate.right{border-color:var(--ok);background:var(--okSoft)}
+.gate.wrong{border-color:var(--bad);background:var(--badSoft)}
+.score{display:flex;gap:18px;flex-wrap:wrap;font-size:.92rem;color:var(--ink2);margin-bottom:10px}
+.score b{color:var(--ink);font-variant-numeric:tabular-nums}
+
+/* glossary */
+.gl{columns:2 360px;column-gap:28px}
+.gl section{break-inside:avoid;margin-bottom:22px}
+.gl h2{font-size:1.2rem;margin-bottom:8px;border-bottom:1px solid var(--rule);padding-bottom:4px}
+.gi{display:grid;grid-template-columns:1fr auto;gap:2px 10px;padding:8px 0;border-bottom:1px solid var(--rule)}
+.gi b{font-weight:700}
+.gi p{grid-column:1 / -1;margin:0;color:var(--ink2);font-size:.94rem}
+.st{font-size:.78rem;border-radius:10px;padding:1px 8px;border:1px solid var(--rule);color:var(--ink2);white-space:nowrap}
+.st.tested{border-color:var(--ok);color:var(--ok)}
+.st.seen{border-color:var(--accent);color:var(--accent)}
+
+/* atlas */
+.atlas{display:grid;grid-template-columns:minmax(0,1.6fr) minmax(290px,1fr);gap:24px;align-items:start}
+.atlas svg{touch-action:manipulation}
+.quizbar{display:flex;align-items:center;gap:10px;flex-wrap:wrap;background:var(--accentSoft);border-radius:6px;padding:10px 14px;margin-bottom:12px}
+
+.summary{max-width:720px}
+.big{font-family:var(--serif);font-size:3rem;color:var(--accent);line-height:1}
+.foot{margin-top:40px;color:var(--ink2);font-size:.85rem;border-top:1px solid var(--rule);padding-top:12px}
+
+
+/* course-notes styling */
+.banner{display:flex;align-items:stretch;margin:0 0 16px;min-height:44px}
+.banner .num{background:#7f4f0a;color:#fff;font-family:var(--serif);font-weight:650;font-size:1.25rem;padding:8px 16px;display:flex;align-items:center;box-shadow:2px 2px 0 rgba(0,0,0,.18);position:relative;z-index:1}
+.banner .ttl{flex:1;background:#c27f1c;color:#fff;display:flex;align-items:center;padding:6px 18px;font-variant:small-caps;letter-spacing:.04em;font-weight:700;font-size:1.15rem;margin-left:-2px}
+.banner .pg{background:#c27f1c;color:#ffffff;display:flex;align-items:center;padding:0 14px;font-size:.85rem;white-space:nowrap}
+.remember{display:flex;gap:12px;align-items:flex-start;background:#e4ebf2;border-radius:4px;padding:10px 14px;margin:10px 0;color:#1c2830;box-shadow:1px 1px 0 rgba(0,0,0,.08)}
+.remember .key{flex:none;width:28px;height:28px}
+.remember b{display:block;font-family:var(--serif)}
+.dyk{background:#f5ecdc;border-left:4px solid #a8690f;border-radius:0 4px 4px 0;padding:10px 14px;margin:10px 0;font-style:italic;color:#2a1c18}
+.dyk b{font-style:normal}
+.notes-ref{font-size:.85rem;color:var(--ink2);margin:4px 0 10px}
+.notes-ref b{color:var(--accent)}
+.homelink{color:var(--ink2);font-size:.88rem;text-decoration:none;border:1px solid var(--rule);border-radius:6px;padding:5px 10px;margin-right:4px}
+.homelink:hover{color:var(--accent);border-color:var(--accent)}
+.seqrow{display:flex;gap:3px;flex-wrap:wrap;align-items:center;font-family:ui-monospace,Menlo,Consolas,monospace;margin:6px 0}
+.seqrow .end{font-weight:700;color:var(--ink2);min-width:26px;text-align:center}
+.nt{width:30px;height:34px;border:1px solid var(--rule);border-radius:4px;display:inline-flex;align-items:center;justify-content:center;font-weight:700;font-size:1rem;background:var(--paper);color:var(--ink)}
+.nt.A{background:#8e6cc4;color:#fff;border-color:#6a4e9b}.nt.G{background:#dd5f45;color:#fff;border-color:#b0452f}
+.nt.T{background:#3a9a9a;color:#fff;border-color:#2a7676}.nt.C{background:#f0cf4f;color:#3a2e00;border-color:#c9a92c}
+.nt.U{background:#86b851;color:#fff;border-color:#618f33}
+.nt.slot{border-style:dashed;cursor:pointer}.nt.slot.cur{box-shadow:0 0 0 2px var(--accent)}
+.nt.ok{outline:2px solid var(--ok)}.nt.no{outline:2px solid var(--bad)}
+.pad{display:flex;gap:6px;flex-wrap:wrap;margin:8px 0}
+.pad button{width:46px;height:42px;border-radius:6px;border:1px solid var(--rule);font-weight:700;font-size:1.05rem;cursor:pointer}
+.pad button.A{background:#8e6cc4;color:#fff}.pad button.G{background:#dd5f45;color:#fff}.pad button.T{background:#3a9a9a;color:#fff}.pad button.C{background:#f0cf4f;color:#3a2e00}.pad button.U{background:#86b851;color:#fff}
+.pad button.del{width:auto;padding:0 12px;background:var(--paper);font-size:.9rem}
+
+@media (max-width: 880px){
+  body{font-size:16px}
+  .hero,.stage,.atlas{grid-template-columns:minmax(0,1fr)}
+  .hero h1{font-size:1.8rem}
+  .topin{padding:8px 14px;gap:8px}
+  .tabs{margin-left:0;width:100%}
+  .tab{padding:5px 9px;font-size:.92rem}
+  .brand span{display:none}
+  .wrap{padding:16px 12px 60px}
+  .steps{max-width:none;min-width:100%;order:3}
+  .termcard{right:0;left:0;bottom:0;width:100%;border-radius:12px 12px 0 0;padding-bottom:calc(16px + env(safe-area-inset-bottom,0px))}
+}
+@media (prefers-reduced-motion: reduce){
+  *{transition:none!important;animation:none!important}
+}
+@media (max-width:640px){.banner{flex-wrap:wrap}.banner .pg{flex-basis:100%;padding:4px 14px 6px;white-space:normal}}
+</style>
+</head>
+<body>
+<header class="top"><div class="topin">
+  <button class="brand" id="home" aria-label="Module 5 home"><b>Protein Structure, Function and Synthesis</b><span>BIOL 130, Module 5</span></button>
+  <nav class="tabs" aria-label="Sections">
+    <a class="homelink" id="hubLink" href="index.html" target="_top">All modules</a>
+    <button class="tab" data-go="story">Chapters</button>
+    <button class="tab" data-go="atlas">Protein viewer</button>
+    <button class="tab" data-go="checkpoint">Codon desk</button>
+    <button class="tab" data-go="exam">Mini exam</button>
+    <button class="tab" data-go="glossary">Glossary</button>
+  </nav>
+</div></header>
+<main class="wrap" id="app"></main>
+<aside class="termcard" id="termcard" role="dialog" aria-live="polite"><button class="x" aria-label="Close">×</button><div id="tcbody"></div></aside>
+<div class="tip" id="tip"></div>
+<script src="studydata.js"></script>
+<script src="exam.js"></script>
+<script src="kip.js"></script>
+<script>
+"use strict";
+/* ============ storage ============ */
+const KEY = "biol130-m5-progress-v1";
+let P = { ch:{}, terms:{}, cp:{best:0} };
+try { const s = localStorage.getItem(KEY); if (s) P = Object.assign(P, JSON.parse(s)); } catch(e) {}
+function save(){ try { localStorage.setItem(KEY, JSON.stringify(P)); } catch(e) {} }
+function markTerm(k, level){
+  const order = {seen:1, tested:2};
+  const cur = P.terms[k];
+  if (!cur || order[level] > order[cur]) { P.terms[k] = level; save(); }
+}
+/* ============ glossary data (p = course notes page) ============ */
+const T = {
+ "protein":{n:"Protein",g:"Amino acids",p:"69",d:"A linear polymer of a combination of 20 amino acids, like letters in an alphabet. Proteins are ubiquitous, diverse and versatile, and they mediate most cellular activities. Its function depends on its structure."},
+ "amino-acid":{n:"Amino acid",g:"Amino acids",p:"69",d:"The building block of proteins. Four components are bound to the α carbon: a carboxyl group, an amino group and a hydrogen (the same in all amino acids) and an R group (side chain), which makes each one unique."},
+ "alpha-carbon":{n:"α (alpha) carbon",g:"Amino acids",p:"69",d:"The central carbon of an amino acid, bound to the amino group, the carboxyl group, a hydrogen and the R group."},
+ "fg-amino":{n:"Amino group",g:"Amino acids",p:"69",d:"–NH₂, one of the three components shared by all amino acids. At physiological pH it is charged: –NH₃⁺."},
+ "fg-carboxyl":{n:"Carboxyl group",g:"Amino acids",p:"69",d:"–COOH, one of the three components shared by all amino acids. At physiological pH it is charged: –COO⁻."},
+ "r-group":{n:"R group (side chain)",g:"Amino acids",p:"69",d:"The fourth component of an amino acid. R groups make each amino acid unique and are responsible for its chemical and physical properties. They are not involved in the peptide bond."},
+ "aa-classes":{n:"Amino acid classification",g:"Amino acids",p:"70",d:"R groups are grouped by polarity (polar or nonpolar), interaction with water (hydrophilic or hydrophobic) and charge at physiological pH (acidic and negative, basic and positive, or neutral). Your notes: understand the groups, you don't need to memorize all 20 structures."},
+ "hydrophobic-aa":{n:"Hydrophobic amino acids",g:"Amino acids",p:"70",d:"Nonpolar R groups (e.g. alanine, valine, leucine, phenylalanine). They tend to be buried in the interior of folded proteins, aggregating away from water; weak van der Waals forces help hold them together."},
+ "hydrophilic-aa":{n:"Hydrophilic amino acids",g:"Amino acids",p:"70",d:"R groups with electronegative N and/or O, so they can H-bond with each other or water. Includes polar (e.g. serine), basic (positively charged, e.g. lysine) and acidic (negatively charged, e.g. aspartic acid) amino acids. Usually on the outer surface of proteins; charged ones can form ionic bonds."},
+ "van-der-waals":{n:"van der Waals forces",g:"Amino acids",p:"70",d:"Weak attractions that help hydrophobic R groups stick to each other inside a folded protein."},
+ "glycine":{n:"Glycine (Gly, G)",g:"Special amino acids",p:"71",d:"Its R group is a hydrogen, so the α carbon carries two H atoms (not asymmetric). Small and nonpolar, it allows free rotation around the C–N bond and makes the backbone more flexible."},
+ "proline":{n:"Proline (Pro, P)",g:"Special amino acids",p:"71",d:"Its R group links back to the amino group. This restricts rotation of the C–N bond and limits how much the protein can fold around proline."},
+ "cysteine":{n:"Cysteine (Cys, C)",g:"Special amino acids",p:"71",d:"Its R group has a sulfhydryl (–SH) group. Two cysteines can form an S–S disulfide bond, a cross-bridge linking different parts of one protein or different proteins."},
+ "disulfide":{n:"Disulfide bond (S–S)",g:"Special amino acids",p:"71, 74",d:"A covalent bond between the –SH groups of two cysteine residues. It cross-links parts of a protein and helps hold tertiary and quaternary structure."},
+ "peptide-bond":{n:"Peptide bond",g:"Linking amino acids",p:"71",d:"Joins adjacent amino acids. A dehydration reaction between the carboxyl group of one amino acid and the amino group of the next releases a molecule of H₂O. R groups are not involved."},
+ "condensation":{n:"Dehydration (condensation) reaction",g:"Linking amino acids",p:"71",d:"A reaction that joins two molecules and releases water. Forming each peptide bond releases one H₂O."},
+ "n-terminus":{n:"N-terminus and C-terminus",g:"Linking amino acids",p:"71",d:"The free amino group at the amino end of a polypeptide is the N-terminus; the free carboxyl group at the other end is the C-terminus. Sequences are written N to C."},
+ "polypeptide":{n:"Polypeptide",g:"Linking amino acids",p:"71",d:"A polymer of amino acids connected by peptide bonds, used synonymously with protein. Its backbone repeats N–C–C."},
+ "residue":{n:"Amino acid residue",g:"Linking amino acids",p:"68",d:"What remains of an amino acid once it is part of a polypeptide (after forming peptide bonds)."},
+ "levels":{n:"Levels of protein structure",g:"Protein structure",p:"72",d:"Primary (1°), secondary (2°), tertiary (3°) and quaternary (4°). The 3-D shape, or conformation, is described by 2°, 3° and 4°."},
+ "conformation":{n:"Protein conformation",g:"Protein structure",p:"72",d:"The three-dimensional structure of a protein, described by its secondary, tertiary and quaternary structure."},
+ "primary-structure":{n:"Primary structure",g:"Protein structure",p:"72",d:"The specific linear sequence of amino acids from the amino end to the carboxyl end, coded for by the genome. Written in three-letter (Val–Gly–Ala–His) or one-letter (V–G–A–H) form. It determines the 2°, 3° and 4° structure."},
+ "secondary-structure":{n:"Secondary structure",g:"Protein structure",p:"73",d:"The conformation of portions of the chain: the α helix and the β sheet. Formed by hydrogen bonds between backbone functional groups of nearby amino acids (C=O and N–H). R groups are not involved."},
+ "alpha-helix":{n:"Alpha (α) helix",g:"Protein structure",p:"73",d:"A very stable right-handed helix. Each carbonyl group in the backbone H-bonds with the amide group of the amino acid four positions away. Drawn as a helical ribbon."},
+ "beta-sheet":{n:"Beta (β) sheet",g:"Protein structure",p:"73",d:"Segments of the chain lying side by side in a pleated conformation, parallel or antiparallel, held by H-bonds between carbonyl groups in one strand and amide groups in the other. Drawn as flat arrows."},
+ "tertiary-structure":{n:"Tertiary structure",g:"Protein structure",p:"74",d:"The 3-D shape of a whole single polypeptide: how its 2° regions are oriented. Set by where hydrophilic and hydrophobic R groups sit, and by bonds between R groups: hydrogen bonds, hydrophobic interactions, ionic bonds and disulfide bonds. Usually the functional form, e.g. with an enzyme's active site."},
+ "quaternary-structure":{n:"Quaternary structure",g:"Protein structure",p:"74",d:"The spatial arrangement of two or more polypeptide subunits, held by the same bonds as tertiary structure."},
+ "subunit":{n:"Subunit; homodimer and heterodimer",g:"Protein structure",p:"74",d:"Each polypeptide chain in a multi-chain protein is a subunit. Two identical subunits make a homodimer (homo = same, di = two); two different ones make a heterodimer."},
+ "central-dogma":{n:"The central dogma",g:"Translation basics",p:"75",d:"DNA is transcribed into mRNA, and mRNA is translated into protein. Translation is the final stage: the order of bases in the mRNA specifies the order of amino acids."},
+ "translation":{n:"Translation",g:"Translation basics",p:"75",d:"Making a polypeptide from the information in mRNA. Needs mRNA, ribosomes, tRNAs, aminoacyl tRNA synthetases, and initiation, elongation and release factors."},
+ "mrna":{n:"Messenger RNA (mRNA)",g:"Translation basics",p:"75",d:"The RNA copy of a gene that carries the code for a protein to the ribosome. It is read 5′ to 3′, one codon at a time."},
+ "ribosome":{n:"Ribosome",g:"Translation basics",p:"75–76",d:"The protein factory where translation takes place: a complex of RNA and protein made of a small and a large subunit. Eukaryotic ribosomes are larger than prokaryotic ones. It moves along the mRNA 5′ to 3′."},
+ "sites":{n:"A site, P site, E site",g:"Translation basics",p:"76",d:"Three tRNA binding sites in the large subunit. A (aminoacyl) site: a charged tRNA enters. P (peptidyl) site: holds the tRNA with the growing chain. E (exit) site: the empty tRNA leaves."},
+ "codon":{n:"Codon",g:"The genetic code",p:"76",d:"A group of three adjacent nucleotides in mRNA that specifies one amino acid (or stop). Codons are read as a nonoverlapping series of triplets."},
+ "reading-frame":{n:"Reading frame",g:"The genetic code",p:"76",d:"Where the ribosome begins reading the sequence, which sets how it is divided into triplets. ZWTHEBIGBOY... only makes sense read as ZW THE BIG BOY."},
+ "trna":{n:"Transfer RNA (tRNA)",g:"Translation basics",p:"76",d:"A small RNA that base pairs with itself into a cloverleaf (an L shape in 3-D). It carries an amino acid on the 3′–OH of its 5′-CCA-3′ end and has an anticodon in its anticodon loop."},
+ "anticodon":{n:"Anticodon",g:"The genetic code",p:"76, 78",d:"Three bases in the tRNA's anticodon loop that pair with the mRNA codon. Pairing is antiparallel: the first (5′) base of the codon pairs with the last (3′) base of the anticodon. AUG pairs with 3′-UAC-5′."},
+ "synthetase":{n:"Aminoacyl tRNA synthetase",g:"Translation basics",p:"77",d:"An enzyme that attaches a specific amino acid to the 3′ end of its matching tRNA. Each one binds one uncharged tRNA and its amino acid. They are very accurate."},
+ "charged":{n:"Charged and uncharged tRNA",g:"Translation basics",p:"77",d:"A tRNA with its amino acid attached is charged; without one it is uncharged."},
+ "genetic-code":{n:"The genetic code",g:"The genetic code",p:"78",d:"64 codons specify 20 amino acids plus stop. Read 5′ → 3′ on the mRNA. Your notes: you don't need to memorize the table."},
+ "redundant":{n:"Redundant (degenerate) code",g:"The genetic code",p:"78",d:"Many amino acids are specified by more than one codon. For example, leucine has six codons."},
+ "start-codon":{n:"Start codon (AUG)",g:"Translation steps",p:"78–79",d:"AUG codes for methionine and marks where translation begins, so methionine is the first amino acid."},
+ "stop-codon":{n:"Stop codons",g:"Translation steps",p:"80",d:"UAA, UAG and UGA. They code for no amino acid; a release factor binds there instead and translation ends."},
+ "initiation":{n:"Initiation",g:"Translation steps",p:"78–79",d:"Stage 1: the AUG start codon is recognized and methionine becomes the first amino acid. In eukaryotes, initiation factors and the small subunit bind at the 5′ cap and scan for AUG; then the large subunit joins and the initiation factors are released."},
+ "initiation-factors":{n:"Initiation factors",g:"Translation steps",p:"79",d:"Proteins that recruit the small ribosomal subunit and the Met tRNA, help scan for AUG, and are released when the large subunit joins."},
+ "elongation":{n:"Elongation",g:"Translation steps",p:"79",d:"Stage 2: a charged tRNA enters the A site, the chain is transferred from the P site tRNA to the A site amino acid (a peptide bond made by the peptidyl transferase centre, which is rRNA), and the ribosome shifts one codon toward 3′. The empty tRNA moves to E and leaves."},
+ "peptidyl-transferase":{n:"Peptidyl transferase centre",g:"Translation steps",p:"79",d:"The part of the large subunit, between the A and P sites and made of rRNA, that catalyzes peptide bond formation."},
+ "termination":{n:"Termination",g:"Translation steps",p:"80",d:"Stage 3: at a stop codon a release factor binds the A site. The bond between the chain and the last tRNA breaks, creating the C-terminus, and the polypeptide is released."},
+ "release-factor":{n:"Release factor",g:"Translation steps",p:"80",d:"A protein that binds the A site at a stop codon and frees the finished polypeptide."},
+ "shine-dalgarno":{n:"Shine-Dalgarno sequence",g:"Translation steps",p:"80",d:"An internal sequence (5′-AGGAGGU-3′) in prokaryotic mRNA where the ribosome binds, since prokaryotic mRNA has no 5′ cap. Translation starts at the next AUG downstream."},
+ "polycistronic":{n:"Polycistronic mRNA",g:"Translation steps",p:"80",d:"A prokaryotic mRNA carrying several genes. It has several Shine-Dalgarno sequences, so one mRNA can make several polypeptides."},
+ "gene-regulation":{n:"Gene regulation",g:"After translation",p:"81",d:"Not all genes are expressed all the time. Control points include DNA accessibility, transcription factors, RNA processing and post-translational modification."},
+ "ptm":{n:"Post-translational modification",g:"After translation",p:"81",d:"Changes made to a protein after it is made. Many proteins are made inactive and must be activated, for example by cleavage or by adding a phosphate (phosphorylation)."},
+ "sorting":{n:"Protein sorting",g:"After translation",p:"81–82",d:"Every protein starts on a ribosome in the cytosol. Where it goes depends on its signal sequence: none stays in the cytosol; amino-terminal goes to chloroplasts or mitochondria; internal goes to the nucleus; an ER signal sends the ribosome to the rough ER."},
+ "signal-sequence":{n:"Signal sequences",g:"After translation",p:"81–82",d:"Short stretches of amino acids that act as address labels. Their position in the chain (amino-terminal or internal) and type decide where the protein goes."},
+ "srp":{n:"Signal-recognition particle (SRP)",g:"After translation",p:"82",d:"Binds the ER signal sequence at the amino-terminal end of a growing chain and halts translation. It docks on the SRP receptor of the ER, the ribosome is moved to a channel, the SRP leaves, and synthesis resumes into the ER lumen. The signal sequence is cleaved."},
+ "signal-anchor":{n:"Signal-anchor sequence",g:"After translation",p:"82",d:"A sequence that stops a protein being threaded fully through the ER channel; the channel releases it sideways into the membrane, so it becomes a membrane protein."},
+ "er-fates":{n:"Fates of rough ER proteins",g:"After translation",p:"82",d:"Proteins made on the rough ER end up embedded in the ER membrane, inside the lumen of the endomembrane system, or secreted out of the cell."}
+};
+const TERM_ORDER_GROUPS = ["Amino acids","Special amino acids","Linking amino acids","Protein structure","Translation basics","The genetic code","Translation steps","After translation"];
+const REL = {
+ "amino-acid":["alpha-carbon","r-group","aa-classes"], "r-group":["aa-classes","hydrophobic-aa","hydrophilic-aa"], "aa-classes":["hydrophobic-aa","hydrophilic-aa","glycine"],
+ "glycine":["proline","cysteine"], "proline":["glycine","cysteine"], "cysteine":["disulfide"], "peptide-bond":["condensation","n-terminus","polypeptide"],
+ "levels":["primary-structure","secondary-structure","tertiary-structure","quaternary-structure"], "secondary-structure":["alpha-helix","beta-sheet"],
+ "tertiary-structure":["hydrophobic-aa","disulfide"], "quaternary-structure":["subunit"], "translation":["mrna","ribosome","trna","synthetase"],
+ "ribosome":["sites"], "codon":["anticodon","reading-frame","genetic-code"], "trna":["anticodon","synthetase","charged"], "genetic-code":["redundant","start-codon","stop-codon"],
+ "initiation":["initiation-factors","start-codon","shine-dalgarno"], "elongation":["sites","peptidyl-transferase"], "termination":["release-factor","stop-codon"],
+ "shine-dalgarno":["polycistronic"], "sorting":["signal-sequence","srp"], "srp":["signal-anchor","er-fates"], "gene-regulation":["ptm"]
+};
+
+/* ============ utilities ============ */
+const $ = (s, r=document) => r.querySelector(s);
+const $$ = (s, r=document) => Array.from(r.querySelectorAll(s));
+function h(tag, attrs={}, ...kids){
+  const e = document.createElement(tag);
+  for (const k in attrs){
+    const v = attrs[k];
+    if (k === "class") e.className = v;
+    else if (k === "html") e.innerHTML = v;
+    else if (k.startsWith("on")) e.addEventListener(k.slice(2), v);
+    else if (v !== false && v != null) e.setAttribute(k, v);
+  }
+  for (const c of kids.flat()){ if (c == null) continue; e.append(c.nodeType ? c : document.createTextNode(c)); }
+  return e;
+}
+function shuffle(a){ a = a.slice(); for (let i=a.length-1;i>0;i--){ const j=Math.floor(Math.random()*(i+1)); [a[i],a[j]]=[a[j],a[i]]; } return a; }
+const reduceMotion = window.matchMedia && window.matchMedia("(prefers-reduced-motion: reduce)").matches;
+let activeLoops = [];
+function loop(fn){ let on = true, last = performance.now(); const tick = t => { if(!on) return; const dt = Math.min(0.05,(t-last)/1000); last = t; fn(dt,t); requestAnimationFrame(tick); }; requestAnimationFrame(tick); const s = {stop(){on=false;}}; activeLoops.push(s); return s; }
+function stopLoops(){ activeLoops.forEach(l=>l.stop()); activeLoops = []; }
+function plate(svgOrEl, caption){
+  const f = h("figure",{class:"plate"});
+  if (typeof svgOrEl === "string") f.insertAdjacentHTML("beforeend", svgOrEl); else f.append(svgOrEl);
+  if (caption) f.append(h("figcaption",{html:caption}));
+  return f;
+}
+
+/* ============ term card and tooltip ============ */
+const tc = $("#termcard"), tip = $("#tip");
+let exploreHook = null;
+function openTerm(k){
+  const t = T[k]; if (!t) return;
+  markTerm(k,"seen");
+  $("#tcbody").innerHTML = "";
+  $("#tcbody").append(h("h3",{},t.n), h("p",{},t.d), h("p",{class:"notes-ref"},h("b",{},"Course notes: "),`p. ${t.p}`));
+  const rel = related(k);
+  if (rel.length){
+    const box = h("div",{class:"rel"},"Related: ");
+    rel.forEach((r,i)=>{ box.append(h("button",{class:"tl",style:"margin:2px",onclick:()=>openTerm(r)},T[r].n)); });
+    $("#tcbody").append(box);
+  }
+  tc.classList.add("show");
+  if (exploreHook) exploreHook(k);
+}
+$(".x", tc).addEventListener("click", ()=>tc.classList.remove("show"));
+document.addEventListener("keydown", e=>{ if(e.key==="Escape") tc.classList.remove("show"); });
+const REL_OLD = {
+  "integral-protein":["transmembrane-protein","peripheral-protein"], "transmembrane-protein":["integral-protein","channel","carrier"],
+  "peripheral-protein":["integral-protein","cytoskeleton"], "cytoplasm":["cytosol"], "cytosol":["cytoplasm"],
+  "endomembrane":["er","golgi","lysosome","vesicle","nucleus"], "er":["ribosome","golgi","endomembrane"], "golgi":["er","vesicle","endomembrane"],
+  "nucleus":["nucleolus","nuclear-pores"], "chloroplast":["plastid"], "plastid":["chloroplast"],
+  "channel":["carrier","aquaporin","facilitated-diffusion"], "carrier":["channel","uniporter","facilitated-diffusion"],
+  "osmosis":["osmotic-pressure","hypotonic","hypertonic","isotonic"], "secondary-active":["primary-active","symporter","antiporter","nak-pump"],
+  "nak-pump":["primary-active","electrochemical-gradient","importer","exporter"], "electrochemical-gradient":["membrane-potential","concentration-gradient"],
+  "endocytosis":["phagocytosis","pinocytosis","rme"], "bulk-transport":["exocytosis","endocytosis"],
+  "apical":["basolateral","microvilli","tight-junction"], "basolateral":["apical","interstitial-fluid"],
+  "phospholipid":["hydrophilic-head","fatty-acid-tails","bilayer"], "fatty-acid-tails":["phospholipid","selective-permeability"]
+};
+function related(k){ return (REL[k]||[]).filter(r=>T[r]); }
+function bindTerms(root, onPick){
+  $$("[data-term]", root).forEach(g=>{
+    const k = g.getAttribute("data-term");
+    if (!T[k]) return;
+    g.setAttribute("tabindex","0"); g.setAttribute("role","button"); g.setAttribute("aria-label", T[k].n);
+    const pick = ()=>{ (onPick||openTerm)(k, g); g.classList.add("hit"); };
+    g.addEventListener("click", e=>{ e.stopPropagation(); pick(); });
+    g.addEventListener("keydown", e=>{ if(e.key==="Enter"||e.key===" "){ e.preventDefault(); e.stopPropagation(); pick(); }});
+    g.addEventListener("mousemove", e=>{ tip.textContent = T[k].n; tip.style.display="block"; tip.style.left=(e.clientX+14)+"px"; tip.style.top=(e.clientY+12)+"px"; });
+    g.addEventListener("mouseleave", ()=>{ tip.style.display="none"; });
+  });
+}
+function termChips(keys){
+  const box = h("div",{class:"termlinks"});
+  keys.forEach(k=>{ if(!T[k]) return; box.append(h("button",{class:"tl"+(P.terms[k]?" seen":""),onclick:(e)=>{openTerm(k); e.currentTarget.classList.add("seen");}},T[k].n)); });
+  return box;
+}
+// inline term text in copy: [[key|text]]
+function rich(s){
+  return s.replace(/\[\[([a-z0-9-]+)\|([^\]]+)\]\]/g, (m,k,txt)=>`<button class="tl inl" data-open="${k}" style="font-size:inherit">${txt}</button>`);
+}
+function bindRich(root){ $$("[data-open]",root).forEach(b=>b.addEventListener("click",()=>openTerm(b.dataset.open))); }
+/* ============ shared drawing helpers ============ */
+function lab(text, term, tx, ty, px, py, anchor="start", cls="lbl"){
+  const lines = text.split("\n");
+  const t = lines.map((l,i)=>`<tspan x="${tx}" dy="${i?14:0}">${l}</tspan>`).join("");
+  const cw = cls.includes("sm")?5.7:6.4, wdt = Math.max(...lines.map(l=>l.length))*cw, hgt=(lines.length-1)*14;
+  const x0 = anchor==="end"?tx-wdt: anchor==="middle"?tx-wdt/2 : tx, x1 = x0+wdt;
+  let lx, ly=ty-4;
+  if (px!=null && px>=x0-6 && px<=x1+6){ lx=Math.max(x0,Math.min(x1,px)); ly = py>ty ? ty+hgt+5 : ty-15; }
+  else if (px!=null && px<x0) lx=x0-4; else lx=x1+4;
+  const lead = (px!=null) ? `<line class="lead" x1="${lx}" y1="${ly}" x2="${px}" y2="${py}"/><circle cx="${px}" cy="${py}" r="2" fill="#5b6b73"/>` : "";
+  return `<g ${term?`data-term="${term}"`:""}>${lead}<text class="${cls}" x="${tx}" y="${ty}" text-anchor="${anchor}">${t}</text></g>`;
+}
+
+function arrow(x1,y1,x2,y2,col="#34454e",w=2.2,dash=""){
+  const a=Math.atan2(y2-y1,x2-x1), L=10;
+  const p1=[x2-L*Math.cos(a-0.4),y2-L*Math.sin(a-0.4)], p2=[x2-L*Math.cos(a+0.4),y2-L*Math.sin(a+0.4)];
+  return `<line x1="${x1}" y1="${y1}" x2="${(x2-6*Math.cos(a)).toFixed(1)}" y2="${(y2-6*Math.sin(a)).toFixed(1)}" stroke="${col}" stroke-width="${w}" ${dash?`stroke-dasharray="${dash}"`:""}/><polygon points="${x2},${y2} ${p1[0].toFixed(1)},${p1[1].toFixed(1)} ${p2[0].toFixed(1)},${p2[1].toFixed(1)}" fill="${col}"/>`;
+}
+
+/* ============ Module 5 figures (helpers shared with Module 2) ============ */
+const MC={C:"#55585c",H:"#9aa8b6",O:"#d8463c",N:"#4a7fd0",P:"#e58a2c",S:"#c9a400",ink:"#23282e",sug:"#f6d36b",sugS:"#b8901c",pro:"#8fd19e",proS:"#3f8f52",nuc:"#c1b2e2",nucS:"#6f5aa3",lip:"#f2c94c",lipS:"#b8901c"};
+const atomT=(x,y,t,c,sz=16,w=700)=>`<text x="${x}" y="${y}" text-anchor="middle" font-family="Source Sans 3,Arial" font-size="${sz}" font-weight="${w}" fill="${c||MC[t]||MC.ink}">${t}</text>`;
+const bond=(x1,y1,x2,y2,c="#34454e",w=2)=>`<line x1="${x1}" y1="${y1}" x2="${x2}" y2="${y2}" stroke="${c}" stroke-width="${w}"/>`;
+const dbl=(x1,y1,x2,y2,c="#34454e")=>{ const a=Math.atan2(y2-y1,x2-x1), dx=3*Math.sin(a), dy=-3*Math.cos(a); return bond(x1+dx,y1+dy,x2+dx,y2+dy,c)+bond(x1-dx,y1-dy,x2-dx,y2-dy,c); };
+
+/* amino acid (notes Figs 2.13, 2.14) */
+function figAminoAcid(ion){
+  const W=640,H=320; let s=`<svg viewBox="0 0 ${W} ${H}" role="img" aria-label="${ion?"Ionized amino acid (zwitterion)":"General structure of an amino acid"}"><rect width="${W}" height="${H}" fill="#fff"/>`;
+  const cx=300, cy=160;
+  s+=`<g data-term="alpha-carbon">${atomT(cx,cy+6,"C",MC.C,26)}</g>`;
+  s+=`<g data-term="fg-amino">${bond(cx-16,cy,cx-70,cy)}${atomT(cx-100,cy+7,ion?"H₃N⁺":"H₂N",MC.N,24)}</g>`;
+  s+=`<g data-term="fg-carboxyl">${bond(cx+16,cy,cx+70,cy)}${atomT(cx+84,cy+7,"C",MC.C,24)}${dbl(cx+92,cy-12,cx+120,cy-46)}${atomT(cx+128,cy-52,"O","#a5532c",22)}${bond(cx+94,cy+10,cx+120,cy+42)}${atomT(cx+136,cy+60,ion?"O⁻":"OH","#a5532c",22)}</g>`;
+  s+=`${bond(cx,cy-16,cx,cy-56)}${atomT(cx,cy-64,"H",MC.H,22)}`;
+  s+=`<g data-term="r-group">${bond(cx,cy+12,cx,cy+56)}<circle cx="${cx}" cy="${cy+76}" r="20" fill="#d7efd9" stroke="#3f8a4c" stroke-width="2"/>${atomT(cx,cy+84,"R","#2e6b39",22)}</g>`;
+  s+=`<g class="lbls">${lab("Amino group","fg-amino",40,60,cx-104,cy-14)}${lab("α carbon","alpha-carbon",400,90,cx+8,cy-8)}${lab("Carboxyl group","fg-carboxyl",470,170,cx+140,cy+4)}${lab("R group (side chain):\ndiffers for each amino acid","r-group",380,280,cx+22,cy+80)}</g>`;
+  if(ion) s+=`<text class="lbl it" x="20" y="${H-16}">At physiological pH (7.4) both groups are ionized: a zwitterion.</text>`;
+  s+=`</svg>`; return s;
+}
+
+/* a dipeptide (notes Fig 2.15) */
+function figPeptide(){
+  const W=760,H=320; let s=`<svg viewBox="0 0 ${W} ${H}" role="img" aria-label="Two amino acids joined by a peptide bond, releasing water"><rect width="${W}" height="${H}" fill="#fff"/>`;
+  const y=160;
+  s+=`<g data-term="fg-amino">${atomT(70,y+7,"H₃N⁺",MC.N,22)}</g>${bond(100,y,140,y)}${atomT(156,y+7,"C",MC.C,22)}${bond(156,y-14,156,y-44)}${atomT(156,y-52,"H",MC.H,18)}${bond(156,y+14,156,y+44)}<circle cx="156" cy="${y+62}" r="16" fill="#d7efd9" stroke="#3f8a4c" stroke-width="2"/>${atomT(156,y+69,"R₁","#2e6b39",16)}`;
+  s+=`${bond(170,y,214,y)}${atomT(228,y+7,"C",MC.C,22)}${dbl(228,y-14,228,y-48)}${atomT(228,y-56,"O","#a5532c",20)}`;
+  s+=`<g data-term="peptide-bond"><line x1="242" y1="${y}" x2="292" y2="${y}" stroke="#d8463c" stroke-width="5"/></g>${atomT(306,y+7,"N",MC.N,22)}${bond(306,y+14,306,y+42)}${atomT(306,y+60,"H",MC.H,18)}`;
+  s+=`${bond(320,y,360,y)}${atomT(376,y+7,"C",MC.C,22)}${bond(376,y-14,376,y-44)}${atomT(376,y-52,"H",MC.H,18)}${bond(376,y+14,376,y+44)}<circle cx="376" cy="${y+62}" r="16" fill="#d7efd9" stroke="#3f8a4c" stroke-width="2"/>${atomT(376,y+69,"R₂","#2e6b39",16)}`;
+  s+=`<g data-term="fg-carboxyl">${bond(390,y,430,y)}${atomT(446,y+7,"C",MC.C,22)}${dbl(452,y-12,474,y-40)}${atomT(482,y-46,"O","#a5532c",20)}${bond(454,y+10,476,y+36)}${atomT(492,y+52,"O⁻","#a5532c",20)}</g>`;
+  s+=`<g data-term="condensation"><circle cx="640" cy="${y-10}" r="22" fill="#d8463c"/><circle cx="616" cy="${y+12}" r="12" fill="#eef2f6" stroke="#8a98a8"/><circle cx="664" cy="${y+12}" r="12" fill="#eef2f6" stroke="#8a98a8"/><text class="lbl" x="640" y="${y+56}" text-anchor="middle" font-weight="700">+ H₂O released</text></g>`;
+  s+=`<g class="lbls">${lab("Peptide bond (C–N)","peptide-bond",230,40,267,y-4)}${lab("Amino end","fg-amino",30,280,70,y+18)}${lab("Carboxyl end","fg-carboxyl",440,280,470,y+60)}</g>`;
+  s+=`<path d="M40 ${y+100} H260 M300 ${y+100} H520" stroke="none"/>`;
+  s+=`</svg>`; return s;
+}
+
+
+/* ============ genetic code (notes Table 5.1) ============ */
+const AA3={F:"Phe",L:"Leu",I:"Ile",M:"Met",V:"Val",S:"Ser",P:"Pro",T:"Thr",A:"Ala",Y:"Tyr",H:"His",Q:"Gln",N:"Asn",K:"Lys",D:"Asp",E:"Glu",C:"Cys",W:"Trp",R:"Arg",G:"Gly","*":"Stop"};
+const CODE={}; (function(){ const b="UCAG", aa="FFLLSSSSYY**CC*WLLLLPPPPHHQQRRRRIIIMTTTTNNKKSSRRVVVVAAAADDEEGGGG"; let k=0; for(const x of b) for(const y of b) for(const z of b) CODE[x+y+z]=aa[k++]; })();
+// notes colour key: nonpolar, polar, basic, acidic, stop
+const AACLASS={F:"np",L:"np",I:"np",M:"np",V:"np",P:"np",A:"np",W:"np",G:"np",S:"po",T:"po",Y:"po",Q:"po",N:"po",C:"po",H:"ba",K:"ba",R:"ba",D:"ac",E:"ac","*":"st"};
+const CLSCOL={np:"#dcefd6",po:"#d9e8f7",ba:"#fbefc4",ac:"#f8dbe4",st:"#e6dcf3"};
+const RNA_COMP={A:"U",U:"A",G:"C",C:"G"};
+function figCode(hi){ // hi = set of codons to highlight
+  hi=hi||new Set(); const W=760,H=470; let s=`<svg viewBox="0 0 ${W} ${H}" role="img" aria-label="The standard genetic code table"><rect width="${W}" height="${H}" fill="#fff"/>`;
+  const b="UCAG", x0=80, y0=50, cw=158, rh=24;
+  s+=`<text class="lbl" x="${x0+2*cw}" y="20" text-anchor="middle" font-weight="700">Second position</text>`;
+  b.split("").forEach((c,j)=>s+=`<text x="${x0+j*cw+cw/2}" y="42" text-anchor="middle" font-family="Source Sans 3,Arial" font-size="17" font-weight="700" fill="#7f4f0a">${c}</text>`);
+  s+=`<text class="lbl" x="18" y="${y0+8*rh}" transform="rotate(-90 18 ${y0+8*rh})" text-anchor="middle" font-weight="700">First position (5′ end)</text>`;
+  s+=`<text class="lbl" x="${W-10}" y="${y0+8*rh}" transform="rotate(90 ${W-10} ${y0+8*rh})" text-anchor="middle" font-weight="700">Third position (3′ end)</text>`;
+  b.split("").forEach((f,i)=>{ s+=`<text x="54" y="${y0+i*4*rh+2*rh+6}" text-anchor="middle" font-family="Source Sans 3,Arial" font-size="17" font-weight="700" fill="#7f4f0a">${f}</text>`;
+    b.split("").forEach((t,k)=>{ const y=y0+(i*4+k)*rh; s+=`<text x="${x0+4*cw+14}" y="${y+16}" font-family="Source Sans 3,Arial" font-size="12" fill="#7f4f0a" font-weight="700">${t}</text>`;
+      b.split("").forEach((sc,j)=>{ const cod=f+sc+t, a=CODE[cod], x=x0+j*cw, on=hi.has(cod);
+        s+=`<g data-codon="${cod}" ${a==="*"?'data-term="stop-codon"':cod==="AUG"?'data-term="start-codon"':'data-term="genetic-code"'}><rect x="${x+1}" y="${y+1}" width="${cw-2}" height="${rh-2}" fill="${on?"#f2b33d":CLSCOL[AACLASS[a]]}" stroke="${on?"#7f4f0a":"#fff"}" stroke-width="${on?2:1}"/><text x="${x+10}" y="${y+16}" font-family="IBM Plex Mono,ui-monospace,Menlo,monospace" font-size="12.5" fill="#23282e">${cod}</text><text x="${x+64}" y="${y+16}" font-family="Source Sans 3,Arial" font-size="12.5" font-weight="${a==="*"||cod==="AUG"?700:400}" fill="#23282e">${a==="*"?"Stop":AA3[a]+" ("+a+")"}${cod==="AUG"?" start":""}</text></g>`; }); });
+    s+=`<line x1="${x0}" y1="${y0+i*4*rh}" x2="${x0+4*cw}" y2="${y0+i*4*rh}" stroke="#7f4f0a" stroke-width="1.2"/>`; });
+  const key=[["np","Nonpolar"],["po","Polar"],["ba","Basic"],["ac","Acidic"],["st","Stop codon"]];
+  key.forEach(([k,t],i)=>s+=`<rect x="${x0+i*130}" y="${H-24}" width="14" height="14" fill="${CLSCOL[k]}" stroke="#bbb"/><text class="lbl sm" x="${x0+i*130+20}" y="${H-12}">${t}</text>`);
+  s+=`</svg>`; return s;
+}
+
+/* ============ the 20 amino acids by class (notes Fig 5.3) ============ */
+function figAAClasses(){
+  const W=760,H=360; let s=`<svg viewBox="0 0 ${W} ${H}" role="img" aria-label="The 20 amino acids grouped by R group"><rect width="${W}" height="${H}" fill="#fff"/>`;
+  const G=[["hydrophobic-aa","Hydrophobic (nonpolar)","#dcefd6","#3f8a4c",["Ala A","Val V","Leu L","Ile I","Met M","Phe F","Trp W","Tyr Y"],20,20,360,150],
+    ["glycine","Special","#efe6f8","#6f4a90",["Gly G","Pro P","Cys C"],392,20,348,150],
+    ["hydrophilic-aa","Hydrophilic: polar","#d9e8f7","#2c5aa0",["Asn N","Gln Q","Ser S","Thr T"],20,190,260,150],
+    ["hydrophilic-aa","Basic (+)","#fbefc4","#9a6b00",["Lys K","Arg R","His H"],292,190,220,150],
+    ["hydrophilic-aa","Acidic (−)","#f8dbe4","#a5385a",["Asp D","Glu E"],524,190,216,150]];
+  G.forEach(([term,t,fill,ink,list,x,y,w,hh])=>{ s+=`<g data-term="${term}"><rect x="${x}" y="${y}" width="${w}" height="${hh}" rx="10" fill="${fill}" stroke="${ink}" stroke-opacity=".4"/><text x="${x+14}" y="${y+24}" font-family="Source Sans 3,Arial" font-size="15" font-weight="700" fill="${ink}">${t}</text>`;
+    const cols=Math.floor((w-20)/84); list.forEach((a,i)=>{ const cx=x+14+(i%cols)*84, cy=y+44+Math.floor(i/cols)*44; s+=`<rect x="${cx}" y="${cy}" width="76" height="34" rx="17" fill="#fff" stroke="${ink}" stroke-opacity=".5"/><text x="${cx+38}" y="${cy+22}" text-anchor="middle" font-family="Source Sans 3,Arial" font-size="14" font-weight="600" fill="#23282e">${a}</text>`; });
+    s+=`</g>`; });
+  s+=`<text class="lbl it" x="20" y="${H-8}">Your notes: understand the groups; you don't need to memorize all 20 structures.</text></svg>`; return s;
+}
+
+/* ============ the three special amino acids (notes p. 71) ============ */
+function figSpecial(){
+  const W=760,H=300; let s=`<svg viewBox="0 0 ${W} ${H}" role="img" aria-label="Glycine, proline and cysteine"><rect width="${W}" height="${H}" fill="#fff"/>`;
+  const core=(cx,cy)=>`${atomT(cx-58,cy+6,"H₃N⁺",MC.N,17)}${bond(cx-36,cy,cx-12,cy)}${atomT(cx,cy+6,"C",MC.C,18)}${bond(cx+12,cy,cx+36,cy)}${atomT(cx+58,cy+6,"COO⁻","#a5532c",17)}${bond(cx,cy-12,cx,cy-30)}${atomT(cx,cy-36,"H",MC.H,15)}`;
+  // glycine
+  let cx=130, cy=130; s+=`<g data-term="glycine">${core(cx,cy)}${bond(cx,cy+12,cx,cy+34)}<circle cx="${cx}" cy="${cy+50}" r="16" fill="#efe6f8" stroke="#6f4a90"/>${atomT(cx,cy+56,"H","#6f4a90",16)}<text class="lbl" x="${cx}" y="34" text-anchor="middle" font-weight="700">Glycine (Gly, G)</text><text class="lbl sm" x="${cx}" y="248" text-anchor="middle">R group is just H: small,</text><text class="lbl sm" x="${cx}" y="264" text-anchor="middle">flexible backbone</text></g>`;
+  // proline: ring from alpha C back to N
+  cx=380; s+=`<g data-term="proline">${atomT(cx-46,cy+6,"H₂N⁺",MC.N,17)}${bond(cx-26,cy,cx-12,cy)}${atomT(cx,cy+6,"C",MC.C,18)}${bond(cx+12,cy,cx+36,cy)}${atomT(cx+58,cy+6,"COO⁻","#a5532c",17)}${bond(cx,cy-12,cx,cy-30)}${atomT(cx,cy-36,"H",MC.H,15)}`;
+  s+=`<path d="M${cx-4} ${cy+12} L${cx+8} ${cy+52} L${cx-30} ${cy+70} L${cx-58} ${cy+44} L${cx-48} ${cy+12}" stroke="#6f4a90" stroke-width="3" fill="none"/>${atomT(cx-14,cy+58,"ring","#6f4a90",12,600)}<text class="lbl" x="${cx}" y="34" text-anchor="middle" font-weight="700">Proline (Pro, P)</text><text class="lbl sm" x="${cx}" y="248" text-anchor="middle">R group loops back to the amino N:</text><text class="lbl sm" x="${cx}" y="264" text-anchor="middle">C–N bond can't rotate</text></g>`;
+  // cysteine
+  cx=630; s+=`<g data-term="cysteine">${core(cx,cy)}${bond(cx,cy+12,cx,cy+30)}${atomT(cx,cy+46,"CH₂",MC.C,15)}${bond(cx,cy+52,cx,cy+66)}<circle cx="${cx}" cy="${cy+82}" r="17" fill="#fbf1c4" stroke="#c9a400"/>${atomT(cx,cy+88,"SH","#8a6d00",15)}<text class="lbl" x="${cx}" y="34" text-anchor="middle" font-weight="700">Cysteine (Cys, C)</text><text class="lbl sm" x="${cx}" y="248" text-anchor="middle">–SH can form S–S disulfide</text><text class="lbl sm" x="${cx}" y="264" text-anchor="middle">cross-bridges</text></g>`;
+  s+=`</svg>`; return s;
+}
+
+/* ============ ribosome with E, P, A sites (notes Fig 5.10) ============ */
+function figRibosome(){
+  const W=700,H=330; let s=`<svg viewBox="0 0 ${W} ${H}" role="img" aria-label="A ribosome with the E, P and A sites on an mRNA"><rect width="${W}" height="${H}" fill="#fff"/>`;
+  s+=`<g data-term="ribosome"><path d="M170 190 C150 70 250 40 350 42 C450 44 550 70 530 190 Z" fill="#f2c27a" stroke="#a8690f" stroke-width="2.5"/><path d="M190 218 C190 270 510 270 510 218 L510 206 L190 206 Z" fill="#e8a64a" stroke="#a8690f" stroke-width="2.5"/></g>`;
+  [["E","Exit site",250],["P","Peptidyl site",350],["A","Aminoacyl site",450]].forEach(([k,t,x])=>{ s+=`<g data-term="sites"><rect x="${x-42}" y="100" width="84" height="88" rx="8" fill="#fff8ec" stroke="#a8690f" stroke-dasharray="4 3"/><text x="${x}" y="152" text-anchor="middle" font-family="Source Serif 4,Georgia" font-size="30" font-weight="700" fill="#7f4f0a">${k}</text><text class="lbl sm" x="${x}" y="176" text-anchor="middle">${t}</text></g>`; });
+  s+=`<g data-term="mrna"><line x1="40" y1="206" x2="660" y2="206" stroke="#c83a4f" stroke-width="6"/><text class="lbl" x="34" y="230" font-weight="700" fill="#c83a4f">5′</text><text class="lbl" x="650" y="230" font-weight="700" fill="#c83a4f">3′</text></g>`;
+  s+=arrow(560,290,660,290,"#7f4f0a",2.5)+`<text class="lbl" x="556" y="294" text-anchor="end">ribosome moves 5′ → 3′</text>`;
+  s+=`<g class="lbls">${lab("Large subunit","ribosome",560,60,500,80)}${lab("Small subunit","ribosome",560,250,500,240)}</g></svg>`; return s;
+}
+
+/* ============ tRNA cloverleaf (notes Fig 5.11) ============ */
+function figTRNA(anti="UAC", aa="Met"){
+  const W=760,H=400; let s=`<svg viewBox="0 0 ${W} ${H}" role="img" aria-label="tRNA cloverleaf with anticodon ${anti} carrying ${aa}"><rect width="${W}" height="${H}" fill="#fff"/><g transform="translate(120,-10)">`;
+  const cx=260;
+  s+=`<g data-term="trna"><path d="M${cx-14} 70 V170 M${cx+14} 70 V170" stroke="#55606a" stroke-width="3"/>`;
+  for(let y=80;y<170;y+=14) s+=`<line x1="${cx-14}" y1="${y}" x2="${cx+14}" y2="${y}" stroke="#b9c2c8"/>`;
+  s+=`<path d="M${cx-14} 170 H${cx-70}" stroke="#55606a" stroke-width="3"/><circle cx="${cx-110}" cy="170" r="40" fill="#e3f1d8" stroke="#55606a" stroke-width="2"/><path d="M${cx+14} 170 H${cx+70}" stroke="#55606a" stroke-width="3"/><circle cx="${cx+110}" cy="170" r="40" fill="#f8dde3" stroke="#55606a" stroke-width="2"/>`;
+  s+=`<path d="M${cx-14} 190 V280 M${cx+14} 190 V280" stroke="#55606a" stroke-width="3"/>`; for(let y=200;y<280;y+=14) s+=`<line x1="${cx-14}" y1="${y}" x2="${cx+14}" y2="${y}" stroke="#b9c2c8"/>`;
+  s+=`<circle cx="${cx}" cy="318" r="40" fill="#dbe8f7" stroke="#55606a" stroke-width="2"/></g>`;
+  s+=`<g data-term="anticodon">${anti.split("").map((b,i)=>`<rect x="${cx-34+i*24}" y="342" width="22" height="26" rx="3" fill="#2c5aa0"/><text x="${cx-23+i*24}" y="361" text-anchor="middle" font-family="IBM Plex Mono,Menlo,monospace" font-size="15" font-weight="700" fill="#fff">${b}</text>`).join("")}<text class="lbl sm" x="${cx-44}" y="361" text-anchor="end">3′</text><text class="lbl sm" x="${cx+44}" y="361">5′</text></g>`;
+  s+=`<g data-term="charged"><text x="${cx+14}" y="50" font-family="IBM Plex Mono,Menlo,monospace" font-size="13" fill="#23282e">A C C</text><text class="lbl sm" x="${cx+60}" y="50">3′</text><text class="lbl sm" x="${cx-36}" y="62">5′</text>${aa?`<ellipse cx="${cx+40}" cy="22" rx="30" ry="15" fill="#8fd19e" stroke="#3f8f52"/><text x="${cx+40}" y="27" text-anchor="middle" font-family="Source Sans 3,Arial" font-size="13" font-weight="700">${aa}</text>`:""}</g>`;
+  s+=`<g class="lbls">${lab("Amino acid attaches to the\n3′–OH of the CCA end","charged",370,96,cx+40,40)}${lab("Anticodon loop","anticodon",380,300,cx+40,312)}${lab("Anticodon: pairs with\nthe mRNA codon","anticodon",-90,352,cx-36,355)}</g></g>`;
+  s+=`</svg>`; return s;
+}
+
+/* ============ central dogma with codons (notes Fig 5.8) ============ */
+function figDogma5(){
+  const W=760,H=330; let s=`<svg viewBox="0 0 ${W} ${H}" role="img" aria-label="DNA ATGATCTCGTAA transcribed and translated into Met-Ile-Ser"><rect width="${W}" height="${H}" fill="#fff"/>`;
+  const mono=(x,y,t,c,sz=18)=>`<text x="${x}" y="${y}" font-family="IBM Plex Mono,Menlo,monospace" font-size="${sz}" fill="${c}" letter-spacing="4">${t}</text>`;
+  s+=`<text class="lbl" x="40" y="40" font-weight="700">DNA</text>${mono(150,40,"5′ ATGATCTCGTAA 3′","#3d5c9e")}${mono(150,64,"3′ TACTAGAGCATT 5′","#76a9dc")}`;
+  s+=`<g data-term="central-dogma">${arrow(330,76,330,118,"#c83a4f",3)}<text class="lbl" x="344" y="104" font-style="italic" font-weight="700" fill="#c83a4f">Transcription</text></g>`;
+  s+=`<g data-term="mrna"><text class="lbl" x="40" y="150" font-weight="700">mRNA</text>${mono(150,150,"5′ AUG AUC UCG UAA 3′","#c83a4f")}</g>`;
+  s+=`<g data-term="codon"><path d="M196 160 v8 h50 v-8 M262 160 v8 h50 v-8 M328 160 v8 h50 v-8 M394 160 v8 h50 v-8" stroke="#7f4f0a" fill="none"/><text class="lbl sm" x="221" y="184" text-anchor="middle">start</text><text class="lbl sm" x="419" y="184" text-anchor="middle">stop</text><text class="lbl" x="470" y="168">codons</text></g>`;
+  s+=`<g data-term="translation">${arrow(330,194,330,236,"#3a9a9a",3)}<text class="lbl" x="344" y="222" font-style="italic" font-weight="700" fill="#2f7f7f">Translation</text></g>`;
+  s+=`<g data-term="protein"><text class="lbl" x="40" y="276" font-weight="700">Protein</text>${["Met","Ile","Ser"].map((a,i)=>`<circle cx="${221+i*66}" cy="270" r="22" fill="#8fd19e" stroke="#3f8f52"/><text x="${221+i*66}" y="275" text-anchor="middle" font-family="Source Sans 3,Arial" font-size="13" font-weight="700">${a}</text>`).join(bond(0,0,0,0))}${bond(243,270,265,270,"#3f8f52",3)}${bond(309,270,331,270,"#3f8f52",3)}<text class="lbl" x="440" y="275">amino acids</text></g>`;
+  s+=`<text class="lbl it" x="${W-20}" y="${H-12}" text-anchor="end">The mRNA matches the nontemplate (top) strand, with U for T.</text></svg>`; return s;
+}
+
+/* ============ eukaryotic vs prokaryotic initiation (notes Fig 5.17) ============ */
+function figInit(){
+  const W=760,H=330; let s=`<svg viewBox="0 0 ${W} ${H}" role="img" aria-label="Eukaryotic mRNA makes one polypeptide from the cap; prokaryotic mRNA has several Shine-Dalgarno sites and makes several"><rect width="${W}" height="${H}" fill="#fff"/>`;
+  const rib=(x,y)=>`<g data-term="ribosome"><ellipse cx="${x}" cy="${y-14}" rx="26" ry="16" fill="#f2c27a" stroke="#a8690f"/><ellipse cx="${x}" cy="${y+10}" rx="22" ry="9" fill="#e8a64a" stroke="#a8690f"/></g>`;
+  const chain=(x,y)=>`<g data-term="polypeptide"><path d="M${x} ${y-30} q-10 -16 6 -26 q16 -10 6 -26" stroke="#3f8f52" stroke-width="5" fill="none"/></g>`;
+  s+=`<text class="lbl" x="20" y="34" font-weight="700">a. Eukaryotes</text><g data-term="mrna"><line x1="60" y1="120" x2="${W-40}" y2="120" stroke="#c83a4f" stroke-width="5"/></g><g data-term="initiation"><rect x="40" y="108" width="34" height="24" rx="12" fill="#e8912f"/><text class="lbl sm" x="57" y="125" text-anchor="middle" fill="#fff" font-weight="700">cap</text></g>`;
+  s+=`<g data-term="start-codon"><text x="190" y="146" font-family="IBM Plex Mono,Menlo,monospace" font-size="13" font-weight="700" fill="#2e6b39">AUG</text></g><g data-term="stop-codon"><text x="590" y="146" font-family="IBM Plex Mono,Menlo,monospace" font-size="13" font-weight="700" fill="#6f4a90">stop</text></g>`+rib(320,120)+chain(320,120)+arrow(90,92,170,92,"#a8690f",2)+`<text class="lbl sm" x="94" y="84">scan from the cap</text><text class="lbl sm" x="${W-40}" y="146" text-anchor="end">3′</text><text class="lbl" x="${W-40}" y="60" text-anchor="end">one polypeptide</text>`;
+  s+=`<text class="lbl" x="20" y="200" font-weight="700">b. Prokaryotes</text><g data-term="mrna"><line x1="40" y1="286" x2="${W-40}" y2="286" stroke="#c83a4f" stroke-width="5"/></g>`;
+  [90,320,550].forEach((x,i)=>{ s+=`<g data-term="shine-dalgarno"><rect x="${x}" y="292" width="54" height="12" fill="#5fb35f"/></g><text x="${x+64}" y="312" font-family="IBM Plex Mono,Menlo,monospace" font-size="12" font-weight="700" fill="#2e6b39">AUG</text>`+rib(x+120,286)+chain(x+120,286); });
+  s+=`<text class="lbl sm" x="90" y="324">Shine-Dalgarno (5′-AGGAGGU-3′)</text><text class="lbl" x="${W-40}" y="216" text-anchor="end">polycistronic: three polypeptides</text>`;
+  s+=`</svg>`; return s;
+}
+
+/* ============ story engine ============ */
+let RUN = null; // {id, first:{}}
+function chState(id){ return P.ch[id] || (P.ch[id] = {done:false, best:null, last:null}); }
+function recordFirst(stepIdx, correct, terms){
+  if (!RUN) return;
+  if (!(stepIdx in RUN.first)) RUN.first[stepIdx] = !!correct;
+  (terms||[]).forEach(k=>markTerm(k,"tested"));
+}
+function runScore(){ const v=Object.values(RUN.first); return {right:v.filter(Boolean).length, total:v.length}; }
+
+function renderChapter(ci, si=0){
+  stopLoops(); exploreHook=null; window.scrollTo(0,0);
+  $$(".tab").forEach(t=>t.setAttribute("aria-current",String(t.dataset.go==="story")));
+  const ch = CHAPTERS[ci];
+  if (!RUN || RUN.id !== ch.id) RUN = {id:ch.id, first:{}};
+  const app = $("#app"); app.innerHTML = "";
+  const bar = h("div",{class:"steps","aria-hidden":"true"});
+  ch.steps.forEach((_,i)=>bar.append(h("i",{class:i<si?"on":i===si?"cur":""})));
+  app.append(h("div",{class:"banner"}, h("span",{class:"num"},`5.${ci+1}`), h("span",{class:"ttl"},ch.title), h("span",{class:"pg"},`Course notes ${ch.pages}`)));
+  app.append(h("div",{class:"crumb"}, h("button",{class:"back",onclick:()=>go("story")},"All chapters"), h("span",{class:"muted small"},`Step ${si+1} of ${ch.steps.length}`), bar));
+  const step = ch.steps[si];
+  const stage = h("div",{class:"stage"+(step.wide?" wide":"")});
+  const plateHost = h("div"), panel = h("div",{class:"panel"});
+  stage.append(plateHost, panel); app.append(stage);
+  const next = h("button",{class:"btn",onclick:()=>{ if(si+1<ch.steps.length) renderChapter(ci,si+1); else finishChapter(ci); }}, si+1<ch.steps.length?"Continue":"Finish chapter");
+  const back = h("button",{class:"btn ghost",onclick:()=>{ if(si>0) renderChapter(ci,si-1); else go("story"); }}, si>0?"Back":"All chapters");
+  const api = {
+    ci, si, panel, plateHost, next,
+    lock(){ next.disabled = true; }, unlock(){ next.disabled = false; },
+    grade(ok, terms){ recordFirst(si, ok, terms||step.terms); },
+    gradeKey(key, ok, terms){ recordFirst(si+'.'+key, ok, terms); },
+  };
+  (STEP_TYPES[step.type])(step, api);
+  panel.append(h("div",{class:"nav"}, back, next));
+  bindTerms(app); bindRich(app);
+  tc.classList.remove("show");
+}
+function finishChapter(ci){
+  stopLoops(); window.scrollTo(0,0);
+  const ch = CHAPTERS[ci], sc = runScore(), st = chState(ch.id);
+  const frac = sc.total ? sc.right/sc.total : 1;
+  const prevBest = st.best;
+  st.done = true; st.last = frac; if (st.best==null || frac>st.best) st.best = frac; save();
+  const app=$("#app"); app.innerHTML="";
+  const box = h("div",{class:"summary"});
+  box.append(h("div",{class:"banner"}, h("span",{class:"num"},`5.${ci+1}`), h("span",{class:"ttl"},ch.title+": complete")));
+  box.append(h("div",{class:"row",style:"gap:26px;margin:10px 0 18px"},
+     h("div",{}, h("div",{class:"big"},`${sc.right}/${sc.total}`), h("div",{class:"muted small"},"right on the first try")),
+     h("div",{}, h("div",{class:"big",style:"color:var(--head)"},Math.round((st.best||0)*100)+"%"), h("div",{class:"muted small"}, prevBest==null?"your best so far": (frac>prevBest?"new personal best":"your best"))) ));
+  box.append(h("p",{},ch.wrap));
+  box.append(h("p",{class:"muted small"},"Terms from this chapter. Click one to review it."), termChips(ch.terms));
+  const nextBtn = ci+1<CHAPTERS.length ? h("button",{class:"btn",onclick:()=>{RUN=null; renderChapter(ci+1,0);}},`Start chapter ${ci+2}: ${CHAPTERS[ci+1].title}`) : h("button",{class:"btn",onclick:()=>go("checkpoint")},"Go to the codon desk");
+  box.append(h("div",{class:"row",style:"margin-top:16px"}, nextBtn, h("button",{class:"btn ghost",onclick:()=>{RUN=null; renderChapter(ci,0);}},"Replay chapter"), h("button",{class:"btn ghost",onclick:()=>go("story")},"All chapters")));
+  app.append(box);
+  RUN = null;
+}
+
+/* ---- step types ---- */
+function figHost(step, api, svg){
+  if (!svg) return;
+  const f = plate(svg, step.cap);
+  if (step.labelsToggle){
+    const b = h("button",{class:"mini","aria-pressed":"true"},"Labels");
+    b.addEventListener("click",()=>{ const on=b.getAttribute("aria-pressed")==="true"; b.setAttribute("aria-pressed",on?"false":"true"); f.classList.toggle("labels-off",on); });
+    f.prepend(h("div",{class:"tools"},b));
+  }
+  api.plateHost.innerHTML=""; api.plateHost.append(f);
+  if (step.onFig) step.onFig(f.querySelector("svg"));
+  return f;
+}
+const STEP_TYPES = {
+  brief(step, api){
+    figHost(step, api, step.fig && step.fig());
+    api.panel.append(h("h2",{},step.title), h("div",{html:rich(step.text)}));
+    if (step.terms) api.panel.append(termChips(step.terms));
+  },
+  review(step, api){
+    figHost(step, api, step.fig());
+    api.panel.append(h("h2",{},step.title), h("div",{html:rich(step.text)}));
+    const counter = h("p",{class:"explored"});
+    const seen = new Set();
+    const upd = ()=>{ counter.textContent = `Parts explored: ${seen.size} of ${step.terms.length}`; };
+    exploreHook = k=>{ if(step.terms.includes(k)){ seen.add(k); upd(); } };
+    upd(); api.panel.append(counter, termChips(step.terms));
+  },
+  mcq(step, api){
+    const f = figHost(step, api, step.fig && step.fig());
+    if (!step.fig) api.plateHost.remove(), api.panel.parentElement.classList.add("wide");
+    api.panel.append(h("p",{class:"kicker"},step.kicker||"Your call"), h("h2",{},step.title));
+    if (step.q) api.panel.append(h("div",{html:rich(step.q)}));
+    const box = h("div",{class:"opts"}), fb = h("div");
+    let solved=false, first=true;
+    const opts = step.keep ? step.opts : shuffle(step.opts);
+    opts.forEach(o=>{
+      const b = h("button",{class:"opt"},o[0]);
+      b.addEventListener("click",()=>{
+        if (solved) return;
+        if (first){ api.grade(o[1], step.terms); first=false; }
+        fb.innerHTML="";
+        if (o[1]){
+          solved=true; b.classList.add("right");
+          $$(".opt",box).forEach(x=>x.disabled=true);
+          fb.append(h("div",{class:"fb ok",html:`<b>Correct.</b>${rich(o[2]||"")}`}));
+          if (step.after) fb.append(h("div",{class:"fb",html:rich(step.after)}));
+          if (step.afterFig && f){ const nf = plate(step.afterFig(), step.afterCap||step.cap); api.plateHost.innerHTML=""; api.plateHost.append(nf); bindTerms(nf); }
+          api.unlock();
+        } else {
+          b.classList.add("wrong"); b.disabled=true;
+          fb.append(h("div",{class:"fb bad",html:`<b>Not quite.</b>${rich(o[2]||"")} Try another answer.`}));
+        }
+        bindRich(fb);
+      });
+      box.append(b);
+    });
+    api.panel.append(box, fb); api.lock();
+  },
+  order(step, api){
+    const f = figHost(step, api, step.fig && step.fig());
+    if (!step.fig) api.plateHost.remove(), api.panel.parentElement.classList.add("wide");
+    api.panel.append(h("p",{class:"kicker"},"Put these in order"), h("h2",{},step.title), h("div",{html:rich(step.q)}));
+    const n = step.items.length, slots = new Array(n).fill(null);
+    let pool = shuffle(step.items.map((t,i)=>({t,i})));
+    let first = true;
+    const slotBox = h("div",{class:"order"}), poolBox = h("div",{class:"pool"}), fb = h("div");
+    const check = h("button",{class:"btn",disabled:true},"Check order");
+    function draw(){
+      slotBox.innerHTML=""; poolBox.innerHTML="";
+      slots.forEach((s,i)=>{
+        const el = h("div",{class:"slot"+(s?" filled":"")+(s&&s.mark?" "+s.mark:""),tabindex:s?"0":null,role:s?"button":null}, h("span",{class:"n"},String(i+1)), h("span",{}, s?s.t:"Click a step below to place it here"));
+        if (s && !s.locked) el.addEventListener("click",()=>{ pool.push(s); slots[i]=null; delete s.mark; draw(); });
+        slotBox.append(el);
+      });
+      pool.forEach(p=>{ const b=h("button",{class:"card"},p.t); b.addEventListener("click",()=>{ const k=slots.indexOf(null); if(k<0) return; slots[k]=p; pool=pool.filter(x=>x!==p); draw(); }); poolBox.append(b); });
+      check.disabled = slots.includes(null);
+    }
+    check.addEventListener("click",()=>{
+      let all=true;
+      slots.forEach((s,i)=>{ s.mark = s.i===i?"right":"wrong"; if(s.i!==i) all=false; else s.locked=true; });
+      if (first){ api.grade(all, step.terms); first=false; }
+      fb.innerHTML="";
+      if (all){ fb.append(h("div",{class:"fb ok",html:"<b>That's the right order.</b>"+rich(step.after||"")})); check.remove(); api.unlock(); draw(); bindRich(fb); return; }
+      draw();
+      fb.append(h("div",{class:"fb bad",html:"<b>Some steps are out of place.</b> The green ones are right and locked in. Click a red one to send it back, then try again."}));
+    });
+    draw();
+    api.panel.append(slotBox, poolBox, h("div",{class:"row"},check), fb); api.lock();
+  },
+  sort(step, api){
+    figHost(step, api, step.fig && step.fig());
+    if (!step.fig) api.plateHost.remove(), api.panel.parentElement.classList.add("wide");
+    api.panel.append(h("p",{class:"kicker"},"Sort them"), h("h2",{},step.title), h("div",{html:rich(step.q)}));
+    let items = shuffle(step.items.map((it,i)=>({t:it[0],bin:it[1],why:it[2],i,at:null})));
+    let sel = null, first = true;
+    const poolBox = h("div",{class:"pool"}), binBox = h("div",{class:"bins"}), fb = h("div");
+    const check = h("button",{class:"btn",disabled:true},"Check");
+    function draw(){
+      poolBox.innerHTML=""; binBox.innerHTML="";
+      items.filter(x=>x.at===null).forEach(x=>{ const b=h("button",{class:"card"+(sel===x?" sel":"")},x.t); b.addEventListener("click",()=>{ sel = sel===x?null:x; draw(); }); poolBox.append(b); });
+      step.bins.forEach((name,bi)=>{
+        const bin = h("div",{class:"bin",tabindex:"0",role:"button","aria-label":"Place in "+name}, h("h4",{},name));
+        const place = ()=>{ if(sel){ sel.at=bi; delete sel.mark; sel=null; draw(); } };
+        bin.addEventListener("click",place); bin.addEventListener("keydown",e=>{ if(e.key==="Enter") place(); });
+        items.filter(x=>x.at===bi).forEach(x=>{ const c=h("button",{class:"card"+(x.mark?" "+x.mark:"")},x.t); c.addEventListener("click",e=>{ e.stopPropagation(); if(sel){ place(); return; } if(x.locked) return; x.at=null; delete x.mark; draw(); }); bin.append(c); });
+        binBox.append(bin);
+      });
+      if (!items.some(x=>x.at===null)) poolBox.append(h("p",{class:"muted small"},"All placed. Check your sort, or click a card in a box to take it back out."));
+      else if (!sel) poolBox.prepend(h("p",{class:"muted small",style:"margin:0"},"Click a card, then click the box it belongs in."));
+      check.disabled = items.some(x=>x.at===null);
+    }
+    check.addEventListener("click",()=>{
+      let all=true; const misses=[];
+      items.forEach(x=>{ if(x.at===x.bin){ x.mark="right"; x.locked=true; } else { x.mark="wrong"; all=false; misses.push(x); } });
+      if (first){ api.grade(all, step.terms); first=false; }
+      fb.innerHTML="";
+      if (all){
+        fb.append(h("div",{class:"fb ok",html:"<b>All sorted correctly.</b>"+rich(step.after||"")}));
+        check.remove(); api.unlock(); draw(); bindRich(fb);
+        if (step.onSolved) step.onSolved(api);
+        return;
+      }
+      draw();
+      const why = misses.filter(m=>m.why).map(m=>`<li>${m.t}: ${m.why}</li>`).join("");
+      fb.append(h("div",{class:"fb bad",html:`<b>${misses.length} in the wrong box.</b>${why?`<ul style="margin:6px 0 0;padding-left:18px">${why}</ul>`:""} Move the red ones and check again.`}));
+    });
+    draw();
+    api.panel.append(poolBox, binBox, h("div",{class:"row"},check), fb); api.lock();
+  },
+  custom(step, api){ step.render(api, step); }
+};
+
+const KEYICON = `<svg class="key" viewBox="0 0 32 32" aria-hidden="true"><circle cx="9" cy="10" r="6" fill="#e9b52f" stroke="#a57a0c" stroke-width="1.5"/><circle cx="9" cy="10" r="2.2" fill="#fff"/><path d="M13 14 L26 27 M20 21 l3 -3 M23 24 l3 -3" stroke="#a57a0c" stroke-width="3" stroke-linecap="round"/></svg>`;
+function remember(title, body){ return `<div class="remember">${KEYICON}<div><b>${title}</b>${body}</div></div>`; }
+function dyk(body){ return `<div class="dyk"><b>Did you know…</b> ${body}</div>`; }
+
+/* ============ chapters ============ */
+const CHAPTERS = [
+{ id:"aa", title:"Amino acids", pages:"pp. 69–70", blurb:"The four parts of an amino acid, and how R groups sort them into hydrophobic, hydrophilic, acidic and basic.",
+  terms:["protein","amino-acid","alpha-carbon","r-group","aa-classes","hydrophobic-aa","hydrophilic-aa","van-der-waals"],
+  wrap:"Every amino acid has the same backbone parts; its R group decides whether it hides inside a protein or sits on the surface. Next: three amino acids that bend the rules.",
+  steps:[
+  {type:"review", title:"Four parts on one carbon", fig:()=>figAminoAcid(true), cap:"<b>Figure 1.1</b> Amino acid structure, ionized as it is at physiological pH. (Notes p. 69, Fig 5.2)",
+   text:`<p>[[protein|Proteins]] are ubiquitous, diverse and versatile. They are linear polymers of 20 [[amino-acid|amino acids]], like letters in an alphabet, and their function depends on their structure.</p><p>Four components are bound to the [[alpha-carbon|α carbon]]. Three are the same in every amino acid: the [[fg-carboxyl|carboxyl group]], the [[fg-amino|amino group]] and a hydrogen. At physiological pH the amino and carboxyl groups are charged. The fourth is the [[r-group|R group]], which makes each amino acid unique.</p>`,
+   terms:["alpha-carbon","fg-amino","fg-carboxyl","r-group"]},
+  {type:"mcq", title:"In every amino acid", q:"<p>Which functional group is found in <em>all</em> amino acids? (A question from your own notes, p. 68.)</p>",
+   opts:[["The amino group",true," Along with the carboxyl group and a hydrogen. Sulfhydryl is only in cysteine."],["A sulfhydryl group",false," Only cysteine has –SH, in its R group."],["A hydroxyl group",false," Only some R groups (serine, threonine, tyrosine) have –OH."],["An aldehyde group",false," That's in sugars like glucose."]], terms:["fg-amino","amino-acid"]},
+  {type:"review", title:"Sorting by R group", fig:figAAClasses, cap:"<b>Figure 1.2</b> The 20 amino acids grouped by R group. (Notes p. 70, Fig 5.3)",
+   text:`<p>R groups are [[aa-classes|grouped]] by polarity, interaction with water, and charge at physiological pH.</p><p>[[hydrophobic-aa|Hydrophobic]] R groups tend to be buried in the interior of folded proteins, held by weak [[van-der-waals|van der Waals forces]]. [[hydrophilic-aa|Hydrophilic]] R groups contain N and/or O, can H-bond with water, and sit on the outer surface. Basic ones are positively charged, acidic ones negatively charged, and charged groups can form ionic bonds.</p>`+remember("Your notes:"," understand the groups; you don't need to memorize all 20 structures."),
+   terms:["hydrophobic-aa","hydrophilic-aa","glycine"]},
+  {type:"sort", title:"Where will it sit?", q:"<p>In a folded protein in water, where would each R group most likely be?</p>", bins:["Buried inside (hydrophobic)","On the surface (hydrophilic)"],
+   items:[["Leucine",0],["Phenylalanine",0],["Valine",0],["Serine",1],["Lysine (basic, +)",1],["Aspartic acid (acidic, −)",1]], terms:["hydrophobic-aa","hydrophilic-aa"]},
+  {type:"sort", title:"Charge at pH 7.4", q:"<p>Sort these hydrophilic amino acids by the charge on their R group.</p>", bins:["Positive (basic)","Negative (acidic)","Uncharged (polar)"],
+   items:[["Lysine",0],["Arginine",0],["Histidine",0],["Aspartic acid",1],["Glutamic acid",1],["Serine",2],["Asparagine",2]], terms:["hydrophilic-aa","aa-classes"]}
+  ]},
+
+{ id:"special", title:"Three special amino acids", pages:"p. 71", blurb:"Glycine, proline and cysteine, and how each one changes a protein's shape.",
+  terms:["glycine","proline","cysteine","disulfide"],
+  wrap:"Glycine makes the backbone flexible, proline makes it rigid, and cysteine cross-links it with disulfide bonds. Next: how amino acids join.",
+  steps:[
+  {type:"review", title:"Memorize these three", fig:figSpecial, cap:"<b>Figure 2.1</b> Glycine, proline and cysteine. (Notes p. 71)",
+   text:`<p>Three amino acids stand out because of how they affect protein structure. Your notes star these: <b>memorize these 3</b>.</p><p>[[glycine|Glycine]]: R group is a hydrogen. Small and nonpolar, so the C–N bond rotates freely and the backbone is flexible.<br>[[proline|Proline]]: R group links back to the amino group, which restricts rotation and limits folding around it.<br>[[cysteine|Cysteine]]: R group has –SH (sulfhydryl), so two cysteines can form an S–S [[disulfide|disulfide bond]], a cross-bridge.</p>`,
+   terms:["glycine","proline","cysteine"]},
+  {type:"sort", title:"Which one?", fig:figSpecial, cap:"<b>Figure 2.1</b> The special three.", q:"<p>Match each fact.</p>", bins:["Glycine","Proline","Cysteine"],
+   items:[["R group is just H",0],["Its α carbon has two H atoms",0],["Makes the backbone more flexible",0],["R group bonds back to the amino group",1],["Limits folding around it",1],["Has a sulfhydryl (–SH) group",2],["Forms S–S cross-bridges",2]], terms:["glycine","proline","cysteine"]},
+  {type:"mcq", title:"Linking two proteins", q:"<p>Two separate polypeptides are held together by a covalent cross-bridge. Which amino acid is responsible?</p>",
+   opts:[["Cysteine, through a disulfide bond",true," Cross-bridges can join parts of one protein or different proteins."],["Glycine, through its small R group",false," Glycine adds flexibility, not cross-links."],["Proline, through its ring",false," Proline's ring links to its own amino group, not another chain."],["Any hydrophobic amino acid",false," Hydrophobic interactions are not covalent."]], terms:["cysteine","disulfide"]}
+  ]},
+
+{ id:"peptide", title:"Peptide bonds", pages:"p. 71", blurb:"Dehydration reactions, the N-terminus and C-terminus, and writing a primary sequence.",
+  terms:["peptide-bond","condensation","n-terminus","polypeptide","residue"],
+  wrap:"Peptide bonds join the carboxyl group of one amino acid to the amino group of the next, releasing water, and give the chain an N end and a C end. Next: how the chain folds.",
+  steps:[
+  {type:"review", title:"Joining two amino acids", fig:figPeptide, cap:"<b>Figure 3.0</b> Peptide bond formation. (Notes p. 71, Fig 5.4)",
+   text:`<p>Adjacent amino acids are joined by a [[peptide-bond|peptide bond]] in a [[condensation|dehydration reaction]]: the carboxyl group of one reacts with the amino group of the next, releasing H₂O. R groups are not involved.</p><p>The free amino group forms the [[n-terminus|N-terminus]]; the free carboxyl group forms the C-terminus. A chain of amino acids is a [[polypeptide|polypeptide]], used synonymously with protein. Once in the chain, each amino acid is a [[residue|residue]].</p>`,
+   terms:["peptide-bond","fg-amino","fg-carboxyl","condensation"]},
+  {type:"custom", title:"Make a polypeptide", render:api=>simPeptide(api), terms:["peptide-bond","n-terminus","primary-structure"]},
+  {type:"mcq", title:"Counting water", q:"<p>A polypeptide of 120 amino acids is made. How many molecules of water are released?</p>",
+   opts:[["119",true," One per peptide bond, and 120 residues have 119 bonds."],["120",false," Count the bonds between residues."],["240",false," Only one water per bond."],["0",false," Each peptide bond releases water."]], terms:["peptide-bond","condensation"]},
+  {type:"mcq", title:"Not in the bond", q:"<p>Which part of the amino acids takes no part in forming a peptide bond?</p>",
+   opts:[["The R groups",true," Your notes: R groups are not involved in the peptide bond."],["The carboxyl group",false," It gives the C of the bond."],["The amino group",false," It gives the N of the bond."],["The water molecule",false," Water is released by the reaction."]], terms:["r-group","peptide-bond"]}
+  ]},
+
+{ id:"structure", title:"Four levels of structure", pages:"pp. 72–74", blurb:"Primary, secondary, tertiary and quaternary structure, and the bonds that hold each one.",
+  terms:["levels","conformation","primary-structure","secondary-structure","alpha-helix","beta-sheet","tertiary-structure","quaternary-structure","subunit","disulfide"],
+  wrap:"Sequence (1°) sets the helices and sheets (2°), the whole fold (3°) and how subunits fit (4°). Next: the code that sets the sequence.",
+  steps:[
+  {type:"custom", title:"From a chain to a working protein", render:api=>simLevels(api), terms:["primary-structure","secondary-structure","tertiary-structure","quaternary-structure"]},
+  {type:"custom", title:"Fold a protein", render:api=>simFold(api), terms:["tertiary-structure","hydrophobic-aa","disulfide"]},
+  {type:"sort", title:"What holds each level?", q:"<p>Your notes mark this one: what forms each structure? Sort them.</p>", bins:["Primary","Secondary","Tertiary and quaternary"],
+   items:[["Peptide bonds along the backbone",0],["H-bonds between backbone C=O and N–H",1],["The α helix and β sheet",1],["Hydrophobic R groups clustering",2],["Ionic bonds between charged R groups",2],["Disulfide bonds between cysteines",2]], terms:["primary-structure","secondary-structure","tertiary-structure"]},
+  {type:"mcq", title:"The α helix", q:"<p>In an α helix, each carbonyl group hydrogen-bonds with the amide group of which amino acid?</p>",
+   opts:[["The fourth one along",true," That's what makes a stable, right-handed helix."],["The one right next to it",false," Neighbours are joined by the peptide bond itself."],["One on a different polypeptide",false," That would be between subunits."],["Its own R group",false," R groups aren't involved in secondary structure."]], terms:["alpha-helix"]},
+  {type:"mcq", title:"Two different subunits", q:"<p>A protein is made of two different polypeptide chains. What is it called, and which level describes it?</p>",
+   opts:[["A heterodimer; quaternary structure",true," Two identical chains would make a homodimer."],["A homodimer; quaternary structure",false," Homo means same."],["A heterodimer; tertiary structure",false," Tertiary describes one polypeptide."],["A β sheet; secondary structure",false," A β sheet is within one chain."]], terms:["subunit","quaternary-structure"]},
+  {type:"mcq", title:"One swap", q:"<p>How can a single amino acid substitution drastically change a protein's function?</p>",
+   opts:[["The new R group can change how the chain folds (2°, 3°, 4°), and shape decides function",true," For example, a hydrophobic residue on the surface, or a lost cysteine cross-link."],["It changes the protein's peptide bonds into hydrogen bonds",false," The backbone bonds stay the same."],["It stops the gene from being transcribed",false," A substitution changes the protein, not whether the gene is read."],["It can't; one amino acid is too small to matter",false," Primary structure determines the rest."]], terms:["primary-structure","tertiary-structure"]}
+  ]},
+
+{ id:"code", title:"Codons and the genetic code", pages:"pp. 75–76, 78", blurb:"The central dogma, codons, reading frames, and reading the code table.",
+  terms:["central-dogma","translation","mrna","codon","reading-frame","genetic-code","redundant","start-codon","stop-codon"],
+  wrap:"mRNA is read three bases at a time, 5′ to 3′, starting from AUG; 64 codons code for 20 amino acids plus stop. Next: the machines that read it.",
+  steps:[
+  {type:"review", title:"Translation in the central dogma", fig:figDogma5, cap:"<b>Figure 5.1</b> The central dogma, with codons. (Notes p. 75, Fig 5.8)",
+   text:`<p>Recall the [[central-dogma|central dogma]]. In transcription, DNA is the template for mRNA. In [[translation|translation]], the final stage, the sequence of bases in the [[mrna|mRNA]] specifies the order of amino acids.</p><p>A [[codon|codon]] is a group of three adjacent nucleotides that codes for one amino acid. Codons are a nonoverlapping series of triplets.</p>`,
+   terms:["central-dogma","mrna","codon","translation","protein"]},
+  {type:"custom", title:"How would you read this?", render:api=>simFrame(api), terms:["reading-frame","codon"]},
+  {type:"custom", title:"Read the code", render:api=>simDecode(api), terms:["genetic-code","codon","redundant"]},
+  {type:"mcq", title:"Redundant", q:"<p>Leucine is coded by UUA, UUG, CUU, CUC, CUA and CUG. What property of the genetic code does this show?</p>",
+   opts:[["It is redundant (degenerate): many amino acids have more than one codon",true,""],["It is overlapping",false," Codons don't overlap."],["It has more amino acids than codons",false," 64 codons, 20 amino acids."],["Leucine is a stop codon",false," There are three stop codons: UAA, UAG, UGA."]], terms:["redundant","genetic-code"]},
+  {type:"mcq", title:"Start and stop", q:"<p>Which statement about AUG and UAA is right?</p>",
+   opts:[["AUG starts translation with methionine; UAA stops it and codes for no amino acid",true,""],["Both code for methionine",false," UAA is a stop codon."],["AUG stops translation; UAA starts it",false," Reversed."],["They are read 3′ to 5′",false," mRNA is read 5′ to 3′."]], terms:["start-codon","stop-codon"]}
+  ]},
+
+{ id:"machines", title:"Ribosomes and tRNAs", pages:"pp. 75–77", blurb:"The ribosome's A, P and E sites, the tRNA cloverleaf, anticodons, and charging tRNAs.",
+  terms:["ribosome","sites","trna","anticodon","synthetase","charged"],
+  wrap:"Ribosomes have A, P and E sites; tRNAs carry amino acids on their CCA end and read codons with their anticodons; synthetases charge them. Next: translation itself.",
+  steps:[
+  {type:"review", title:"The protein factory", fig:figRibosome, cap:"<b>Figure 6.0</b> Ribosome structure. (Notes p. 76, Fig 5.10)",
+   text:`<p>Translation needs mRNA, [[ribosome|ribosomes]], tRNAs, aminoacyl tRNA synthetases, and initiation, elongation and release factors.</p><p>Ribosomes are the protein factories: RNA plus protein, in a small and a large subunit. Eukaryotic ribosomes are larger than prokaryotic ones. The mRNA runs through the middle, and the ribosome moves along it 5′ to 3′.</p><p>Three [[sites|sites]] hold tRNAs: <b>A</b> (aminoacyl) where a charged tRNA enters, <b>P</b> (peptidyl) where the growing chain is held, and <b>E</b> (exit) where the empty tRNA leaves.</p>`,
+   terms:["ribosome","sites","mrna"]},
+  {type:"review", title:"Transfer RNA", fig:()=>figTRNA("UAC","Met"), cap:"<b>Figure 6.1</b> A tRNA carrying methionine. (Notes p. 76, Fig 5.11)",
+   text:`<p>A [[trna|tRNA]] base pairs with itself into a cloverleaf. It has two key sites: the 3′–OH of its 5′-CCA-3′ end, where the amino acid attaches, and three bases in the anticodon loop, the [[anticodon|anticodon]], which pairs with the codon.</p><p>Pairing is antiparallel: the first (5′) base of the codon pairs with the last (3′) base of the anticodon. Codon 5′-AUG-3′ pairs with anticodon 3′-UAC-5′.</p>`,
+   terms:["trna","anticodon","charged"]},
+  {type:"custom", title:"Charge the tRNAs", render:api=>simCharge(api), terms:["synthetase","anticodon","charged"]},
+  {type:"mcq", title:"Which site?", fig:figRibosome, cap:"<b>Figure 6.0</b> The ribosome.", q:"<p>An empty tRNA has just given up its amino acid. Which site does it leave from?</p>",
+   opts:[["The E (exit) site",true,""],["The A site",false," Charged tRNAs enter at A."],["The P site",false," P holds the tRNA with the growing chain."],["The small subunit",false," All three sites are in the large subunit."]], terms:["sites"]}
+  ]},
+
+{ id:"translate", title:"Translation", pages:"pp. 78–80", blurb:"Initiation at the 5′ cap, elongation through the A, P and E sites, and termination at a stop codon.",
+  terms:["initiation","initiation-factors","start-codon","elongation","peptidyl-transferase","termination","release-factor","stop-codon"],
+  wrap:"Initiation finds AUG, elongation adds one amino acid per codon, and termination releases the chain at a stop codon. Next: what's different in prokaryotes.",
+  steps:[
+  {type:"order", title:"Three stages", q:"<p>Put the stages of translation in order.</p>",
+   items:["Initiation: AUG is recognized and methionine is the first amino acid","Elongation: each next amino acid is added to the growing chain","Termination: a stop codon is reached and the chain is released"], terms:["initiation","elongation","termination"]},
+  {type:"custom", title:"Drive the ribosome", render:api=>simRibosome(api), terms:["initiation","elongation","termination","sites"]},
+  {type:"order", title:"One round of elongation", q:"<p>Put one round of elongation in order (notes p. 79).</p>",
+   items:["A charged tRNA enters the A site and pairs with the next codon","The chain is transferred from the P-site tRNA to the amino acid in the A site, forming a peptide bond","The ribosome shifts one codon toward the 3′ end","The empty tRNA moves to the E site and leaves; the A site is free again"], terms:["elongation","sites","peptidyl-transferase"]},
+  {type:"mcq", title:"What makes the bond?", q:"<p>What catalyzes peptide bond formation in the ribosome?</p>",
+   opts:[["The peptidyl transferase centre, made of rRNA, between the A and P sites",true,""],["The aminoacyl tRNA synthetase",false," That attaches amino acids to tRNAs."],["The release factor",false," That ends translation."],["The 5′ cap",false," The cap is where eukaryotic initiation begins."]], terms:["peptidyl-transferase"]}
+  ]},
+
+{ id:"prokeuk", title:"Prokaryotes vs eukaryotes", pages:"pp. 79–80", blurb:"Cap scanning vs the Shine-Dalgarno sequence, and polycistronic mRNA.",
+  terms:["shine-dalgarno","polycistronic","initiation"],
+  wrap:"Elongation and termination are the same; initiation differs: eukaryotes start at the 5′ cap and scan, prokaryotes start at Shine-Dalgarno sequences, so one prokaryotic mRNA can make several proteins. Next: what happens after translation.",
+  steps:[
+  {type:"brief", title:"Same machine, different start", fig:figInit, cap:"<b>Figure 8.1</b> Translation in eukaryotes and prokaryotes. (Notes p. 80, Fig 5.17)", text:`<p>Elongation and termination are similar in prokaryotes and eukaryotes. Initiation differs.</p><p><b>Eukaryotes:</b> the initiation complex forms at the 5′ cap, scans for the first AUG, and makes one polypeptide.</p><p><b>Prokaryotes:</b> mRNA has no 5′ cap. The ribosome binds internal [[shine-dalgarno|Shine-Dalgarno sequences]] (5′-AGGAGGU-3′) and starts at the next AUG. One mRNA can carry several genes, a [[polycistronic|polycistronic mRNA]], making several polypeptides.</p>`, terms:["shine-dalgarno","polycistronic"]},
+  {type:"sort", title:"Prokaryote or eukaryote?", q:"<p>Sort each feature of translation.</p>", bins:["Prokaryotes","Eukaryotes","Both"],
+   items:[["Ribosome binds a Shine-Dalgarno sequence",0],["One mRNA can make several polypeptides",0],["Ribosome binds the 5′ cap and scans",1],["Larger ribosomes",1],["Starts at an AUG codon",2],["Elongation through A, P and E sites",2],["Ends at UAA, UAG or UGA",2]], terms:["shine-dalgarno","polycistronic","initiation"]},
+  {type:"mcq", title:"Why no cap?", q:"<p>Why can't prokaryotic ribosomes find the start by scanning from a 5′ cap?</p>",
+   opts:[["Prokaryotic mRNA has no 5′ cap; RNA processing like capping happens in eukaryotes",true,""],["Prokaryotes have no ribosomes",false," They do; they're smaller."],["Prokaryotic mRNA has no AUG",false," Translation still starts at AUG."],["Their mRNA is read 3′ to 5′",false," All mRNA is read 5′ to 3′."]], terms:["shine-dalgarno"]}
+  ]},
+
+{ id:"after", title:"Regulation and sorting", pages:"pp. 81–82", blurb:"Levels of gene regulation, post-translational modification, signal sequences and SRP.",
+  terms:["gene-regulation","ptm","sorting","signal-sequence","srp","signal-anchor","er-fates"],
+  wrap:"Expression is controlled from DNA access to protein activation, and signal sequences decide where each protein goes. Last: one gene, start to finish.",
+  steps:[
+  {type:"order", title:"Control points", q:"<p>Not every gene is expressed all the time. Put the levels of regulation in the order a gene passes through them.</p>",
+   items:["DNA accessibility","Transcription factors","RNA processing","Post-translational modification"], after:" Many proteins are made inactive and switched on later, for example by cleavage or phosphorylation.", terms:["gene-regulation","ptm"]},
+  {type:"custom", title:"Read the address label", render:api=>simSort(api), terms:["sorting","signal-sequence"]},
+  {type:"order", title:"The SRP pathway", q:"<p>A protein will be secreted. Put the steps in order (notes p. 82, Fig 5.20).</p>",
+   items:["Translation begins on a free ribosome in the cytosol","SRP binds the amino-terminal signal sequence and halts translation","SRP docks on the SRP receptor on the ER membrane","The ribosome is moved to a channel, SRP leaves, and translation resumes","The chain is threaded into the ER lumen and the signal sequence is cleaved"], terms:["srp","signal-sequence"]},
+  {type:"mcq", title:"Ending up in a membrane", q:"<p>A protein made on the rough ER ends up spanning the ER membrane instead of entering the lumen. What sequence did it have?</p>",
+   opts:[["A signal-anchor sequence",true," The channel releases it sideways into the membrane."],["No signal sequence",false," It would have stayed in the cytosol."],["An internal nuclear signal",false," That targets the nucleus."],["A Shine-Dalgarno sequence",false," That's in prokaryotic mRNA, not proteins."]], terms:["signal-anchor","er-fates"]}
+  ]},
+
+{ id:"finale", title:"One gene, start to finish", pages:"pp. 68–84", blurb:"The finale: take one gene through transcription, translation and sorting, one call at a time.",
+  terms:["central-dogma","codon","anticodon","start-codon","stop-codon","srp"],
+  wrap:"From gene to finished, delivered protein. Try the codon desk for endless practice, or take the mini exam.",
+  steps:[
+  {type:"custom", title:"One gene, start to finish", render:api=>simFinale5(api), terms:["central-dogma","codon"]}
+  ]}
+];
+
+/* ============ sim helpers ============ */
+function makeCanvas(W,H,label){
+  const cv = h("canvas",{role:"img","aria-label":label||""}); const dpr = Math.min(2, window.devicePixelRatio||1);
+  cv.width=W*dpr; cv.height=H*dpr; const ctx=cv.getContext("2d"); ctx.scale(dpr,dpr); return {cv,ctx,W,H};
+}
+function label(ctx,t,x,y,opts={}){ ctx.fillStyle=opts.col||"#1c2830"; ctx.font=`${opts.it?"italic ":""}${opts.w||400} ${opts.s||13}px Source Sans 3, Arial`; ctx.textAlign=opts.a||"left"; ctx.textBaseline="alphabetic"; ctx.fillText(t,x,y); }
+function inlineMCQ(host, q, opts, api, key, terms, onRight){
+  host.append(h("p",{style:"margin-top:10px"},h("b",{},q)));
+  const box=h("div",{class:"opts"}), fb=h("div"); let first=true, done=false;
+  shuffle(opts).forEach(o=>{ const b=h("button",{class:"opt"},o[0]); b.addEventListener("click",()=>{
+    if(done) return; if(first){ api.gradeKey(key,o[1],terms); first=false; }
+    fb.innerHTML="";
+    if(o[1]){ done=true; b.classList.add("right"); $$(".opt",box).forEach(x=>x.disabled=true); fb.append(h("div",{class:"fb ok",html:"<b>Correct.</b>"+o[2]})); onRight&&onRight(); }
+    else { b.classList.add("wrong"); b.disabled=true; fb.append(h("div",{class:"fb bad",html:"<b>Not quite.</b>"+o[2]+" Try another answer."})); }
+  }); box.append(b); });
+  host.append(box,fb);
+}
+
+
+/* ============ 4 levels of protein structure (notes pp. 72–74) ============ */
+const LEVELS=[
+ {n:"Primary structure",term:"primary-structure",d:"The linear sequence of amino acids, from the amino end (N-terminus) to the carboxyl end (C-terminus), joined by peptide bonds. It is coded for by the genome and determines every level above it."},
+ {n:"Secondary structure",term:"secondary-structure",d:"Local shapes of the backbone: the α helix and the β sheet. Held by hydrogen bonds between backbone functional groups (C=O of one amino acid and N–H of another). R groups are not involved."},
+ {n:"Tertiary structure",term:"tertiary-structure",d:"The 3-D shape of one whole polypeptide. Hydrophobic R groups are buried inside, hydrophilic ones face the water, and R groups bond to each other: hydrogen bonds, hydrophobic interactions, ionic bonds and disulfide bonds."},
+ {n:"Quaternary structure",term:"quaternary-structure",d:"Two or more polypeptide subunits held together by the same kinds of bonds as tertiary structure. Two identical subunits: a homodimer. Two different ones: a heterodimer."}];
+function levelSVG(L){
+  const W=740,H=330; let s=`<svg viewBox="0 0 ${W} ${H}" role="img" aria-label="${LEVELS[L].n}"><rect width="${W}" height="${H}" fill="#fff"/>`;
+  const col=i=>["#f2c94c","#8fd19e","#7fb2e8","#e88f8f","#f2c94c","#c7a0e0"][i%6];
+  if(L===0){ const seq=["Met","Gly","Ser","Leu","Lys","Ala","Phe","Asp","Val","Cys","Thr","Glu","Ile","His"];
+    for(let i=0;i<14;i++){ const x=50+i*47, y=165+(i%2?10:-10); if(i) s+=`<g data-term="peptide-bond"><line x1="${x-47}" y1="${165+((i-1)%2?10:-10)}" x2="${x}" y2="${y}" stroke="#555" stroke-width="3"/></g>`;
+      s+=`<line x1="${x}" y1="${y}" x2="${x}" y2="${y+(i%2?38:-38)}" stroke="#999" stroke-width="2"/><circle cx="${x}" cy="${y+(i%2?44:-44)}" r="7" fill="${col(i)}" stroke="#777"/>`;
+      s+=`<g data-term="amino-acid"><circle cx="${x}" cy="${y}" r="17" fill="#fff" stroke="#555"/><text x="${x}" y="${y+4}" text-anchor="middle" font-size="10" font-weight="700" font-family="Arial">${seq[i]}</text></g>`; }
+    s+=`<g data-term="n-terminus"><text class="lbl" x="34" y="98" font-weight="700">N-terminus (H₃N⁺–)</text><text class="lbl" x="${W-30}" y="262" text-anchor="end" font-weight="700">(–COO⁻) C-terminus</text></g>`;
+    s+=`<text class="lbl sm" x="${W/2}" y="300" text-anchor="middle">Small circles: R groups, alternating sides of the chain</text>`; }
+  if(L===1){ let d=""; for(let t=0;t<=Math.PI*8;t+=0.12){ const x=60+t*12, y=165+48*Math.sin(t); d+=(t===0?"M":"L")+x.toFixed(1)+" "+y.toFixed(1); }
+    s+=`<g data-term="alpha-helix"><path d="${d}" stroke="#d8463c" stroke-width="10" fill="none" stroke-linecap="round"/></g>`;
+    for(let k=0;k<6;k++){ const x=80+k*48; s+=`<line x1="${x}" y1="128" x2="${x+20}" y2="200" stroke="#4a7fd0" stroke-width="2" stroke-dasharray="4 3"/>`; }
+    s+=`<text class="lbl" x="200" y="270" text-anchor="middle" font-weight="700">α helix (right-handed)</text><text class="lbl sm" x="200" y="288" text-anchor="middle">C=O of each amino acid H-bonds to N–H four along</text>`;
+    for(let r=0;r<3;r++){ const y=90+r*60, dir=r%2?-1:1, x0=430, x1=700; s+=`<g data-term="beta-sheet"><path d="M${dir>0?x0:x1} ${y} L${dir>0?x1-24:x0+24} ${y} L${dir>0?x1-24:x0+24} ${y-12} L${dir>0?x1:x0} ${y+6} L${dir>0?x1-24:x0+24} ${y+24} L${dir>0?x1-24:x0+24} ${y+12} L${dir>0?x0:x1} ${y+12} Z" fill="#f2c94c" stroke="#b8901c" stroke-width="1.5"/></g>`; if(r<2) for(let k=0;k<5;k++) s+=`<line x1="${450+k*50}" y1="${y+14}" x2="${450+k*50}" y2="${y+58}" stroke="#4a7fd0" stroke-width="2" stroke-dasharray="4 3"/>`; }
+    s+=`<text class="lbl" x="565" y="270" text-anchor="middle" font-weight="700">β sheet (antiparallel here)</text><text class="lbl sm" x="565" y="288" text-anchor="middle">C=O of one strand H-bonds to N–H of the next</text><text class="lbl sm" x="370" y="36" text-anchor="middle" fill="#4a7fd0" font-weight="700">Blue dashes: hydrogen bonds between backbone groups, not R groups</text>`; }
+  if(L===2){ s+=`<g data-term="tertiary-structure"><path d="M210 90 C300 40 420 60 470 120 C540 200 470 280 380 270 C300 262 260 300 200 250 C140 200 130 130 210 90 Z" fill="#eef4fb" stroke="#7a8a96" stroke-width="2"/></g>`;
+    let d="M190 110"; const pts=[[240,80],[300,120],[260,170],[330,190],[400,110],[450,170],[400,240],[320,240],[260,220],[200,200],[180,150]]; pts.forEach(p=>d+=` Q${p[0]+20} ${p[1]-25} ${p[0]} ${p[1]}`);
+    s+=`<path d="${d}" stroke="#d8463c" stroke-width="7" fill="none"/>`;
+    [[300,150],[320,170],[340,150],[310,195]].forEach(p=>s+=`<g data-term="hydrophobic-aa"><circle cx="${p[0]}" cy="${p[1]}" r="10" fill="#f2c94c" stroke="#b8901c"/></g>`);
+    [[210,96],[470,130],[380,268],[150,180]].forEach(p=>s+=`<g data-term="hydrophilic-aa"><circle cx="${p[0]}" cy="${p[1]}" r="9" fill="#7fb2e8" stroke="#2c5aa0"/></g>`);
+    s+=`<g data-term="disulfide"><line x1="260" y1="170" x2="250" y2="218" stroke="#e2c341" stroke-width="4"/><text class="lbl sm" x="214" y="196">S–S</text></g>`;
+    s+=`<g data-term="hydrophilic-aa"><text x="430" y="166" font-size="16" font-weight="700" fill="#4a7fd0" font-family="Arial">+</text><text x="446" y="186" font-size="18" font-weight="700" fill="#d8463c" font-family="Arial">−</text></g>`;
+    s+=`<g class="lbls">${lab("Hydrophobic R groups\nburied inside","hydrophobic-aa",520,60,342,150)}${lab("Hydrophilic R groups\non the surface","hydrophilic-aa",40,40,206,92)}${lab("Disulfide bond","disulfide",60,290,252,200)}${lab("Ionic bond between\ncharged R groups","hydrophilic-aa",560,220,446,180)}</g>`; }
+  if(L===3){ const sub=(x,y,c)=>`<g data-term="subunit"><ellipse cx="${x}" cy="${y}" rx="74" ry="58" fill="${c}" stroke="#555" stroke-width="2"/><path d="M${x-48} ${y-10} q20 -30 40 0 t40 0 t20 20" stroke="#555" stroke-width="3" fill="none" opacity=".5"/></g>`;
+    s+=sub(130,160,"#a6c8f4")+sub(272,160,"#a6c8f4")+sub(470,160,"#a6c8f4")+sub(612,160,"#f4a6a6");
+    s+=`<text class="lbl" x="200" y="260" text-anchor="middle" font-weight="700">Homodimer: two identical subunits</text><text class="lbl" x="540" y="260" text-anchor="middle" font-weight="700">Heterodimer: two different subunits</text>`; }
+  s+=`<text class="lbl" x="16" y="26" font-weight="700" font-size="16">${L+1}°. ${LEVELS[L].n}</text></svg>`; return s;
+}
+function simLevels(api){
+  let L=0, max=0; const host=h("div"), info=h("div",{class:"fb"}), cnt=h("p",{class:"readout"});
+  const draw=()=>{ host.innerHTML=""; const f=plate(levelSVG(L),`<b>Figure 4.1</b> Levels of protein structure, level ${L+1} of 4. (Notes pp. 72–74, Figs 5.5 to 5.7)`); host.append(f); bindTerms(f); info.innerHTML=`<b>${LEVELS[L].n}</b>${LEVELS[L].d}`; cnt.textContent=`Level ${L+1} of 4`; max=Math.max(max,L); if(max===3) api.unlock(); };
+  api.plateHost.innerHTML=""; api.plateHost.append(host);
+  api.panel.append(h("p",{class:"kicker"},"Step through it"), h("h2",{},"From a chain to a working protein"),
+    h("p",{},"The sequence of amino acids sets how the chain folds. Fold it one level at a time."), cnt, info,
+    h("div",{class:"row"},h("button",{class:"btn ghost",onclick:()=>{ if(L>0){L--;draw();} }},"Previous level"),h("button",{class:"btn",onclick:()=>{ if(L<3){L++;draw();} }},"Fold further")));
+  api.lock(); draw();
+}
+
+/* ============ Peptide builder (notes p. 71) ============ */
+const PB=[["Val","V","np"],["Gly","G","sp"],["Ala","A","np"],["His","H","ba"],["Ser","S","po"],["Cys","C","sp"],["Leu","L","np"],["Asp","D","ac"],["Lys","K","ba"],["Pro","P","sp"]];
+const PBCOL={np:"#dcefd6",po:"#d9e8f7",ba:"#fbefc4",ac:"#f8dbe4",sp:"#efe6f8"};
+function peptideSVG(chain){
+  const W=760,H=300; let s=`<svg viewBox="0 0 ${W} ${H}" role="img" aria-label="A peptide: ${chain.map(c=>c[0]).join("-")||"empty"}"><rect width="${W}" height="${H}" fill="#fff"/>`;
+  if(!chain.length) s+=`<text class="lbl" x="${W/2}" y="150" text-anchor="middle">Add an amino acid to start the chain.</text>`;
+  const gap=Math.min(80,(W-140)/Math.max(1,chain.length)), x0=80;
+  chain.forEach((c,i)=>{ const x=x0+i*gap, y=150, up=i%2===0;
+    if(i) s+=`<g data-term="peptide-bond"><line x1="${x-gap+20}" y1="${y}" x2="${x-20}" y2="${y}" stroke="#d8463c" stroke-width="4"/></g>`;
+    s+=`<g data-term="r-group"><line x1="${x}" y1="${y+(up?-20:20)}" x2="${x}" y2="${y+(up?-52:52)}" stroke="#888" stroke-width="2"/><circle cx="${x}" cy="${y+(up?-66:66)}" r="15" fill="${PBCOL[c[2]]}" stroke="#777"/><text x="${x}" y="${y+(up?-62:70)}" text-anchor="middle" font-size="11" font-weight="700" font-family="Arial">${c[1]}</text></g>`;
+    s+=`<g data-term="amino-acid"><circle cx="${x}" cy="${y}" r="20" fill="#fff" stroke="#55606a" stroke-width="2"/><text x="${x}" y="${y+4}" text-anchor="middle" font-size="11" font-weight="700" font-family="Arial">${c[0]}</text></g>`; });
+  if(chain.length){ s+=`<g data-term="n-terminus"><text x="${x0-26}" y="156" text-anchor="end" font-family="Source Sans 3,Arial" font-size="15" font-weight="700" fill="#2c5aa0">H₃N⁺</text><text class="lbl sm" x="${x0-26}" y="178" text-anchor="end">N-terminus</text>`;
+    const xe=x0+(chain.length-1)*gap; s+=`<text x="${xe+26}" y="156" font-family="Source Sans 3,Arial" font-size="15" font-weight="700" fill="#a5532c">COO⁻</text><text class="lbl sm" x="${xe+26}" y="178">C-terminus</text></g>`; }
+  s+=`<text class="lbl" x="20" y="${H-36}">Three-letter: <tspan font-weight="700">${chain.map(c=>c[0]).join("–")||"…"}</tspan>    One-letter: <tspan font-weight="700">${chain.map(c=>c[1]).join("–")||"…"}</tspan></text>`;
+  s+=`<text class="lbl" x="20" y="${H-14}">Peptide bonds: <tspan font-weight="700">${Math.max(0,chain.length-1)}</tspan>    Water released: <tspan font-weight="700">${Math.max(0,chain.length-1)}</tspan></text>`;
+  s+=`</svg>`; return s;
+}
+function simPeptide(api){
+  let chain=[], done=false; const host=h("div"), note=h("div",{class:"fb"},"Your notes write a primary structure as Val–Gly–Ala–His, or V–G–A–H. Build that peptide, starting at the N-terminus."), q=h("div");
+  api.plateHost.innerHTML=""; api.plateHost.append(host);
+  function draw(){ host.innerHTML=""; const f=plate(peptideSVG(chain),"<b>Figure 3.1</b> Building a peptide. Each new amino acid joins the C-terminus by a dehydration reaction. (Notes p. 71, Fig 5.4)"); host.append(f); bindTerms(f);
+    const str=chain.map(c=>c[1]).join("");
+    if(!done && str==="VGAH"){ done=true; note.innerHTML=rich("<b>That's V–G–A–H.</b> Four amino acids, three [[peptide-bond|peptide bonds]], three waters released. The free amino group is the [[n-terminus|N-terminus]] and the free carboxyl group is the C-terminus. The R groups alternate sides and are not part of the bonds."); bindRich(note);
+      inlineMCQ(q,"Read backwards, this chain would be H–A–G–V. Is that the same peptide?",[["No: sequences have direction, written N-terminus to C-terminus",1," The backbone repeats N–C–C, so the two ends are different."],["Yes: the same four amino acids",0," Same amino acids, but the order from the N-terminus is different, so it's a different primary structure."],["Only if it's a homodimer",0," Homodimer describes quaternary structure."],["Yes, because peptide bonds are symmetric",0," The bond links a carboxyl C to an amino N, so it has direction."]],api,"dir",["n-terminus","primary-structure"],()=>api.unlock()); }
+    else if(!done && str.length>=4 && !"VGAH".startsWith(str)) { note.innerHTML="That isn't V–G–A–H yet. Remove the last amino acid or start over."; } }
+  const pad=h("div",{class:"row",style:"gap:6px"}); PB.forEach(c=>pad.append(h("button",{class:"mini",onclick:()=>{ if(chain.length<9){ chain.push(c); draw(); } }},`${c[0]} (${c[1]})`)));
+  api.panel.append(h("p",{class:"kicker"},"Build it"), h("h2",{},"Make a polypeptide"), h("p",{},"Click amino acids to add them to the C-terminus end of the chain."), pad,
+    h("div",{class:"row",style:"margin:8px 0"},h("button",{class:"btn ghost",onclick:()=>{ chain.pop(); draw(); }},"Remove last"),h("button",{class:"btn ghost",onclick:()=>{ chain=[]; draw(); }},"Start over")), note, q);
+  api.lock(); draw();
+}
+
+/* ============ Folding in water (notes pp. 70–71, 74) ============ */
+const FOLDSEQ="KSLVAEGCDLFKAGSVLPIAWCEKT"; // hydrophilic ends, hydrophobic middle stretches, two cysteines
+const RCLS=c=>("AVLIMFWY".includes(c)?"np":"STNQ".includes(c)?"po":"KRH".includes(c)?"ba":"DE".includes(c)?"ac":"sp");
+function simFold(api){
+  const W=760,H=430; const {cv,ctx}=makeCanvas(W,H,"A polypeptide folding in water");
+  const S={seq:FOLDSEQ.split(""), t:0, temp:0.25, folding:false, bonds:false, mutated:-1, done:{fold:false,heat:false,mut:false}};
+  let B=[]; function init(){ B=S.seq.map((c,i)=>({c,x:120+i*21,y:H/2+Math.sin(i*0.9)*14,vx:0,vy:0})); }
+  init();
+  const L=22;
+  function step(dt){
+    const n=B.length, cx=B.reduce((a,b)=>a+b.x,0)/n, cy=B.reduce((a,b)=>a+b.y,0)/n; const att=S.temp>0.5?Math.max(0,1-(S.temp-0.5)*3):1, g=1.7*att;
+    for(let k=0;k<3;k++){
+    for(let i=0;i<n;i++){ const b=B[i]; let fx=0, fy=0;
+      if(i>0){ const a=B[i-1], dx=a.x-b.x, dy=a.y-b.y, d=Math.hypot(dx,dy)||1; const f=(d-L)*8; fx+=dx/d*f; fy+=dy/d*f; }
+      if(i<n-1){ const a=B[i+1], dx=a.x-b.x, dy=a.y-b.y, d=Math.hypot(dx,dy)||1; const f=(d-L)*8; fx+=dx/d*f; fy+=dy/d*f; }
+      if(i>1 && b.c!=="P"){ const a=B[i-2], dx=a.x-b.x, dy=a.y-b.y, d=Math.hypot(dx,dy)||1; if(d<L*1.2){ fx-=dx/d*6; fy-=dy/d*6; } }
+      if(i>1 && b.c==="P"){ const a=B[i-2], dx=a.x-b.x, dy=a.y-b.y, d=Math.hypot(dx,dy)||1; const f=(d-L*1.95)*5; fx+=dx/d*f; fy+=dy/d*f; }
+      for(let j=0;j<n;j++){ if(Math.abs(i-j)<2) continue; const a=B[j], dx=a.x-b.x, dy=a.y-b.y, d=Math.hypot(dx,dy)||1;
+        if(d<18){ fx-=dx/d*(18-d)*10; fy-=dy/d*(18-d)*10; }
+        if(S.folding){ const ci=RCLS(b.c), cj=RCLS(a.c);
+          if(ci==="np"&&cj==="np"&&d<90){ fx+=dx/d*2.2*g; fy+=dy/d*2.2*g; }
+          if(((ci==="ba"&&cj==="ac")||(ci==="ac"&&cj==="ba"))&&d<70){ fx+=dx/d*1.4*g; fy+=dy/d*1.4*g; }
+          if(b.c==="C"&&a.c==="C"&&d<120){ fx+=dx/d*2.5*g; fy+=dy/d*2.5*g; } } }
+      if(S.folding){ const dx=cx-b.x, dy=cy-b.y, d=Math.hypot(dx,dy)||1, cl=RCLS(b.c);
+        if(cl==="np"){ fx+=dx/d*3.2*g; fy+=dy/d*3.2*g; } else if(cl!=="sp"&&d<60){ fx-=dx/d*1.6*g; fy-=dy/d*1.6*g; } }
+      // heat: random kicks
+      const T=S.temp*S.temp*S.temp*420; fx+=(Math.random()-.5)*T; fy+=(Math.random()-.5)*T;
+      b.vx=(b.vx+fx*dt*40)*0.82; b.vy=(b.vy+fy*dt*40)*0.82; }
+    B.forEach(b=>{ b.x+=b.vx*dt; b.y+=b.vy*dt; b.x=Math.max(20,Math.min(W-20,b.x)); b.y=Math.max(40,Math.min(H-40,b.y)); }); }
+  }
+  function cysPair(){ const c=B.map((b,i)=>b.c==="C"?i:-1).filter(i=>i>=0); if(c.length<2) return null; const a=B[c[0]], b=B[c[1]]; return Math.hypot(a.x-b.x,a.y-b.y)<30?[a,b]:null; }
+  function compact(){ const n=B.length, cx=B.reduce((a,b)=>a+b.x,0)/n, cy=B.reduce((a,b)=>a+b.y,0)/n; return Math.sqrt(B.reduce((a,b)=>a+(b.x-cx)**2+(b.y-cy)**2,0)/n); }
+  function buried(){ const n=B.length, cx=B.reduce((a,b)=>a+b.x,0)/n, cy=B.reduce((a,b)=>a+b.y,0)/n; const np=B.filter(b=>RCLS(b.c)==="np"), ph=B.filter(b=>["po","ba","ac"].includes(RCLS(b.c))); const r=a=>a.reduce((s,b)=>s+Math.hypot(b.x-cx,b.y-cy),0)/a.length; return r(ph)-r(np); }
+  const COL={np:["#f2c94c","#b8901c"],po:["#9cc4ee","#2c5aa0"],ba:["#9ad1a5","#2f7d45"],ac:["#f1a3b8","#a5385a"],sp:["#d6c4ee","#6f4a90"]};
+  loop(dt=>{ S.t+=dt; step(dt);
+    ctx.fillStyle="#eaf4fb"; ctx.fillRect(0,0,W,H);
+    for(let i=0;i<60;i++){ const x=(i*97+S.t*14)%W, y=(i*53)%H; ctx.fillStyle="rgba(95,143,208,.18)"; ctx.beginPath(); ctx.arc(x,y,2.2,0,7); ctx.fill(); }
+    ctx.strokeStyle="#55606a"; ctx.lineWidth=3; ctx.beginPath(); B.forEach((b,i)=>i?ctx.lineTo(b.x,b.y):ctx.moveTo(b.x,b.y)); ctx.stroke();
+    const pr=cysPair(); if(pr){ ctx.strokeStyle="#d1a800"; ctx.lineWidth=5; ctx.setLineDash([]); ctx.beginPath(); ctx.moveTo(pr[0].x,pr[0].y); ctx.lineTo(pr[1].x,pr[1].y); ctx.stroke(); }
+    B.forEach((b,i)=>{ const cl=RCLS(b.c), [f,st]=COL[cl]; ctx.fillStyle=f; ctx.strokeStyle=i===S.mutated?"#c0392b":st; ctx.lineWidth=i===S.mutated?3.5:1.5; ctx.beginPath(); ctx.arc(b.x,b.y,10,0,7); ctx.fill(); ctx.stroke(); ctx.fillStyle="#1c2830"; ctx.font="700 10px Arial"; ctx.textAlign="center"; ctx.textBaseline="middle"; ctx.fillText(b.c,b.x,b.y+.5); });
+    ctx.textBaseline="alphabetic";
+    label(ctx,"N",B[0].x-4,B[0].y-16,{w:700,s:12,col:"#2c5aa0"}); label(ctx,"C",B[B.length-1].x-4,B[B.length-1].y-16,{w:700,s:12,col:"#a5385a"});
+    const sc=compact(); label(ctx,S.folding?(S.temp>0.75?"Too hot: the fold is shaking apart (denatured)":sc<70?"Folded: hydrophobic core inside"+(pr?", disulfide bond formed":""):"Folding…"):"Unfolded chain, just made",14,24,{w:700,s:15});
+    const keys=[["Hydrophobic","np"],["Polar","po"],["Basic +","ba"],["Acidic −","ac"],["Special","sp"]]; keys.forEach(([t,k],i)=>{ ctx.fillStyle=COL[k][0]; ctx.strokeStyle=COL[k][1]; ctx.beginPath(); ctx.arc(20+i*112,H-16,7,0,7); ctx.fill(); ctx.stroke(); label(ctx,t,32+i*112,H-11,{s:12}); });
+    if(S.folding && !S.done.fold && sc<70 && S.temp<0.5){ S.done.fold=true; say(); }
+  });
+  api.plateHost.innerHTML=""; api.plateHost.append(plate(cv,"<b>Figure 4.2</b> A polypeptide folding in water. Each bead is one amino acid, coloured by its R group. (Notes pp. 70–71, 74)"));
+  const note=h("div",{class:"fb"}), tasks=h("div");
+  function say(m){ if(m) note.innerHTML=rich(m); bindRich(note); tasks.innerHTML=""; tasks.append(h("b",{},"Tasks"),h("ul",{style:"margin:4px 0;padding-left:20px"},...[["fold","Let the chain fold"],["heat","Heat it until it unfolds, then cool it"],["mut","Swap one surface amino acid for a hydrophobic one"]].map(([k,t])=>h("li",{style:S.done[k]?"color:var(--ok);font-weight:600":""},(S.done[k]?"Done: ":"")+t)))); if(S.done.fold&&S.done.heat&&S.done.mut) api.unlock(); }
+  const go=h("button",{class:"btn"},"Put it in water"); go.onclick=()=>{ S.folding=true; say("Watch: the [[hydrophobic-aa|hydrophobic]] (yellow) R groups gather in the middle, away from water, held by weak van der Waals forces. [[hydrophilic-aa|Hydrophilic]] and charged R groups stay on the surface. The two [[cysteine|cysteines]] meet and form a [[disulfide|disulfide bond]]. That's tertiary structure, and it all comes from the sequence."); };
+  const temp=h("input",{type:"range",min:"0",max:"1",step:"0.01",value:"0.25","aria-label":"Temperature"}); let wasHot=false;
+  temp.oninput=()=>{ S.temp=+temp.value; if(S.temp>0.75){ wasHot=true; say("Heat makes the beads shake so hard that the weak bonds holding the fold break. The protein loses its shape (denatures), and with it its function."); } if(wasHot && S.temp<0.4 && !S.done.heat){ S.done.heat=true; say("Cooled down, the chain can fold back, because the information for the shape is in the sequence (primary structure)."); } };
+  const mut=h("button",{class:"btn ghost"},"Mutate a surface residue"); mut.onclick=()=>{ if(!S.folding){ say("Put it in water first."); return; } const i=S.seq.findIndex((c,k)=>c==="E"&&k>15); const k=i>=0?i:S.seq.lastIndexOf("K"); S.seq[k]="V"; B[k].c="V"; S.mutated=k; S.done.mut=true;
+    say("One change: a charged glutamic acid (E) on the surface became valine (V), which is hydrophobic. Now a water-fearing patch sits on the outside, so the protein may fold differently or stick to other proteins. One amino acid can change shape, and so function."); };
+  const reset=h("button",{class:"btn ghost"},"New chain"); reset.onclick=()=>{ S.seq=FOLDSEQ.split(""); S.folding=false; S.mutated=-1; S.temp=0.25; temp.value=0.25; init(); say("A fresh, unfolded chain."); };
+  api.panel.append(h("p",{class:"kicker"},"Try it"), h("h2",{},"Fold a protein"), h("p",{},"A new polypeptide comes off the ribosome. Drop it into water and watch the R groups decide its shape."), h("div",{class:"row"},go,mut,reset), h("div",{class:"ctl"},h("label",{},"Temperature"),temp), note, tasks);
+  say("Each bead is an amino acid. Yellow ones are hydrophobic. Press \"Put it in water\".");
+  api.lock();
+}
+
+/* ============ Reading frames (notes p. 76) ============ */
+function simFrame(api){
+  const TXT="ZWTHEBIGBOYSAWTHEMANRUN"; let off=0; const seen=new Set();
+  const host=h("div"), note=h("div",{class:"fb"}), q=h("div");
+  api.plateHost.innerHTML=""; api.plateHost.append(host);
+  function svg(){ const W=760,H=260; let s=`<svg viewBox="0 0 ${W} ${H}" role="img" aria-label="Reading frame ${off+1}"><rect width="${W}" height="${H}" fill="#fff"/>`;
+    const cw=30, x0=40; TXT.split("").forEach((c,i)=>{ const inT=i>=off, grp=Math.floor((i-off)/3); const fill=!inT?"#eef0f2":grp%2?"#f6e2bd":"#fdf3df";
+      s+=`<rect x="${x0+i*cw}" y="80" width="${cw-2}" height="42" rx="4" fill="${fill}" stroke="${inT?"#c9a24e":"#d7dbe0"}"/><text x="${x0+i*cw+14}" y="108" text-anchor="middle" font-family="IBM Plex Mono,Menlo,monospace" font-size="18" font-weight="600" fill="${inT?"#23282e":"#9aa3ab"}">${c}</text>`; });
+    const words=[]; for(let i=off;i+3<=TXT.length;i+=3) words.push(TXT.slice(i,i+3));
+    s+=`<g data-term="reading-frame"><text class="lbl" x="40" y="50" font-weight="700">Reading frame ${off+1}: start at letter ${off+1}</text></g>`;
+    s+=`<text x="40" y="180" font-family="IBM Plex Mono,Menlo,monospace" font-size="20" fill="#7f4f0a">${(off?TXT.slice(0,off)+" ":"")+words.join(" ")}</text>`;
+    s+=`<g data-term="codon"><text class="lbl" x="40" y="224">Read as nonoverlapping triplets, like codons.</text></g></svg>`; return s; }
+  function draw(){ host.innerHTML=""; const f=plate(svg(),"<b>Figure 5.2</b> The reading frame from your notes, p. 76."); host.append(f); bindTerms(f); seen.add(off);
+    note.innerHTML= off===2? rich("<b>Frame 3 makes sense:</b> ZW THE BIG BOY SAW THE MAN RUN. The ribosome has the same problem with mRNA: the [[reading-frame|reading frame]] it starts in decides which triplets it reads, and so which amino acids go in. Translation starts at AUG, which sets the frame.") : "This frame gives nonsense triplets. Try another starting point.";
+    bindRich(note);
+    if(seen.size===3 && !q.childElementCount) inlineMCQ(q,"An mRNA is 5′-AUGGCUUAA-3′. Read from AUG, how many codons and how many amino acids?",[["3 codons, 2 amino acids",1," AUG (Met), GCU (Ala), then UAA is a stop codon, which codes for no amino acid."],["3 codons, 3 amino acids",0," The last codon is a stop codon."],["9 codons, 9 amino acids",0," A codon is three nucleotides."],["2 codons, 2 amino acids",0," Nine nucleotides make three codons."]],api,"frame",["codon","stop-codon"],()=>api.unlock()); }
+  const seg=h("div",{class:"seg"}); [0,1,2].forEach(k=>{ const b=h("button",{"aria-pressed":String(k===0)},`Start at letter ${k+1}`); b.onclick=()=>{ off=k; $$("button",seg).forEach(x=>x.setAttribute("aria-pressed","false")); b.setAttribute("aria-pressed","true"); draw(); }; seg.append(b); });
+  api.panel.append(h("p",{class:"kicker"},"Try it"), h("h2",{},"How would you read this?"), h("p",{},"Your notes give a string with no spaces. Shift where you start reading until the triplets make sense."), seg, note, q);
+  api.lock(); draw();
+}
+
+/* ============ Decode an mRNA with the code table (notes Table 5.1) ============ */
+function simDecode(api){
+  const MRNA=["AUG","GUA","AGA","UUU","GGC","UAA"]; let i=0, picked=[], first=true, right=0;
+  const host=h("div"), body=h("div"); api.plateHost.innerHTML=""; api.plateHost.append(host);
+  function draw(){ host.innerHTML=""; const hi=new Set(i<MRNA.length?[MRNA[i]]:[]); const f=plate(figCode(hi),`<b>Figure 5.3</b> The genetic code. The highlighted codon is the one to translate. (Notes p. 78, Table 5.1)`); host.append(f);
+    $$("[data-codon]",f).forEach(g=>{ g.style.cursor="pointer"; g.addEventListener("click",()=>pick(g.dataset.codon)); });
+    body.innerHTML="";
+    body.append(h("p",{style:"font-family:IBM Plex Mono,Menlo,monospace;font-size:1.15rem;letter-spacing:.06em;margin:4px 0"},"5′ ",...MRNA.map((c,k)=>h("span",{style:`padding:2px 5px;border-radius:4px;margin-right:4px;${k===i?"background:#f2b33d;font-weight:700":k<i?"color:var(--ok)":""}`},c))," 3′"));
+    body.append(h("p",{style:"margin:6px 0"},h("b",{},"Protein so far: "),picked.length?"H₃N⁺– "+picked.join("–")+(i>=MRNA.length?" –COO⁻":""):"(none yet)"));
+    if(i<MRNA.length) body.append(h("p",{class:"muted small"},`Codon ${i+1}: find ${MRNA[i]} in the table and click it. First letter picks the row block, second the column, third the row inside the block.`));
+    else { body.append(h("div",{class:"fb ok",html:rich(`<b>Translated: Met–Val–Arg–Phe–Gly.</b> ${right} of ${MRNA.length} codons right on the first click. AUG started it (methionine first) and UAA, a [[stop-codon|stop codon]], ended it without adding an amino acid.`)})); bindRich(body); api.unlock(); } }
+  function pick(cod){ if(i>=MRNA.length) return; const ok=cod===MRNA[i]; if(first){ api.gradeKey("c"+i,ok,["codon","genetic-code"]); if(ok) right++; first=false; }
+    if(ok){ const a=CODE[cod]; if(a!=="*") picked.push(AA3[a]); i++; first=true; draw(); }
+    else { const fb=h("div",{class:"fb bad",html:`<b>That's ${cod} (${CODE[cod]==="*"?"Stop":AA3[CODE[cod]]}).</b> Look for ${MRNA[i]}.`}); $$(".fb.bad",body).forEach(x=>x.remove()); body.append(fb); } }
+  api.panel.append(h("p",{class:"kicker"},"Decode it"), h("h2",{},"Read the code"), h("div",{html:rich("<p>64 [[codon|codons]] specify 20 amino acids. Many amino acids have more than one codon, so the code is [[redundant|redundant (degenerate)]]. Your notes say you don't need to memorize the table, just use it.</p>")}), body);
+  api.lock(); draw();
+}
+
+/* ============ Charging tRNAs (notes p. 77, Fig 5.12) ============ */
+function simCharge(api){
+  const SET=[["GUU","Gln"],["CAC","Val"],["UAG","Ile"]]; // anticodons written 3'→5' as in the notes figure
+  let k=0, first=true, right=0; const host=h("div"), body=h("div"); api.plateHost.innerHTML=""; api.plateHost.append(host);
+  function codonOf(anti){ return anti.split("").map(b=>RNA_COMP[b]).join(""); }
+  function draw(){ host.innerHTML=""; const cur=SET[Math.min(k,2)]; const f=plate(figTRNA(cur[0], k>2?cur[1]:null),"<b>Figure 6.2</b> An uncharged tRNA. Its anticodon is written 3′ to 5′. (Notes pp. 76–77)"); host.append(f); bindTerms(f);
+    body.innerHTML="";
+    if(k>=SET.length){ body.append(h("div",{class:"fb ok",html:rich(`<b>All three charged.</b> ${right} of 3 on the first try. Each [[synthetase|aminoacyl tRNA synthetase]] matches one tRNA to its amino acid and attaches it to the 3′ end. A tRNA with its amino acid is [[charged|charged]].`)})); bindRich(body); api.unlock(); return; }
+    const [anti,aa]=SET[k]; first=true;
+    body.append(h("p",{},h("b",{},`tRNA ${k+1} of 3: anticodon 3′-${anti}-5′.`)," Which amino acid should its synthetase attach?"));
+    body.append(h("p",{class:"muted small"},"Hint: work out the codon it pairs with (complementary, antiparallel), read it 5′ to 3′, then look it up."));
+    const box=h("div",{class:"opts"}), fb=h("div");
+    const opts=shuffle([aa,...shuffle(["Gln","Val","Ile","Met","Leu","Arg","His"].filter(x=>x!==aa)).slice(0,3)]);
+    opts.forEach(o=>{ const b=h("button",{class:"opt"},o); b.onclick=()=>{ const ok=o===aa; if(first){ first=false; api.gradeKey("t"+k,ok,["anticodon","synthetase"]); if(ok) right++; }
+      if(ok){ b.classList.add("right"); $$(".opt",box).forEach(x=>x.disabled=true); fb.innerHTML=""; fb.append(h("div",{class:"fb ok",html:`<b>${aa}.</b> Anticodon 3′-${anti}-5′ pairs with codon 5′-${codonOf(anti)}-3′, which codes for ${aa}.`}), h("button",{class:"btn",style:"margin-top:6px",onclick:()=>{ k++; draw(); }},k<2?"Next tRNA":"Finish")); }
+      else { b.classList.add("wrong"); b.disabled=true; fb.innerHTML=""; fb.append(h("div",{class:"fb bad",html:`<b>Not ${o}.</b> The codon is 5′-${codonOf(anti)}-3′. Look it up in the code.`})); } }; box.append(b); });
+    body.append(box,fb); }
+  api.panel.append(h("p",{class:"kicker"},"Match it"), h("h2",{},"Charge the tRNAs"), body);
+  api.lock(); draw();
+}
+
+/* ============ Run the ribosome (notes pp. 78–80) ============ */
+const RUN_MRNA=["AUG","GUA","AGA","UUU","GGC","UAA"];
+function riboSVG(st){
+  const W=780,H=360; let s=`<svg viewBox="0 0 ${W} ${H}" role="img" aria-label="Translation in progress"><rect width="${W}" height="${H}" fill="#fff"/>`;
+  const cw=78, x0=170-st.pos*cw, y=268;
+  s+=`<g data-term="mrna"><line x1="20" y1="${y}" x2="${W-10}" y2="${y}" stroke="#c83a4f" stroke-width="5"/>`;
+  s+=`<rect x="${x0-112}" y="${y-14}" width="34" height="28" rx="14" fill="#e8912f"/><text class="lbl sm" x="${x0-95}" y="${y+4}" text-anchor="middle" fill="#fff" font-weight="700">cap</text>`;
+  RUN_MRNA.forEach((c,i)=>{ const x=x0+i*cw; s+=`<text x="${x+cw/2}" y="${y+28}" text-anchor="middle" font-family="IBM Plex Mono,Menlo,monospace" font-size="17" font-weight="600" fill="${c==="UAA"?"#6f4a90":c==="AUG"?"#2e6b39":"#7a1d14"}">${c}</text>`; });
+  s+=`<text class="lbl" x="${x0-62}" y="${y+28}">5′</text><text class="lbl" x="${x0+RUN_MRNA.length*cw+8}" y="${y+28}">3′</text></g>`;
+  if(st.phase>=1){ // ribosome over codons pos..pos+2 => E,P,A at fixed screen positions
+    s+=`<g data-term="ribosome">${st.phase>=2?`<path d="M${160-70} ${y-6} C${150-70} 70 260 50 400 52 C530 54 560 90 ${410+90} ${y-6} Z" fill="#f6d39a" stroke="#a8690f" stroke-width="2.5" opacity=".95"/>`:""}<path d="M${150-60} ${y+8} C${150-60} ${y+52} ${430+70} ${y+52} ${430+70} ${y+8} Z" fill="#e8a64a" stroke="#a8690f" stroke-width="2.5"/></g>`;
+    if(st.phase>=2) [["E",170],["P",248],["A",326]].forEach(([k,x])=>s+=`<g data-term="sites"><text x="${x+cw/2-0}" y="88" text-anchor="middle" font-family="Source Serif 4,Georgia" font-size="22" font-weight="700" fill="#7f4f0a">${k}</text></g>`); }
+  if(st.phase===1) s+=`<g data-term="initiation-factors"><circle cx="70" cy="${y-30}" r="14" fill="#8e6cc4"/><circle cx="98" cy="${y-40}" r="10" fill="#8e6cc4"/></g>`+arrow(140,y-70,260,y-70,"#8e6cc4",2.5)+`<text class="lbl" x="200" y="${y-80}" text-anchor="middle" fill="#6f4a90" font-weight="700">scanning for AUG</text>`;
+  const trna=(x,anti,aa,cls)=>`<g data-term="trna" class="${cls||""}"><path d="M${x+14} ${y-12} V${y-80} M${x+cw-14} ${y-12} V${y-80}" stroke="#55606a" stroke-width="3"/><rect x="${x+8}" y="${y-110}" width="${cw-16}" height="34" rx="10" fill="#dbe8f7" stroke="#55606a"/><text x="${x+cw/2}" y="${y-22}" text-anchor="middle" font-family="IBM Plex Mono,Menlo,monospace" font-size="14" font-weight="700" fill="#2c5aa0">${anti}</text></g>`;
+  (st.tr||[]).forEach(t=>{ if(t) s+=trna(170+t.slot*cw,t.anti,t.aa); });
+  // peptide chain from the P-site tRNA
+  if(st.chain.length){ const px=170+(st.chainSlot)*cw+cw/2; st.chain.forEach((a,i)=>{ const cx=px-i*44+ (i?0:0), cy=y-128-(i?18:0); s+=`<g data-term="polypeptide"><circle cx="${px-i*40}" cy="${y-128-Math.min(i,1)*20-i*4}" r="17" fill="#8fd19e" stroke="#3f8f52"/><text x="${px-i*40}" y="${y-124-Math.min(i,1)*20-i*4}" text-anchor="middle" font-family="Source Sans 3,Arial" font-size="11" font-weight="700">${a}</text></g>`; }); }
+  if(st.rf) s+=`<g data-term="release-factor"><rect x="${326+8}" y="${y-110}" width="${cw-16}" height="98" rx="12" fill="#5b7fd0"/><text x="${326+cw/2}" y="${y-56}" text-anchor="middle" font-family="Source Sans 3,Arial" font-size="12" font-weight="700" fill="#fff">release</text><text x="${326+cw/2}" y="${y-42}" text-anchor="middle" font-family="Source Sans 3,Arial" font-size="12" font-weight="700" fill="#fff">factor</text></g>`;
+  s+=`<text class="lbl" x="16" y="26" font-weight="700" font-size="15">${st.title||""}</text></svg>`; return s;
+}
+function simRibosome(api){
+  const ANTI=c=>c.split("").map(b=>RNA_COMP[b]).join(""); // written 3'→5' under the codon
+  let step=0, first=true, right=0, total=0; const st={phase:0,pos:0,tr:[],chain:[],chainSlot:1,title:"An mRNA in the cytosol"};
+  const host=h("div"), body=h("div"); api.plateHost.innerHTML=""; api.plateHost.append(host);
+  function fig(){ host.innerHTML=""; const f=plate(riboSVG(st),"<b>Figure 7.1</b> Translation of 5′-AUG GUA AGA UUU GGC UAA-3′. Anticodons are written 3′→5′ under their codons. (Notes pp. 78–80, Figs 5.14 to 5.16)"); host.append(f); bindTerms(f); }
+  function ask(q,opts,ok,after,terms){ body.innerHTML=""; first=true; total++;
+    body.append(h("p",{class:"muted small"},`Call ${total}`), h("p",{},h("b",{},q))); const box=h("div",{class:"opts"}), fb=h("div");
+    shuffle(opts).forEach(o=>{ const b=h("button",{class:"opt"},o[0]); b.onclick=()=>{ if(first){ first=false; api.gradeKey("r"+total,o[1],terms); if(o[1]) right++; }
+      if(o[1]){ b.classList.add("right"); $$(".opt",box).forEach(x=>x.disabled=true); fb.innerHTML=""; fb.append(h("div",{class:"fb ok",html:rich("<b>Yes.</b> "+ok)})); bindRich(fb); setTimeout(()=>{ after(); },reduceMotion?50:900); }
+      else { b.classList.add("wrong"); b.disabled=true; fb.innerHTML=""; fb.append(h("div",{class:"fb bad",html:rich("<b>Not quite.</b> "+(o[2]||"")+" Try again.")})); bindRich(fb); } }; box.append(b); });
+    body.append(box,fb); }
+  const tOpts=(c)=>{ const right=ANTI(c); const wrong=shuffle(["UAC","CAU","UCU","AAA","CCG","GAC","UUA"].filter(x=>x!==right)).slice(0,2); return [[`tRNA with anticodon ${right}`,true],...wrong.map(w=>[`tRNA with anticodon ${w}`,false,`${w} would pair with ${ANTI(w)}, not ${c}.`])]; };
+  function next(){
+    if(step===0){ st.title="Initiation (eukaryote)"; fig(); ask("Where do the initiation factors and small ribosomal subunit first bind this eukaryotic mRNA?",[["At the 5′ cap",true],["At a Shine-Dalgarno sequence",false,"That's how prokaryotes do it; eukaryotic mRNA has a 5′ cap."],["At the stop codon",false,"The stop codon ends translation."],["Anywhere at random",false,"Binding is specific."]],"In eukaryotes the initiation complex forms at the [[initiation|5′ cap]], then scans 5′ → 3′ for AUG.",()=>{ step=1; st.phase=1; st.title="Scanning…"; fig(); next(); },["initiation"]); return; }
+    if(step===1){ ask("The complex scans until it reaches which codon?",[["AUG, the start codon",true],["UAA",false,"UAA is a stop codon."],["The first codon after the cap, whatever it is",false,"It scans until it finds AUG."],["GUA",false,"GUA codes for valine."]],"At [[start-codon|AUG]] a tRNA carrying methionine (anticodon 3′-UAC-5′) pairs with it, the large subunit joins, and the initiation factors leave. Met sits in the P site.",()=>{ step=2; st.phase=2; st.pos=-1; st.tr=[{slot:1,anti:"UAC",aa:"Met"}]; st.chain=["Met"]; st.chainSlot=1; st.title="Met-tRNA in the P site"; fig(); next(); },["start-codon","initiation"]); return; }
+    const ci=step-1; // codon index entering A site
+    if(ci<RUN_MRNA.length-1){ const c=RUN_MRNA[ci]; st.title=`Codon ${c} is in the A site`; fig();
+      ask(`Which charged tRNA enters the A site to pair with ${c}?`,tOpts(c),`Anticodon 3′-${ANTI(c)}-5′ pairs with 5′-${c}-3′ and brings ${AA3[CODE[c]]}. The chain moves from the P-site tRNA onto ${AA3[CODE[c]]}, forming a peptide bond (made by the [[peptidyl-transferase|peptidyl transferase centre]], rRNA). Then the ribosome shifts one codon: the empty tRNA goes to E and leaves.`,
+        ()=>{ st.tr=[{slot:1,anti:st.tr[st.tr.length-1].anti},{slot:2,anti:ANTI(c),aa:AA3[CODE[c]]}]; st.chain=[...st.chain,AA3[CODE[c]]]; st.chainSlot=2; st.title="Peptide bond formed"; fig();
+          setTimeout(()=>{ st.pos++; st.tr=[{slot:0,anti:st.tr[0].anti},{slot:1,anti:ANTI(c)}]; st.chainSlot=1; st.title="Translocation: shifted one codon"; fig(); setTimeout(()=>{ st.tr=[{slot:1,anti:ANTI(c)}]; fig(); step++; next(); },reduceMotion?30:700); },reduceMotion?30:900); },["elongation","anticodon","sites"]); return; }
+    if(ci===RUN_MRNA.length-1){ st.title="UAA is in the A site"; fig();
+      ask("UAA reaches the A site. What binds there?",[["A release factor",true],["A tRNA carrying a stop amino acid",false,"There is no stop amino acid and no tRNA for UAA."],["Another Met-tRNA",false,"Met pairs with AUG."],["An initiation factor",false,"Those act at the start."]],"A [[release-factor|release factor]] binds the A site at a [[stop-codon|stop codon]]. The bond between the chain and the last tRNA breaks, creating the C-terminus, and the polypeptide is released.",
+        ()=>{ st.rf=true; st.title="Termination: the polypeptide is released"; fig(); step++; next(); },["termination","release-factor"]); return; }
+    body.innerHTML=""; body.append(h("div",{class:"fb ok",html:rich(`<b>Made: H₃N⁺–Met–Val–Arg–Phe–Gly–COO⁻.</b> ${right} of ${total} calls right on the first try. Three stages: [[initiation|initiation]], [[elongation|elongation]] and [[termination|termination]].`)})); bindRich(body); api.unlock();
+  }
+  api.panel.append(h("p",{class:"kicker"},"Run it"), h("h2",{},"Drive the ribosome"), h("p",{},"Take one mRNA from cap to stop. Each call counts once."), body);
+  api.lock(); fig(); next();
+}
+
+/* ============ Protein sorting (notes pp. 81–82) ============ */
+const PROTS=[
+ {n:"An enzyme of glycolysis",sig:"No signal sequence",ans:"cyt",why:"With no signal, a protein stays in the cytosol, where it was made."},
+ {n:"A protein for the mitochondrial matrix",sig:"Amino-terminal signal sequence (mitochondrial)",ans:"mito",why:"An amino-terminal signal can send a protein to a mitochondrion or a chloroplast."},
+ {n:"A protein used in photosynthesis",sig:"Amino-terminal signal sequence (chloroplast)",ans:"chl",why:"Amino-terminal signals also target chloroplasts."},
+ {n:"A transcription factor",sig:"Internal signal sequence",ans:"nuc",why:"An internal signal sequence sends a protein to the nucleus."},
+ {n:"A hormone the cell secretes",sig:"Amino-terminal ER signal, recognized by SRP; no anchor",ans:"out",why:"SRP takes the ribosome to the rough ER, the protein is made into the lumen, then it travels through the endomembrane system and is secreted."},
+ {n:"A glucose transporter for the plasma membrane",sig:"Amino-terminal ER signal plus a signal-anchor sequence",ans:"mem",why:"The signal-anchor sequence makes the ER channel release the protein sideways into the membrane, so it ends up as a membrane protein."}];
+const DEST=[["cyt","Stays in the cytosol"],["mito","Mitochondrion"],["chl","Chloroplast"],["nuc","Nucleus"],["mem","ER membrane, then on to a membrane"],["out","ER lumen, then secreted"]];
+function sortSVG(hl){
+  const W=760,H=360; let s=`<svg viewBox="0 0 ${W} ${H}" role="img" aria-label="Protein destinations in a plant cell"><rect width="${W}" height="${H}" fill="#fff"/>`;
+  s+=`<rect x="20" y="20" width="${W-40}" height="${H-40}" rx="30" fill="#fdf4d8" stroke="#2f5f93" stroke-width="3"/><rect x="12" y="12" width="${W-24}" height="${H-24}" rx="34" fill="none" stroke="#5f8a2f" stroke-width="5"/>`;
+  const on=k=>hl===k?' stroke="#c0392b" stroke-width="4"':'';
+  s+=`<g data-term="sorting"><circle cx="160" cy="130" r="70" fill="#e8def6"${on("nuc")||' stroke="#6f55a0" stroke-width="2"'}/><text class="lbl" x="160" y="134" text-anchor="middle" font-weight="700">Nucleus</text></g>`;
+  s+=`<g data-term="sorting"><ellipse cx="470" cy="90" rx="58" ry="26" fill="#f6b48c"${on("mito")||' stroke="#c0703f" stroke-width="2"'}/><text class="lbl" x="470" y="94" text-anchor="middle" font-weight="700">Mitochondrion</text></g>`;
+  s+=`<g data-term="sorting"><ellipse cx="640" cy="170" rx="60" ry="28" fill="#86c46f"${on("chl")||' stroke="#3f7d34" stroke-width="2"'}/><text class="lbl" x="640" y="174" text-anchor="middle" font-weight="700">Chloroplast</text></g>`;
+  s+=`<g data-term="srp"><path d="M260 230 q30 -16 60 0 t60 0 t60 0" fill="none" stroke="#8fc1d9" stroke-width="12" stroke-linecap="round"${hl==="mem"||hl==="out"?' stroke-opacity=".7"':''}/><text class="lbl" x="350" y="268" text-anchor="middle" font-weight="700">Rough ER</text></g>`;
+  s+=`<text class="lbl" x="560" y="270" text-anchor="middle" font-weight="700"${hl==="cyt"?' fill="#c0392b"':''}>Cytosol</text>`;
+  s+=`<text class="lbl" x="${W/2}" y="${H-4}" text-anchor="middle" font-weight="700"${hl==="out"?' fill="#c0392b"':''}>outside the cell (secreted)</text>`;
+  s+=`</svg>`; return s;
+}
+function simSort(api){
+  const order=shuffle(PROTS); let i=0, first=true, right=0, hl=null; const host=h("div"), body=h("div"); api.plateHost.innerHTML=""; api.plateHost.append(host);
+  function fig(){ host.innerHTML=""; const f=plate(sortSVG(hl),"<b>Figure 9.1</b> Where proteins go. All of them start on ribosomes in the cytosol. (Notes pp. 81–82, Figs 5.19 to 5.21)"); host.append(f); bindTerms(f); }
+  function draw(){ body.innerHTML=""; fig();
+    if(i>=order.length){ body.append(h("div",{class:"fb ok",html:rich(`<b>All six delivered.</b> ${right} of 6 right on the first try. The [[signal-sequence|signal sequence]] is the address label.`)})); bindRich(body); api.unlock(); return; }
+    const p=order[i]; first=true;
+    body.append(h("div",{class:"idcard"},h("div",{class:"hd"},h("b",{},p.n),h("span",{},`${i+1} of 6`)),h("p",{style:"padding:10px 14px;margin:0"},h("b",{},"Signal: "),p.sig)));
+    const box=h("div",{class:"gates"}), fb=h("div");
+    DEST.forEach(([k,t])=>{ const b=h("button",{class:"gate"},t); b.onclick=()=>{ const ok=k===p.ans; if(first){ first=false; api.gradeKey("s"+i,ok,["sorting","signal-sequence"]); if(ok) right++; }
+      if(ok){ hl=k; fig(); b.classList.add("right"); $$(".gate",box).forEach(x=>x.disabled=true); fb.innerHTML=""; fb.append(h("div",{class:"fb ok",html:`<b>Delivered.</b> ${p.why}`}), h("button",{class:"btn",style:"margin-top:6px",onclick:()=>{ i++; hl=null; draw(); }},i<5?"Next protein":"Finish")); }
+      else { b.classList.add("wrong"); b.disabled=true; fb.innerHTML=""; fb.append(h("div",{class:"fb bad",html:"<b>Wrong address.</b> Read the signal again."})); } }; box.append(b); });
+    body.append(box,fb); }
+  api.panel.append(h("p",{class:"kicker"},"Ship it"), h("h2",{},"Read the address label"), h("p",{},"Each new protein has a signal sequence, or none. Send it to the right place."), body);
+  api.lock(); draw();
+}
+
+/* ============ Finale: one gene, start to finish ============ */
+const FIN=[
+ {q:"A gene's nontemplate strand reads 5′-ATG TTT GGA TGA-3′. What is the mRNA?",o:[["5′-AUG UUU GGA UGA-3′",1,"The mRNA matches the nontemplate strand, with U for T."],["5′-UAC AAA CCU ACU-3′",0,"That's complementary to the nontemplate strand: it would match the template instead."],["5′-ATG TTT GGA TGA-3′",0,"RNA uses U, not T."],["3′-AUG UUU GGA UGA-5′",0,"The mRNA runs 5′ to 3′ in the same direction as the nontemplate strand."]],t:["mrna","central-dogma"]},
+ {q:"In a eukaryote, what happens to this primary transcript before it leaves the nucleus?",o:[["A 5′ cap and a poly(A) tail are added and introns are removed",1,"RNA processing (Module 4). The cap is also where translation will begin."],["Nothing; it is translated in the nucleus",0,"Eukaryotic translation happens in the cytoplasm."],["It is translated by the nucleolus",0,"The nucleolus makes ribosome parts."],["It binds SRP",0,"SRP binds a signal sequence on a growing polypeptide."]],t:["mrna"]},
+ {q:"The ribosome finds the start codon. Which amino acid comes first, and which tRNA anticodon brings it?",o:[["Methionine, anticodon 3′-UAC-5′",1,"AUG codes for Met and pairs antiparallel with UAC."],["Methionine, anticodon 5′-UAC-3′",0,"Pairing is antiparallel: the codon's 5′ base pairs with the anticodon's 3′ base."],["Phenylalanine, anticodon AAA",0,"UUU is the second codon."],["No amino acid; AUG is a stop codon",0,"AUG is the start codon."]],t:["start-codon","anticodon"]},
+ {q:"Use the code: what does 5′-AUG UUU GGA UGA-3′ make?",o:[["Met–Phe–Gly",1,"UUU is Phe, GGA is Gly, and UGA is a stop codon."],["Met–Phe–Gly–Stop as four amino acids",0,"A stop codon adds no amino acid."],["Met–Leu–Gly",0,"UUU is Phe; Leu is UUA or UUG (or CUN)."],["Met–Phe–Gly–Trp",0,"UGA is stop; Trp is UGG."]],t:["genetic-code","stop-codon"]},
+ {q:"Which site holds the tRNA carrying the growing chain, and which site does a new charged tRNA enter?",o:[["Chain in the P site; new tRNA enters the A site",1,"Empty tRNAs leave from the E site."],["Chain in the A site; new tRNA enters the P site",0,"Reversed."],["Chain in the E site; new tRNA enters the A site",0,"The E site is the exit."],["Both happen in the P site",0,"There are three separate sites."]],t:["sites","elongation"]},
+ {q:"A mutation changes GGA to GGU. What happens to the protein?",o:[["Nothing: GGU also codes for glycine",1,"The code is redundant, so some changes are silent."],["Glycine becomes a stop codon",0,"GGU is not a stop codon."],["The protein gets shorter",0,"Only a new stop codon would shorten it."],["Every amino acid after it changes",0,"A substitution doesn't shift the reading frame."]],t:["redundant"]},
+ {q:"A different mutation changes UUU to UAA. What happens?",o:[["Translation stops early: the protein is just Met",1,"UAA is a stop codon, so a release factor ends translation after Met."],["Phe becomes Leu",0,"UAA is not Leu."],["Nothing changes",0,"UAA is a stop codon."],["The ribosome skips UAA",0,"A stop codon recruits a release factor."]],t:["stop-codon","termination"]},
+ {q:"If this protein had an amino-terminal ER signal sequence, what would bind it first?",o:[["The signal-recognition particle (SRP)",1,"SRP halts translation and docks the ribosome on the rough ER via the SRP receptor."],["A release factor",0,"That ends translation at a stop codon."],["An aminoacyl tRNA synthetase",0,"That charges tRNAs."],["The 5′ cap",0,"The cap is on the mRNA."]],t:["srp"]}];
+function simFinale5(api){
+  let i=0, right=0; const body=h("div"), bar=h("div",{class:"meter",style:"margin:6px 0 10px"});
+  api.plateHost.innerHTML=""; const f=plate(figDogma5(),"<b>Figure 10.1</b> From gene to protein. (Notes pp. 75 and 83, Figs 5.8 and 5.22)"); api.plateHost.append(f); bindTerms(f);
+  function drawBar(){ bar.innerHTML=""; FIN.forEach((_,k)=>bar.append(h("i",{style:`display:inline-block;width:${100/FIN.length-1}%;height:8px;margin-right:1%;border-radius:4px;background:${k<i?"var(--accent)":"var(--rule)"}`}))); }
+  function draw(){ body.innerHTML=""; drawBar();
+    if(i>=FIN.length){ body.append(h("div",{class:"fb ok",html:`<b>${right} of ${FIN.length} on the first try.</b> Gene, mRNA, codons, tRNAs, ribosome, stop, and sorting: the whole of Module 5 in one gene.`})); api.unlock(); return; }
+    const it=FIN[i]; body.append(h("p",{class:"muted small"},`Call ${i+1} of ${FIN.length}. One try.`), h("p",{},h("b",{},it.q)));
+    const box=h("div",{class:"opts"}), fb=h("div");
+    shuffle(it.o).forEach(o=>{ const b=h("button",{class:"opt"},o[0]); b.onclick=()=>{ $$(".opt",box).forEach(x=>x.disabled=true); const ok=!!o[1]; api.gradeKey("f"+i,ok,it.t); if(ok){ right++; b.classList.add("right"); fb.append(h("div",{class:"fb ok",html:`<b>Correct.</b> ${o[2]}`})); }
+      else { b.classList.add("wrong"); const g=it.o.find(x=>x[1]); $$(".opt",box).forEach(x=>{ if(x.textContent===g[0]) x.classList.add("right"); }); fb.append(h("div",{class:"fb bad",html:`<b>Not this time.</b> ${o[2]} The answer: ${g[0]}. ${g[2]}`})); }
+      fb.append(h("button",{class:"btn",style:"margin-top:6px",onclick:()=>{ i++; draw(); }},i+1<FIN.length?"Next call":"Finish")); }; box.append(b); });
+    body.append(box,fb); }
+  api.panel.append(h("p",{class:"kicker"},"Finale"), h("h2",{},"One gene, start to finish"), h("p",{},"Eight calls, one try each, from DNA to a delivered protein."), bar, body);
+  api.lock(); draw();
+}
+
+/* ============ Codon desk: endless practice ============ */
+const pickR=a=>a[Math.floor(Math.random()*a.length)];
+const SENSE=Object.keys(CODE).filter(c=>CODE[c]!=="*");
+const nameOf=c=>CODE[c]==="*"?"Stop":AA3[CODE[c]];
+function makeCodonTask(){
+  const k=Math.floor(Math.random()*8);
+  if(k===0){ const c=pickR(SENSE), a=nameOf(c); const wrong=shuffle([...new Set(SENSE.map(nameOf))].filter(x=>x!==a)).slice(0,3);
+    return {title:"Translate a codon",prompt:`Which amino acid does the codon 5′-${c}-3′ code for? (Use the code table if you need it.)`,opts:shuffle([a,...wrong]),ans:a,why:`${c} codes for ${a}.`,t:["codon","genetic-code"],code:c}; }
+  if(k===1){ const c=pickR(SENSE), anti=c.split("").map(b=>RNA_COMP[b]).join(""); const rev=anti.split("").reverse().join("");
+    const opts=[...new Set([`3′-${anti}-5′`,`5′-${anti}-3′`,`3′-${c}-5′`,`3′-${rev}-5′`])];
+    return {title:"Find the anticodon",prompt:`Which tRNA anticodon pairs with the codon 5′-${c}-3′?`,opts:shuffle(opts),ans:`3′-${anti}-5′`,why:`Complementary and antiparallel: the codon's 5′ base pairs with the anticodon's 3′ base. 3′-${anti}-5′ is the same as 5′-${rev}-3′.`,t:["anticodon"]}; }
+  if(k===2){ const n=pickR([3,4,5,6,8,10]); const nt=(n+1)*3; return {title:"Count it",prompt:`An mRNA has a start codon, then codons, then one stop codon: ${nt} nucleotides in all from AUG to the end of the stop codon. How many amino acids are in the polypeptide?`,opts:shuffle([n,n+1,nt,nt/3+1].map(String).filter((v,i,a)=>a.indexOf(v)===i)),ans:String(n),why:`${nt} ÷ 3 = ${n+1} codons, and the last is a stop codon, which adds no amino acid.`,t:["codon","stop-codon"]}; }
+  if(k===3){ // mutation effect
+    let c, m, kind; for(let tries=0;tries<200;tries++){ c=pickR(SENSE); const pos=Math.floor(Math.random()*3); const b=pickR("UCAG".split("").filter(x=>x!==c[pos])); m=c.slice(0,pos)+b+c.slice(pos+1); kind=CODE[m]==="*"?"stop":CODE[m]===CODE[c]?"same":"diff"; if(kind===["stop","same","diff"][tries%3]||tries>150) break; }
+    const map={same:"No change: the new codon codes for the same amino acid",diff:`One amino acid changes: ${nameOf(c)} becomes ${nameOf(m)}`,stop:"The protein is cut short: the new codon is a stop codon"};
+    return {title:"Mutation",prompt:`A point mutation changes the codon ${c} (${nameOf(c)}) to ${m}. What happens to the protein?`,opts:shuffle(Object.values(map).concat(["Every amino acid after it changes"])),ans:map[kind],why:kind==="same"?"The code is redundant, so some changes are silent.":kind==="stop"?`${m} is a stop codon, so a release factor ends translation early.`:`${m} codes for ${nameOf(m)}. The new R group may change the fold, and so the function.`,t:["redundant","codon"]}; }
+  if(k===4){ const s=pickR([["the tRNA carrying the growing chain","P site"],["an incoming charged tRNA","A site"],["an empty tRNA about to leave","E site"],["a release factor at a stop codon","A site"]]);
+    return {title:"Ribosome sites",prompt:`Which site of the ribosome holds ${s[0]}?`,opts:["A site","P site","E site"],ans:s[1],why:"A: aminoacyl tRNA (and release factors at stop). P: peptidyl tRNA with the chain. E: exit.",t:["sites"]}; }
+  if(k===5){ const p=pickR(PROTS); const d=DEST.find(x=>x[0]===p.ans)[1];
+    return {title:"Protein sorting",prompt:`${p.sig}. Where does the protein end up?`,opts:shuffle([d,...shuffle(DEST.map(x=>x[1]).filter(x=>x!==d)).slice(0,3)]),ans:d,why:p.why,t:["sorting","signal-sequence"]}; }
+  if(k===6){ const s=pickR([["Glycine","Its R group is a hydrogen, making the backbone flexible"],["Proline","Its R group links back to the amino group, limiting folding"],["Cysteine","Its –SH group can form disulfide cross-bridges"]]);
+    return {title:"Special amino acids",prompt:`Which describes ${s[0].toLowerCase()}?`,opts:shuffle(["Its R group is a hydrogen, making the backbone flexible","Its R group links back to the amino group, limiting folding","Its –SH group can form disulfide cross-bridges","Its R group is negatively charged at pH 7.4"]),ans:s[1],why:"Glycine: flexible. Proline: rigid kink. Cysteine: S–S bridges.",t:["glycine","proline","cysteine"]}; }
+  const lv=pickR([["H-bonds between backbone C=O and N–H groups","Secondary"],["The order of amino acids","Primary"],["Hydrophobic R groups buried in the core of one chain","Tertiary"],["Two different polypeptides fitting together","Quaternary"],["A disulfide bond between two cysteines in one chain","Tertiary"]]);
+  return {title:"Levels of structure",prompt:`Which level of protein structure does this describe: ${lv[0].toLowerCase()}?`,opts:["Primary","Secondary","Tertiary","Quaternary"],ans:lv[1],why:"1°: sequence. 2°: backbone H-bonds (helix, sheet). 3°: R-group interactions in one chain. 4°: subunits together.",t:["levels"]};
+}
+function checkpointView(){
+  const app=$("#app"); app.innerHTML="";
+  app.append(h("div",{class:"banner"},h("span",{class:"num"},"5"),h("span",{class:"ttl"},"Codon desk")));
+  app.append(h("p",{class:"muted"},"Endless practice: codons, anticodons, counting, mutations, ribosome sites, sorting and protein structure. New questions every time."));
+  const box=h("div",{class:"panel",style:"max-width:860px"}); app.append(box);
+  const sess={r:0,t:0,streak:0}; let task=null, first=true, solved=false;
+  const score=h("div",{class:"score"}), body=h("div"); box.append(score,body);
+  function drawScore(){ score.innerHTML=""; score.append(h("span",{},"This session: ",h("b",{},`${sess.r} of ${sess.t}`)),h("span",{},"Streak: ",h("b",{},String(sess.streak))),h("span",{},"Best streak: ",h("b",{},String(P.cp.best||0)))); }
+  function result(ok){ if(!first) return; first=false; sess.t++; if(ok){ sess.r++; sess.streak++; if(sess.streak>(P.cp.best||0)) P.cp.best=sess.streak; } else sess.streak=0; task.t.forEach(k=>markTerm(k,"tested")); save(); drawScore(); }
+  function next(){ task=makeCodonTask(); if(!task.opts.includes(task.ans)) task.opts[0]=task.ans; task.opts=[...new Set(task.opts)]; first=true; solved=false; draw(); }
+  let showTable=false;
+  function draw(){ body.innerHTML=""; body.append(h("p",{class:"kicker"},task.title), h("p",{},h("b",{},task.prompt)));
+    const fb=h("div"), opts=h("div",{class:"opts"});
+    task.opts.forEach(o=>{ const b=h("button",{class:"opt"},o); b.addEventListener("click",()=>{ if(solved) return; const ok=o===task.ans; result(ok);
+      if(ok){ solved=true; b.classList.add("right"); $$(".opt",opts).forEach(x=>x.disabled=true); fb.innerHTML=""; fb.append(h("div",{class:"fb ok",html:"<b>Correct.</b> "+task.why}), h("button",{class:"btn",style:"margin-top:8px",onclick:next},"Next question")); }
+      else { b.classList.add("wrong"); b.disabled=true; fb.innerHTML=""; fb.append(h("div",{class:"fb bad",html:"<b>Not quite.</b> "+task.why})); } }); opts.append(b); });
+    const tb=h("button",{class:"mini","aria-pressed":String(showTable)},showTable?"Hide the code table":"Show the code table"); const tbl=h("div");
+    tb.onclick=()=>{ showTable=!showTable; draw(); }; if(showTable) tbl.append(plate(figCode(),"<b>Table 5.1</b> The genetic code (notes p. 78)."));
+    body.append(opts,fb,h("div",{style:"margin-top:10px"},tb),tbl,termChips(task.t)); }
+  drawScore(); next();
+}
+
+/* ============ Protein viewer ============ */
+function atlasView(){
+  const app=$("#app"); app.innerHTML="";
+  app.append(h("div",{class:"banner"},h("span",{class:"num"},"5"),h("span",{class:"ttl"},"Protein viewer")));
+  app.append(h("p",{class:"muted"},"Explore freely. Click any labelled part to read about it and see where it is in your course notes."));
+  const grid=h("div",{class:"atlas"}), left=h("div"), right=h("div",{class:"panel"}); grid.append(left,right); app.append(grid);
+  const VIEWS=[["aa","Amino acid"],["classes","The 20 amino acids"],["special","Special three"],["pep","Peptide bond"],["l1","1° structure"],["l2","2° structure"],["l3","3° structure"],["l4","4° structure"],["dogma","Central dogma"],["code","Genetic code"],["ribo","Ribosome"],["trna","tRNA"],["init","Initiation"],["sort","Sorting"]];
+  let mode="aa"; const seg=h("div",{class:"seg",style:"margin-bottom:10px;flex-wrap:wrap"}), host=h("div");
+  VIEWS.forEach(v=>{ const b=h("button",{"aria-pressed":String(v[0]===mode)},v[1]); b.addEventListener("click",()=>{ mode=v[0]; $$("button",seg).forEach(x=>x.setAttribute("aria-pressed","false")); b.setAttribute("aria-pressed","true"); draw(); }); seg.append(b); });
+  left.append(seg,host);
+  function info(k){ const t=T[k]; if(!t) return; markTerm(k,"seen"); right.innerHTML="";
+    right.append(h("h2",{},t.n),h("p",{},t.d),h("p",{class:"notes-ref"},h("b",{},"Course notes: "),`p. ${t.p}`));
+    const rel=related(k); if(rel.length){ right.append(h("p",{class:"muted small",style:"margin:10px 0 0"},"Related")); right.append(termChips(rel)); } }
+  function intro(t){ right.innerHTML=""; right.append(h("h2",{},VIEWS.find(v=>v[0]===mode)[1]),h("p",{},t)); }
+  function draw(){ stopLoops(); host.innerHTML="";
+    const put=(svg,cap)=>{ const f=plate(svg,cap); host.append(f); bindTerms(f,info); return f; };
+    const M={
+      aa:()=>{ put(figAminoAcid(true),"<b>Viewer</b> An amino acid at physiological pH (Notes p. 69, Fig 5.2)"); intro("Amino group, carboxyl group, hydrogen and R group, all on the α carbon."); },
+      classes:()=>{ put(figAAClasses(),"<b>Viewer</b> The 20 amino acids by R group (Notes p. 70, Fig 5.3)"); intro("Know the groups, not every structure."); },
+      special:()=>{ put(figSpecial(),"<b>Viewer</b> Glycine, proline, cysteine (Notes p. 71)"); intro("The three to memorize."); },
+      pep:()=>{ put(figPeptide(),"<b>Viewer</b> Peptide bond formation (Notes p. 71, Fig 5.4)"); intro("Carboxyl of one, amino of the next, water released."); },
+      l1:()=>{ put(levelSVG(0),"<b>Viewer</b> Primary structure (Notes p. 72)"); intro("The sequence, N to C."); },
+      l2:()=>{ put(levelSVG(1),"<b>Viewer</b> α helix and β sheet (Notes p. 73, Fig 5.6)"); intro("Backbone hydrogen bonds."); },
+      l3:()=>{ put(levelSVG(2),"<b>Viewer</b> Tertiary structure (Notes p. 74)"); intro("R groups decide the fold."); },
+      l4:()=>{ put(levelSVG(3),"<b>Viewer</b> Quaternary structure (Notes p. 74)"); intro("Subunits: homodimers and heterodimers."); },
+      dogma:()=>{ put(figDogma5(),"<b>Viewer</b> The central dogma with codons (Notes p. 75, Fig 5.8)"); intro("ATG ATC TCG TAA → AUG AUC UCG UAA → Met–Ile–Ser."); },
+      code:()=>{ put(figCode(),"<b>Viewer</b> The genetic code (Notes p. 78, Table 5.1)"); intro("Click a codon. Start: AUG. Stops: UAA, UAG, UGA."); },
+      ribo:()=>{ put(figRibosome(),"<b>Viewer</b> Ribosome (Notes p. 76, Fig 5.10)"); intro("E, P and A sites in the large subunit."); },
+      trna:()=>{ put(figTRNA("UAC","Met"),"<b>Viewer</b> tRNA (Notes p. 76, Fig 5.11)"); intro("Amino acid on the CCA end, anticodon at the loop."); },
+      init:()=>{ put(figInit(),"<b>Viewer</b> Initiation in eukaryotes and prokaryotes (Notes p. 80, Fig 5.17)"); intro("Cap scanning vs Shine-Dalgarno."); },
+      sort:()=>{ put(sortSVG(null),"<b>Viewer</b> Protein destinations (Notes pp. 81–82)"); intro("Signal sequences are the address labels."); }
+    }; M[mode]();
+  }
+  draw();
+}
+
+/* ============ Home ============ */
+function homeView(){
+  const app=$("#app"); app.innerHTML="";
+  const nextIdx=CHAPTERS.findIndex(c=>!chState(c.id).done), startIdx=nextIdx<0?0:nextIdx;
+  app.append(h("div",{class:"banner"},h("span",{class:"num"},"Module 5"),h("span",{class:"ttl"},"Protein structure, function and synthesis"),h("span",{class:"pg"},"Course notes pp. 68–84")));
+  const f=plate(figDogma5(),"<b>Figure</b> From gene to protein. Click anything.");
+  const text=h("div",{},
+    h("h1",{},"From code to protein."),
+    h("p",{class:"lede"},"This module covers amino acids and their R groups, the four levels of protein structure, the genetic code, translation in prokaryotes and eukaryotes, and how proteins are regulated and sorted."),
+    h("p",{style:"font-weight:700;margin-bottom:4px"},"Learning outcomes"),
+    h("ol",{style:"margin:0 0 12px;padding-left:20px"},h("li",{},"Describe the properties of amino acids and how polymers of them fold into 3-D proteins with specific functions."),h("li",{},"Describe translation in prokaryotes and eukaryotes."),h("li",{},"Explain the central dogma and the roles of mRNA and tRNA in translation."),h("li",{},"Explain how protein synthesis relates to protein sorting.")),
+    h("p",{class:"muted small"},"Each chapter starts with a figure or experiment you can work with, then tests you. Your score is the share you get right on the first try. Every figure and term points back to a page in your course notes."),
+    h("div",{class:"row",style:"margin-top:10px"}, h("button",{class:"btn",onclick:()=>{RUN=null; renderChapter(startIdx,0);}}, nextIdx===0?"Start chapter 5.1":nextIdx<0?"Replay chapter 5.1":`Continue with chapter 5.${startIdx+1}`), h("button",{class:"btn ghost",onclick:()=>go("checkpoint")},"Codon desk")));
+  app.append(h("div",{class:"hero"},f,text)); bindTerms(f);
+  const list=h("ol",{class:"chlist"});
+  CHAPTERS.forEach((c,i)=>{ const st=chState(c.id);
+    list.append(h("li",{},h("button",{class:"chitem",onclick:()=>{RUN=null; renderChapter(i,0);}}, h("span",{class:"chnum"},`5.${i+1}`), h("h3",{},c.title), h("span",{class:"meta"}, `${c.blurb} Notes ${c.pages}.`, st.done?h("span",{class:"done-tag"},`  Best: ${Math.round((st.best||0)*100)}%`):"")))); });
+  app.append(h("div",{class:"sect"},h("h2",{},"Chapters"),list));
+  app.append(h("div",{class:"sect"},h("h2",{},"Other ways in"),h("p",{class:"muted"},"The protein viewer lets you click through every figure in the module, including the full genetic code. The codon desk gives you endless random questions. The mini exam tests the whole module and tells you what to relearn. The glossary lists all the important terms from p. 84 of your notes.")));
+  const reset=h("button",{class:"mini",style:"margin-left:8px",onclick:()=>{ if(confirm("Clear all saved progress for Module 5 in this browser?")){ P={ch:{},terms:{},cp:{best:0}}; save(); homeView(); } }},"Reset progress");
+  app.append(h("p",{class:"foot"},"Made for BIOL 130 review. Content follows the Module 5 course notes (pp. 68 to 84), which use figures from Morris et al., Biology: How Life Works, 4th edition (Macmillan, 2023). All figures here are original drawings. Progress is saved in this browser only.",reset));
+}
+
+/* ============ Glossary ============ */
+function glossaryView(){
+  const app=$("#app"); app.innerHTML="";
+  const keys=Object.keys(T), tested=keys.filter(k=>P.terms[k]==="tested").length, seen=keys.filter(k=>P.terms[k]).length;
+  const search=h("input",{type:"search",placeholder:"Find a term",style:"padding:8px 12px;border:1px solid var(--rule);border-radius:6px;background:var(--paper);color:var(--ink);font:inherit;min-width:240px","aria-label":"Find a term"});
+  app.append(h("div",{class:"banner"},h("span",{class:"num"},"5"),h("span",{class:"ttl"},"Important terms and concepts"),h("span",{class:"pg"},"Course notes p. 84")));
+  app.append(h("div",{class:"crumb"},h("p",{class:"muted",style:"margin:0"},`${seen} of ${keys.length} seen, ${tested} tested. Page numbers point to your course notes.`),h("div",{style:"margin-left:auto"},search)));
+  const box=h("div",{class:"gl"}); app.append(box);
+  function draw(q=""){ box.innerHTML="";
+    TERM_ORDER_GROUPS.forEach(g=>{ const ks=keys.filter(k=>T[k].g===g && (!q || (T[k].n+" "+T[k].d).toLowerCase().includes(q))); if(!ks.length) return;
+      const sec=h("section",{},h("h2",{},g));
+      ks.forEach(k=>{ const st=P.terms[k]; sec.append(h("div",{class:"gi"},h("b",{},T[k].n),h("span",{class:"st "+(st||"")},st==="tested"?"Tested":st==="seen"?"Seen":"Not yet"),h("p",{},T[k].d+" "),h("p",{class:"notes-ref",style:"grid-column:1/-1;margin:2px 0 0"},`Notes p. ${T[k].p}`))); });
+      box.append(sec); }); }
+  search.addEventListener("input",()=>draw(search.value.trim().toLowerCase())); draw();
+}
+
+
+
+/* ============ mini exam (shared engine in exam.js) ============ */
+function examView(){
+  const app=$("#app"); app.innerHTML="";
+  app.append(h("div",{class:"banner"},h("span",{class:"num"},"5"),h("span",{class:"ttl"},"Mini exam")));
+  const host=h("div"); app.append(host);
+  const items=((window.STUDY&&STUDY.exam&&STUDY.exam["m5"])||[]).map((q,i)=>({...q,mod:"m5",id:"m5-"+i}));
+  EXAM.mount(host,{key:"m5",title:"Module 5 mini exam",intro:`${items.length} questions covering every chapter of this module.`,items,sizes:[10]});
+}
+/* ============ router ============ */
+function go(view){
+  stopLoops(); exploreHook=null; RUN=null; tc.classList.remove("show"); tip.style.display="none";
+  $$(".tab").forEach(t=>t.setAttribute("aria-current",String(t.dataset.go===view)));
+  if(view==="atlas") atlasView(); else if(view==="checkpoint") checkpointView(); else if(view==="glossary") glossaryView(); else if(view==="exam") examView(); else homeView();
+  window.scrollTo(0,0);
+}
+$$(".tab").forEach(t=>t.addEventListener("click",()=>go(t.dataset.go)));
+$("#home").addEventListener("click",()=>go("story"));
+function fromHash(){
+  const m=location.hash.match(/^#ch=(\d+)/);
+  if(m && CHAPTERS[+m[1]-1]){ RUN=null; renderChapter(+m[1]-1,0); return true; }
+  if(location.hash==="#exam"){ go("exam"); return true; }
+  return false;
+}
+window.addEventListener("hashchange",fromHash);
+if(!fromHash()) go("story");
+</script></body></html>

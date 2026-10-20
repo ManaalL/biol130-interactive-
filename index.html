@@ -6,99 +6,107 @@
 <title>BIOL 130 Interactive</title>
 <meta name="description" content="Interactive study modules for BIOL 130 Introductory Cell Biology: simulations, mini exams, midterm prep and Kip the kinesin study guide.">
 <link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght,SOFT@9..144,500..800,100&family=Source+Sans+3:ital,wght@0,400;0,600;0,700;1,400&family=Source+Serif+4:opsz,wght@8..60,500;8..60,650&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:wght@400;500&family=Source+Sans+3:ital,wght@0,400;0,600;0,700;1,400&family=Source+Serif+4:opsz,wght@8..60,400;8..60,600;8..60,700&display=swap" rel="stylesheet">
 <style>
 :root{
-  --page:#eef5f2; --paper:#ffffff; --ink:#1d2826; --ink2:#55665f; --rule:#d5e3dd; --head:#173b34;
-  --accent:#2f8f7a; --accentInk:#fff; --accentSoft:#e2f3ed; --ok:#2a7648; --bad:#a53838;
-  --m1:#3f8a4c; --m2:#5a5fc4; --m3:#11707b; --m4:#b0342c; --m5:#c98a16; --mid:#5b3f8f;
-  --display:"Fraunces", "Source Serif 4", Georgia, serif; --serif:"Source Serif 4", Georgia, serif; --sans:"Source Sans 3", system-ui, -apple-system, "Segoe UI", Arial, sans-serif;
+  --page:#f4f6f3; --paper:#ffffff; --ink:#1c2624; --ink2:#5a6a65; --rule:#d9e2de; --grid:#e4ebe7; --head:#14302b;
+  --accent:#2a7f6d; --accentInk:#fff; --accentSoft:#e3f1ec; --ok:#2a7648; --bad:#a53838;
+  --m1:#3f8a4c; --m2:#5a5fc4; --m3:#11707b; --m4:#b0342c; --m5:#b07a12; --mid:#5b3f8f;
+  --display:"Source Serif 4", Georgia, serif; --sans:"Source Sans 3", system-ui, -apple-system, "Segoe UI", Arial, sans-serif; --mono:"IBM Plex Mono", ui-monospace, SFMono-Regular, Menlo, monospace;
+  --fig-stroke:#24423b; --fig-fill:#fbfaf5; --fig-soft:#eef3ef;
   box-sizing:border-box; padding-top:env(safe-area-inset-top,0px); padding-bottom:env(safe-area-inset-bottom,0px);
 }
-@media (prefers-color-scheme: dark){ :root:not([data-theme="light"]){ --page:#101a18; --paper:#16231f; --ink:#e3eeea; --ink2:#9fb7ae; --rule:#2a3d37; --head:#d8f0e7; --accent:#4fc0a6; --accentInk:#0c1a16; --accentSoft:#1b332c; --m1:#6cc07a; --m2:#9a9ef0; --m3:#4db2be; --m4:#ec8b80; --m5:#e8b553; --mid:#b39ae6; } }
-:root[data-theme="dark"]{ --page:#101a18; --paper:#16231f; --ink:#e3eeea; --ink2:#9fb7ae; --rule:#2a3d37; --head:#d8f0e7; --accent:#4fc0a6; --accentInk:#0c1a16; --accentSoft:#1b332c; --m1:#6cc07a; --m2:#9a9ef0; --m3:#4db2be; --m4:#ec8b80; --m5:#e8b553; --mid:#b39ae6; }
+@media (prefers-color-scheme: dark){ :root:not([data-theme="light"]){ --page:#0f1715; --paper:#151f1c; --ink:#e3eeea; --ink2:#9fb4ad; --rule:#26352f; --grid:#1a2622; --head:#dcefe8; --accent:#5cc0a8; --accentInk:#0c1a16; --accentSoft:#1a2f29; --m1:#6cc07a; --m2:#9a9ef0; --m3:#4db2be; --m4:#ec8b80; --m5:#e3b050; --mid:#b39ae6; --fig-stroke:#bcd9cf; --fig-fill:#18241f; --fig-soft:#1d2c27; } }
+:root[data-theme="dark"]{ --page:#0f1715; --paper:#151f1c; --ink:#e3eeea; --ink2:#9fb4ad; --rule:#26352f; --grid:#1a2622; --head:#dcefe8; --accent:#5cc0a8; --accentInk:#0c1a16; --accentSoft:#1a2f29; --m1:#6cc07a; --m2:#9a9ef0; --m3:#4db2be; --m4:#ec8b80; --m5:#e3b050; --mid:#b39ae6; --fig-stroke:#bcd9cf; --fig-fill:#18241f; --fig-soft:#1d2c27; }
 *,*::before,*::after{box-sizing:inherit}
 html{scroll-behavior:smooth}
 body{margin:0;background:var(--page);color:var(--ink);font-family:var(--sans);font-size:17px;line-height:1.55;overflow-x:hidden}
 a{color:var(--accent)}
 :focus-visible{outline:3px solid var(--accent);outline-offset:2px}
-h1,h2,h3{font-family:var(--display);color:var(--head);font-weight:700;line-height:1.1;margin:0;font-variation-settings:"SOFT" 100}
+h1,h2,h3{font-family:var(--display);color:var(--head);font-weight:600;line-height:1.12;margin:0}
 .wrap{max-width:1140px;margin:0 auto;padding:0 20px}
+.mono{font-family:var(--mono);font-size:.78rem;letter-spacing:.04em;text-transform:uppercase;color:var(--ink2)}
 /* nav */
-.nav{position:sticky;top:0;z-index:30;background:color-mix(in srgb,var(--page) 88%,transparent);backdrop-filter:blur(8px);border-bottom:1px solid var(--rule)}
-.nav .wrap{display:flex;align-items:center;gap:18px;height:58px}
-.logo{display:flex;align-items:center;gap:8px;text-decoration:none;color:var(--head);font-family:var(--display);font-weight:700;font-size:1.2rem;font-variation-settings:"SOFT" 100}
-.logo .dot{width:26px;height:26px;border-radius:50%;background:radial-gradient(circle at 60% 40%,#ffe9a8 0 18%,var(--accent) 19% 100%);box-shadow:inset 0 0 0 3px #d3efe6}
-.nav nav{margin-left:auto;display:flex;gap:4px;flex-wrap:wrap}
-.nav nav a,.nav nav button{color:var(--ink2);text-decoration:none;font-weight:600;padding:6px 12px;border-radius:20px;font-size:.95rem;background:none;border:0;cursor:pointer;font-family:inherit}
+.nav{position:sticky;top:0;z-index:30;background:color-mix(in srgb,var(--page) 90%,transparent);backdrop-filter:blur(8px);border-bottom:1px solid var(--rule)}
+.nav .wrap{display:flex;align-items:center;gap:18px;height:56px}
+.logo{display:flex;align-items:center;gap:10px;text-decoration:none;color:var(--head);font-family:var(--display);font-weight:600;font-size:1.15rem}
+.logo svg{flex:none}
+.nav nav{margin-left:auto;display:flex;gap:2px;flex-wrap:wrap}
+.nav nav a,.nav nav button{color:var(--ink2);text-decoration:none;font-weight:600;padding:6px 12px;border-radius:6px;font-size:.95rem;background:none;border:0;cursor:pointer;font-family:inherit}
 .nav nav a:hover,.nav nav button:hover{color:var(--head);background:var(--accentSoft)}
 /* hero */
-.hero{position:relative;padding:54px 0 30px}
-.hero .wrap{display:grid;grid-template-columns:minmax(0,1.15fr) minmax(0,1fr);gap:30px;align-items:center}
-.hero h1{font-size:clamp(2.3rem,5.2vw,3.9rem);letter-spacing:-.02em}
-.hero h1 em{font-style:normal;color:var(--accent)}
-.hero .lede{font-size:1.18rem;color:var(--ink);max-width:33em;margin:16px 0 22px}
+.hero{position:relative;padding:46px 0 26px;background-image:linear-gradient(var(--grid) 1px,transparent 1px),linear-gradient(90deg,var(--grid) 1px,transparent 1px);background-size:24px 24px;background-position:-1px -1px;border-bottom:1px solid var(--rule)}
+.hero::after{content:"";position:absolute;inset:0;background:linear-gradient(180deg,transparent 60%,var(--page));pointer-events:none}
+.hero .wrap{position:relative;z-index:1;display:grid;grid-template-columns:minmax(0,1fr) minmax(0,1.08fr);gap:34px;align-items:center}
+.hero h1{font-size:clamp(2.2rem,4.8vw,3.5rem);letter-spacing:-.015em;font-weight:600}
+.hero h1 em{font-style:italic;color:var(--accent)}
+.hero .lede{font-size:1.14rem;color:var(--ink);max-width:31em;margin:16px 0 22px}
 .btns{display:flex;gap:10px;flex-wrap:wrap}
-.btn{display:inline-flex;align-items:center;gap:8px;padding:12px 20px;border-radius:999px;background:var(--accent);color:var(--accentInk);font-weight:700;text-decoration:none;border:2px solid var(--accent);font-size:1rem;cursor:pointer;font-family:inherit}
-.btn.ghost{background:transparent;color:var(--accent)}
-.btn:hover{filter:brightness(1.06);transform:translateY(-1px)}
-.counts{display:flex;gap:22px;flex-wrap:wrap;margin-top:22px;color:var(--ink2);font-size:.95rem}
-.counts b{display:block;font-family:var(--display);font-size:1.6rem;color:var(--head);font-variation-settings:"SOFT" 100}
-.stage{position:relative;height:360px}
-.stage .kipbig{position:absolute;right:4%;bottom:0}
-.stage .say{position:absolute;left:0;top:8px;background:var(--paper);border:2px solid var(--accent);border-radius:20px 20px 6px 20px;padding:12px 16px;max-width:290px;font-size:.98rem;box-shadow:0 8px 24px rgba(20,60,50,.12)}
-.stage .say::after{content:"";position:absolute;right:-12px;bottom:18px;border:10px solid transparent;border-left:14px solid var(--accent)}
-.stage .say b{font-family:var(--display);font-size:1.1rem;color:var(--head);display:block;margin-bottom:2px;font-variation-settings:"SOFT" 100}
-.stage .say button{margin-top:8px;font:700 .85rem var(--sans);color:var(--accent);background:var(--accentSoft);border:0;border-radius:14px;padding:4px 10px;cursor:pointer}
-.doodle{position:absolute;opacity:.55;pointer-events:none}
-/* the track */
-.trackband{position:relative;height:46px;margin:30px 0 8px;overflow:hidden}
-.trackband .mt{position:absolute;left:0;right:0;top:30px;height:12px;border-radius:6px;background:repeating-linear-gradient(90deg,#6fb8a3 0 13px,#9fd0bf 13px 26px)}
-.trackband .walker{position:absolute;top:-6px;left:-60px;animation:walkacross 26s linear infinite}
-@keyframes walkacross{from{transform:translateX(0)}to{transform:translateX(calc(100vw + 120px))}}
-.sec{padding:26px 0}
-.sec h2{font-size:clamp(1.7rem,3vw,2.3rem)}
+.btn{display:inline-flex;align-items:center;gap:8px;padding:11px 18px;border-radius:8px;background:var(--accent);color:var(--accentInk);font-weight:700;text-decoration:none;border:1.5px solid var(--accent);font-size:1rem;cursor:pointer;font-family:inherit}
+.btn.ghost{background:var(--paper);color:var(--accent)}
+.btn:hover{filter:brightness(1.06)}
+.counts{display:flex;gap:26px;flex-wrap:wrap;margin-top:24px;padding-top:16px;border-top:1px solid var(--rule)}
+.counts span{font-family:var(--mono);font-size:.72rem;letter-spacing:.05em;text-transform:uppercase;color:var(--ink2)}
+.counts b{display:block;font-family:var(--display);font-size:1.7rem;color:var(--head);font-weight:600;letter-spacing:0;text-transform:none}
+/* the figure */
+.plate{margin:0;background:var(--paper);border:1px solid var(--rule);border-radius:10px;padding:14px 14px 10px;box-shadow:0 1px 0 var(--rule),0 18px 40px -26px rgba(20,48,43,.35)}
+.plate svg{display:block;width:100%;height:auto}
+.plate figcaption{font-family:var(--display);font-size:.92rem;color:var(--ink2);margin-top:6px;line-height:1.4}
+.plate figcaption b{color:var(--head);font-weight:600}
+.cell .ln{fill:none;stroke:var(--fig-stroke);stroke-width:1.4}
+.cell .lt{fill:none;stroke:var(--fig-stroke);stroke-width:.8;opacity:.7}
+.cell .fl{fill:var(--fig-fill)} .cell .sf{fill:var(--fig-soft)}
+.cell text{font-family:var(--mono);font-size:10.5px;fill:var(--ink2);letter-spacing:.03em}
+.cell .co circle{fill:var(--paper);stroke:var(--c);stroke-width:1.5}
+.cell .co text.n{font-family:var(--mono);font-size:11px;font-weight:500;fill:var(--c);text-anchor:middle}
+.cell .co text.t{fill:var(--head);font-family:var(--sans);font-size:12.5px;font-weight:600;letter-spacing:0}
+.cell .co line{stroke:var(--c);stroke-width:1;stroke-dasharray:3 2}
+.cell .co{cursor:pointer}
+.cell .co:hover circle,.cell .co:focus circle{fill:var(--c)} .cell .co:hover text.n,.cell .co:focus text.n{fill:var(--paper)}
+.cell .hl{transition:opacity .2s;opacity:0}
+.cell.on-m1 .hl.m1,.cell.on-m2 .hl.m2,.cell.on-m3 .hl.m3,.cell.on-m4 .hl.m4,.cell.on-m5 .hl.m5{opacity:1}
+.sec{padding:30px 0}
+.sec h2{font-size:clamp(1.6rem,2.8vw,2.1rem)}
 .sec .sub{color:var(--ink2);margin:6px 0 18px;max-width:46em}
-.mods{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:18px}
-.mod{position:relative;background:var(--paper);border:1px solid var(--rule);border-radius:20px;padding:20px 20px 18px;display:flex;flex-direction:column;gap:10px;text-decoration:none;color:inherit;transition:transform .2s, box-shadow .2s;overflow:hidden}
-.mod:hover{transform:translateY(-4px);box-shadow:0 14px 30px rgba(20,60,50,.12)}
-.mod::before{content:"";position:absolute;inset:0 0 auto 0;height:7px;background:var(--c)}
+.mods{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:16px}
+.mod{position:relative;background:var(--paper);border:1px solid var(--rule);border-radius:10px;padding:18px 18px 16px;display:flex;flex-direction:column;gap:10px;text-decoration:none;color:inherit;transition:border-color .2s, box-shadow .2s;overflow:hidden}
+.mod:hover{border-color:var(--c);box-shadow:0 10px 26px -18px rgba(20,48,43,.5)}
+.mod::before{content:"";position:absolute;inset:0 auto 0 0;width:4px;background:var(--c)}
 .mod .top{display:flex;align-items:center;gap:12px}
-.mod .icon{width:58px;height:58px;border-radius:16px;background:color-mix(in srgb,var(--c) 14%,var(--paper));display:flex;align-items:center;justify-content:center;flex:none}
-.mod .num{font:700 .8rem var(--sans);letter-spacing:.06em;color:var(--c);text-transform:uppercase}
-.mod h3{font-size:1.32rem;margin-top:2px}
-.mod ul{margin:0;padding-left:18px;color:var(--ink2);font-size:.93rem}
-.mod .prog{display:flex;gap:14px;align-items:center;margin-top:auto;padding-top:6px;font-size:.88rem;color:var(--ink2)}
-.ring{--p:0;width:44px;height:44px;border-radius:50%;background:conic-gradient(var(--c) calc(var(--p)*1%),var(--rule) 0);display:grid;place-items:center;flex:none}
-.ring span{width:34px;height:34px;border-radius:50%;background:var(--paper);display:grid;place-items:center;font:700 .75rem var(--sans);color:var(--head)}
+.mod .icon{width:52px;height:52px;border-radius:8px;background:color-mix(in srgb,var(--c) 10%,var(--paper));border:1px solid color-mix(in srgb,var(--c) 25%,var(--paper));display:flex;align-items:center;justify-content:center;flex:none}
+.mod .num{font:500 .72rem var(--mono);letter-spacing:.08em;color:var(--c);text-transform:uppercase}
+.mod h3{font-size:1.22rem;margin-top:3px}
+.mod ul{margin:0;padding-left:18px;color:var(--ink2);font-size:.92rem}
+.mod .prog{display:flex;gap:14px;align-items:center;margin-top:auto;padding-top:8px;border-top:1px dashed var(--rule);font-size:.86rem;color:var(--ink2)}
+.ring{--p:0;width:42px;height:42px;border-radius:50%;background:conic-gradient(var(--c) calc(var(--p)*1%),var(--rule) 0);display:grid;place-items:center;flex:none}
+.ring span{width:33px;height:33px;border-radius:50%;background:var(--paper);display:grid;place-items:center;font:500 .7rem var(--mono);color:var(--head)}
 .mod .go{margin-left:auto;font-weight:700;color:var(--c)}
-.mod.soon{background:repeating-linear-gradient(135deg,var(--paper) 0 14px,color-mix(in srgb,var(--c) 6%,var(--paper)) 14px 28px);cursor:default}
-.mod.soon:hover{transform:none;box-shadow:none}
-.mod.mid{grid-column:span 2;background:linear-gradient(135deg,color-mix(in srgb,var(--mid) 12%,var(--paper)),var(--paper) 60%)}
-.mod.mid h3{font-size:1.6rem}
-.pill{display:inline-block;font:700 .75rem var(--sans);border-radius:12px;padding:2px 9px;background:color-mix(in srgb,var(--c) 15%,var(--paper));color:var(--c)}
-/* question of the day */
-.qod{display:grid;grid-template-columns:minmax(0,1fr) minmax(0,1.3fr);gap:24px;align-items:start;background:var(--paper);border:1px solid var(--rule);border-radius:22px;padding:24px}
-.qod h3{font-size:1.5rem}
-.qod .q{font-weight:700;font-size:1.08rem;margin:4px 0 10px}
-.qod .opt{display:block;width:100%;text-align:left;padding:10px 14px;margin:0 0 8px;border:1.5px solid var(--rule);border-radius:12px;background:var(--paper);color:var(--ink);font:inherit;cursor:pointer}
+.mod.soon{background:repeating-linear-gradient(135deg,var(--paper) 0 12px,color-mix(in srgb,var(--c) 5%,var(--paper)) 12px 24px);cursor:default}
+.mod.soon:hover{box-shadow:none;border-color:var(--rule)}
+.mod.mid{grid-column:span 2;background:linear-gradient(135deg,color-mix(in srgb,var(--mid) 8%,var(--paper)),var(--paper) 60%)}
+.mod.mid h3{font-size:1.5rem}
+.pill{display:inline-block;font:500 .7rem var(--mono);letter-spacing:.05em;text-transform:uppercase;border-radius:4px;padding:3px 7px;background:color-mix(in srgb,var(--c) 12%,var(--paper));color:var(--c)}
+.qod{display:grid;grid-template-columns:minmax(0,1fr) minmax(0,1.3fr);gap:24px;align-items:start;background:var(--paper);border:1px solid var(--rule);border-radius:10px;padding:22px}
+.qod h3{font-size:1.4rem}
+.qod .q{font-weight:700;font-size:1.06rem;margin:6px 0 10px}
+.qod .opt{display:block;width:100%;text-align:left;padding:10px 14px;margin:0 0 8px;border:1px solid var(--rule);border-radius:8px;background:var(--paper);color:var(--ink);font:inherit;cursor:pointer}
 .qod .opt:hover:not([disabled]){border-color:var(--accent)}
-.qod .opt.right{border-color:var(--ok);background:color-mix(in srgb,var(--ok) 12%,var(--paper))}
-.qod .opt.wrong{border-color:var(--bad);background:color-mix(in srgb,var(--bad) 10%,var(--paper))}
+.qod .opt.right{border-color:var(--ok);background:color-mix(in srgb,var(--ok) 10%,var(--paper))}
+.qod .opt.wrong{border-color:var(--bad);background:color-mix(in srgb,var(--bad) 9%,var(--paper))}
 .qod .fb{margin-top:6px;font-size:.95rem}
-.how{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:14px}
-.how div{background:var(--paper);border:1px solid var(--rule);border-radius:16px;padding:16px}
-.how b{display:block;font-family:var(--display);font-size:1.12rem;color:var(--head);margin-bottom:4px;font-variation-settings:"SOFT" 100}
-.how .em{font-size:1.6rem;line-height:1;margin-bottom:6px;display:block}
-.foot{margin:40px auto 0;padding:20px 20px 120px;border-top:1px solid var(--rule);color:var(--ink2);font-size:.88rem}
-@media (max-width:900px){ .hero .wrap{grid-template-columns:1fr} .stage{height:280px} .mods{grid-template-columns:repeat(2,minmax(0,1fr))} .mod.mid{grid-column:span 2} .qod{grid-template-columns:1fr} .how{grid-template-columns:repeat(2,minmax(0,1fr))} }
-@media (max-width:600px){ .stage .kipbig svg{width:190px;height:190px} .stage{height:330px} .wrap{padding:0 16px} .mods{grid-template-columns:1fr} .mod.mid{grid-column:auto} .how{grid-template-columns:1fr} .nav nav a{padding:6px 8px} .hero{padding-top:30px} .stage .say{max-width:240px;font-size:.92rem} }
-@media (prefers-reduced-motion: reduce){ .trackband .walker{animation:none;left:20%} .mod,.btn{transition:none} }
+.how{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:0;border:1px solid var(--rule);border-radius:10px;background:var(--paper);overflow:hidden}
+.how div{padding:18px;border-right:1px solid var(--rule)} .how div:last-child{border-right:0}
+.how b{display:block;font-family:var(--display);font-size:1.1rem;color:var(--head);margin:4px 0 4px;font-weight:600}
+.how .n{font:500 .72rem var(--mono);letter-spacing:.06em;color:var(--accent)}
+.foot{margin:40px auto 0;padding:20px 20px 130px;border-top:1px solid var(--rule);color:var(--ink2);font-size:.86rem}
+@media (max-width:900px){ .hero .wrap{grid-template-columns:1fr} .mods{grid-template-columns:repeat(2,minmax(0,1fr))} .mod.mid{grid-column:span 2} .qod{grid-template-columns:1fr} .how{grid-template-columns:repeat(2,minmax(0,1fr))} .how div:nth-child(2){border-right:0} .how div:nth-child(-n+2){border-bottom:1px solid var(--rule)} }
+@media (max-width:600px){ .wrap{padding:0 16px} .mods{grid-template-columns:1fr} .mod.mid{grid-column:auto} .how{grid-template-columns:1fr} .how div{border-right:0;border-bottom:1px solid var(--rule)} .nav nav a,.nav nav button{padding:6px 7px} .hero{padding-top:26px} .logo span{display:none} }
+@media (prefers-reduced-motion: reduce){ .mod,.btn{transition:none} }
 </style>
 </head>
 <body>
 <header class="nav"><div class="wrap">
-  <a class="logo" href="index.html"><span class="dot" aria-hidden="true"></span>BIOL 130 Interactive</a>
+  <a class="logo" href="index.html"><svg width="30" height="30" viewBox="0 0 30 30" aria-hidden="true"><circle cx="15" cy="15" r="13" fill="none" stroke="var(--accent)" stroke-width="1.6"/><circle cx="15" cy="15" r="10.2" fill="none" stroke="var(--accent)" stroke-width=".7" stroke-dasharray="1.6 1.4"/><circle cx="17" cy="13" r="4.4" fill="var(--accent)" opacity=".85"/></svg><span>BIOL 130 Interactive</span></a>
   <nav aria-label="Site">
     <a href="#modules">Modules</a>
     <a href="midterm.html">Midterm prep</a>
@@ -109,22 +117,18 @@ h1,h2,h3{font-family:var(--display);color:var(--head);font-weight:700;line-heigh
 <section class="hero">
   <div class="wrap">
     <div>
+      <p class="mono" style="margin:0 0 10px">BIOL 130 · Introductory Cell Biology · Waterloo</p>
       <h1>Cell biology you can <em>run</em>, not just read.</h1>
-      <p class="lede">Each module turns a unit of the BIOL 130 course notes into figures you can click, experiments you can run and simulations you can break. Then a mini exam shows you exactly what to go back to.</p>
+      <p class="lede">Each module turns a unit of the course notes into figures you can click, experiments you can run and simulations you can break. A mini exam then shows you exactly what to go back to.</p>
       <div class="btns">
         <a class="btn" id="continueBtn" href="module-1.html">Start with Module 1</a>
         <a class="btn ghost" href="midterm.html">Midterm prep</a>
       </div>
       <div class="counts" id="counts"></div>
     </div>
-    <div class="stage" aria-label="Kip the kinesin, standing on a microtubule">
-      <div class="say" id="say"><b>Hi, I'm Kip!</b><span id="tip">I'm a kinesin. In your cells I walk along microtubules carrying cargo. Here, I carry your questions to the right page of the notes.</span><br><button type="button" id="tipBtn">Another fact</button></div>
-      <div class="kipbig" id="kipbig"></div>
-    </div>
+    <figure class="plate" id="plate"></figure>
   </div>
 </section>
-
-<div class="trackband" aria-hidden="true"><div class="mt"></div><div class="walker" id="walker"></div></div>
 
 <section class="sec" id="modules"><div class="wrap">
   <h2>The modules</h2>
@@ -134,19 +138,19 @@ h1,h2,h3{font-family:var(--display);color:var(--head);font-weight:700;line-heigh
 
 <section class="sec"><div class="wrap">
   <div class="qod">
-    <div><span class="pill" style="--c:var(--accent)">Question of the day</span><h3 style="margin-top:8px">A quick one from Kip</h3><p class="sub" style="margin-bottom:0">A new question each day, pulled from all the mini exams. Get it wrong and Kip points you to the chapter.</p></div>
+    <div><span class="pill" style="--c:var(--accent)">Question of the day</span><h3 style="margin-top:10px">One question, every day</h3><p class="sub" style="margin-bottom:0">Pulled from all the mini exams. Get it wrong and you get a link to the chapter that covers it.</p></div>
     <div id="qod"></div>
   </div>
 </div></section>
 
 <section class="sec"><div class="wrap">
   <h2>What's inside every module</h2>
-  <p class="sub">None of it is a plain quiz. You predict, you try, and the cell shows you what happens.</p>
+  <p class="sub">You predict, you try, and the figure shows you what happens.</p>
   <div class="how">
-    <div><span class="em">🔬</span><b>Chapters you do</b>Short sections that follow the course notes. Build molecules, run experiments, drive enzymes. Your first-try score is saved so you can beat it.</div>
-    <div><span class="em">📝</span><b>A mini exam</b>A real-test feel: no hints until you submit. Then a chapter-by-chapter breakdown and a list of what to relearn.</div>
-    <div><span class="em">🧭</span><b>Free explore</b>An atlas or viewer where you can click through every structure, with labels on or off.</div>
-    <div><span class="em">💬</span><b>Kip</b>The study guide in the corner. Ask about any term, compare two ideas, get quizzed, or ask what to study next.</div>
+    <div><span class="n">01</span><b>Chapters you do</b>Short sections that follow the course notes, with page numbers. Your first-try score is saved so you can beat it.</div>
+    <div><span class="n">02</span><b>A mini exam</b>No hints until you submit. Then a breakdown by chapter and a list of what to relearn.</div>
+    <div><span class="n">03</span><b>Free explore</b>An atlas or viewer where you can click through every structure, with labels on or off.</div>
+    <div><span class="n">04</span><b>Kip</b>The kinesin in the corner. Drag him along his microtubule, or tap him to ask about any term, get quizzed, or see what to study next.</div>
   </div>
 </div></section>
 
@@ -161,17 +165,53 @@ h1,h2,h3{font-family:var(--display);color:var(--head);font-weight:700;line-heigh
 const S=window.STUDY; const $=s=>document.querySelector(s);
 const lsGet=(k,d)=>{ try{ const v=localStorage.getItem(k); return v==null?d:JSON.parse(v); }catch(e){ return d; } };
 const esc=s=>String(s).replace(/[&<>"]/g,c=>({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;"}[c]));
-$("#kipbig").innerHTML=KIP_SVG(250,{track:true,walk:false});
-$("#walker").innerHTML=KIP_SVG(52,{walk:true});
-/* facts */
-const FACTS=["I'm a kinesin. In your cells I walk along microtubules carrying cargo. Here, I carry your questions to the right page of the notes.",
- "Real kinesins take 8 nm steps, one 'foot' over the other, and burn one ATP per step.",
- "Microtubules have a + and a – end. Kinesins like me mostly walk toward the + end, out toward the edge of the cell.",
- "Your cells' vesicles travel on tracks like mine: Golgi to plasma membrane is a classic kinesin delivery.",
- "Stuck on a term? Tap me in the corner and ask. I'll show you the page in your notes.",
- "Tip: take a module's mini exam before you review it. Your mistakes tell you where to start.",
- "Dynein is the motor that walks the other way, toward the – end. We're coworkers."];
-let fi=0; $("#tipBtn").addEventListener("click",()=>{ fi=(fi+1)%FACTS.length; $("#tip").textContent=FACTS[fi]; });
+/* hero figure: a eukaryotic cell annotated by module */
+(function(){
+  const reduce=window.matchMedia&&matchMedia("(prefers-reduced-motion: reduce)").matches;
+  const mods=Object.fromEntries(S.modules.map(m=>[m.id,m]));
+  const blob="M70 214 C66 118 156 52 268 50 C380 48 470 110 474 210 C478 314 394 384 270 386 C150 388 74 318 70 214 Z";
+  let g=`<svg class="cell" id="cellsvg" viewBox="0 0 620 440" role="img" aria-label="A eukaryotic cell with callouts linking to each module">`;
+  // membrane (bilayer as two lines) + module 3 highlight
+  g+=`<path class="hl m3" d="${blob}" fill="none" stroke="var(--m3)" stroke-width="9" opacity="0" stroke-linejoin="round" style="stroke-opacity:.18"/>`;
+  g+=`<path class="fl" d="${blob}"/><path class="ln" d="${blob}"/><path class="lt" d="${blob}" transform="translate(272 218) scale(.982) translate(-272 -218)"/>`;
+  // cytoskeleton / microtubule for the vesicle to ride on
+  g+=`<path id="mtpath" class="lt" d="M300 200 C340 180 380 150 420 128" stroke-dasharray="6 3"/>`;
+  // ER
+  let er=""; [92,104,116].forEach(r=>{ er+=`<path class="ln" d="M${210+r*Math.cos(-1.1)} ${218+r*Math.sin(-1.1)} A${r} ${r} 0 0 1 ${210+r*Math.cos(1)} ${218+r*Math.sin(1)}" stroke-width="1"/>`; for(let a=-1.05;a<1;a+=.16) er+=`<circle cx="${(210+(r+3.5)*Math.cos(a)).toFixed(1)}" cy="${(218+(r+3.5)*Math.sin(a)).toFixed(1)}" r="1.6" fill="var(--fig-stroke)"/>`; });
+  g+=`<g>${er}</g><circle class="hl m5" cx="${210+107*Math.cos(.2)}" cy="${218+107*Math.sin(.2)}" r="34" fill="var(--m5)" style="fill-opacity:.12"/>`;
+  // nucleus
+  g+=`<circle class="hl m4" cx="210" cy="218" r="76" fill="var(--m4)" style="fill-opacity:.1"/>`;
+  g+=`<circle class="sf" cx="210" cy="218" r="64"/><circle class="ln" cx="210" cy="218" r="64"/><circle class="lt" cx="210" cy="218" r="59"/>`;
+  for(let i=0;i<12;i++){ const a=i/12*6.283; g+=`<circle cx="${(210+61.5*Math.cos(a)).toFixed(1)}" cy="${(218+61.5*Math.sin(a)).toFixed(1)}" r="2.2" fill="var(--paper)" stroke="var(--fig-stroke)" stroke-width=".8"/>`; }
+  let dna="M168 200"; for(let i=0;i<8;i++) dna+=` q6 ${i%2?-9:9} 12 0`; g+=`<path class="ln" d="${dna}" stroke="var(--m4)" stroke-width="1.3"/><path class="ln" d="${dna}" transform="translate(0,6)" stroke="var(--m4)" stroke-width="1.3" opacity=".6"/>`;
+  g+=`<circle cx="226" cy="236" r="13" fill="var(--fig-stroke)" opacity=".18"/>`;
+  // golgi
+  for(let i=0;i<4;i++){ const r=26+i*8; g+=`<path class="ln" d="M${352+r*Math.cos(2.5)} ${242+r*Math.sin(2.5)} A${r} ${r} 0 0 1 ${352+r*Math.cos(3.75)} ${242+r*Math.sin(3.75)}" stroke-width="3.2" stroke-linecap="round" opacity=".55"/>`; }
+  // mitochondria
+  const mito=(x,y,rot)=>`<g transform="rotate(${rot} ${x} ${y})"><ellipse class="sf" cx="${x}" cy="${y}" rx="24" ry="11"/><ellipse class="ln" cx="${x}" cy="${y}" rx="24" ry="11"/><path class="lt" d="M${x-17} ${y} l5 -7 l5 13 l5 -13 l5 13 l5 -13 l4 7"/></g>`;
+  g+=mito(146,110,-20)+mito(396,320,-25)+mito(130,320,25);
+  // lysosome + vesicles
+  g+=`<circle class="sf" cx="300" cy="330" r="11"/><circle class="ln" cx="300" cy="330" r="11"/><circle class="ln" cx="418" cy="200" r="6"/><circle class="ln" cx="402" cy="176" r="5"/>`;
+  g+=`<g id="ves"><circle cx="0" cy="0" r="6" fill="var(--fig-fill)" stroke="var(--accent)" stroke-width="1.4"/><circle cx="0" cy="0" r="2" fill="var(--accent)"/>${reduce?"":`<animateMotion dur="7s" repeatCount="indefinite" rotate="0"><mpath href="#mtpath"/></animateMotion>`}</g>`;
+  // molecule inset (module 2)
+  g+=`<g transform="translate(470 352)"><circle class="hl m2" r="44" fill="var(--m2)" style="fill-opacity:.1"/><circle r="38" fill="var(--paper)" stroke="var(--fig-stroke)" stroke-width="1"/>`;
+  let hx=""; for(let i=0;i<6;i++){ const a=(-30+60*i)*Math.PI/180; hx+=(i?"L":"M")+(14*Math.cos(a)-6).toFixed(1)+" "+(14*Math.sin(a)+2).toFixed(1); }
+  g+=`<path class="ln" d="${hx}Z"/><text x="-6" y="5" text-anchor="middle" style="font-size:8px">C₆</text><circle cx="18" cy="-18" r="5" fill="none" stroke="var(--m4)" stroke-width="1.2"/><circle cx="25" cy="-12" r="3" fill="none" stroke="var(--fig-stroke)"/><circle cx="12" cy="-12" r="3" fill="none" stroke="var(--fig-stroke)"/></g>`;
+  g+=`<line x1="438" y1="330" x2="404" y2="300" class="lt" stroke-dasharray="2 2"/>`;
+  // bilayer inset (module 3)
+  g+=`<g transform="translate(70 384)"><circle r="34" fill="var(--paper)" stroke="var(--fig-stroke)" stroke-width="1"/><clipPath id="cl"><circle r="33"/></clipPath><g clip-path="url(#cl)">`;
+  for(let i=-5;i<=5;i++){ const x=i*7; g+=`<circle cx="${x}" cy="-10" r="3" fill="var(--m3)"/><path d="M${x-1.2} -7 v8 M${x+1.2} -7 v8" stroke="var(--fig-stroke)" stroke-width=".8"/><circle cx="${x}" cy="12" r="3" fill="var(--m3)"/><path d="M${x-1.2} 9 v-8 M${x+1.2} 9 v-8" stroke="var(--fig-stroke)" stroke-width=".8"/>`; }
+  g+=`</g></g><line x1="98" y1="366" x2="112" y2="330" class="lt" stroke-dasharray="2 2"/>`;
+  // callouts
+  const CO=[["m1",1,272,52,300,22,"The cell","r"],["m2",2,494,330,566,262,"Molecules of life","b"],["m3",3,92,402,150,424,"Membranes","r"],["m4",4,180,206,40,40,"DNA → RNA","r"],["m5",5,308,236,566,140,"Proteins","b"]];
+  CO.forEach(([id,n,px,py,cx,cy,t,pos])=>{ const m=mods[id]; const href=m&&m.ready?m.file:"#modules";
+    const tx=pos==="b"?cx:cx+16, ty=pos==="b"?cy+28:cy+4, an=pos==="b"?"middle":"start";
+    g+=`<a class="co" href="${href}" style="--c:var(--${id})" data-m="${id}" aria-label="Module ${n}: ${t}"><line x1="${px}" y1="${py}" x2="${cx}" y2="${cy}"/><circle cx="${cx}" cy="${cy}" r="11"/><text class="n" x="${cx}" y="${cy+4}">${n}</text><text class="t" x="${tx}" y="${ty}" text-anchor="${an}">${t}</text></a>`; });
+  g+=`<text x="612" y="434" text-anchor="end">schematic · not to scale</text></svg>`;
+  const p=document.getElementById("plate"); p.innerHTML=g+`<figcaption><b>Fig. 1</b> A eukaryotic cell, annotated by module. The vesicle is riding a microtubule, pulled by a kinesin like Kip. Click a number to open that module.</figcaption>`;
+  const svg=document.getElementById("cellsvg");
+  svg.querySelectorAll(".co").forEach(a=>{ const on=()=>svg.classList.add("on-"+a.dataset.m), off=()=>svg.classList.remove("on-"+a.dataset.m); a.addEventListener("mouseenter",on); a.addEventListener("mouseleave",off); a.addEventListener("focus",on); a.addEventListener("blur",off); });
+})();
 /* module icons */
 const ICON={
  m1:`<svg width="44" height="44" viewBox="0 0 44 44"><ellipse cx="22" cy="22" rx="19" ry="15" fill="#e7f4e4" stroke="var(--m1)" stroke-width="2.5"/><circle cx="24" cy="21" r="6" fill="var(--m1)" opacity=".8"/><circle cx="25.5" cy="19.5" r="1.8" fill="#fff"/><ellipse cx="11" cy="25" rx="3.5" ry="2" fill="var(--m1)" opacity=".5"/><ellipse cx="33" cy="15" rx="3" ry="1.8" fill="var(--m1)" opacity=".5"/></svg>`,

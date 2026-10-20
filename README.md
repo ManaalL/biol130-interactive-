@@ -13,9 +13,8 @@ Interactive study modules for BIOL 130: Introductory Cell Biology at the Univers
 | `module-2.html` | Molecules of Life |
 | `module-3.html` | Cell Border Control: Cells and Membranes |
 | `module-4.html` | Nucleic Acids and Information Flow |
+| `module-5.html` | Protein Structure, Function and Synthesis |
 | `midterm.html` | Midterm prep for Modules 1 to 5 |
-
-Module 5 (Protein Structure, Function and Synthesis) will be added once its notes are ready. Its review questions are already on the midterm page.
 
 ## Inside each module
 
@@ -34,7 +33,7 @@ Module 5 (Protein Structure, Function and Synthesis) will be added once its note
 
 ## Kip
 
-Kip is a kinesin, the motor protein that walks along microtubules carrying cargo to where it's needed. Here Kip carries your questions to the right page of the notes. Kip sits in the corner of every page and can:
+Kip is a kinesin, the motor protein that walks along microtubules carrying cargo to where it's needed. Here Kip carries your questions to the right page of the notes. Kip walks a short microtubule in the corner of every page: drag him, flick him, or click the track to send him somewhere. Each 8 nm step costs him one ATP, and he keeps count. Tap him to open the chat, where he can:
 
 - explain any term or idea from the course, with the notes page
 - compare two terms side by side
@@ -47,7 +46,7 @@ Kip works offline by searching the course material in `studydata.js`. Optionally
 
 ```
 index.html       landing page
-module-1.html    to module-4.html, one page per module
+module-1.html    to module-5.html, one page per module
 midterm.html     midterm prep
 studydata.js     shared data: glossary, mini exam questions, review questions and answers
 exam.js          the mini exam and practice midterm engine
