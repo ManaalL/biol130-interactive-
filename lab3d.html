@@ -19,6 +19,7 @@
 @media (prefers-color-scheme: dark){ :root:not([data-theme="light"]){ --page:#0f1715; --paper:#151f1c; --ink:#e3eeea; --ink2:#9fb4ad; --rule:#26352f; --grid:#1a2622; --head:#dcefe8; --accent:#5cc0a8; --accentInk:#0c1a16; --accentSoft:#1a2f29; --fig-stroke:#bcd9cf; --fig-fill:#18241f; --fig-soft:#1d2c27; --lbl-bg:rgba(21,31,28,.9); } }
 :root[data-theme="dark"]{ --page:#0f1715; --paper:#151f1c; --ink:#e3eeea; --ink2:#9fb4ad; --rule:#26352f; --grid:#1a2622; --head:#dcefe8; --accent:#5cc0a8; --accentInk:#0c1a16; --accentSoft:#1a2f29; --fig-stroke:#bcd9cf; --fig-fill:#18241f; --fig-soft:#1d2c27; --lbl-bg:rgba(21,31,28,.9); }
 *,*::before,*::after{box-sizing:inherit}
+[hidden]{display:none !important}
 body{margin:0;background:var(--page);color:var(--ink);font-family:var(--sans);font-size:17px;line-height:1.55;overflow-x:hidden}
 a{color:var(--accent)}
 :focus-visible{outline:3px solid var(--accent);outline-offset:2px}
@@ -44,10 +45,10 @@ h1,h2,h3{font-family:var(--display);color:var(--head);font-weight:600;line-heigh
 /* layout */
 .lab{display:grid;grid-template-columns:196px minmax(0,1fr) 330px;gap:18px;align-items:start;padding-top:20px;padding-bottom:20px}
 .scenes{position:sticky;top:72px;display:flex;flex-direction:column;gap:2px}
-.scenes .g{font:500 .7rem var(--mono);letter-spacing:.07em;text-transform:uppercase;color:var(--ink2);margin:12px 0 3px;padding-left:10px}
-.scenes .g:first-child{margin-top:0}
+.scenes .g{font:500 .7rem var(--mono);letter-spacing:.07em;text-transform:uppercase;color:var(--ink2);margin:0 0 6px;padding-left:10px}
+.scenes .sep{height:1px;background:var(--rule);margin:3px 10px}
 .scenes button{display:flex;align-items:baseline;gap:8px;width:100%;text-align:left;font:600 .95rem var(--sans);color:var(--ink);background:none;border:1px solid transparent;border-radius:8px;padding:6px 10px;cursor:pointer;line-height:1.25}
-.scenes button .n{font:500 .7rem var(--mono);color:var(--ink2);min-width:1.6em;display:none}
+.scenes button .n{font:500 .7rem var(--mono);color:var(--ink2);min-width:2.4em}
 .scenes button:hover{background:var(--accentSoft);color:var(--head)}
 .scenes button[aria-current="true"]{background:var(--paper);border-color:var(--rule);color:var(--head);box-shadow:inset 3px 0 0 var(--accent)}
 /* the plate */
@@ -112,9 +113,8 @@ details.plist summary{cursor:pointer;font:600 .9rem var(--sans);color:var(--ink2
 @media (max-width:1180px){
   .lab{grid-template-columns:minmax(0,1fr) 300px}
   .scenes{grid-column:1/-1;position:static;flex-direction:row;flex-wrap:wrap;gap:6px}
-  .scenes .g{display:none}
+  .scenes .g,.scenes .sep{display:none}
   .scenes button{width:auto;border:1px solid var(--rule);background:var(--paper);padding:5px 10px;font-size:.88rem}
-  .scenes button .n{display:inline}
   .scenes button[aria-current="true"]{background:var(--accent);color:var(--accentInk);border-color:var(--accent);box-shadow:none}
   .scenes button[aria-current="true"] .n{color:var(--accentInk)}
 }
@@ -124,7 +124,8 @@ details.plist summary{cursor:pointer;font:600 .9rem var(--sans);color:var(--ink2
 }
 @media (max-width:600px){
   .wrap{padding:0 16px}
-  .nav nav a,.nav nav button{padding:6px 7px}
+  .nav .wrap{gap:10px}
+  .nav nav a,.nav nav button{padding:6px 6px;font-size:.86rem}
   .logo span{display:none}
   .hero{padding:20px 0 14px}
   .hero .lede{font-size:.98rem}
@@ -147,8 +148,10 @@ details.plist summary{cursor:pointer;font:600 .9rem var(--sans);color:var(--ink2
   <a class="logo" href="index.html"><svg width="30" height="30" viewBox="0 0 30 30" aria-hidden="true"><circle cx="15" cy="15" r="13" fill="none" stroke="var(--accent)" stroke-width="1.6"/><circle cx="15" cy="15" r="10.2" fill="none" stroke="var(--accent)" stroke-width=".7" stroke-dasharray="1.6 1.4"/><circle cx="17" cy="13" r="4.4" fill="var(--accent)" opacity=".85"/></svg><span>BIOL 130 Interactive</span></a>
   <nav aria-label="Site">
     <a href="index.html#modules">Modules</a>
+    <a href="review.html">Daily review</a>
+    <a href="diagrams.html">Diagrams</a>
     <a href="lab3d.html" aria-current="page">3D lab</a>
-    <a href="midterm.html">Midterm prep</a>
+    <a href="midterm.html">Exam prep</a>
     <button type="button" onclick="window.KIP&&KIP.open()">Ask Kip</button>
   </nav>
 </div></header>

@@ -102,7 +102,8 @@ MODES.forEach(([v,label,grp])=>{ if(grp){ if(bin.children.length) bin.append(h("
 const dueN = SRS.due().length;
 bin.append(h("a",{class:"out",href:"review.html"},"Daily review",dueN?h("span",{class:"dot"},String(dueN)):null));
 bin.append(h("a",{class:"out",href:"diagrams.html#"+MOD},"Diagrams"));
-bin.append(h("a",{class:"out",href:"lab3d.html"},"3D lab"));
+const SCENE={m1:"cell",m2:"protein",m3:"membrane",m4:"dna",m5:"protein",m6:"mito",m7:"mito",m8:"chloro",m9:"gpcr",m10:"cyto",m11:"fork"};
+bin.append(h("a",{class:"out",href:"lab3d.html#"+(SCENE[MOD]||"cell")},"3D lab"));
 $("header.top").append(bar);
 function setMode(v){ $$(".modebar .md").forEach(b=>b.setAttribute("aria-current",String(b.dataset.mode===v))); }
 

@@ -1,0 +1,1576 @@
+<!DOCTYPE html>
+<html lang="en" data-module="m9">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>Cell signalling | BIOL 130 Module 9</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Source+Sans+3:ital,wght@0,400;0,600;0,700;1,400&family=Source+Serif+4:ital,opsz,wght@0,8..60,500;0,8..60,650;1,8..60,400&display=swap" rel="stylesheet">
+<style>
+:root{
+  --page:#e8ecee; --paper:#ffffff; --ink:#1c2830; --ink2:#4b5b64; --rule:#cbd5d7;
+  --head:#23282e; --accent:#2b62a8; --accentInk:#ffffff; --accentSoft:#e1e9f3;
+  --ok:#2a7648; --okSoft:#e2f2e7; --bad:#a53838; --badSoft:#f7e4e2;
+  --plate:#ffffff; --plateRule:#c3cdd0; --cap:#3b4a52; --chip:#f1f5f5;
+  --serif:"Source Serif 4", Georgia, "Times New Roman", serif;
+  --sans:"Source Sans 3", "Segoe UI", system-ui, -apple-system, Roboto, Arial, sans-serif;
+  box-sizing:border-box;
+  padding-top:env(safe-area-inset-top,0px); padding-bottom:env(safe-area-inset-bottom,0px);
+}
+@media (prefers-color-scheme: dark){
+  :root:not([data-theme="light"]){
+    --page:#0f171b; --paper:#162228; --ink:#e2eaec; --ink2:#a5b5bb; --rule:#2b3b42;
+    --head:#e8eeea; --accent:#8aa9cf; --accentInk:#060f19; --accentSoft:#162538;
+    --ok:#6cc394; --okSoft:#17311f; --bad:#e8908b; --badSoft:#3a1e1e;
+    --plate:#f4f7f7; --plateRule:#3a4a51; --cap:#b9c7cc; --chip:#1d2b31;
+  }
+}
+:root[data-theme="dark"]{
+  --page:#0f171b; --paper:#162228; --ink:#e2eaec; --ink2:#a5b5bb; --rule:#2b3b42;
+  --head:#e8eeea; --accent:#8aa9cf; --accentInk:#060f19; --accentSoft:#162538;
+  --ok:#6cc394; --okSoft:#17311f; --bad:#e8908b; --badSoft:#3a1e1e;
+  --plate:#f4f7f7; --plateRule:#3a4a51; --cap:#b9c7cc; --chip:#1d2b31;
+}
+*,*::before,*::after{box-sizing:inherit}
+html{scroll-padding-top:env(safe-area-inset-top,0px)}
+body{margin:0;background:var(--page);color:var(--ink);font-family:var(--sans);font-size:17px;line-height:1.5;-webkit-text-size-adjust:100%}
+button{font:inherit;color:inherit}
+:focus-visible{outline:3px solid var(--accent);outline-offset:2px}
+h1,h2,h3{font-family:var(--serif);color:var(--head);font-weight:650;line-height:1.2;margin:0}
+p{margin:0 0 .8em}
+sup{font-size:.7em;line-height:0}
+
+/* top bar */
+.top{position:sticky;top:0;z-index:20;background:var(--paper);border-bottom:1px solid var(--rule);padding-top:env(safe-area-inset-top,0px)}
+.topin{max-width:1240px;margin:0 auto;display:flex;align-items:center;gap:20px;padding:10px 20px;flex-wrap:wrap}
+.brand{display:flex;align-items:baseline;gap:12px;cursor:pointer;background:none;border:0;padding:0;text-align:left}
+.brand b{font-family:var(--serif);font-size:1.45rem;color:var(--head);font-weight:650;letter-spacing:-.01em}
+.brand span{color:var(--ink2);font-size:.9rem}
+.tabs{display:flex;gap:4px;margin-left:auto;flex-wrap:wrap}
+.tab{background:none;border:1px solid transparent;border-radius:6px;padding:6px 12px;cursor:pointer;color:var(--ink2);font-weight:600}
+.tab:hover{color:var(--ink);background:var(--chip)}
+.tab[aria-current="true"]{color:var(--accent);border-color:var(--rule);background:var(--paper)}
+.wrap{max-width:1240px;margin:0 auto;padding:22px 20px 60px}
+
+/* figure plates */
+.plate{background:var(--plate);border:1px solid var(--plateRule);border-radius:4px;padding:10px 10px 8px;margin:0;position:relative}
+.plate svg,.plate canvas{display:block;width:100%;height:auto}
+.plate figcaption{font-family:var(--serif);font-size:.93rem;color:#3b4a52;padding:8px 4px 2px;line-height:1.4}
+.plate figcaption b{font-weight:650;color:#2b62a8}
+.plate .tools{position:absolute;top:8px;right:8px;display:flex;gap:6px;z-index:2}
+.mini{font-size:.82rem;padding:4px 9px;border-radius:5px;border:1px solid #c3cdd0;background:#fff;color:#1c2830;cursor:pointer}
+.mini:hover{background:#eef4f4}
+.mini[aria-pressed="true"]{background:#2b62a8;color:#fff;border-color:#2b62a8}
+
+/* buttons */
+.btn{display:inline-flex;align-items:center;gap:8px;padding:10px 18px;border-radius:6px;border:1px solid var(--accent);background:var(--accent);color:var(--accentInk);font-weight:600;cursor:pointer}
+.btn:hover{filter:brightness(1.07)}
+.btn[disabled]{opacity:.45;cursor:not-allowed;filter:none}
+.btn.ghost{background:transparent;color:var(--accent)}
+.row{display:flex;gap:10px;flex-wrap:wrap;align-items:center}
+
+/* home */
+.hero{display:grid;grid-template-columns:minmax(0,1.55fr) minmax(0,1fr);gap:28px;align-items:start}
+.hero h1{font-size:2.3rem;letter-spacing:-.015em;margin-bottom:12px}
+.lede{font-size:1.08rem;color:var(--ink);max-width:36em}
+.muted{color:var(--ink2)}
+.small{font-size:.9rem}
+.chlist{list-style:none;margin:30px 0 0;padding:0;display:grid;grid-template-columns:repeat(auto-fill,minmax(270px,1fr));gap:12px}
+.chitem{background:var(--paper);border:1px solid var(--rule);border-radius:6px;padding:14px 16px;cursor:pointer;text-align:left;width:100%;display:grid;grid-template-columns:auto 1fr;gap:4px 12px;align-items:baseline}
+.chitem:hover{border-color:var(--accent)}
+.chnum{font-family:var(--serif);font-size:1.6rem;color:var(--accent);grid-row:span 2;line-height:1}
+.chitem h3{font-size:1.1rem}
+.chitem .meta{grid-column:2;color:var(--ink2);font-size:.88rem}
+.done-tag{color:var(--ok);font-weight:600}
+.sect{margin-top:34px}
+.sect h2{font-size:1.35rem;margin-bottom:6px}
+
+/* chapter */
+.crumb{display:flex;align-items:center;gap:14px;flex-wrap:wrap;margin-bottom:14px}
+.crumb h1{font-size:1.6rem}
+.crumb .back{background:none;border:0;color:var(--accent);cursor:pointer;font-weight:600;padding:0}
+.steps{display:flex;gap:4px;flex:1;min-width:160px;max-width:420px;margin-left:auto}
+.steps i{flex:1;height:6px;border-radius:3px;background:var(--rule)}
+.steps i.on{background:var(--accent)}
+.steps i.cur{background:var(--head)}
+.stage{display:grid;grid-template-columns:minmax(0,1.5fr) minmax(300px,1fr);gap:24px;align-items:start}
+.stage.wide{grid-template-columns:minmax(0,1fr)}
+.stage.wide>.panel{max-width:860px}
+.stage.wide>.panel:has(.pad){max-width:none}
+.panel{background:var(--paper);border:1px solid var(--rule);border-radius:6px;padding:18px 20px}
+.panel h2{font-size:1.3rem;margin-bottom:10px}
+.kicker{color:var(--accent);font-weight:600;font-size:.92rem;margin-bottom:4px}
+.opts{display:grid;gap:8px;margin:12px 0}
+.opt{text-align:left;padding:10px 14px;border:1px solid var(--rule);border-radius:6px;background:var(--paper);cursor:pointer;line-height:1.35}
+.opt:hover:not([disabled]){border-color:var(--accent)}
+.opt.right{border-color:var(--ok);background:var(--okSoft)}
+.opt.wrong{border-color:var(--bad);background:var(--badSoft)}
+.opt[disabled]{cursor:default}
+.fb{border-left:4px solid var(--accent);background:var(--accentSoft);padding:10px 14px;border-radius:0 6px 6px 0;margin:10px 0}
+.fb.ok{border-color:var(--ok);background:var(--okSoft)}
+.fb.bad{border-color:var(--bad);background:var(--badSoft)}
+.fb > b:first-child{display:block;margin-bottom:2px}
+.nav{display:flex;justify-content:space-between;gap:10px;margin-top:16px;flex-wrap:wrap}
+.explored{font-size:.9rem;color:var(--ink2);margin-top:6px}
+.termlinks{display:flex;flex-wrap:wrap;gap:6px;margin:8px 0}
+.tl{border:1px solid var(--rule);background:var(--chip);border-radius:14px;padding:3px 10px;font-size:.86rem;cursor:pointer}
+.tl:hover{border-color:var(--accent)}
+.tl.inl{background:none;border:0;border-bottom:1.5px dotted var(--accent);border-radius:0;color:var(--accent);padding:0 1px!important;font-weight:600}
+.tl.inl:hover{background:var(--accentSoft)}
+.tl.seen{border-color:var(--accent);color:var(--accent)}
+
+/* order + sort */
+.order{display:grid;gap:8px;margin:10px 0}
+.pool .card,.slot{border:1px dashed var(--rule);border-radius:6px;padding:9px 12px;min-height:44px;background:var(--paper);line-height:1.35}
+.pool{display:grid;gap:8px;margin:10px 0}
+.pool .card{border-style:solid;cursor:pointer;text-align:left}
+.pool .card:hover{border-color:var(--accent)}
+.pool .card.sel{border-color:var(--accent);box-shadow:0 0 0 2px var(--accent) inset}
+.slot{display:flex;gap:10px;align-items:flex-start}
+.slot .n{font-family:var(--serif);color:var(--accent);font-weight:650;min-width:1.2em}
+.slot.filled{border-style:solid;cursor:pointer}
+.slot.right{border-color:var(--ok);background:var(--okSoft)}
+.slot.wrong{border-color:var(--bad);background:var(--badSoft)}
+.bins{display:grid;grid-template-columns:repeat(auto-fit,minmax(150px,1fr));gap:8px;margin:10px 0}
+.bin{border:1px solid var(--rule);border-radius:6px;padding:8px;min-height:90px;background:var(--chip);cursor:pointer}
+.bin h4{margin:0 0 6px;font-size:.92rem;font-family:var(--sans);color:var(--head)}
+.bin .card{display:block;width:100%;font-size:.88rem;padding:5px 8px;margin-bottom:5px;border:1px solid var(--rule);border-radius:5px;background:var(--paper);text-align:left;cursor:pointer}
+.bin .card.right{border-color:var(--ok);background:var(--okSoft)}
+.bin .card.wrong{border-color:var(--bad);background:var(--badSoft)}
+.bin:hover{border-color:var(--accent)}
+
+/* controls in sims */
+.ctl{display:grid;gap:10px;margin:10px 0}
+.ctl label{font-weight:600;font-size:.92rem;display:block;margin-bottom:3px}
+.seg{display:flex;flex-wrap:wrap;border:1px solid var(--rule);border-radius:6px;overflow:hidden}
+.seg button{flex:1;padding:7px 10px;background:var(--paper);border:0;border-right:1px solid var(--rule);cursor:pointer;font-size:.9rem;min-width:70px}
+.seg button:last-child{border-right:0}
+.seg button[aria-pressed="true"]{background:var(--accent);color:var(--accentInk)}
+input[type=range]{width:100%;accent-color:var(--accent)}
+.readout{font-variant-numeric:tabular-nums;font-size:.92rem;color:var(--ink2)}
+.meter{height:10px;background:var(--rule);border-radius:5px;overflow:hidden}
+.meter i{display:block;height:100%;background:var(--accent);transition:width .5s}
+.stat{display:grid;grid-template-columns:130px 1fr;gap:8px;align-items:center;font-size:.9rem;margin:6px 0}
+
+/* tray */
+.tray{display:flex;flex-wrap:wrap;gap:8px;margin:10px 0}
+.tok{border:1px solid var(--rule);background:var(--paper);border-radius:6px;padding:7px 11px;cursor:pointer;font-size:.9rem;display:flex;align-items:center;gap:8px}
+.tok.sel{border-color:var(--accent);box-shadow:0 0 0 2px var(--accent) inset}
+.tok.used{opacity:.4}
+.sw{width:14px;height:14px;border-radius:3px;display:inline-block;border:1px solid rgba(0,0,0,.25)}
+
+/* term card */
+.termcard{position:fixed;right:18px;bottom:calc(18px + env(safe-area-inset-bottom,0px));width:min(380px,calc(100vw - 36px));background:var(--paper);border:1px solid var(--rule);border-radius:8px;box-shadow:0 10px 30px rgba(10,30,40,.18);padding:16px 18px;z-index:50;display:none;max-height:70vh;overflow:auto}
+.termcard.show{display:block}
+.termcard h3{font-size:1.2rem;margin-bottom:6px;padding-right:28px}
+.termcard .x{position:absolute;top:10px;right:10px;background:none;border:0;font-size:1.3rem;cursor:pointer;color:var(--ink2);line-height:1;padding:4px 8px}
+.termcard .rel{font-size:.86rem;color:var(--ink2);margin-top:8px}
+.tip{position:fixed;pointer-events:none;background:#2a2e35;color:#fff;font-size:.82rem;padding:4px 8px;border-radius:4px;z-index:60;display:none;white-space:nowrap}
+
+/* svg hotspots */
+[data-term]{cursor:pointer}
+[data-term]:hover > .hl, [data-term]:focus > .hl{stroke:#2b62a8;stroke-width:3}
+[data-term]:focus{outline:none}
+[data-term].hit > .hl{stroke:#2b62a8}
+[data-term]:hover{filter:brightness(1.06)}
+.lbl{font-family:"Source Sans 3",Arial,sans-serif;font-size:13px;fill:#1c2830}
+.lbl.sm{font-size:11.5px}
+.lbl.it{font-style:italic;fill:#3b4a52}
+.lead{stroke:#5b6b73;stroke-width:1;fill:none}
+.labels-off .lbls{display:none}
+
+/* checkpoint */
+.idcard{border:1px solid var(--rule);border-radius:8px;overflow:hidden;background:var(--paper)}
+.idcard .hd{background:var(--head);color:#fff;padding:10px 14px;display:flex;justify-content:space-between;align-items:baseline;gap:10px}
+:root[data-theme="dark"] .idcard .hd{color:#0f171b}
+@media (prefers-color-scheme: dark){:root:not([data-theme="light"]) .idcard .hd{color:#0f171b}}
+.idcard .hd b{font-family:var(--serif);font-size:1.25rem}
+.idcard dl{display:grid;grid-template-columns:auto 1fr;gap:4px 14px;margin:0;padding:12px 14px}
+.idcard dt{color:var(--ink2);font-size:.9rem}
+.idcard dd{margin:0;font-weight:600}
+.gates{display:grid;grid-template-columns:repeat(auto-fit,minmax(140px,1fr));gap:8px;margin:12px 0}
+.gate{border:1px solid var(--rule);border-radius:6px;padding:9px 10px;background:var(--paper);cursor:pointer;text-align:left;font-size:.92rem;line-height:1.3}
+.gate:hover:not([disabled]){border-color:var(--accent)}
+.gate small{display:block;color:var(--ink2);font-size:.8rem;margin-top:2px}
+.gate.right{border-color:var(--ok);background:var(--okSoft)}
+.gate.wrong{border-color:var(--bad);background:var(--badSoft)}
+.score{display:flex;gap:18px;flex-wrap:wrap;font-size:.92rem;color:var(--ink2);margin-bottom:10px}
+.score b{color:var(--ink);font-variant-numeric:tabular-nums}
+
+/* glossary */
+.gl{columns:2 360px;column-gap:28px}
+.gl section{break-inside:avoid;margin-bottom:22px}
+.gl h2{font-size:1.2rem;margin-bottom:8px;border-bottom:1px solid var(--rule);padding-bottom:4px}
+.gi{display:grid;grid-template-columns:1fr auto;gap:2px 10px;padding:8px 0;border-bottom:1px solid var(--rule)}
+.gi b{font-weight:700}
+.gi p{grid-column:1 / -1;margin:0;color:var(--ink2);font-size:.94rem}
+.st{font-size:.78rem;border-radius:10px;padding:1px 8px;border:1px solid var(--rule);color:var(--ink2);white-space:nowrap}
+.st.tested{border-color:var(--ok);color:var(--ok)}
+.st.seen{border-color:var(--accent);color:var(--accent)}
+
+/* atlas */
+.atlas{display:grid;grid-template-columns:minmax(0,1.6fr) minmax(290px,1fr);gap:24px;align-items:start}
+.atlas svg{touch-action:manipulation}
+.quizbar{display:flex;align-items:center;gap:10px;flex-wrap:wrap;background:var(--accentSoft);border-radius:6px;padding:10px 14px;margin-bottom:12px}
+
+.summary{max-width:720px}
+.big{font-family:var(--serif);font-size:3rem;color:var(--accent);line-height:1}
+.foot{margin-top:40px;color:var(--ink2);font-size:.85rem;border-top:1px solid var(--rule);padding-top:12px}
+
+
+/* course-notes styling */
+.banner{display:flex;align-items:stretch;margin:0 0 16px;min-height:44px}
+.banner .num{background:#204a7e;color:#fff;font-family:var(--serif);font-weight:650;font-size:1.25rem;padding:8px 16px;display:flex;align-items:center;box-shadow:2px 2px 0 rgba(0,0,0,.18);position:relative;z-index:1}
+.banner .ttl{flex:1;background:#4475b2;color:#fff;display:flex;align-items:center;padding:6px 18px;font-variant:small-caps;letter-spacing:.04em;font-weight:700;font-size:1.15rem;margin-left:-2px}
+.banner .pg{background:#4475b2;color:#ffffff;display:flex;align-items:center;padding:0 14px;font-size:.85rem;white-space:nowrap}
+.remember{display:flex;gap:12px;align-items:flex-start;background:#e4ebf2;border-radius:4px;padding:10px 14px;margin:10px 0;color:#1c2830;box-shadow:1px 1px 0 rgba(0,0,0,.08)}
+.remember .key{flex:none;width:28px;height:28px}
+.remember b{display:block;font-family:var(--serif)}
+.dyk{background:#eaeff6;border-left:4px solid #2b62a8;border-radius:0 4px 4px 0;padding:10px 14px;margin:10px 0;font-style:italic;color:#2a1c18}
+.dyk b{font-style:normal}
+.notes-ref{font-size:.85rem;color:var(--ink2);margin:4px 0 10px}
+.notes-ref b{color:var(--accent)}
+.homelink{color:var(--ink2);font-size:.88rem;text-decoration:none;border:1px solid var(--rule);border-radius:6px;padding:5px 10px;margin-right:4px}
+.homelink:hover{color:var(--accent);border-color:var(--accent)}
+.seqrow{display:flex;gap:3px;flex-wrap:wrap;align-items:center;font-family:ui-monospace,Menlo,Consolas,monospace;margin:6px 0}
+.seqrow .end{font-weight:700;color:var(--ink2);min-width:26px;text-align:center}
+.nt{width:30px;height:34px;border:1px solid var(--rule);border-radius:4px;display:inline-flex;align-items:center;justify-content:center;font-weight:700;font-size:1rem;background:var(--paper);color:var(--ink)}
+.nt.A{background:#8e6cc4;color:#fff;border-color:#6a4e9b}.nt.G{background:#dd5f45;color:#fff;border-color:#b0452f}
+.nt.T{background:#3a9a9a;color:#fff;border-color:#2a7676}.nt.C{background:#f0cf4f;color:#3a2e00;border-color:#c9a92c}
+.nt.U{background:#86b851;color:#fff;border-color:#618f33}
+.nt.slot{border-style:dashed;cursor:pointer}.nt.slot.cur{box-shadow:0 0 0 2px var(--accent)}
+.nt.ok{outline:2px solid var(--ok)}.nt.no{outline:2px solid var(--bad)}
+.pad{display:flex;gap:6px;flex-wrap:wrap;margin:8px 0}
+.pad button{width:46px;height:42px;border-radius:6px;border:1px solid var(--rule);font-weight:700;font-size:1.05rem;cursor:pointer}
+.pad button.A{background:#8e6cc4;color:#fff}.pad button.G{background:#dd5f45;color:#fff}.pad button.T{background:#3a9a9a;color:#fff}.pad button.C{background:#f0cf4f;color:#3a2e00}.pad button.U{background:#86b851;color:#fff}
+.pad button.del{width:auto;padding:0 12px;background:var(--paper);font-size:.9rem}
+
+@media (max-width: 880px){
+  body{font-size:16px}
+  .hero,.stage,.atlas{grid-template-columns:minmax(0,1fr)}
+  .hero h1{font-size:1.8rem}
+  .topin{padding:8px 14px;gap:8px}
+  .tabs{margin-left:0;width:100%}
+  .tab{padding:5px 9px;font-size:.92rem}
+  .brand span{display:none}
+  .wrap{padding:16px 12px 60px}
+  .steps{max-width:none;min-width:100%;order:3}
+  .termcard{right:0;left:0;bottom:0;width:100%;border-radius:12px 12px 0 0;padding-bottom:calc(16px + env(safe-area-inset-bottom,0px))}
+}
+@media (prefers-reduced-motion: reduce){
+  *{transition:none!important;animation:none!important}
+}
+@media (max-width:640px){.banner{flex-wrap:wrap}.banner .pg{flex-basis:100%;padding:4px 14px 6px;white-space:normal}}
+/* Module 9: let the viewer's figure buttons size to their labels so none are clipped */
+.atlas .seg button{flex:1 1 auto;min-width:0;padding:7px 9px;white-space:nowrap}
+
+</style>
+</head>
+<body>
+<header class="top"><div class="topin">
+  <button class="brand" id="home" aria-label="Module 9 home"><b>Cell Signalling</b><span>BIOL 130, Module 9</span></button>
+  <nav class="tabs" aria-label="Sections">
+    <a class="homelink" id="hubLink" href="index.html" target="_top">All modules</a>
+    <button class="tab" data-go="story">Chapters</button>
+    <button class="tab" data-go="atlas">Pathway viewer</button>
+    <button class="tab" data-go="checkpoint">Signal desk</button>
+    <button class="tab" data-go="exam">Mini exam</button>
+    <button class="tab" data-go="glossary">Glossary</button>
+  </nav>
+</div></header>
+<main class="wrap" id="app"></main>
+<aside class="termcard" id="termcard" role="dialog" aria-live="polite"><button class="x" aria-label="Close">×</button><div id="tcbody"></div></aside>
+<div class="tip" id="tip"></div>
+<script src="studydata.js"></script>
+<script src="srs.js"></script>
+<script src="exam.js"></script>
+<script src="kip.js"></script>
+<script>
+"use strict";
+/* ============ storage ============ */
+const KEY = "biol130-m9-progress-v1";
+let P = { ch:{}, terms:{}, cp:{best:0} };
+try { const s = localStorage.getItem(KEY); if (s) P = Object.assign(P, JSON.parse(s)); } catch(e) {}
+function save(){ try { localStorage.setItem(KEY, JSON.stringify(P)); } catch(e) {} }
+function markTerm(k, level){
+  const order = {seen:1, tested:2};
+  const cur = P.terms[k];
+  if (!cur || order[level] > order[cur]) { P.terms[k] = level; save(); }
+}
+/* ============ glossary data (p = course notes page) ============ */
+const T = {
+ "cell-signalling":{n:"Cell signalling",g:"Principles of signalling",p:"127",d:"Transferring information from the outside of the cell to obtain a response inside the cell. Cells communicate by sending and receiving chemical signals over short or long distances."},
+ "four-elements":{n:"Four elements of cell communication",g:"Principles of signalling",p:"127–128",d:"Communication between cells, prokaryotic or eukaryotic, needs four elements: a signalling cell, a signalling molecule, a receptor molecule and a responding cell. Example in humans: adrenal gland cells release epinephrine, which binds receptors on target organ cells and increases heart rate."},
+ "signalling-cell":{n:"Signalling cell",g:"Principles of signalling",p:"127",d:"The cell that makes and releases the signalling molecule. Example: cells of the adrenal glands, which release epinephrine."},
+ "signalling-molecule":{n:"Signalling molecule (ligand)",g:"Principles of signalling",p:"127, 129",d:"The chemical signal released by the signalling cell. A molecule that binds to a receptor is called a ligand. It can be an extracellular ligand secreted by cells, or the signal can come from cell-to-cell contact or contact with the extracellular matrix. Example: epinephrine."},
+ "responding-cell":{n:"Responding cell (target cell)",g:"Principles of signalling",p:"127–128",d:"The cell that has the receptor for the signal and changes what it does in response. Example: heart muscle cells increase heart rate in response to epinephrine."},
+ "receptor":{n:"Receptor",g:"Principles of signalling",p:"127, 129",d:"A protein that recognizes and binds a specific signalling molecule (ligand). Some are cell-surface proteins; others are inside the cell, in the cytosol or nucleus. Binding turns the receptor on."},
+ "ligand-binding-site":{n:"Ligand-binding site",g:"Principles of signalling",p:"129",d:"The part of a receptor where the ligand binds. The ligand fits it much like a substrate fits the active site of an enzyme. Binding causes a conformational change in the receptor that triggers reactions in the cytosol."},
+ "receptor-activation":{n:"Receptor activation",g:"Four steps",p:"128–129",d:"Step 1 of signalling: the signalling molecule binds to its receptor, which changes conformation and is turned on (activated)."},
+ "signal-transduction":{n:"Signal transduction",g:"Four steps",p:"128–129",d:"Step 2 of signalling: the activated receptor transmits the message into the cell through the cytoplasm. A series of distinct proteins is activated or inactivated in a particular sequence (a signal transduction pathway). The message can stay in the cytosol or go to the nucleus."},
+ "response":{n:"Response",g:"Four steps",p:"128–129",d:"Step 3 of signalling: what the cell does. It could activate enzymes, turn on genes, signal other cells, or make the cell divide or change shape. The response depends on the cell type, because it depends on the proteins and pathways in that cell: epinephrine makes heart muscle contract more forcefully and quickly but relaxes the smooth muscle lining the airways."},
+ "signal-termination":{n:"Signal termination",g:"Four steps",p:"128–129, 135",d:"Step 4 of signalling: once the signal has been received and acted on, the response is stopped so that new signals can be received. For a GPCR: the ligand leaves, the G protein converts GTP to GDP, cAMP is degraded, and phosphatases remove phosphates from activated proteins."},
+ "quorum":{n:"Signalling in bacteria",g:"Principles of signalling",p:"127",d:"Pneumococcal bacteria continuously make a small peptide and have a surface receptor for it. At low cell density the peptide stays below its critical threshold and DNA-uptake genes stay off. At high density the peptide binds, the signal is relayed to the nucleoid and genes for taking up DNA from the environment turn on."},
+ "endocrine":{n:"Endocrine signalling",g:"Signal distances",p:"130",d:"Long-distance signalling. Endocrine cells release chemical signalling molecules called hormones that travel through the bloodstream; only target cells that express the right receptor for the hormone respond."},
+ "hormone":{n:"Hormone",g:"Signal distances",p:"130",d:"A chemical signalling molecule made by endocrine cells and carried through the bloodstream to distant target cells. Epinephrine (adrenaline) is an example."},
+ "paracrine":{n:"Paracrine signalling",g:"Signal distances",p:"130",d:"Short-distance signalling between neighbouring cells. The signalling molecule, typically small and water soluble, moves by diffusion and acts within a range of about 20 cells. Important in embryonic development."},
+ "autocrine":{n:"Autocrine signalling",g:"Signal distances",p:"130",d:"The cell that secretes a signalling molecule is also the target cell: it has receptors for its own signal. Important in embryonic development."},
+ "contact-dependent":{n:"Contact-dependent signalling",g:"Signal distances",p:"130",d:"Signalling through direct contact between neighbouring cells. A transmembrane protein on one cell acts as the signalling molecule and a transmembrane protein on the adjacent cell acts as the receptor. Also called juxtacrine signalling."},
+ "polar-signal":{n:"Polar signalling molecules",g:"Receptors",p:"131",d:"Signalling molecules that cannot cross the hydrophobic core of the cell membrane. They bind to cell-surface receptors (transmembrane proteins)."},
+ "nonpolar-signal":{n:"Nonpolar signalling molecules",g:"Receptors",p:"131",d:"Small, nonpolar signalling molecules pass through the hydrophobic core of the membrane, so they do not need a receptor on the outside of the cell. They bind receptors in the cytosol or nucleus. Steroid hormones are the standard example."},
+ "intracellular-receptor":{n:"Intracellular receptor",g:"Receptors",p:"131",d:"A receptor protein in the cytosol or nucleus, bound by a nonpolar ligand that has crossed the membrane. The activated receptor often acts in the nucleus to change gene expression."},
+ "cell-surface-receptor":{n:"Cell-surface receptor",g:"Receptors",p:"131",d:"A transmembrane protein bound by a polar ligand. It has an extracellular domain with the ligand-binding site, a transmembrane domain and a cytoplasmic domain. Binding changes its conformation. The three main groups: G protein-coupled receptors, receptor kinases and ion channels."},
+ "gpcr":{n:"G protein-coupled receptor (GPCR)",g:"G protein signalling",p:"131–132",d:"A cell-surface receptor that associates with a G protein. Found in virtually every eukaryote. It is inactive until a ligand binds; binding activates the G protein by replacing GDP with GTP."},
+ "g-protein":{n:"G protein",g:"G protein signalling",p:"132",d:"A protein of three subunits (α, β and γ) on the inside of the membrane. The α subunit binds GDP or GTP. Bound to GDP, the three subunits are joined and the G protein is inactive; bound to GTP, it is active (\"on\") and the α subunit separates to bind and activate a target protein."},
+ "alpha-subunit":{n:"α (alpha) subunit",g:"G protein signalling",p:"132–133",d:"The part of the G protein that binds GDP or GTP. When GTP replaces GDP, the α subunit separates from β and γ and binds a target protein such as adenylyl cyclase. It turns itself off by converting GTP to GDP."},
+ "gdp-gtp":{n:"GDP and GTP",g:"G protein signalling",p:"132, 135",d:"Guanine nucleotides that switch a G protein. GTP bound: on. GDP bound: off. A ligand-bound receptor makes the α subunit swap GDP for GTP; the G protein later converts GTP back to GDP."},
+ "epinephrine":{n:"Epinephrine (adrenaline)",g:"G protein signalling",p:"128, 133",d:"A hormone released by the adrenal glands. It binds a GPCR on heart muscle cells and, through a G protein, adenylyl cyclase, cAMP and PKA, increases heart rate. As long as it stays bound, the heart rate stays high."},
+ "adenylyl-cyclase":{n:"Adenylyl cyclase",g:"G protein signalling",p:"133",d:"An enzyme in the cell membrane. Bound by the GTP-bound α subunit, it converts ATP into the second messenger cyclic AMP (cAMP)."},
+ "second-messenger":{n:"Second messenger",g:"G protein signalling",p:"133",d:"A small signalling molecule made inside the cell in response to the signal (the first messenger) binding the receptor. It carries the signal on through the cytosol. cAMP is the example in your notes."},
+ "camp":{n:"Cyclic AMP (cAMP)",g:"G protein signalling",p:"133",d:"A small signalling molecule made from ATP by adenylyl cyclase. It is a second messenger: it binds to and activates protein kinase A. Enzymes in the cytosol degrade it to AMP to end the signal."},
+ "pka":{n:"Protein kinase A (PKA)",g:"G protein signalling",p:"133",d:"An enzyme activated by cAMP. In heart muscle, activated PKA phosphorylates proteins that increase the rate of contraction."},
+ "kinase":{n:"Kinase",g:"G protein signalling",p:"133",d:"An enzyme that phosphorylates target proteins: it transfers a phosphate group from ATP to the protein (ATP becomes ADP). Phosphorylation often switches the target protein on."},
+ "phosphatase":{n:"Phosphatase",g:"Amplification and termination",p:"133, 135",d:"An enzyme that dephosphorylates target proteins: it removes phosphate groups (as Pi), which inactivates proteins that were switched on by a kinase."},
+ "phosphorylation":{n:"Phosphorylation and dephosphorylation",g:"G protein signalling",p:"133",d:"Phosphorylation: a kinase adds a phosphate from ATP to a protein, often activating it. Dephosphorylation: a phosphatase removes it, inactivating the protein. A common on/off switch in signalling."},
+ "amplification":{n:"Signal amplification",g:"Amplification and termination",p:"134",d:"A small amount of ligand produces a large response. For epinephrine it happens in three places: each receptor activates multiple G proteins, each adenylyl cyclase makes large amounts of cAMP, and each active PKA activates multiple protein targets."},
+ "binding-affinity":{n:"Binding affinity",g:"Amplification and termination",p:"135",d:"How tightly a receptor holds on to its ligand. It decides how long the ligand stays bound, and so how long the receptor stays active."},
+ "receptor-kinase":{n:"Receptor kinase",g:"Receptor kinases",p:"131, 136",d:"A cell-surface receptor that becomes active when the ligand binds: the receptors pair up (dimerize) and each member attaches phosphate groups to the other. The phosphate groups are binding sites for intracellular signalling proteins. Used in limb bud formation, insulin signalling and wound healing."},
+ "dimerization":{n:"Dimerization",g:"Receptor kinases",p:"136",d:"Two receptor kinase molecules associating into a pair when the ligand binds. Each member then phosphorylates the other (ATP to ADP)."},
+ "pdgf":{n:"Platelet-derived growth factor (PDGF)",g:"Receptor kinases",p:"137",d:"A protein released by platelets when blood reaches damaged tissue, such as a paper cut. It binds PDGF receptor kinases, which dimerize and become active, stimulating repair."},
+ "ras":{n:"Ras",g:"Receptor kinases",p:"137",d:"The cytoplasmic signalling protein activated by phosphorylated receptor kinases in the MAP kinase pathway. Like a G protein, it is on when bound to GTP and off when bound to GDP. GTP-bound Ras triggers the kinase cascade."},
+ "map-kinase":{n:"MAP kinase pathway",g:"Receptor kinases",p:"137",d:"A kinase cascade started by GTP-bound Ras: kinase 1 phosphorylates and activates kinase 2, which activates kinase 3. The last kinase enters the nucleus and turns on genes for cell division. The signal is amplified from kinase to kinase. It ends when GDP replaces GTP on Ras."},
+ "ion-channel":{n:"Ion channels",g:"Ion channels",p:"131, 138",d:"Membrane proteins that change the flow of ions across the membrane, into the cell (influx) or out of it (efflux). They can be gated: ligand-gated, voltage-gated or mechanically gated. The gate closed prevents ion movement; the gate open allows it."},
+ "ligand-gated":{n:"Ligand-gated ion channel",g:"Ion channels",p:"138",d:"An ion channel that opens in response to binding of a signalling molecule. Inactive (closed) without the ligand, active (open) with it, letting ions flow through."},
+ "voltage-gated":{n:"Voltage-gated and mechanically gated channels",g:"Ion channels",p:"138",d:"Other gated ion channels. Voltage-gated channels respond to changes of voltage in the cell. Mechanically gated channels respond to force applied to the cell."},
+ "influx-efflux":{n:"Influx and efflux",g:"Ion channels",p:"138",d:"Influx: ions flowing into the cell. Efflux: ions flowing out of the cell."}
+};
+const TERM_ORDER_GROUPS = ["Principles of signalling","Four steps","Signal distances","Receptors","G protein signalling","Amplification and termination","Receptor kinases","Ion channels"];
+const REL = {
+ "cell-signalling":["four-elements","receptor-activation","signal-transduction"], "four-elements":["signalling-cell","signalling-molecule","receptor","responding-cell"],
+ "signalling-molecule":["receptor","ligand-binding-site","polar-signal","nonpolar-signal"], "receptor":["ligand-binding-site","cell-surface-receptor","intracellular-receptor"],
+ "receptor-activation":["signal-transduction","response","signal-termination"], "signal-transduction":["second-messenger","amplification"], "response":["responding-cell","epinephrine"],
+ "signal-termination":["phosphatase","binding-affinity","gdp-gtp"], "endocrine":["hormone","paracrine","autocrine","contact-dependent"], "paracrine":["autocrine","endocrine"],
+ "autocrine":["paracrine"], "contact-dependent":["paracrine"], "polar-signal":["cell-surface-receptor"], "nonpolar-signal":["intracellular-receptor"],
+ "cell-surface-receptor":["gpcr","receptor-kinase","ion-channel"], "gpcr":["g-protein","alpha-subunit","epinephrine"], "g-protein":["alpha-subunit","gdp-gtp"],
+ "adenylyl-cyclase":["camp","alpha-subunit"], "camp":["second-messenger","pka"], "pka":["kinase","phosphorylation"], "kinase":["phosphatase","phosphorylation"],
+ "phosphatase":["kinase","phosphorylation"], "amplification":["camp","pka","map-kinase"], "receptor-kinase":["dimerization","ras","pdgf"], "ras":["map-kinase","gdp-gtp"],
+ "ion-channel":["ligand-gated","voltage-gated","influx-efflux"], "ligand-gated":["ion-channel","influx-efflux"]
+};
+
+/* ============ utilities ============ */
+const $ = (s, r=document) => r.querySelector(s);
+const $$ = (s, r=document) => Array.from(r.querySelectorAll(s));
+function h(tag, attrs={}, ...kids){
+  const e = document.createElement(tag);
+  for (const k in attrs){
+    const v = attrs[k];
+    if (k === "class") e.className = v;
+    else if (k === "html") e.innerHTML = v;
+    else if (k.startsWith("on")) e.addEventListener(k.slice(2), v);
+    else if (v !== false && v != null) e.setAttribute(k, v);
+  }
+  for (const c of kids.flat()){ if (c == null) continue; e.append(c.nodeType ? c : document.createTextNode(c)); }
+  return e;
+}
+function shuffle(a){ a = a.slice(); for (let i=a.length-1;i>0;i--){ const j=Math.floor(Math.random()*(i+1)); [a[i],a[j]]=[a[j],a[i]]; } return a; }
+const reduceMotion = window.matchMedia && window.matchMedia("(prefers-reduced-motion: reduce)").matches;
+let activeLoops = [];
+function loop(fn){ let on = true, last = performance.now(); const tick = t => { if(!on) return; const dt = Math.min(0.05,(t-last)/1000); last = t; fn(dt,t); requestAnimationFrame(tick); }; requestAnimationFrame(tick); const s = {stop(){on=false;}}; activeLoops.push(s); return s; }
+function stopLoops(){ activeLoops.forEach(l=>l.stop()); activeLoops = []; }
+function plate(svgOrEl, caption){
+  const f = h("figure",{class:"plate"});
+  if (typeof svgOrEl === "string") f.insertAdjacentHTML("beforeend", svgOrEl); else f.append(svgOrEl);
+  if (caption) f.append(h("figcaption",{html:caption}));
+  return f;
+}
+
+/* ============ term card and tooltip ============ */
+const tc = $("#termcard"), tip = $("#tip");
+let exploreHook = null;
+function openTerm(k){
+  const t = T[k]; if (!t) return;
+  markTerm(k,"seen");
+  $("#tcbody").innerHTML = "";
+  $("#tcbody").append(h("h3",{},t.n), h("p",{},t.d), h("p",{class:"notes-ref"},h("b",{},"Course notes: "),`p. ${t.p}`));
+  const rel = related(k);
+  if (rel.length){
+    const box = h("div",{class:"rel"},"Related: ");
+    rel.forEach((r,i)=>{ box.append(h("button",{class:"tl",style:"margin:2px",onclick:()=>openTerm(r)},T[r].n)); });
+    $("#tcbody").append(box);
+  }
+  tc.classList.add("show");
+  if (exploreHook) exploreHook(k);
+}
+$(".x", tc).addEventListener("click", ()=>tc.classList.remove("show"));
+document.addEventListener("keydown", e=>{ if(e.key==="Escape") tc.classList.remove("show"); });
+const REL_OLD = {
+  "integral-protein":["transmembrane-protein","peripheral-protein"], "transmembrane-protein":["integral-protein","channel","carrier"],
+  "peripheral-protein":["integral-protein","cytoskeleton"], "cytoplasm":["cytosol"], "cytosol":["cytoplasm"],
+  "endomembrane":["er","golgi","lysosome","vesicle","nucleus"], "er":["ribosome","golgi","endomembrane"], "golgi":["er","vesicle","endomembrane"],
+  "nucleus":["nucleolus","nuclear-pores"], "chloroplast":["plastid"], "plastid":["chloroplast"],
+  "channel":["carrier","aquaporin","facilitated-diffusion"], "carrier":["channel","uniporter","facilitated-diffusion"],
+  "osmosis":["osmotic-pressure","hypotonic","hypertonic","isotonic"], "secondary-active":["primary-active","symporter","antiporter","nak-pump"],
+  "nak-pump":["primary-active","electrochemical-gradient","importer","exporter"], "electrochemical-gradient":["membrane-potential","concentration-gradient"],
+  "endocytosis":["phagocytosis","pinocytosis","rme"], "bulk-transport":["exocytosis","endocytosis"],
+  "apical":["basolateral","microvilli","tight-junction"], "basolateral":["apical","interstitial-fluid"],
+  "phospholipid":["hydrophilic-head","fatty-acid-tails","bilayer"], "fatty-acid-tails":["phospholipid","selective-permeability"]
+};
+function related(k){ return (REL[k]||[]).filter(r=>T[r]); }
+function bindTerms(root, onPick){
+  $$("[data-term]", root).forEach(g=>{
+    const k = g.getAttribute("data-term");
+    if (!T[k]) return;
+    g.setAttribute("tabindex","0"); g.setAttribute("role","button"); g.setAttribute("aria-label", T[k].n);
+    const pick = ()=>{ (onPick||openTerm)(k, g); g.classList.add("hit"); };
+    g.addEventListener("click", e=>{ e.stopPropagation(); pick(); });
+    g.addEventListener("keydown", e=>{ if(e.key==="Enter"||e.key===" "){ e.preventDefault(); e.stopPropagation(); pick(); }});
+    g.addEventListener("mousemove", e=>{ tip.textContent = T[k].n; tip.style.display="block"; tip.style.left=(e.clientX+14)+"px"; tip.style.top=(e.clientY+12)+"px"; });
+    g.addEventListener("mouseleave", ()=>{ tip.style.display="none"; });
+  });
+}
+function termChips(keys){
+  const box = h("div",{class:"termlinks"});
+  keys.forEach(k=>{ if(!T[k]) return; box.append(h("button",{class:"tl"+(P.terms[k]?" seen":""),onclick:(e)=>{openTerm(k); e.currentTarget.classList.add("seen");}},T[k].n)); });
+  return box;
+}
+// inline term text in copy: [[key|text]]
+function rich(s){
+  return s.replace(/\[\[([a-z0-9-]+)\|([^\]]+)\]\]/g, (m,k,txt)=>`<button class="tl inl" data-open="${k}" style="font-size:inherit">${txt}</button>`);
+}
+function bindRich(root){ $$("[data-open]",root).forEach(b=>b.addEventListener("click",()=>openTerm(b.dataset.open))); }
+/* ============ shared drawing helpers ============ */
+function lab(text, term, tx, ty, px, py, anchor="start", cls="lbl"){
+  const lines = text.split("\n");
+  const t = lines.map((l,i)=>`<tspan x="${tx}" dy="${i?14:0}">${l}</tspan>`).join("");
+  const cw = cls.includes("sm")?5.7:6.4, wdt = Math.max(...lines.map(l=>l.length))*cw, hgt=(lines.length-1)*14;
+  const x0 = anchor==="end"?tx-wdt: anchor==="middle"?tx-wdt/2 : tx, x1 = x0+wdt;
+  let lx, ly=ty-4;
+  if (px!=null && px>=x0-6 && px<=x1+6){ lx=Math.max(x0,Math.min(x1,px)); ly = py>ty ? ty+hgt+5 : ty-15; }
+  else if (px!=null && px<x0) lx=x0-4; else lx=x1+4;
+  const lead = (px!=null) ? `<line class="lead" x1="${lx}" y1="${ly}" x2="${px}" y2="${py}"/><circle cx="${px}" cy="${py}" r="2" fill="#5b6b73"/>` : "";
+  return `<g ${term?`data-term="${term}"`:""}>${lead}<text class="${cls}" x="${tx}" y="${ty}" text-anchor="${anchor}">${t}</text></g>`;
+}
+
+function arrow(x1,y1,x2,y2,col="#34454e",w=2.2,dash=""){
+  const a=Math.atan2(y2-y1,x2-x1), L=10;
+  const p1=[x2-L*Math.cos(a-0.4),y2-L*Math.sin(a-0.4)], p2=[x2-L*Math.cos(a+0.4),y2-L*Math.sin(a+0.4)];
+  return `<line x1="${x1}" y1="${y1}" x2="${(x2-6*Math.cos(a)).toFixed(1)}" y2="${(y2-6*Math.sin(a)).toFixed(1)}" stroke="${col}" stroke-width="${w}" ${dash?`stroke-dasharray="${dash}"`:""}/><polygon points="${x2},${y2} ${p1[0].toFixed(1)},${p1[1].toFixed(1)} ${p2[0].toFixed(1)},${p2[1].toFixed(1)}" fill="${col}"/>`;
+}
+
+/* ============ Module 9 figures: shared drawing helpers ============ */
+const SC={out:"#fbf6e8",cyt:"#e8f3f5",memF:"#f6e7b8",memH:"#d9a93a",rec:"#7b4fa0",recL:"#b796d6",gold:"#f2c230",lig:"#e0578a",ligS:"#a3335d",
+  gp:"#cdbdea",gpS:"#6f5aa3",beta:"#68b583",gam:"#3f8f62",ac:"#4f9fc0",acS:"#2a6f8d",camp:"#8a4fb8",pka:"#a5dbe0",pkaS:"#3a8fa0",tgt:"#f3b3c3",tgtS:"#b9506c",
+  gtp:"#e8902f",gdp:"#a0603a",nuc:"#e6dcf2",nucS:"#8a73b5",cell:"#dff0f2",cellS:"#e0b84a",ion:"#4a7fd0",ink:"#23282e",blood:"#f3c9c4",bloodS:"#c0574c",ras:"#e7a85a"};
+const svgOpen=(W,H,aria)=>`<svg viewBox="0 0 ${W} ${H}" role="img" aria-label="${aria}"><rect width="${W}" height="${H}" fill="#fff"/>`;
+const tx=(x,y,t,o={})=>`<text x="${x}" y="${y}" text-anchor="${o.a||"middle"}" font-family="Source Sans 3,Arial" font-size="${o.s||13}" font-weight="${o.w||600}" fill="${o.c||SC.ink}"${o.it?' font-style="italic"':""}>${t}</text>`;
+// horizontal bilayer: top edge at y
+function memb(x1,x2,y,th=30){ return `<rect x="${x1}" y="${y}" width="${x2-x1}" height="${th}" fill="${SC.memF}"/><line x1="${x1+4}" y1="${y+4}" x2="${x2}" y2="${y+4}" stroke="${SC.memH}" stroke-width="7" stroke-linecap="round" stroke-dasharray="0 9"/><line x1="${x1+4}" y1="${y+th-4}" x2="${x2}" y2="${y+th-4}" stroke="${SC.memH}" stroke-width="7" stroke-linecap="round" stroke-dasharray="0 9"/>`; }
+// round cell with yellow membrane and nucleus
+function cellC(x,y,r,o={}){ return `<circle cx="${x}" cy="${y}" r="${r}" fill="${o.fill||SC.cell}" stroke="${SC.cellS}" stroke-width="5"/>${o.noNuc?"":`<circle cx="${x+(o.nx||0)}" cy="${y+(o.ny||0)}" r="${r*0.32}" fill="${SC.nuc}" stroke="${SC.nucS}" stroke-width="1.5"/>`}`; }
+// Y-shaped surface receptor at angle a (radians, pointing outward)
+function recY(x,y,a,col=SC.rec,bound=false){ const deg=a*180/Math.PI+90;
+  return `<g transform="translate(${x.toFixed(1)},${y.toFixed(1)}) rotate(${deg.toFixed(1)})"><path d="M0 2 V-11 M0 -11 L-6 -19 M0 -11 L6 -19" stroke="${col}" stroke-width="3.5" fill="none" stroke-linecap="round"/>${bound?`<circle cx="0" cy="-19" r="4.5" fill="${SC.lig}"/>`:""}</g>`; }
+const dot=(x,y,r=4,c=SC.lig)=>`<circle cx="${x.toFixed(1)}" cy="${y.toFixed(1)}" r="${r}" fill="${c}"/>`;
+const badge=(x,y,t,c)=>`<circle cx="${x}" cy="${y}" r="13" fill="${c}" stroke="#fff" stroke-width="1.5"/><text x="${x}" y="${y+3.5}" text-anchor="middle" font-family="Source Sans 3,Arial" font-size="9.5" font-weight="700" fill="#fff">${t}</text>`;
+const pBall=(x,y,r=7)=>`<circle cx="${x}" cy="${y}" r="${r}" fill="${SC.gtp}" stroke="#a55d12"/><text x="${x}" y="${y+3.5}" text-anchor="middle" font-family="Arial" font-size="${r+2}" font-weight="700" fill="#fff">P</text>`;
+// seven-pass GPCR crossing a membrane whose top is at y (thickness 30)
+function serp(x,y,active){ const top=y-8, bot=y+38, dx=13; let d=`M${x-14} ${top-24} Q${x-4} ${top-14} ${x} ${top}`, cx=x, down=true;
+  for(let i=0;i<7;i++){ d+=` L${cx} ${down?bot:top}`; if(i<6){ const nx=cx+dx; d+=down?` Q${cx+dx/2} ${bot+11} ${nx} ${bot}`:` Q${cx+dx/2} ${top-11} ${nx} ${top}`; cx=nx; down=!down; } }
+  d+=` Q${cx+4} ${bot+20} ${cx+16} ${bot+30}`;
+  return (active?`<path d="${d}" fill="none" stroke="${SC.gold}" stroke-width="13" stroke-linecap="round" stroke-linejoin="round"/>`:"")+`<path d="${d}" fill="none" stroke="${SC.rec}" stroke-width="7" stroke-linecap="round" stroke-linejoin="round"/>`; }
+
+/* ============ Fig 9.1: the four elements ============ */
+function figElements(){
+  const W=760,H=320; let s=svgOpen(W,H,"A signalling cell releases signalling molecules that bind receptor proteins on a responding cell");
+  s+=`<g data-term="signalling-cell">${cellC(190,170,112,{nx:-30,ny:10})}<circle cx="250" cy="110" r="20" fill="#fff8e0" stroke="${SC.cellS}" stroke-width="3"/>${dot(244,106,3.5)}${dot(256,114,3.5)}${dot(248,118,3.5)}<circle cx="262" cy="214" r="18" fill="#fff8e0" stroke="${SC.cellS}" stroke-width="3"/>${dot(258,210,3.5)}${dot(268,218,3.5)}</g>`;
+  s+=`<g data-term="signalling-molecule">`; [[316,150],[338,176],[360,140],[384,200],[404,160],[428,130],[440,190],[300,184],[462,166]].forEach(([x,y])=>s+=dot(x,y,5)); s+=`</g>`;
+  s+=`<g data-term="responding-cell">${cellC(596,170,112,{nx:30,ny:10})}</g>`;
+  s+=`<g data-term="receptor">`; [Math.PI*0.95,Math.PI*1.1,Math.PI*0.8,Math.PI*1.25,Math.PI*0.65,Math.PI*1.45].forEach((a,i)=>s+=recY(596+112*Math.cos(a),170+112*Math.sin(a),a,SC.rec,i<2)); s+=`</g>`;
+  s+=`<g class="lbls">${lab("1. Signalling cell","signalling-cell",40,36,120,80)}${lab("2. Signalling molecule","signalling-molecule",300,36,360,136)}${lab("3. Receptor protein","receptor",560,30,496,150)}${lab("4. Responding cell","responding-cell",720,300,650,268,"end")}</g>`;
+  s+=tx(190,304,"releases signalling molecules",{w:400,s:12,it:1})+`</svg>`; return s;
+}
+
+/* ============ Fig 9.2: signalling in bacteria ============ */
+function bug(x,y,a,on){ return `<g transform="translate(${x},${y}) rotate(${a})"><rect x="-17" y="-8" width="34" height="16" rx="8" fill="${on?"#cfe9b5":"#e3efcf"}" stroke="#6f9a3e" stroke-width="1.5"/>${recY(17,0,0,SC.rec,on)}${recY(-17,0,Math.PI,SC.rec,false)}${on?`<path d="M-9 0 q3 -5 6 0 t6 0 t6 0" stroke="#2c5aa0" stroke-width="1.8" fill="none"/>`:""}</g>`; }
+function figBacteria(){
+  const W=760,H=300; let s=svgOpen(W,H,"Low and high density of pneumococcal bacteria and their signalling peptide");
+  const panel=(x0,title,pos,on,seed,nd)=>{ let r=`<rect x="${x0}" y="40" width="350" height="210" rx="6" fill="#faf6ee" stroke="#d8cfbd"/>`+tx(x0,28,title,{a:"start",w:700});
+    let k=seed; const rnd=()=>{ k=(k*9301+49297)%233280; return k/233280; };
+    for(let i=0;i<nd;i++) r+=dot(x0+10+rnd()*330,50+rnd()*190,2.6);
+    pos.forEach(([x,y,a])=>r+=bug(x0+x,y,a,on));
+    return r; };
+  const lo=[[80,100,20],[240,170,-30],[150,210,70]];
+  const hi=[[50,80,10],[140,70,-40],[240,82,30],[310,120,-70],[60,150,60],[160,140,-10],[250,170,45],[80,220,-20],[190,214,15],[300,214,-35],[110,108,80]];
+  s+=`<g data-term="quorum">${panel(20,"a. Low cell density",lo,false,7,14)}${panel(390,"b. High cell density",hi,true,3,70)}</g>`;
+  s+=tx(195,274,"Peptide below threshold: DNA-uptake genes off",{s:12,w:400})+tx(565,274,"Peptide binds receptors: DNA-uptake genes on",{s:12,w:400});
+  s+=`<g class="lbls">${lab("Signalling peptide","signalling-molecule",740,22,700,58,"end")}${lab("Receptor","receptor",560,22,422,70)}</g></svg>`; return s;
+}
+
+/* ============ Fig 9.3: epinephrine from the adrenal glands ============ */
+function figAdrenaline(){
+  const W=760,H=380; let s=svgOpen(W,H,"Epinephrine travels from the adrenal glands through the blood to the heart and airways");
+  const v1="M130 300 C240 300 300 220 400 220 C500 220 540 150 600 150", v2="M400 220 C470 220 470 300 520 304";
+  s+=`<g data-term="endocrine"><path d="${v1}" stroke="${SC.blood}" stroke-width="30" fill="none" stroke-linecap="round"/><path d="${v2}" stroke="${SC.blood}" stroke-width="24" fill="none" stroke-linecap="round"/><path d="${v1}" stroke="${SC.bloodS}" stroke-width="1.3" fill="none" stroke-dasharray="6 6"/></g>`;
+  s+=`<g data-term="signalling-cell"><path d="M50 300 C50 250 120 240 150 268 C170 290 150 330 110 330 C70 330 50 320 50 300 Z" fill="#f2c79a" stroke="#b5743c" stroke-width="2"/><path d="M62 262 C80 236 130 236 140 258" fill="#e8a64a" stroke="#b5743c" stroke-width="2"/>${tx(100,304,"kidney",{s:11,w:400})}</g>`;
+  s+=`<g data-term="epinephrine">`; [[180,298],[230,288],[280,256],[330,228],[380,220],[430,214],[480,198],[530,168],[460,262],[490,296]].forEach(([x,y])=>s+=dot(x,y,5)); s+=`</g>`;
+  s+=`<g data-term="responding-cell">${cellC(668,150,54,{fill:"#f7dede",nx:8,ny:4})}`; [Math.PI*0.9,Math.PI*1.05,Math.PI*1.2,Math.PI*0.75].forEach((a,i)=>s+=recY(668+54*Math.cos(a),150+54*Math.sin(a),a,SC.rec,i<2)); s+=`</g>`;
+  s+=`<g data-term="response">${cellC(580,304,42,{fill:"#e5eef7",nx:6,ny:2})}`; [Math.PI,Math.PI*0.85,Math.PI*1.15].forEach((a,i)=>s+=recY(580+42*Math.cos(a),304+42*Math.sin(a),a,SC.rec,i===0)); s+=`</g>`;
+  s+=`<g class="lbls">${lab("Signalling cells:\nadrenal gland (on the kidney)","signalling-cell",30,196,86,248)}${lab("Signalling molecule:\nepinephrine (adrenaline)\nin the blood","epinephrine",250,40,330,222)}${lab("Responding cell: heart muscle.\nContracts faster and harder.","responding-cell",740,40,690,100,"end")}${lab("Airway smooth muscle:\nrelaxes","response",740,360,612,330,"end")}${lab("Receptors on\ntarget organ cells","receptor",500,100,612,140)}</g></svg>`; return s;
+}
+
+/* ============ Figs 9.4/9.5: the four steps ============ */
+function vmemb(x,y1,y2,th=30){ return `<rect x="${x}" y="${y1}" width="${th}" height="${y2-y1}" fill="${SC.memF}"/><line x1="${x+4}" y1="${y1+4}" x2="${x+4}" y2="${y2}" stroke="${SC.memH}" stroke-width="7" stroke-linecap="round" stroke-dasharray="0 9"/><line x1="${x+th-4}" y1="${y1+4}" x2="${x+th-4}" y2="${y2}" stroke="${SC.memH}" stroke-width="7" stroke-linecap="round" stroke-dasharray="0 9"/>`; }
+function figSteps(hi){
+  const W=780,H=310; let s=svgOpen(W,H,"Receptor activation, signal transduction, response and termination");
+  s+=`<rect x="0" y="0" width="110" height="${H}" fill="${SC.out}"/><rect x="110" y="0" width="${W-110}" height="${H}" fill="${SC.cyt}"/>`+vmemb(96,0,H);
+  s+=tx(48,24,"Outside",{s:12,it:1,w:400})+tx(740,24,"Cytoplasm",{s:12,it:1,w:400});
+  const box=(x,w,term,t,k,inner)=>`<g data-term="${term}"><rect x="${x}" y="50" width="${w}" height="120" rx="10" fill="${k===1?"rgba(255,255,255,.55)":"#fff"}" stroke="${hi===k?"#2b62a8":"#3a8f8a"}" stroke-width="${hi===k?3.5:2}"/>${tx(x+w/2,72,t,{w:700,s:13,c:"#1f6f6a"})}${inner}</g>`;
+  s+=box(30,170,"receptor-activation","Receptor activation",1,`<path d="M168 128 H112 M112 128 L90 110 M112 128 L90 146" stroke="${SC.rec}" stroke-width="9" fill="none" stroke-linecap="round"/><circle cx="90" cy="128" r="9" fill="${SC.lig}"/><circle cx="48" cy="156" r="7" fill="${SC.lig}"/>${arrow(54,150,76,136,"#555",1.5)}`);
+  s+=box(230,180,"signal-transduction","Signal transduction",2,`<ellipse cx="258" cy="122" rx="16" ry="11" fill="#86c46f"/><path d="M296 112 l26 8 l-26 12 z" fill="#5b8ad0"/><circle cx="374" cy="122" r="15" fill="#2a9aa3"/><path d="M374 122 l15 -8 v16 z" fill="#fff"/>${arrow(276,122,292,122,"#555",1.6)}${arrow(326,122,356,122,"#555",1.6)}`);
+  s+=box(440,140,"response","Response",3,tx(510,116,"enzyme on, or",{s:12,w:400})+tx(510,132,"gene turned on",{s:12,w:400}));
+  s+=box(610,150,"signal-termination","Termination",4,tx(685,116,"response stops",{s:12,w:400}));
+  s+=arrow(202,110,226,110,"#34454e",2)+arrow(412,110,436,110,"#34454e",2)+arrow(582,110,606,110,"#34454e",2);
+  const cap=(x,lines)=>lines.forEach((t,i)=>s+=tx(x,204+i*16,t,{s:11.5,w:400}));
+  cap(115,["1. The signal binds a","receptor, which is","then activated."]); cap(320,["2. The signal is transmitted","into the cell by a signal","transduction pathway."]);
+  cap(510,["3. The cell responds:","e.g. an enzyme is","activated or a gene","is turned on."]); cap(685,["4. The response is","stopped so new","signals can be","received."]);
+  s+=`<g class="lbls">${lab("Cell membrane",null,150,294,112,270)}</g></svg>`; return s;
+}
+
+/* ============ Fig 9.6: signalling distances ============ */
+function figDistances(hi){
+  const W=760,H=430; let s=svgOpen(W,H,"Endocrine, paracrine, autocrine and contact-dependent signalling");
+  const P=(x,y,term,title,k,body)=>`<g data-term="${term}"><rect x="${x}" y="${y}" width="360" height="195" rx="8" fill="${hi===k?"#eef3fa":"#fbfcfc"}" stroke="${hi===k?"#2b62a8":"#cfd8db"}" stroke-width="${hi===k?2.5:1}"/>${tx(x+12,y+22,title,{a:"start",w:700})}${body}</g>`;
+  // endocrine
+  let b=`<path d="M30 150 C120 150 140 90 230 90 C300 90 320 140 370 140" stroke="${SC.blood}" stroke-width="22" fill="none"/>`+cellC(60,90,30,{nx:-4})+cellC(320,92,32,{nx:4});
+  [[96,108],[130,128],[170,108],[210,92],[250,92],[290,110]].forEach(([x,y])=>b+=dot(x,y,3.6)); [-2.6,-2.0,-3.1].forEach(a=>b+=recY(320+32*Math.cos(a),92+32*Math.sin(a),a,SC.rec,a<-2.5));
+  b+=tx(200,186,"Hormone travels through the bloodstream",{s:11.5,w:400}); s+=P(20,10,"endocrine","a. Endocrine (long distance)",1,b);
+  // paracrine
+  b=cellC(450,110,30,{nx:-4})+cellC(560,96,26,{nx:4})+cellC(560,160,24,{nx:4})+cellC(660,120,26,{nx:4});
+  [[488,104],[500,120],[514,100],[524,128],[600,116],[614,130]].forEach(([x,y])=>b+=dot(x,y,3.4)); [Math.PI,Math.PI*1.1].forEach(a=>b+=recY(560+26*Math.cos(a),96+26*Math.sin(a),a,SC.rec,true)); b+=recY(560-24,160,Math.PI,SC.rec,true)+recY(634,120,Math.PI,SC.rec,false);
+  b+=tx(560,186,"Diffuses to neighbours (about 20 cells)",{s:11.5,w:400}); s+=P(380,10,"paracrine","b. Paracrine (short distance)",2,b);
+  // autocrine
+  b=cellC(200,320,44,{nx:-8}); [[256,296],[266,318],[254,338],[272,302]].forEach(([x,y])=>b+=dot(x,y,3.4)); [-0.5,0,0.5,-0.9].forEach(a=>b+=recY(200+44*Math.cos(a),320+44*Math.sin(a),a,SC.rec,a<0.2));
+  b+=`<path d="M244 286 C300 260 300 360 248 350" stroke="#777" stroke-width="1.4" fill="none" stroke-dasharray="4 3"/>`+tx(200,396,"The cell signals itself",{s:11.5,w:400}); s+=P(20,225,"autocrine","c. Autocrine (same cell)",3,b);
+  // contact
+  b=cellC(510,320,48,{nx:-10})+cellC(608,320,48,{nx:10})+`<rect x="550" y="312" width="16" height="16" rx="3" fill="${SC.lig}" stroke="${SC.ligS}"/><rect x="552" y="314" width="18" height="12" rx="3" fill="${SC.rec}" opacity=".85"/>`;
+  b+=tx(560,396,"Membrane proteins touch (juxtacrine)",{s:11.5,w:400}); s+=P(380,225,"contact-dependent","d. Contact-dependent",4,b);
+  s+=`</svg>`; return s;
+}
+
+/* ============ Fig 9.7: cell-surface vs intracellular receptors ============ */
+function figReceptors(mode){ // mode: undefined = both; "polar" or "nonpolar" highlight
+  const W=780,H=390; let s=svgOpen(W,H,"A polar signal binds a cell-surface receptor; a small nonpolar signal crosses the membrane and binds an intracellular receptor");
+  const panel=(x0,title)=>`<rect x="${x0}" y="20" width="370" height="${H-30}" rx="6" fill="${SC.cyt}"/><rect x="${x0}" y="20" width="370" height="110" fill="${SC.out}"/>${memb(x0,x0+370,130)}${tx(x0+10,40,title,{a:"start",w:700})}<g data-term="intracellular-receptor"><ellipse cx="${x0+250}" cy="310" rx="90" ry="56" fill="${SC.nuc}" stroke="${SC.nucS}" stroke-width="1.5"/><path d="M${x0+190} 310 q10 -14 20 0 t20 0 t20 0 t20 0 t20 0 t20 0" stroke="#5a4a8a" stroke-width="2" fill="none"/></g>`;
+  s+=panel(10,"a. Cell-surface receptor");
+  s+=`<g data-term="cell-surface-receptor"><rect x="232" y="124" width="16" height="42" fill="${SC.rec}"/><path d="M240 126 V96 M240 96 L220 70 M240 96 L260 70" stroke="${SC.rec}" stroke-width="12" fill="none" stroke-linecap="round"/><rect x="228" y="160" width="24" height="54" rx="10" fill="${SC.rec}"/></g>`;
+  s+=`<g data-term="polar-signal"><rect x="230" y="62" width="20" height="18" rx="6" fill="${SC.lig}" stroke="${SC.ligS}"/>${tx(296,60,"polar signal",{s:11.5,w:700,c:SC.ligS})}</g>`;
+  s+=arrow(250,220,300,262,"#34454e",1.8);
+  s+=panel(400,"b. Intracellular receptor");
+  s+=`<g data-term="nonpolar-signal"><path d="M520 70 l10 -16 l10 16 z" fill="${SC.gtp}" stroke="#a55d12"/>${tx(550,66,"small, nonpolar signal",{a:"start",s:11.5,w:700,c:"#a55d12"})}</g>`+`<path d="M530 76 V196" stroke="#a55d12" stroke-width="1.6" stroke-dasharray="4 4"/>`;
+  s+=`<g data-term="intracellular-receptor"><path d="M512 212 q-6 -22 14 -22 q22 0 18 22 q-4 14 -16 12 q-12 2 -16 -12 z" fill="#5fae7a" stroke="#2f7d45"/><path d="M522 200 l8 -12 l8 12 z" fill="${SC.gtp}"/></g>`+arrow(540,226,600,270,"#34454e",1.8);
+  s+=`<g class="lbls">${lab("Ligand-binding site","ligand-binding-site",30,72,226,74)}${lab("Extracellular domain","cell-surface-receptor",30,108,228,104)}${lab("Transmembrane domain","cell-surface-receptor",30,150,230,146)}${lab("Cytoplasmic domain","cell-surface-receptor",30,196,228,192)}${lab("Activated receptor\n(in the cytosol)","intracellular-receptor",416,250,512,214)}${lab("Nucleus with DNA","intracellular-receptor",760,376,700,346,"end")}${lab("Cell membrane",null,760,184,740,160,"end")}${lab("Signal relayed\ninto the cell","signal-transduction",120,250,272,240)}</g>`;
+  if(mode==="polar") s+=`<rect x="10" y="20" width="370" height="${H-30}" fill="none" stroke="#2b62a8" stroke-width="3"/>`;
+  if(mode==="nonpolar") s+=`<rect x="400" y="20" width="370" height="${H-30}" fill="none" stroke="#2b62a8" stroke-width="3"/>`;
+  s+=`</svg>`; return s;
+}
+
+/* ============ Fig 9.8: three classes of cell-surface receptor ============ */
+function figClasses(hi){
+  const W=780,H=300; let s=svgOpen(W,H,"G protein-coupled receptor, receptor kinase and ligand-gated ion channel, inactive and active");
+  s+=`<rect x="0" y="0" width="${W}" height="110" fill="${SC.out}"/><rect x="0" y="140" width="${W}" height="${H-140}" fill="${SC.cyt}"/>`+memb(0,W,110);
+  const fr=(x,w,k)=>hi===k?`<rect x="${x}" y="4" width="${w}" height="${H-8}" rx="6" fill="none" stroke="#2b62a8" stroke-width="3"/>`:"";
+  // GPCR
+  s+=`<g data-term="gpcr">${tx(130,26,"1. G protein-coupled receptor",{w:700})}${serp(40,110,false)}<rect x="130" y="160" width="46" height="26" rx="12" fill="${SC.gp}" stroke="${SC.gpS}"/>${serp(170,110,true)}<rect x="174" y="70" width="14" height="14" rx="4" fill="${SC.lig}"/><rect x="226" y="158" width="46" height="26" rx="12" fill="${SC.gp}" stroke="${SC.gold}" stroke-width="3"/>${tx(80,232,"Inactive",{s:12})}${tx(220,232,"Active",{s:12})}${arrow(110,214,160,214,"#555",1.5)}</g>`;
+  // receptor kinase
+  const mono=(x,act)=>`<rect x="${x}" y="70" width="14" height="128" rx="7" fill="${SC.rec}" ${act?`stroke="${SC.gold}" stroke-width="3"`:""}/>`;
+  s+=`<g data-term="receptor-kinase">${tx(400,26,"2. Receptor kinase",{w:700})}${mono(318,0)}${mono(350,0)}${mono(432,1)}${mono(448,1)}<rect x="436" y="60" width="22" height="14" rx="5" fill="${SC.lig}"/>${pBall(424,160)}${pBall(472,176)}${pBall(424,186)}${tx(334,232,"Inactive",{s:12})}${tx(448,232,"Active",{s:12})}${tx(448,248,"(paired, phosphorylated)",{s:11,w:400})}${arrow(370,214,412,214,"#555",1.5)}</g>`;
+  // ion channel
+  const ch=(x,open,act)=>`<rect x="${x-(open?20:14)}" y="100" width="22" height="52" rx="8" fill="#8f7ac9" ${act?`stroke="${SC.gold}" stroke-width="3"`:""}/><rect x="${x+(open?2:-6)}" y="100" width="22" height="52" rx="8" fill="#8f7ac9" ${act?`stroke="${SC.gold}" stroke-width="3"`:""}/>`;
+  s+=`<g data-term="ligand-gated">${tx(660,26,"3. Ion channel (ligand-gated)",{w:700})}${ch(600,0,0)}${ch(710,1,1)}<rect x="722" y="86" width="12" height="12" rx="3" fill="${SC.lig}"/>${arrow(710,60,710,196,SC.ion,2)}${tx(728,56,"ions",{s:11,w:400})}${tx(600,232,"Inactive",{s:12})}${tx(710,232,"Active (open)",{s:12})}${arrow(630,214,684,214,"#555",1.5)}</g>`;
+  s+=fr(6,256,1)+fr(270,250,2)+fr(526,250,3);
+  s+=tx(W/2,280,"Gold outline: activated. Pink: the ligand.",{s:11.5,w:400,it:1})+`</svg>`; return s;
+}
+
+/* ============ GPCR / epinephrine pathway state figure (Figs 9.9 to 9.11, 9.14) ============ */
+// st: {lig:"none"|"near"|"bound"|"leaving", gtp:bool, sep:bool, ac:bool, camp:n, amp:n, pka:0..4, tgt:0..4, ptase:bool, labels:bool, title}
+function gpcrSVG(st){
+  st=Object.assign({lig:"none",gtp:false,sep:false,ac:false,camp:0,amp:0,pka:0,tgt:0,ptase:false,labels:true,title:""},st||{});
+  const W=780,H=420; let s=svgOpen(W,H,"G protein-coupled receptor pathway: "+(st.title||"state"));
+  s+=`<rect x="0" y="0" width="${W}" height="120" fill="${SC.out}"/><rect x="0" y="150" width="${W}" height="${H-150}" fill="${SC.cyt}"/>`+memb(0,W,120);
+  s+=tx(16,24,"Extracellular fluid",{a:"start",s:12,it:1,w:400})+tx(16,H-12,"Cytoplasm",{a:"start",s:12,it:1,w:400});
+  const recOn=st.lig==="bound";
+  s+=`<g data-term="gpcr">${serp(70,120,recOn)}</g>`;
+  if(st.lig!=="none"){ const p={near:[150,50],bound:[78,92],leaving:[150,34]}[st.lig]; s+=`<g data-term="epinephrine"><rect x="${p[0]-9}" y="${p[1]-9}" width="18" height="18" rx="6" fill="${SC.lig}" stroke="${SC.ligS}"/></g>`; if(st.lig==="near") s+=arrow(140,58,96,86,"#a3335d",1.6); if(st.lig==="leaving") s+=arrow(110,78,140,46,"#a3335d",1.6); }
+  // G protein
+  const ax=st.sep?378:236, ay=st.sep?190:180, bx=st.sep?212:282, active=st.gtp;
+  s+=`<g data-term="g-protein"><ellipse cx="${bx}" cy="170" rx="15" ry="20" fill="${SC.beta}" stroke="#2f7d45"/>${tx(bx,175,"β",{s:13,c:"#fff",w:700})}<ellipse cx="${bx+24}" cy="168" rx="9" ry="16" fill="${SC.gam}" stroke="#25603f"/>${tx(bx+24,173,"γ",{s:12,c:"#fff",w:700})}</g>`;
+  s+=`<g data-term="alpha-subunit"><rect x="${ax-32}" y="${ay-22}" width="64" height="44" rx="18" fill="${SC.gp}" stroke="${active?SC.gold:SC.gpS}" stroke-width="${active?3.5:1.5}"/>${tx(ax-12,ay+4,"α",{s:16,w:700,it:1,c:"#4d3d80"})}</g>`;
+  s+=`<g data-term="gdp-gtp">${badge(ax+14,ay+18,st.gtp?"GTP":"GDP",st.gtp?SC.gtp:SC.gdp)}</g>`;
+  // adenylyl cyclase
+  s+=`<g data-term="adenylyl-cyclase"><rect x="418" y="96" width="36" height="134" rx="14" fill="${SC.ac}" stroke="${st.ac?SC.gold:SC.acS}" stroke-width="${st.ac?4:1.5}"/></g>`;
+  if(st.ac) s+=tx(476,206,"ATP",{s:12,w:700,a:"start"})+`<path d="M470 210 Q462 222 470 236" stroke="#333" stroke-width="1.6" fill="none"/>`+tx(476,246,"cAMP",{s:12,w:700,a:"start",c:SC.camp});
+  // cAMP
+  if(st.camp>0){ s+=`<g data-term="camp">`; const n=Math.min(st.camp,14); for(let i=0;i<n;i++){ const x=470+(i%7)*20+(Math.floor(i/7)%2)*8, y=266+Math.floor(i/7)*18; s+=dot(x,y,5.5,SC.camp); } if(st.camp>14) s+=tx(620,284,"× "+st.camp,{s:12,w:700,c:SC.camp,a:"start"}); s+=`</g>`; }
+  if(st.amp>0){ s+=`<g data-term="signal-termination">`; for(let i=0;i<Math.min(st.amp,8);i++) s+=dot(660+(i%4)*16,200+Math.floor(i/4)*16,5,"#b3a9bd"); s+=tx(684,244,"AMP (degraded cAMP)",{s:11.5,w:700,c:"#6f667a"})+`</g>`; }
+  // PKA
+  s+=`<g data-term="pka">`; for(let i=0;i<4;i++){ const x=300+i*44, y=330, on=i<st.pka; s+=`<rect x="${x}" y="${y}" width="26" height="26" rx="6" fill="${SC.pka}" stroke="${on?SC.gold:SC.pkaS}" stroke-width="${on?3.5:1.5}"/>${on?dot(x+13,y+13,5,SC.camp):""}`; } s+=`</g>`;
+  // targets
+  s+=`<g data-term="phosphorylation">`; for(let i=0;i<4;i++){ const x=560+i*50, y=350, on=i<st.tgt; s+=`<path d="M${x} ${y+16} L${x+14} ${y-12} L${x+28} ${y+16} Q${x+14} ${y+6} ${x} ${y+16} Z" fill="${on?"#f08aa6":SC.tgt}" stroke="${on?SC.gold:SC.tgtS}" stroke-width="${on?3:1.4}"/>${on?pBall(x+14,y-16,7):""}`; } s+=`</g>`;
+  if(st.ptase) s+=`<g data-term="phosphatase"><rect x="560" y="384" width="96" height="22" rx="11" fill="#fff" stroke="#9a4b7a"/>${tx(608,399,"phosphatases",{s:11.5,w:700,c:"#9a4b7a"})}</g>`;
+  if(st.lig==="bound"||st.gtp) s+=`<path d="M180 158 Q190 176 200 170" stroke="#b5a" stroke-width="0" fill="none"/>`;
+  if(st.sep && st.ac) s+=arrow(410,206,418,206,"#555",1);
+  if(st.labels) s+=`<g class="lbls">${lab("GPCR (receptor)","gpcr",30,236,96,168)}${lab("G protein: α, β, γ","g-protein",150,270,bx+4,190)}${lab("Adenylyl cyclase","adenylyl-cyclase",520,70,454,110)}${lab("Protein kinase A","pka",300,394,320,358)}${lab("Target proteins","phosphorylation",770,306,736,336,"end")}${st.camp>0?lab("cAMP: second messenger","camp",486,318,500,290):""}</g>`;
+  if(st.title) s+=`<rect x="${W-360}" y="8" width="352" height="30" rx="6" fill="#fff" stroke="#c3cdd0"/>`+tx(W-184,28,st.title,{s:13,w:700});
+  s+=`</svg>`; return s;
+}
+
+/* ============ Fig 9.12: phosphorylation and dephosphorylation ============ */
+function figPhos(){
+  const W=640,H=330; let s=svgOpen(W,H,"A kinase adds a phosphate from ATP to activate a protein; a phosphatase removes it");
+  const prot=(x,y,act)=>`<path d="M${x-40} ${y} C${x-50} ${y-40} ${x+10} ${y-50} ${x+20} ${y-20} C${x+50} ${y-30} ${x+56} ${y+20} ${x+20} ${y+24} C${x} ${y+44} ${x-40} ${y+34} ${x-40} ${y} Z" fill="${act?"#9cc2ec":"#c7d6e8"}" stroke="${act?SC.gold:"#2f5f93"}" stroke-width="${act?4:2}"/>`;
+  s+=`<g data-term="phosphorylation">${prot(320,70,false)}${tx(420,64,"Inactive protein",{a:"start",s:13})}${prot(320,262,true)}${pBall(352,232,9)}${tx(420,268,"Active protein",{a:"start",s:13})}</g>`;
+  s+=`<g data-term="kinase">${arrow(296,118,296,214,"#34454e",2.2)}${tx(282,170,"Kinase",{a:"end",s:14,w:700,c:"#2b62a8"})}${tx(250,136,"ATP",{a:"end",s:12,w:700})}${tx(250,212,"ADP",{a:"end",s:12,w:700})}<path d="M254 132 Q290 140 294 150" stroke="#555" fill="none"/><path d="M294 190 Q290 204 254 208" stroke="#555" fill="none"/>${tx(120,170,"Phosphorylation",{s:14,w:700})}</g>`;
+  s+=`<g data-term="phosphatase">${arrow(346,214,346,118,"#34454e",2.2)}${tx(360,170,"Phosphatase",{a:"start",s:14,w:700,c:"#9a4b7a"})}${pBall(396,128,8)}${tx(410,132,"ᵢ",{a:"start",s:12})}<path d="M348 150 Q360 136 386 130" stroke="#555" fill="none"/>${tx(540,170,"Dephosphorylation",{s:14,w:700})}</g>`;
+  s+=`</svg>`; return s;
+}
+
+/* ============ Fig 9.13: amplification tree ============ */
+function figAmp(g=3,c=6,k=4){
+  const W=780,H=430; let s=svgOpen(W,H,`One activated receptor activates ${g} G proteins; each adenylyl cyclase makes ${c} cAMP; each PKA phosphorylates ${k} targets`);
+  s+=`<rect x="0" y="0" width="${W}" height="96" fill="${SC.out}"/><rect x="0" y="126" width="${W}" height="${H-126}" fill="${SC.cyt}"/>`+memb(0,W,96);
+  s+=`<g data-term="epinephrine"><rect x="62" y="40" width="18" height="18" rx="6" fill="${SC.lig}" stroke="${SC.ligS}"/></g><g data-term="gpcr">${serp(60,96,true)}</g>`;
+  const G=Math.min(g,6);
+  s+=`<g data-term="amplification">`;
+  for(let i=0;i<G;i++){ const x=G===1?380:180+i*(540/(G-1)); s+=`<line x1="110" y1="150" x2="${x}" y2="150" stroke="#888" stroke-width="1.2"/><rect x="${x-10}" y="78" width="20" height="74" rx="8" fill="${SC.ac}" stroke="${SC.gold}" stroke-width="2.5"/><rect x="${x-34}" y="140" width="26" height="20" rx="8" fill="${SC.gp}" stroke="${SC.gold}" stroke-width="2"/>`; }
+  s+=`</g><g data-term="camp">`;
+  const C=Math.min(c,12); for(let j=0;j<C;j++){ const x=60+j*(660/Math.max(1,C-1)); s+=dot(x,214,5.5,SC.camp)+`<line x1="${x}" y1="221" x2="${x}" y2="246" stroke="#aaa"/>`; }
+  s+=`</g><g data-term="pka">`; for(let j=0;j<C;j++){ const x=60+j*(660/Math.max(1,C-1)); s+=`<rect x="${x-10}" y="248" width="20" height="20" rx="5" fill="${SC.pka}" stroke="${SC.gold}" stroke-width="2.5"/>`; } s+=`</g>`;
+  s+=`<g data-term="phosphorylation">`; const K=Math.min(k,6); const x0=60+Math.floor(C/2)*(660/Math.max(1,C-1));
+  for(let t=0;t<K;t++){ const x=200+t*(400/Math.max(1,K-1)); s+=`<line x1="${x0}" y1="270" x2="${x}" y2="330" stroke="#aaa"/><path d="M${x-12} 352 L${x} 330 L${x+12} 352 Z" fill="#f08aa6" stroke="${SC.tgtS}"/>${pBall(x,326,5)}`; } s+=`</g>`;
+  s+=tx(16,116+60,"1",{s:16,w:700,c:"#2b62a8",a:"start"})+tx(16,226,"2",{s:16,w:700,c:"#2b62a8",a:"start"})+tx(16,350,"3",{s:16,w:700,c:"#2b62a8",a:"start"});
+  s+=`<g class="lbls">${lab(`1. Each receptor activates ${g} G proteins,\nwhich activate adenylyl cyclase`,"amplification",300,30,G===1?380:180,96)}${lab(`2. Each adenylyl cyclase makes ${c} cAMP`,"camp",460,196,null,null)}${lab(`3. Each PKA phosphorylates ${k} targets`,"phosphorylation",460,396,null,null)}</g>`;
+  s+=tx(W/2,H-6,`Drawn: one branch of each layer. Total targets: 1 × ${g} × ${c} × ${k} = ${g*c*k}`,{s:12,w:400,it:1})+`</svg>`; return s;
+}
+
+/* ============ Fig 9.15: receptor kinase activation (4 panels) ============ */
+function rkMono(x,act,ph,relay,side){ let s=`<path d="M${x} 52 V200" stroke="${act?SC.gold:"none"}" stroke-width="20" stroke-linecap="round"/><path d="M${x} 52 V200" stroke="${SC.rec}" stroke-width="13" stroke-linecap="round"/><path d="M${x} 58 q${side*14} 0 ${side*14} -18" stroke="${SC.rec}" stroke-width="9" fill="none" stroke-linecap="round"/>`;
+  if(ph) [148,170,192].forEach((y,i)=>{ s+=pBall(x+side*15,y,6); if(relay) s+=`<ellipse cx="${x+side*31}" cy="${y}" rx="11" ry="8" fill="${i%2?"#8fd19e":"#3f9f6f"}" stroke="#2f7d45"/>`; });
+  return s; }
+function figRK(hi){
+  const W=780,H=310; let s=svgOpen(W,H,"Receptor kinase: inactive, dimerization, cross-phosphorylation, relay proteins bound");
+  s+=`<rect x="0" y="0" width="${W}" height="96" fill="${SC.out}"/><rect x="0" y="126" width="${W}" height="${H-126}" fill="${SC.cyt}"/>`+memb(0,W,96);
+  const panel=(cx,k,body,t)=>`<g data-term="${k===1?"receptor-kinase":k===2?"dimerization":k===3?"phosphorylation":"receptor-kinase"}">${hi===k?`<rect x="${cx-96}" y="4" width="192" height="${H-8}" rx="6" fill="none" stroke="#2b62a8" stroke-width="3"/>`:""}${body}${tx(cx,292,t,{s:12.5,w:700})}</g>`;
+  s+=panel(100,1,rkMono(80,0,0,0,-1)+rkMono(120,0,0,0,1)+`<rect x="122" y="18" width="18" height="16" rx="5" fill="${SC.lig}"/>`+arrow(130,34,104,58,SC.ligS,1.5),"Inactive receptors");
+  s+=panel(290,2,rkMono(282,1,0,0,-1)+rkMono(298,1,0,0,1)+`<rect x="281" y="32" width="18" height="16" rx="5" fill="${SC.lig}"/>`+tx(254,222,"ATP",{s:11,w:700})+tx(326,222,"ADP",{s:11,w:700})+arrow(264,218,316,218,"#777",1.2),"Dimerization");
+  s+=panel(480,3,rkMono(472,1,1,0,-1)+rkMono(488,1,1,0,1)+`<rect x="471" y="32" width="18" height="16" rx="5" fill="${SC.lig}"/>`,"Each phosphorylates the other");
+  s+=panel(670,4,rkMono(662,1,1,1,-1)+rkMono(678,1,1,1,1)+`<rect x="661" y="32" width="18" height="16" rx="5" fill="${SC.lig}"/>`,"Relay proteins bind");
+  s+=arrow(184,160,212,160,"#555",1.8)+arrow(374,160,402,160,"#555",1.8)+arrow(564,160,592,160,"#555",1.8);
+  s+=`<g class="lbls">${lab("Signalling molecule","signalling-molecule",150,22,null,null)}${lab("Phosphate groups","phosphorylation",452,256,474,198,"end")}${lab("Cytoplasmic signalling proteins","receptor-kinase",770,256,706,200,"end")}</g></svg>`; return s;
+}
+
+/* ============ Fig 9.16: the MAP kinase pathway ============ */
+// st: {lig, dimer, phos, ras:"gdp"|"gtp", k:0..3, nuc:bool, genes:bool, title}
+function mapkSVG(st){
+  st=Object.assign({lig:false,dimer:false,phos:false,ras:"gdp",k:0,nuc:false,genes:false,title:"",labels:true},st||{});
+  const W=780,H=450; let s=svgOpen(W,H,"MAP kinase pathway: "+(st.title||"state"));
+  s+=`<rect x="0" y="0" width="${W}" height="90" fill="${SC.out}"/><rect x="0" y="120" width="${W}" height="${H-120}" fill="${SC.cyt}"/>`+memb(0,W,90);
+  s+=`<g data-term="map-kinase"><path d="M520 450 C520 360 600 320 780 320 V450 Z" fill="${SC.nuc}" stroke="${SC.nucS}" stroke-width="2"/>${tx(760,440,"Nucleus",{a:"end",s:12,it:1,w:400})}</g>`;
+  // receptor pair
+  const mono=(x,side)=>{ let r=`<g transform="translate(0,-14)">${rkMono(x,st.dimer,st.phos,false,side)}</g>`; return r; };
+  s+=`<g data-term="receptor-kinase">${st.dimer?mono(92,-1)+mono(108,1):mono(70,-1)+mono(128,1)}</g>`;
+  if(st.lig) s+=`<g data-term="pdgf"><rect x="${st.dimer?91:120}" y="${st.dimer?18:4}" width="18" height="16" rx="5" fill="${SC.lig}" stroke="${SC.ligS}"/></g>`;
+  // Ras
+  const rOn=st.ras==="gtp";
+  s+=`<g data-term="ras"><rect x="180" y="122" width="62" height="34" rx="12" fill="${SC.ras}" stroke="${rOn?SC.gold:"#a5701f"}" stroke-width="${rOn?3.5:1.5}"/>${tx(200,144,"Ras",{s:13,w:700})}</g><g data-term="gdp-gtp">${badge(236,150,rOn?"GTP":"GDP",rOn?SC.gtp:SC.gdp)}</g>`;
+  // kinases
+  const K=[[300,200,"#8fb3e8","Kinase 1"],[380,270,"#a88bc9","Kinase 2"],[460,340,"#e46d84","Kinase 3"]];
+  s+=`<g data-term="map-kinase">`;
+  K.forEach(([x,y,c,n],i)=>{ const on=i<st.k, moved=i===2&&st.nuc; const X=moved?572:x, Y=moved?384:y;
+    s+=`<rect x="${X}" y="${Y}" width="70" height="30" rx="10" fill="${on?c:"#d8dde2"}" stroke="${on?SC.gold:"#8a959e"}" stroke-width="${on?3.5:1.5}"/>${tx(X+35,Y+20,n,{s:12,w:700})}${on?pBall(X+64,Y+2,6):""}`;
+    if(i<2 && st.k>i) s+=arrow(x+50,y+32,K[i+1][0]+20,K[i+1][1]-2,"#555",1.6)+tx(x+76,y+52,"ATP → ADP",{a:"start",s:10.5,w:400}); });
+  if(st.k>=1) s+=arrow(242,150,296,198,"#555",1.6);
+  if(st.nuc) s+=arrow(506,372,570,394,"#555",1.6);
+  s+=`</g>`;
+  if(st.genes) s+=`<g data-term="map-kinase"><ellipse cx="700" cy="380" rx="22" ry="13" fill="#5fae7a" stroke="${SC.gold}" stroke-width="3"/><path d="M560 430 q10 -10 20 0 t20 0 t20 0 t20 0 t20 0" stroke="#5a4a8a" stroke-width="2.5" fill="none"/>${tx(590,352,"Genes for cell division ON",{a:"start",s:12.5,w:700,c:"#2f7d45"})}</g>`;
+  if(st.labels) s+=`<g class="lbls">${lab("PDGF receptor kinases","receptor-kinase",20,240,96,190)}${lab("Ras (G protein-like)","ras",270,110,240,128)}${st.genes?lab("Transcription factor","map-kinase",770,414,702,392,"end"):""}</g>`;
+  if(st.title) s+=`<rect x="${W-370}" y="8" width="362" height="30" rx="6" fill="#fff" stroke="#c3cdd0"/>`+tx(W-189,28,st.title,{s:13,w:700});
+  s+=`</svg>`; return s;
+}
+
+/* ============ Fig 9.17: ligand-gated ion channel ============ */
+function figChannel(open){
+  const W=640,H=320; let s=svgOpen(W,H,open?"Ligand-gated ion channel open, ions flowing in":"Ligand-gated ion channel closed");
+  s+=`<rect x="0" y="0" width="${W}" height="120" fill="${SC.out}"/><rect x="0" y="150" width="${W}" height="${H-150}" fill="${SC.cyt}"/>`+memb(0,W,120);
+  const g=open?16:0;
+  s+=`<g data-term="ligand-gated"><rect x="${290-g}" y="104" width="30" height="62" rx="10" fill="#8f7ac9" stroke="${open?SC.gold:"#5b4a8a"}" stroke-width="${open?3.5:1.5}"/><rect x="${320+g}" y="104" width="30" height="62" rx="10" fill="#8f7ac9" stroke="${open?SC.gold:"#5b4a8a"}" stroke-width="${open?3.5:1.5}"/></g>`;
+  s+=`<g data-term="signalling-molecule">${open?`<rect x="${342+g}" y="94" width="16" height="14" rx="4" fill="${SC.lig}" stroke="${SC.ligS}"/>`:`<rect x="420" y="40" width="16" height="14" rx="4" fill="${SC.lig}" stroke="${SC.ligS}"/>`+arrow(420,56,360,96,SC.ligS,1.5)}</g>`;
+  s+=`<g data-term="influx-efflux">`; [[120,40],[160,74],[210,30],[240,90],[480,30],[520,80],[560,50],[90,90],[400,76]].forEach(([x,y])=>s+=`<circle cx="${x}" cy="${y}" r="8" fill="${SC.ion}"/><text x="${x}" y="${y+4}" text-anchor="middle" font-size="11" font-weight="700" fill="#fff" font-family="Arial">+</text>`);
+  if(open){ s+=arrow(320,60,320,226,SC.ion,2.5); [[320,190],[300,250],[350,270]].forEach(([x,y])=>s+=`<circle cx="${x}" cy="${y}" r="8" fill="${SC.ion}"/><text x="${x}" y="${y+4}" text-anchor="middle" font-size="11" font-weight="700" fill="#fff" font-family="Arial">+</text>`); }
+  s+=`</g>`;
+  s+=`<g class="lbls">${lab(open?"Gate open: ions flow in (influx)":"Gate closed: no ions move","ion-channel",40,224,open?296:300,150)}${lab("Ligand","signalling-molecule",500,140,open?366:436,open?100:46)}</g>`;
+  s+=tx(16,24,"Extracellular fluid",{a:"start",s:12,it:1,w:400})+tx(W-14,H-12,"Cytoplasm",{a:"end",s:12,it:1,w:400})+`</svg>`; return s;
+}
+
+/* ============ story engine ============ */
+let RUN = null; // {id, first:{}}
+function chState(id){ return P.ch[id] || (P.ch[id] = {done:false, best:null, last:null}); }
+function recordFirst(stepIdx, correct, terms){
+  if (!RUN) return;
+  if (!(stepIdx in RUN.first)) RUN.first[stepIdx] = !!correct;
+  (terms||[]).forEach(k=>markTerm(k,"tested"));
+}
+function runScore(){ const v=Object.values(RUN.first); return {right:v.filter(Boolean).length, total:v.length}; }
+
+function renderChapter(ci, si=0){
+  stopLoops(); exploreHook=null; window.scrollTo(0,0);
+  $$(".tab").forEach(t=>t.setAttribute("aria-current",String(t.dataset.go==="story")));
+  const ch = CHAPTERS[ci];
+  if (!RUN || RUN.id !== ch.id) RUN = {id:ch.id, first:{}};
+  const app = $("#app"); app.innerHTML = "";
+  const bar = h("div",{class:"steps","aria-hidden":"true"});
+  ch.steps.forEach((_,i)=>bar.append(h("i",{class:i<si?"on":i===si?"cur":""})));
+  app.append(h("div",{class:"banner"}, h("span",{class:"num"},`9.${ci+1}`), h("span",{class:"ttl"},ch.title), h("span",{class:"pg"},`Course notes ${ch.pages}`)));
+  app.append(h("div",{class:"crumb"}, h("button",{class:"back",onclick:()=>go("story")},"All chapters"), h("span",{class:"muted small"},`Step ${si+1} of ${ch.steps.length}`), bar));
+  const step = ch.steps[si];
+  const stage = h("div",{class:"stage"+(step.wide?" wide":"")});
+  const plateHost = h("div"), panel = h("div",{class:"panel"});
+  stage.append(plateHost, panel); app.append(stage);
+  const next = h("button",{class:"btn",onclick:()=>{ if(si+1<ch.steps.length) renderChapter(ci,si+1); else finishChapter(ci); }}, si+1<ch.steps.length?"Continue":"Finish chapter");
+  const back = h("button",{class:"btn ghost",onclick:()=>{ if(si>0) renderChapter(ci,si-1); else go("story"); }}, si>0?"Back":"All chapters");
+  const api = {
+    ci, si, panel, plateHost, next,
+    lock(){ next.disabled = true; }, unlock(){ next.disabled = false; },
+    grade(ok, terms){ recordFirst(si, ok, terms||step.terms); },
+    gradeKey(key, ok, terms){ recordFirst(si+'.'+key, ok, terms); },
+  };
+  (STEP_TYPES[step.type])(step, api);
+  panel.append(h("div",{class:"nav"}, back, next));
+  bindTerms(app); bindRich(app);
+  tc.classList.remove("show");
+}
+function finishChapter(ci){
+  stopLoops(); window.scrollTo(0,0);
+  const ch = CHAPTERS[ci], sc = runScore(), st = chState(ch.id);
+  const frac = sc.total ? sc.right/sc.total : 1;
+  const prevBest = st.best;
+  st.done = true; st.last = frac; if (st.best==null || frac>st.best) st.best = frac; save();
+  const app=$("#app"); app.innerHTML="";
+  const box = h("div",{class:"summary"});
+  box.append(h("div",{class:"banner"}, h("span",{class:"num"},`9.${ci+1}`), h("span",{class:"ttl"},ch.title+": complete")));
+  box.append(h("div",{class:"row",style:"gap:26px;margin:10px 0 18px"},
+     h("div",{}, h("div",{class:"big"},`${sc.right}/${sc.total}`), h("div",{class:"muted small"},"right on the first try")),
+     h("div",{}, h("div",{class:"big",style:"color:var(--head)"},Math.round((st.best||0)*100)+"%"), h("div",{class:"muted small"}, prevBest==null?"your best so far": (frac>prevBest?"new personal best":"your best"))) ));
+  box.append(h("p",{},ch.wrap));
+  box.append(h("p",{class:"muted small"},"Terms from this chapter. Click one to review it."), termChips(ch.terms));
+  const nextBtn = ci+1<CHAPTERS.length ? h("button",{class:"btn",onclick:()=>{RUN=null; renderChapter(ci+1,0);}},`Start chapter ${ci+2}: ${CHAPTERS[ci+1].title}`) : h("button",{class:"btn",onclick:()=>go("checkpoint")},"Go to the signal desk");
+  box.append(h("div",{class:"row",style:"margin-top:16px"}, nextBtn, h("button",{class:"btn ghost",onclick:()=>{RUN=null; renderChapter(ci,0);}},"Replay chapter"), h("button",{class:"btn ghost",onclick:()=>go("story")},"All chapters")));
+  app.append(box);
+  RUN = null;
+}
+
+/* ---- step types ---- */
+function figHost(step, api, svg){
+  if (!svg) return;
+  const f = plate(svg, step.cap);
+  if (step.labelsToggle){
+    const b = h("button",{class:"mini","aria-pressed":"true"},"Labels");
+    b.addEventListener("click",()=>{ const on=b.getAttribute("aria-pressed")==="true"; b.setAttribute("aria-pressed",on?"false":"true"); f.classList.toggle("labels-off",on); });
+    f.prepend(h("div",{class:"tools"},b));
+  }
+  api.plateHost.innerHTML=""; api.plateHost.append(f);
+  if (step.onFig) step.onFig(f.querySelector("svg"));
+  return f;
+}
+const STEP_TYPES = {
+  brief(step, api){
+    figHost(step, api, step.fig && step.fig());
+    api.panel.append(h("h2",{},step.title), h("div",{html:rich(step.text)}));
+    if (step.terms) api.panel.append(termChips(step.terms));
+  },
+  review(step, api){
+    figHost(step, api, step.fig());
+    api.panel.append(h("h2",{},step.title), h("div",{html:rich(step.text)}));
+    const counter = h("p",{class:"explored"});
+    const seen = new Set();
+    const upd = ()=>{ counter.textContent = `Parts explored: ${seen.size} of ${step.terms.length}`; };
+    exploreHook = k=>{ if(step.terms.includes(k)){ seen.add(k); upd(); } };
+    upd(); api.panel.append(counter, termChips(step.terms));
+  },
+  mcq(step, api){
+    const f = figHost(step, api, step.fig && step.fig());
+    if (!step.fig) api.plateHost.remove(), api.panel.parentElement.classList.add("wide");
+    api.panel.append(h("p",{class:"kicker"},step.kicker||"Your call"), h("h2",{},step.title));
+    if (step.q) api.panel.append(h("div",{html:rich(step.q)}));
+    const box = h("div",{class:"opts"}), fb = h("div");
+    let solved=false, first=true;
+    const opts = step.keep ? step.opts : shuffle(step.opts);
+    opts.forEach(o=>{
+      const b = h("button",{class:"opt"},o[0]);
+      b.addEventListener("click",()=>{
+        if (solved) return;
+        if (first){ api.grade(o[1], step.terms); first=false; }
+        fb.innerHTML="";
+        if (o[1]){
+          solved=true; b.classList.add("right");
+          $$(".opt",box).forEach(x=>x.disabled=true);
+          fb.append(h("div",{class:"fb ok",html:`<b>Correct.</b>${rich(o[2]||"")}`}));
+          if (step.after) fb.append(h("div",{class:"fb",html:rich(step.after)}));
+          if (step.afterFig && f){ const nf = plate(step.afterFig(), step.afterCap||step.cap); api.plateHost.innerHTML=""; api.plateHost.append(nf); bindTerms(nf); }
+          api.unlock();
+        } else {
+          b.classList.add("wrong"); b.disabled=true;
+          fb.append(h("div",{class:"fb bad",html:`<b>Not quite.</b>${rich(o[2]||"")} Try another answer.`}));
+        }
+        bindRich(fb);
+      });
+      box.append(b);
+    });
+    api.panel.append(box, fb); api.lock();
+  },
+  order(step, api){
+    const f = figHost(step, api, step.fig && step.fig());
+    if (!step.fig) api.plateHost.remove(), api.panel.parentElement.classList.add("wide");
+    api.panel.append(h("p",{class:"kicker"},"Put these in order"), h("h2",{},step.title), h("div",{html:rich(step.q)}));
+    const n = step.items.length, slots = new Array(n).fill(null);
+    let pool = shuffle(step.items.map((t,i)=>({t,i})));
+    let first = true;
+    const slotBox = h("div",{class:"order"}), poolBox = h("div",{class:"pool"}), fb = h("div");
+    const check = h("button",{class:"btn",disabled:true},"Check order");
+    function draw(){
+      slotBox.innerHTML=""; poolBox.innerHTML="";
+      slots.forEach((s,i)=>{
+        const el = h("div",{class:"slot"+(s?" filled":"")+(s&&s.mark?" "+s.mark:""),tabindex:s?"0":null,role:s?"button":null}, h("span",{class:"n"},String(i+1)), h("span",{}, s?s.t:"Click a step below to place it here"));
+        if (s && !s.locked) el.addEventListener("click",()=>{ pool.push(s); slots[i]=null; delete s.mark; draw(); });
+        slotBox.append(el);
+      });
+      pool.forEach(p=>{ const b=h("button",{class:"card"},p.t); b.addEventListener("click",()=>{ const k=slots.indexOf(null); if(k<0) return; slots[k]=p; pool=pool.filter(x=>x!==p); draw(); }); poolBox.append(b); });
+      check.disabled = slots.includes(null);
+    }
+    check.addEventListener("click",()=>{
+      let all=true;
+      slots.forEach((s,i)=>{ s.mark = s.i===i?"right":"wrong"; if(s.i!==i) all=false; else s.locked=true; });
+      if (first){ api.grade(all, step.terms); first=false; }
+      fb.innerHTML="";
+      if (all){ fb.append(h("div",{class:"fb ok",html:"<b>That's the right order.</b>"+rich(step.after||"")})); check.remove(); api.unlock(); draw(); bindRich(fb); return; }
+      draw();
+      fb.append(h("div",{class:"fb bad",html:"<b>Some steps are out of place.</b> The green ones are right and locked in. Click a red one to send it back, then try again."}));
+    });
+    draw();
+    api.panel.append(slotBox, poolBox, h("div",{class:"row"},check), fb); api.lock();
+  },
+  sort(step, api){
+    figHost(step, api, step.fig && step.fig());
+    if (!step.fig) api.plateHost.remove(), api.panel.parentElement.classList.add("wide");
+    api.panel.append(h("p",{class:"kicker"},"Sort them"), h("h2",{},step.title), h("div",{html:rich(step.q)}));
+    let items = shuffle(step.items.map((it,i)=>({t:it[0],bin:it[1],why:it[2],i,at:null})));
+    let sel = null, first = true;
+    const poolBox = h("div",{class:"pool"}), binBox = h("div",{class:"bins"}), fb = h("div");
+    const check = h("button",{class:"btn",disabled:true},"Check");
+    function draw(){
+      poolBox.innerHTML=""; binBox.innerHTML="";
+      items.filter(x=>x.at===null).forEach(x=>{ const b=h("button",{class:"card"+(sel===x?" sel":"")},x.t); b.addEventListener("click",()=>{ sel = sel===x?null:x; draw(); }); poolBox.append(b); });
+      step.bins.forEach((name,bi)=>{
+        const bin = h("div",{class:"bin",tabindex:"0",role:"button","aria-label":"Place in "+name}, h("h4",{},name));
+        const place = ()=>{ if(sel){ sel.at=bi; delete sel.mark; sel=null; draw(); } };
+        bin.addEventListener("click",place); bin.addEventListener("keydown",e=>{ if(e.key==="Enter") place(); });
+        items.filter(x=>x.at===bi).forEach(x=>{ const c=h("button",{class:"card"+(x.mark?" "+x.mark:"")},x.t); c.addEventListener("click",e=>{ e.stopPropagation(); if(sel){ place(); return; } if(x.locked) return; x.at=null; delete x.mark; draw(); }); bin.append(c); });
+        binBox.append(bin);
+      });
+      if (!items.some(x=>x.at===null)) poolBox.append(h("p",{class:"muted small"},"All placed. Check your sort, or click a card in a box to take it back out."));
+      else if (!sel) poolBox.prepend(h("p",{class:"muted small",style:"margin:0"},"Click a card, then click the box it belongs in."));
+      check.disabled = items.some(x=>x.at===null);
+    }
+    check.addEventListener("click",()=>{
+      let all=true; const misses=[];
+      items.forEach(x=>{ if(x.at===x.bin){ x.mark="right"; x.locked=true; } else { x.mark="wrong"; all=false; misses.push(x); } });
+      if (first){ api.grade(all, step.terms); first=false; }
+      fb.innerHTML="";
+      if (all){
+        fb.append(h("div",{class:"fb ok",html:"<b>All sorted correctly.</b>"+rich(step.after||"")}));
+        check.remove(); api.unlock(); draw(); bindRich(fb);
+        if (step.onSolved) step.onSolved(api);
+        return;
+      }
+      draw();
+      const why = misses.filter(m=>m.why).map(m=>`<li>${m.t}: ${m.why}</li>`).join("");
+      fb.append(h("div",{class:"fb bad",html:`<b>${misses.length} in the wrong box.</b>${why?`<ul style="margin:6px 0 0;padding-left:18px">${why}</ul>`:""} Move the red ones and check again.`}));
+    });
+    draw();
+    api.panel.append(poolBox, binBox, h("div",{class:"row"},check), fb); api.lock();
+  },
+  custom(step, api){ step.render(api, step); }
+};
+
+const KEYICON = `<svg class="key" viewBox="0 0 32 32" aria-hidden="true"><circle cx="9" cy="10" r="6" fill="#e9b52f" stroke="#a57a0c" stroke-width="1.5"/><circle cx="9" cy="10" r="2.2" fill="#fff"/><path d="M13 14 L26 27 M20 21 l3 -3 M23 24 l3 -3" stroke="#a57a0c" stroke-width="3" stroke-linecap="round"/></svg>`;
+function remember(title, body){ return `<div class="remember">${KEYICON}<div><b>${title}</b>${body}</div></div>`; }
+function dyk(body){ return `<div class="dyk"><b>Did you know…</b> ${body}</div>`; }
+
+/* ============ chapters ============ */
+const CHAPTERS = [
+{ id:"talk", title:"How cells talk", pages:"pp. 127–128", blurb:"What cell signalling is, the four elements every signal needs, and signalling in bacteria and in the body.",
+  terms:["cell-signalling","four-elements","signalling-cell","signalling-molecule","receptor","responding-cell","quorum","epinephrine"],
+  wrap:"Every signal needs a signalling cell, a signalling molecule, a receptor and a responding cell, in bacteria and in us. Next: the four steps a signal goes through.",
+  steps:[
+  {type:"review", title:"Four elements", fig:figElements, labelsToggle:true, cap:"<b>Figure 1.1</b> Cellular communication. (Notes p. 127, Fig 9.1)",
+   text:`<p><b>Question:</b> What is [[cell-signalling|cell signalling]]?<br><b>Answer:</b> Transferring information from the outside of the cell to obtain a response inside the cell.</p><p>Cells communicate by sending and receiving chemical signals, over short or long distances. Communication between cells, prokaryotic or eukaryotic, needs [[four-elements|four elements]]:</p><ol style="margin:0 0 10px;padding-left:22px"><li>a [[signalling-cell|signalling cell]]</li><li>a [[signalling-molecule|signalling molecule]]</li><li>a [[receptor|receptor]] molecule</li><li>a [[responding-cell|responding cell]]</li></ol>`,
+   terms:["signalling-cell","signalling-molecule","receptor","responding-cell"]},
+  {type:"mcq", title:"What is cell signalling?", q:"<p>The question from your notes, p. 127: what is cell signalling?</p>",
+   opts:[["Transferring information from the outside of the cell to obtain a response inside the cell",true," Cells send and receive chemical signals over short or long distances."],["Moving nutrients across the plasma membrane",false," That is membrane transport."],["Copying DNA before the cell divides",false," That is DNA replication."],["Releasing energy from glucose",false," That is cellular respiration."]], terms:["cell-signalling"]},
+  {type:"custom", title:"Signalling in bacteria", render:api=>simQuorum(api), terms:["quorum","signalling-molecule","receptor"]},
+  {type:"review", title:"Signalling in a multicellular organism", fig:figAdrenaline, labelsToggle:true, cap:"<b>Figure 1.3</b> Communication amongst cells: epinephrine. (Notes p. 128, Fig 9.3)",
+   text:`<p>Cells in a multicellular organism need the same four elements.</p><ol style="margin:0 0 10px;padding-left:22px"><li>Signalling cell: e.g. cells of the adrenal glands</li><li>Signalling molecule: e.g. release of [[epinephrine|epinephrine]] (adrenaline)</li><li>Receptor protein: e.g. found on cells of target organs</li><li>Responding cell: e.g. changes in physiological function, such as an increased heart rate</li></ol>`,
+   terms:["signalling-cell","epinephrine","receptor","responding-cell"]},
+  {type:"sort", title:"Name the element", q:"<p>Sort each example into the element of cell communication it is.</p>", bins:["Signalling cell","Signalling molecule","Receptor","Responding cell"],
+   items:[["Adrenal gland cells",0],["Epinephrine",1],["Small peptide made by pneumococcal bacteria",1],["Protein on a heart cell that binds epinephrine",2],["Bacterial surface protein that binds the peptide",2],["Heart muscle cell that speeds up",3]], terms:["four-elements"]}
+  ]},
+
+{ id:"steps", title:"The four steps of signalling", pages:"pp. 128–129", blurb:"Receptor activation, signal transduction, response and termination.",
+  terms:["receptor-activation","ligand-binding-site","signal-transduction","response","signal-termination"],
+  wrap:"A signal binds and activates a receptor, is transduced into the cell, produces a response that depends on the cell type, and is then terminated. Next: how far signals travel.",
+  steps:[
+  {type:"review", title:"From signal to response", fig:()=>figSteps(), cap:"<b>Figure 2.1</b> Cell signalling steps. (Notes pp. 128–129, Figs 9.4 and 9.5)",
+   text:`<p>There are four steps in signalling between cells:</p><ol style="margin:0 0 10px;padding-left:22px"><li>[[receptor-activation|Receptor activation]]: binding of the signalling molecule</li><li>[[signal-transduction|Signal transduction]]: transmission of the signal into the cell</li><li>[[response|Cellular response]]: specific for the target cell</li><li>[[signal-termination|Signal termination]]: stop the response</li></ol>`+remember("Four steps:"," activation, transduction, response, termination."),
+   terms:["receptor-activation","signal-transduction","response","signal-termination"]},
+  {type:"order", title:"Put the steps in order", q:"<p>Put the four steps of cell signalling in order.</p>",
+   items:["Receptor activation: the signalling molecule binds","Signal transduction: the signal is transmitted into the cell","Cellular response: specific for the target cell","Signal termination: the response is stopped"], terms:["receptor-activation","signal-transduction","response","signal-termination"]},
+  {type:"brief", title:"Receptor activation", fig:()=>figSteps(1), cap:"<b>Figure 2.2</b> Step 1: receptor activation. (Notes p. 129)",
+   text:`<p>Some receptors are cell-surface proteins that recognize specific molecules, called ligands. The signal can be an extracellular ligand secreted by cells, or it can come from cell-to-cell contact or contact with the extracellular matrix. Other receptors are inside the cell, and the ligand travels into the cell to bind them.</p><p>Once the signalling molecule binds, the receptor is turned on (activated). The ligand fits the [[ligand-binding-site|ligand-binding site]] much like a substrate fits an enzyme's active site. Binding causes a conformational change in the receptor that triggers chemical reactions in the cytosol.</p>`+remember("Remember:"," a receptor is specific: it binds its own ligand at its ligand-binding site."),
+   terms:["ligand-binding-site","receptor-activation"]},
+  {type:"mcq", title:"Like an enzyme", q:"<p>Your notes compare a ligand binding its receptor to which other interaction?</p>",
+   opts:[["A substrate binding the active site of an enzyme",true," Both are specific fits, and binding changes the protein's conformation."],["Two nucleotides base pairing",false," The comparison in the notes is with enzymes."],["A peptide bond forming",false," Ligand binding is not a covalent bond-forming reaction."],["Water crossing a membrane by osmosis",false," That has nothing to do with binding sites."]], terms:["ligand-binding-site"]},
+  {type:"brief", title:"Transduction, response and termination", fig:()=>figSteps(3), cap:"<b>Figure 2.3</b> Steps 2 to 4. (Notes p. 129, Fig 9.5)",
+   text:`<p><b>Transduction.</b> Once activated, the receptor transmits a message through the cytoplasm by a signal transduction pathway: a series of distinct proteins activated or inactivated in a particular sequence. The message can stay in the cytosol or go to the nucleus.</p><p><b>Response.</b> The response could activate enzymes, turn on genes, signal other cells, or make the cell divide or change shape. It depends on the cell type, because it depends on the proteins and signalling pathways in that cell. Epinephrine makes heart muscle contract more forcefully and quickly, but relaxes the smooth muscle lining the airways.</p><p><b>Termination.</b> Once the signal has been received and acted on, it is terminated so the cell can respond to new signals.</p>`,
+   terms:["signal-transduction","response","signal-termination"]},
+  {type:"mcq", title:"Same signal, different response", q:"<p>Epinephrine makes heart muscle contract faster but makes airway smooth muscle relax. Why?</p>",
+   opts:[["The response depends on the specific proteins and signalling pathways in each cell type",true," The same ligand can start different pathways in different cells."],["Epinephrine changes shape in the airways",false," The signal is the same molecule in both places."],["Airway cells have no receptors for it",false," Then they wouldn't respond at all."],["The heart gets more epinephrine",false," Amount is not why the responses are opposite."]], terms:["response"]},
+  {type:"sort", title:"Which step?", q:"<p>Sort each event into the step of signalling it belongs to.</p>", bins:["Receptor activation","Signal transduction","Response","Termination"],
+   items:[["The ligand binds the ligand-binding site",0],["The receptor changes conformation",0],["Proteins are activated one after another",1],["The message is carried through the cytoplasm",1],["Heart muscle contracts more forcefully",2],["A gene is turned on",2],["The ligand leaves the receptor",3],["Phosphatases inactivate proteins",3]], terms:["receptor-activation","signal-transduction","response","signal-termination"]}
+  ]},
+
+{ id:"distance", title:"How far signals travel", pages:"p. 130", blurb:"Endocrine, paracrine, autocrine and contact-dependent signalling.",
+  terms:["endocrine","hormone","paracrine","autocrine","contact-dependent"],
+  wrap:"Endocrine signals travel far through the blood; paracrine signals diffuse to neighbours; autocrine signals act on the cell that made them; contact-dependent signals need touching cells. Next: where the receptors are.",
+  steps:[
+  {type:"review", title:"Long and short distance", fig:()=>figDistances(), cap:"<b>Figure 3.1</b> Signalling distances. (Notes p. 130, Fig 9.6)",
+   text:`<p>Cell communication is classified by the distance between the signalling cell and the target cell: long distance or short distance.</p><p>[[endocrine|Endocrine]] (long distance): endocrine cells release chemical signals called [[hormone|hormones]] that travel through the bloodstream. Target cells express the appropriate receptor for the hormone.</p><p>[[paracrine|Paracrine]] (short distance): the signal moves by diffusion to neighbouring cells. It is typically small and water soluble and travels within about 20 cells.</p><p>[[autocrine|Autocrine]]: the cell that secretes the signal is also the target cell. Paracrine and autocrine signalling are especially important during embryonic development.</p><p>[[contact-dependent|Contact-dependent]] (juxtacrine): a transmembrane protein on one cell is the signal, and a transmembrane protein on the touching cell is the receptor.</p>`,
+   terms:["endocrine","paracrine","autocrine","contact-dependent"]},
+  {type:"custom", title:"Name that signal", render:api=>simDistance(api), terms:["endocrine","paracrine","autocrine","contact-dependent"]},
+  {type:"sort", title:"Sort the scenarios", q:"<p>Which type of signalling is each scenario?</p>", bins:["Endocrine","Paracrine","Autocrine","Contact-dependent"],
+   items:[["Epinephrine reaches heart cells through the bloodstream",0],["A hormone made by endocrine cells acts on a distant organ",0],["A small, water-soluble signal diffuses to cells a few cell-widths away",1],["A signal acts within a range of about 20 cells",1],["A cell releases a growth factor and has receptors for it",2],["A membrane protein on one cell binds a receptor on the cell it touches",3],["Juxtacrine signalling",3]], terms:["endocrine","paracrine","autocrine","contact-dependent"]},
+  {type:"mcq", title:"Development", q:"<p>Which two types of signalling do your notes say are especially important in embryonic development?</p>",
+   opts:[["Paracrine and autocrine",true,""],["Endocrine and contact-dependent",false," Your notes single out paracrine and autocrine."],["Endocrine only",false," Development relies on short-range signals."],["None: embryos don't use signalling",false," Development depends heavily on signalling."]], terms:["paracrine","autocrine"]},
+  {type:"mcq", title:"Who responds?", q:"<p>A hormone in the blood reaches almost every cell in the body. Why do only some cells respond?</p>",
+   opts:[["Only target cells express the appropriate receptor for the hormone",true,""],["The hormone is destroyed before reaching most cells",false," It reaches them; they just can't detect it."],["Only cells next to the endocrine gland respond",false," That would be paracrine signalling."],["Every cell responds the same way",false," No receptor, no response."]], terms:["endocrine","receptor"]}
+  ]},
+
+{ id:"receptors", title:"Cellular receptors", pages:"p. 131", blurb:"Intracellular and cell-surface receptors, and the three groups of cell-surface receptor.",
+  terms:["polar-signal","nonpolar-signal","intracellular-receptor","cell-surface-receptor","ligand-binding-site","gpcr","receptor-kinase","ion-channel"],
+  wrap:"Nonpolar signals cross the membrane and bind receptors inside; polar signals bind cell-surface receptors, which are GPCRs, receptor kinases or ion channels. Next: G protein-coupled receptors.",
+  steps:[
+  {type:"review", title:"Inside or on the surface?", fig:()=>figReceptors(), labelsToggle:true, cap:"<b>Figure 4.1</b> Cellular receptors. (Notes p. 131, Fig 9.7)",
+   text:`<p><b>Intracellular receptors.</b> [[nonpolar-signal|Nonpolar signalling molecules]] pass through the hydrophobic core of the membrane, so they don't need a receptor on the outside of the cell. Inside, they bind [[intracellular-receptor|receptor proteins]] in the cytosol or nucleus (for example, steroid hormones).</p><p><b>Cell-surface receptors.</b> [[polar-signal|Polar signalling molecules]] cannot cross the membrane. They bind transmembrane proteins, [[cell-surface-receptor|cell-surface receptors]], with an extracellular domain (holding the [[ligand-binding-site|ligand-binding site]]), a transmembrane domain and a cytoplasmic domain. Binding changes the receptor's conformation, and the change passes into the cell.</p>`,
+   terms:["polar-signal","nonpolar-signal","cell-surface-receptor","intracellular-receptor","ligand-binding-site"]},
+  {type:"custom", title:"Where is the receptor?", render:api=>simRoute(api), terms:["polar-signal","nonpolar-signal"]},
+  {type:"review", title:"Three groups", fig:()=>figClasses(), cap:"<b>Figure 4.3</b> Cell-surface receptors. (Notes p. 131, Fig 9.8)",
+   text:`<p>Cells express many different proteins on their surface. Those that take part in cell signalling fall into three main groups:</p><ol style="margin:0 0 10px;padding-left:22px"><li>[[gpcr|G protein-coupled receptors]] (the largest group)</li><li>[[receptor-kinase|Receptor kinases]]</li><li>[[ion-channel|Ion channels]]</li></ol><p>In each, ligand binding switches the receptor from inactive to active.</p>`,
+   terms:["gpcr","receptor-kinase","ligand-gated"]},
+  {type:"mcq", title:"Why a surface receptor?", q:"<p>Why do polar signalling molecules need cell-surface receptors?</p>",
+   opts:[["They cannot cross the hydrophobic core of the cell membrane",true," So the receptor has to meet them outside."],["They are too small to be detected inside",false," Size isn't the reason; polarity is."],["They are destroyed in the cytosol",false," They never get into the cytosol."],["Cell-surface receptors are the only receptors cells have",false," Nonpolar signals use intracellular receptors."]], terms:["polar-signal","cell-surface-receptor"]},
+  {type:"mcq", title:"Not a surface group", q:"<p>Which is NOT one of the three main groups of cell-surface receptor in your notes?</p>",
+   opts:[["Steroid hormone receptors",true," Steroids are nonpolar and bind intracellular receptors."],["G protein-coupled receptors",false," Group 1."],["Receptor kinases",false," Group 2."],["Ion channels",false," Group 3."]], terms:["cell-surface-receptor","intracellular-receptor"]}
+  ]},
+
+{ id:"gpcr", title:"G protein-coupled receptors", pages:"p. 132", blurb:"G proteins, their three subunits, and how GDP and GTP switch them off and on.",
+  terms:["gpcr","g-protein","alpha-subunit","gdp-gtp"],
+  wrap:"A GPCR is off until its ligand binds; then GTP replaces GDP on the α subunit, which separates from β and γ and activates a target protein. Next: a real example, epinephrine in the heart.",
+  steps:[
+  {type:"review", title:"The G protein", fig:()=>gpcrSVG({lig:"near",title:"Inactive: α bound to GDP"}), labelsToggle:true, cap:"<b>Figure 5.1</b> A GPCR and its G protein. (Notes p. 132, Figs 9.9 and 9.10)",
+   text:`<p>[[gpcr|GPCRs]] are found in virtually every eukaryotic organism. They associate with [[g-protein|G proteins]], which have three subunits: alpha (α), beta (β) and gamma (γ).</p><p>The [[alpha-subunit|α subunit]] binds either [[gdp-gtp|GDP or GTP]]. When it is bound to GDP, the three subunits are joined. Binding GTP or GDP regulates the G protein:</p><ul style="margin:0 0 10px;padding-left:22px"><li>bound to GTP: active, "on"</li><li>bound to GDP: inactive, "off"</li></ul>`+remember("Remember:"," the GPCR is inactive until a ligand binds to it."),
+   terms:["gpcr","g-protein","alpha-subunit","gdp-gtp"]},
+  {type:"mcq", title:"On or off?", q:"<p>When a G protein is bound to GTP, it is:</p>",
+   opts:[["Active: \"on\", and the signal continues to be transmitted",true,""],["Inactive, with all three subunits joined",false," That's the GDP-bound state."],["Being degraded",false," GTP binding switches it on."],["Bound to the ligand",false," The ligand binds the receptor, not the G protein."]], terms:["gdp-gtp","g-protein"]},
+  {type:"custom", title:"Switch on a G protein", render:api=>simGPCR(api), terms:["gpcr","g-protein","gdp-gtp"]},
+  {type:"sort", title:"GDP or GTP?", q:"<p>Sort each description by what the α subunit is bound to.</p>", bins:["α bound to GDP","α bound to GTP"],
+   items:[["α, β and γ are joined together",0],["The G protein is inactive",0],["No ligand has bound the GPCR",0],["The G protein is \"on\"",1],["α has separated from β and γ",1],["α is bound to its target protein",1]], terms:["gdp-gtp","alpha-subunit"]},
+  {type:"order", title:"GPCR activation", q:"<p>Put the steps of GPCR activation in order (notes p. 132).</p>",
+   items:["A ligand binds the GPCR","Binding activates the G protein: GTP replaces GDP","The α subunit dissociates from the other subunits","The α subunit binds a target protein and activates it"], terms:["gpcr","alpha-subunit"]}
+  ]},
+
+{ id:"epi", title:"Epinephrine and second messengers", pages:"p. 133", blurb:"Adenylyl cyclase, cAMP, protein kinase A, and kinases versus phosphatases.",
+  terms:["epinephrine","adenylyl-cyclase","second-messenger","camp","pka","kinase","phosphatase","phosphorylation"],
+  wrap:"Epinephrine → GPCR → G protein → adenylyl cyclase → cAMP → PKA → phosphorylated heart proteins: the heart rate rises. Next: why a little epinephrine has such a big effect.",
+  steps:[
+  {type:"review", title:"Epinephrine in heart muscle", fig:()=>gpcrSVG({lig:"bound",gtp:true,sep:true,ac:true,camp:14,pka:4,tgt:4,title:"Epinephrine signalling in heart muscle"}), labelsToggle:true, cap:"<b>Figure 6.1</b> Epinephrine signalling in heart muscle. (Notes p. 133, Fig 9.11)",
+   text:`<p>Heart rate can be influenced by signals that act through a GPCR system: [[epinephrine|epinephrine]] (adrenaline) released from the adrenal gland.</p><ol style="margin:0 0 10px;padding-left:22px"><li>Epinephrine binds a GPCR on heart muscle and activates the G protein (GTP replaces GDP).</li><li>The GTP-bound α subunit binds and activates an enzyme in the membrane, [[adenylyl-cyclase|adenylyl cyclase]].</li><li>Adenylyl cyclase converts ATP into the small signalling molecule cyclic AMP ([[camp|cAMP]]), a [[second-messenger|second messenger]].</li><li>cAMP binds and activates another enzyme, [[pka|protein kinase A]] (PKA).</li><li>Activated PKA phosphorylates proteins in the heart, increasing the rate of contraction.</li></ol><p>As long as epinephrine is bound to the receptor, the heart rate stays high.</p>`,
+   terms:["epinephrine","adenylyl-cyclase","camp","pka"]},
+  {type:"custom", title:"Speed up the heart", render:api=>simEpi(api), terms:["epinephrine","camp","pka"]},
+  {type:"review", title:"Kinases and phosphatases", fig:figPhos, cap:"<b>Figure 6.3</b> Phosphorylation and dephosphorylation. (Notes p. 133, Fig 9.12)",
+   text:`<p>[[phosphorylation|Phosphorylation]] is a common on/off switch in signalling. A [[kinase|kinase]] transfers a phosphate from ATP to a target protein (ATP becomes ADP), and the protein becomes active. A [[phosphatase|phosphatase]] removes the phosphate (as Pi), and the protein becomes inactive again.</p>`+remember("Your notes:"," kinases are enzymes that phosphorylate target proteins. Phosphatases are enzymes that dephosphorylate target proteins."),
+   terms:["kinase","phosphatase","phosphorylation"]},
+  {type:"order", title:"The relay", q:"<p>Put the epinephrine pathway in heart muscle in order.</p>",
+   items:["Epinephrine binds a GPCR on heart muscle","The G protein binds GTP and its α subunit separates","The α subunit activates adenylyl cyclase","Adenylyl cyclase converts ATP into cAMP","cAMP activates protein kinase A","PKA phosphorylates heart proteins and the rate of contraction increases"], terms:["epinephrine","adenylyl-cyclase","camp","pka"]},
+  {type:"mcq", title:"What makes cAMP?", q:"<p>Which enzyme makes cAMP, and from what?</p>",
+   opts:[["Adenylyl cyclase, from ATP",true," It sits in the membrane and is activated by the GTP-bound α subunit."],["Protein kinase A, from ADP",false," PKA is activated by cAMP; it doesn't make it."],["The G protein, from GTP",false," The G protein activates the enzyme that makes cAMP."],["A phosphatase, from AMP",false," cAMP is broken down to AMP, not made from it."]], terms:["adenylyl-cyclase","camp"]},
+  {type:"mcq", title:"Kinase or phosphatase?", q:"<p>An enzyme removes a phosphate group from an active protein, switching it off. What is it?</p>",
+   opts:[["A phosphatase",true,""],["A kinase",false," Kinases add phosphates."],["Adenylyl cyclase",false," It makes cAMP."],["A G protein",false," G proteins bind GDP or GTP."]], terms:["phosphatase","kinase"]}
+  ]},
+
+{ id:"amp", title:"Signal amplification", pages:"p. 134", blurb:"How one molecule of epinephrine changes thousands of proteins.",
+  terms:["amplification","gpcr","adenylyl-cyclase","camp","pka"],
+  wrap:"The signal is amplified three times: one receptor activates many G proteins, each adenylyl cyclase makes lots of cAMP, and each PKA phosphorylates many targets. Next: how the signal is switched off.",
+  steps:[
+  {type:"brief", title:"Amplified in three places", fig:()=>figAmp(3,6,4), cap:"<b>Figure 7.1</b> Signal amplification. (Notes p. 134, Fig 9.13)",
+   text:`<p>The signals made by activated GPCRs are [[amplification|amplified]]: a small amount of ligand can produce a large response in the target cell. In the epinephrine example the signal is amplified in three places:</p><ol style="margin:0 0 10px;padding-left:22px"><li>Each epinephrine-bound receptor activates multiple G proteins (which activate adenylyl cyclase).</li><li>Each adenylyl cyclase produces large amounts of cAMP (which activates many PKA molecules).</li><li>Each active protein kinase A activates multiple protein targets.</li></ol>`,
+   terms:["amplification"]},
+  {type:"custom", title:"One molecule, a big response", render:api=>simAmp(api), terms:["amplification"]},
+  {type:"mcq", title:"Do the math", q:"<p>One epinephrine-bound receptor activates 5 G proteins. Each adenylyl cyclase makes 100 cAMP, each cAMP activates one PKA, and each PKA phosphorylates 10 targets. How many target proteins are phosphorylated?</p>",
+   opts:[["5,000",true," 1 × 5 × 100 × 10."],["115",false," The layers multiply, they don't add."],["500",false," Include all three amplification steps."],["50",false," You left out the cAMP step."]], terms:["amplification"]},
+  {type:"mcq", title:"What amplification means", q:"<p>What does it mean that the epinephrine signal is amplified?</p>",
+   opts:[["A small amount of ligand produces a large response in the target cell",true,""],["More epinephrine is made inside the heart cell",false," The responding cell doesn't make epinephrine."],["The receptor gets bigger",false," Amplification is about numbers of molecules activated."],["The signal travels further in the blood",false," That's about signalling distance, not amplification."]], terms:["amplification"]}
+  ]},
+
+{ id:"term", title:"Signal termination", pages:"p. 135", blurb:"Binding affinity, GTP to GDP, breaking down cAMP, and phosphatases.",
+  terms:["signal-termination","binding-affinity","gdp-gtp","camp","phosphatase"],
+  wrap:"The ligand leaves, the G protein turns itself off, cAMP is degraded and phosphatases inactivate the targets. Next: the other cell-surface receptors.",
+  steps:[
+  {type:"brief", title:"Turning the signal off", fig:()=>gpcrSVG({lig:"leaving",amp:8,ptase:true,title:"Signal terminated"}), cap:"<b>Figure 8.1</b> Termination of the GPCR signal and dephosphorylation. (Notes p. 135, Fig 9.14)",
+   text:`<p>How long a ligand stays bound depends on how tightly the receptor holds it: its [[binding-affinity|binding affinity]]. For epinephrine, [[signal-termination|termination]] happens like this:</p><ol style="margin:0 0 10px;padding-left:22px"><li>Epinephrine leaves the receptor, which returns to its inactive conformation and no longer activates G proteins.</li><li>The G protein converts GTP to GDP, turning itself off.</li><li>This inactivates adenylyl cyclase, so no more cAMP is made.</li><li>Enzymes in the cytosol degrade cAMP to AMP, which stops the activation of more PKA.</li><li>[[phosphatase|Phosphatases]] remove phosphate groups from activated proteins, inactivating them.</li></ol>`+remember("Your notes:"," phosphatases are enzymes that dephosphorylate target proteins.")+dyk("textbooks call the enzymes that break down cAMP phosphodiesterases. Your notes just say \"enzymes in the cytosol\"."),
+   terms:["signal-termination","binding-affinity","phosphatase"]},
+  {type:"custom", title:"Bring the heart rate down", render:api=>simTerm(api), terms:["signal-termination","phosphatase","gdp-gtp"]},
+  {type:"order", title:"Termination in order", q:"<p>Put the termination of the epinephrine signal in the order your notes give.</p>",
+   items:["Epinephrine leaves the receptor","The G protein converts GTP to GDP","Adenylyl cyclase is inactivated","Enzymes in the cytosol degrade cAMP","Phosphatases remove phosphates from activated proteins"], terms:["signal-termination"]},
+  {type:"mcq", title:"Binding affinity", q:"<p>The length of time a ligand stays bound to its receptor depends on how tightly the receptor holds it. What is this called?</p>",
+   opts:[["Binding affinity",true,""],["Signal amplification",false," That is about one signal producing a large response."],["Dimerization",false," That is two receptor kinases pairing up."],["Phosphorylation",false," That is adding a phosphate group."]], terms:["binding-affinity"]},
+  {type:"mcq", title:"Why stop?", q:"<p>Why must a signal be terminated once it has been acted on?</p>",
+   opts:[["So the cell can receive and respond to new signals",true," A response that never stopped would leave the cell stuck."],["To save the ligand for later",false," The ligand leaves; it isn't stored."],["Because cAMP is toxic",false," That isn't the reason in your notes."],["It doesn't need to be; signals stop by themselves",false," Termination is an active step."]], terms:["signal-termination"]}
+  ]},
+
+{ id:"other", title:"Receptor kinases and ion channels", pages:"pp. 136–138", blurb:"Dimerization, Ras and the MAP kinase cascade in wound healing, and ligand-gated ion channels.",
+  terms:["receptor-kinase","dimerization","pdgf","ras","map-kinase","ion-channel","ligand-gated","voltage-gated","influx-efflux"],
+  wrap:"Receptor kinases dimerize, phosphorylate each other and turn on Ras and a kinase cascade; ligand-gated ion channels open to let ions in or out. Last: the whole module in one go.",
+  steps:[
+  {type:"review", title:"Receptor kinases", fig:()=>figRK(), labelsToggle:true, cap:"<b>Figure 9.1</b> Receptor kinase activation and signalling. (Notes p. 136, Fig 9.15)",
+   text:`<p>A [[receptor-kinase|receptor kinase]] becomes active when the ligand binds. The receptors associate into dimers ([[dimerization|dimerization]]) and each member attaches phosphate groups to the other. The phosphate groups give binding sites for intracellular signalling proteins, which carries the signal from outside the cell to inside.</p><p>Receptor kinase signalling is used in many processes: forming and lengthening limb buds (which become arms and legs), insulin signalling (letting glucose be transported into the cytosol), and wound healing after a paper cut.</p>`,
+   terms:["receptor-kinase","dimerization","phosphorylation"]},
+  {type:"brief", title:"Wound healing", fig:()=>mapkSVG({lig:true,dimer:true,phos:true,ras:"gtp",k:3,nuc:true,genes:true,title:"The MAP kinase pathway"}), cap:"<b>Figure 9.2</b> The MAP kinase pathway. (Notes p. 137, Fig 9.16)",
+   text:`<p>After a paper cut, platelets in the blood release proteins including [[pdgf|platelet-derived growth factor]] (PDGF). PDGF binds PDGF receptor kinases, which dimerize and become active.</p><p>The phosphorylated receptors activate [[ras|Ras]], the cytoplasmic signalling protein of the [[map-kinase|MAP kinase pathway]]. GTP-bound Ras triggers a kinase cascade. At the end, the activated kinase enters the nucleus and turns on genes for cell division. The pathway ends when GDP replaces GTP on Ras.</p>`,
+   terms:["pdgf","ras","map-kinase"]},
+  {type:"custom", title:"Heal a paper cut", render:api=>simMAPK(api), terms:["receptor-kinase","ras","map-kinase"]},
+  {type:"mcq", title:"Starting the cascade", q:"<p>In the MAP kinase pathway, what triggers the kinase cascade?</p>",
+   opts:[["GTP-bound Ras",true," The phosphorylated receptors activate Ras."],["cAMP",false," cAMP is the second messenger of the GPCR pathway."],["The G protein α subunit",false," That's the GPCR pathway."],["GDP-bound Ras",false," GDP-bound Ras is off; the pathway ends there."]], terms:["ras","map-kinase"]},
+  {type:"review", title:"Ligand-gated ion channels", fig:()=>figChannel(true), labelsToggle:true, cap:"<b>Figure 9.4</b> Ligand-gated ion channel. (Notes p. 138, Fig 9.17)",
+   text:`<p>[[ion-channel|Ion channels]] change the flow of ions across the membrane, into the cell ([[influx-efflux|influx]]) or out of it (efflux). They can be gated:</p><ol style="margin:0 0 10px;padding-left:22px"><li>[[ligand-gated|Ligand-gated]]: respond to binding of a signalling molecule</li><li>[[voltage-gated|Voltage-gated]]: respond to changes of voltage in the cell</li><li>Mechanically gated: respond to force applied to the cell</li></ol><p>The gate regulates ion movement: closed, it prevents it; open, it allows it.</p>`,
+   terms:["ion-channel","ligand-gated","influx-efflux"]},
+  {type:"custom", title:"Open the gate", render:api=>simChannel(api), terms:["ligand-gated","influx-efflux"]},
+  {type:"sort", title:"What opens it?", q:"<p>Sort each description into the type of gated channel.</p>", bins:["Ligand-gated","Voltage-gated","Mechanically gated"],
+   items:[["Responds to binding of a signalling molecule",0],["Opens when a ligand binds, closes when it leaves",0],["Responds to changes of voltage in the cell",1],["Responds to force applied to the cell",2],["Opens when the cell is stretched",2]], terms:["ligand-gated","voltage-gated"]}
+  ]},
+
+{ id:"finale", title:"From signal to response", pages:"pp. 126–139", blurb:"The finale: compare the three cell-surface receptors, then eight calls across the whole module.",
+  terms:["gpcr","receptor-kinase","ligand-gated","amplification","signal-termination"],
+  wrap:"Signal, receptor, transduction, amplification, response and termination. Try the signal desk for endless practice, or take the mini exam.",
+  steps:[
+  {type:"sort", title:"Which receptor?", fig:()=>figClasses(), cap:"<b>Figure 10.1</b> The three groups of cell-surface receptor. (Notes p. 131, Fig 9.8)", q:"<p>Sort each feature into the receptor it belongs to.</p>", bins:["G protein-coupled receptor","Receptor kinase","Ligand-gated ion channel"],
+   items:[["Activates a G protein",0],["The epinephrine receptor on heart muscle",0],["Leads to cAMP as a second messenger",0],["Pairs up (dimerizes) when the ligand binds",1],["Each member phosphorylates the other",1],["Activates Ras and the MAP kinase cascade",1],["Lets ions flow into or out of the cell",2],["Opens a gate when the ligand binds",2]], terms:["gpcr","receptor-kinase","ligand-gated"]},
+  {type:"custom", title:"From signal to response", render:api=>simFinale9(api), terms:["four-elements","gpcr"]}
+  ]}
+];
+
+/* ============ sim helpers ============ */
+function makeCanvas(W,H,label){
+  const cv = h("canvas",{role:"img","aria-label":label||""}); const dpr = Math.min(2, window.devicePixelRatio||1);
+  cv.width=W*dpr; cv.height=H*dpr; const ctx=cv.getContext("2d"); ctx.scale(dpr,dpr); return {cv,ctx,W,H};
+}
+function label(ctx,t,x,y,opts={}){ ctx.fillStyle=opts.col||"#1c2830"; ctx.font=`${opts.it?"italic ":""}${opts.w||400} ${opts.s||13}px Source Sans 3, Arial`; ctx.textAlign=opts.a||"left"; ctx.textBaseline="alphabetic"; ctx.fillText(t,x,y); }
+function inlineMCQ(host, q, opts, api, key, terms, onRight){
+  host.append(h("p",{style:"margin-top:10px"},h("b",{},q)));
+  const box=h("div",{class:"opts"}), fb=h("div"); let first=true, done=false;
+  shuffle(opts).forEach(o=>{ const b=h("button",{class:"opt"},o[0]); b.addEventListener("click",()=>{
+    if(done) return; if(first){ api.gradeKey(key,o[1],terms); first=false; }
+    fb.innerHTML="";
+    if(o[1]){ done=true; b.classList.add("right"); $$(".opt",box).forEach(x=>x.disabled=true); fb.append(h("div",{class:"fb ok",html:"<b>Correct.</b>"+o[2]})); onRight&&onRight(); }
+    else { b.classList.add("wrong"); b.disabled=true; fb.append(h("div",{class:"fb bad",html:"<b>Not quite.</b>"+o[2]+" Try another answer."})); }
+  }); box.append(b); });
+  host.append(box,fb);
+}
+
+
+/* canvas text with a font string the browser accepts (quoted family name) */
+function clab(ctx,t,x,y,o={}){ ctx.fillStyle=o.col||"#1c2830"; ctx.font=`${o.it?"italic ":""}${o.w||400} ${o.s||13}px "Source Sans 3", Arial, sans-serif`; ctx.textAlign=o.a||"left"; ctx.textBaseline="alphabetic"; ctx.fillText(t,x,y); }
+/* ============ shared: pick the next event in a pathway ============ */
+// cfg: {kicker,title,intro,fig:(i)=>svg,cap,events:[[text,why]],distract:[[text,why]],key,terms,done,after(api,body)}
+function simChain(api, cfg){
+  let i=0, right=0; const host=h("div"), body=h("div"), log=h("ol",{style:"margin:6px 0 0;padding-left:22px;font-size:.92rem"});
+  api.plateHost.innerHTML=""; api.plateHost.append(host);
+  function fig(){ host.innerHTML=""; const f=plate(cfg.fig(i),cfg.cap); host.append(f); bindTerms(f); }
+  function draw(){ fig(); body.innerHTML="";
+    if(i>=cfg.events.length){ body.append(h("div",{class:"fb ok",html:rich(`<b>${right} of ${cfg.events.length} right on the first try.</b> ${cfg.done}`)})); bindRich(body);
+      if(cfg.after) cfg.after(api,body); else api.unlock(); return; }
+    const later=cfg.events.slice(i+1).map((e,k)=>[e[0],"later",k]); const opts=shuffle([[cfg.events[i][0],"now"],...shuffle(later).slice(0,2),...shuffle(cfg.distract).slice(0,2).map(d=>[d[0],"no",d[1]])]);
+    body.append(h("p",{class:"muted small",style:"margin:0"},`Event ${i+1} of ${cfg.events.length}`), h("p",{},h("b",{},"What happens next?")));
+    const box=h("div",{class:"opts"}), fb=h("div"); let first=true;
+    opts.forEach(o=>{ const b=h("button",{class:"opt"},o[0]); b.onclick=()=>{ const ok=o[1]==="now"; if(first){ first=false; api.gradeKey(cfg.key+i,ok,cfg.terms); if(ok) right++; }
+      if(ok){ $$(".opt",box).forEach(x=>x.disabled=true); b.classList.add("right"); log.append(h("li",{},cfg.events[i][0])); i++; fig(); fb.innerHTML=""; fb.append(h("div",{class:"fb ok",html:rich("<b>Yes.</b> "+cfg.events[i-1][1])}), h("button",{class:"btn",style:"margin-top:6px",onclick:draw},i<cfg.events.length?"Next event":"Finish")); bindRich(fb); }
+      else { b.classList.add("wrong"); b.disabled=true; fb.innerHTML=""; fb.append(h("div",{class:"fb bad",html:rich("<b>Not yet.</b> "+(o[1]==="later"?"That does happen, but later in the pathway.":o[2]))})); bindRich(fb); } }; box.append(b); });
+    body.append(box,fb); }
+  api.panel.append(h("p",{class:"kicker"},cfg.kicker||"Step through it"), h("h2",{},cfg.title), h("div",{html:rich(cfg.intro)}), body, h("p",{class:"muted small",style:"margin:10px 0 0"},"So far:"), log);
+  api.lock(); draw();
+}
+
+/* ============ heart-rate trace (used by the epinephrine and termination sims) ============ */
+function makeECG(){
+  const W=360,H=80; const {cv,ctx}=makeCanvas(W,H,"Heart rate trace"); cv.style.cssText="width:100%;max-width:360px;height:auto;display:block;border:1px solid var(--rule);border-radius:6px;background:#fff";
+  let rate=72, ph=0; const pts=new Array(W).fill(H/2);
+  const wave=p=>{ if(p<0.04) return -4*Math.sin(p/0.04*Math.PI); if(p>0.1&&p<0.13) return 8; if(p>=0.13&&p<0.16) return -30; if(p>=0.16&&p<0.19) return 12; if(p>0.32&&p<0.42) return -7*Math.sin((p-0.32)/0.1*Math.PI); return 0; };
+  loop(dt=>{ ph=(ph+dt*rate/60)%1; for(let k=0;k<2;k++){ pts.shift(); pts.push(H/2+12+wave(ph)); }
+    ctx.fillStyle="#fff"; ctx.fillRect(0,0,W,H); ctx.strokeStyle="#eef1f2"; ctx.lineWidth=1; for(let x=0;x<W;x+=20){ ctx.beginPath(); ctx.moveTo(x,0); ctx.lineTo(x,H); ctx.stroke(); }
+    ctx.strokeStyle=rate>100?"#c0392b":"#2a7648"; ctx.lineWidth=2; ctx.beginPath(); pts.forEach((y,x)=>x?ctx.lineTo(x,y):ctx.moveTo(x,y)); ctx.stroke();
+    clab(ctx,`Heart rate: ${Math.round(rate)} beats/min`,8,16,{w:700,s:13,col:rate>100?"#c0392b":"#2a7648"}); });
+  return {el:cv, set(r){ rate=r; }, get(){ return rate; }};
+}
+
+/* ============ 1. Signalling in bacteria (notes p. 127, Fig 9.2) ============ */
+function simQuorum(api){
+  const W=760,H=380; const {cv,ctx}=makeCanvas(W,H,"Pneumococcal bacteria releasing a signalling peptide");
+  const TH=0.5; let n=4, conc=0.08; const seen={low:false,high:false}; let asked=false;
+  let B=[], P=[], D=[];
+  function setN(k){ while(B.length<k) B.push({x:40+Math.random()*(W-200),y:40+Math.random()*(H-80),a:Math.random()*6.28,vx:0,vy:0,on:0}); B.length=k; }
+  setN(n); for(let k=0;k<40;k++) D.push({x:Math.random()*(W-160),y:Math.random()*H,a:Math.random()*6.28,taken:false});
+  loop(dt=>{ const target=Math.min(1,n/36); conc+=(target-conc)*dt*0.8;
+    const want=Math.round(conc*140); while(P.length<want) P.push({x:Math.random()*(W-160),y:Math.random()*H}); P.length=Math.min(P.length,want);
+    const on=conc>TH;
+    B.forEach(b=>{ b.vx+=(Math.random()-.5)*20*dt; b.vy+=(Math.random()-.5)*20*dt; b.vx*=.98; b.vy*=.98; b.x+=b.vx*dt; b.y+=b.vy*dt; b.a+=(Math.random()-.5)*dt; b.x=Math.max(30,Math.min(W-190,b.x)); b.y=Math.max(24,Math.min(H-24,b.y)); b.on+=((on?1:0)-b.on)*dt*1.5; });
+    P.forEach(p=>{ p.x+=(Math.random()-.5)*60*dt; p.y+=(Math.random()-.5)*60*dt; if(p.x<0)p.x+=W-160; if(p.x>W-160)p.x-=W-160; if(p.y<0)p.y+=H; if(p.y>H)p.y-=H; });
+    D.forEach(d=>{ if(d.taken) return; d.x+=(Math.random()-.5)*14*dt; d.y+=(Math.random()-.5)*14*dt; if(on){ const b=B.find(b=>Math.hypot(b.x-d.x,b.y-d.y)<26); if(b && Math.random()<dt*2) d.taken=true; } });
+    if(D.filter(d=>!d.taken).length<14) D.forEach(d=>{ if(d.taken&&Math.random()<0.005){ d.taken=false; d.x=Math.random()*(W-160); d.y=Math.random()*H; } });
+    ctx.fillStyle="#faf6ee"; ctx.fillRect(0,0,W,H);
+    D.forEach(d=>{ if(d.taken) return; ctx.strokeStyle="#2c5aa0"; ctx.lineWidth=1.8; ctx.beginPath(); for(let k=0;k<5;k++){ const x=d.x+Math.cos(d.a)*k*4, y=d.y+Math.sin(d.a)*k*4+(k%2?3:-3); k?ctx.lineTo(x,y):ctx.moveTo(x,y); } ctx.stroke(); });
+    ctx.fillStyle="#e0578a"; P.forEach(p=>{ ctx.beginPath(); ctx.arc(p.x,p.y,2.6,0,7); ctx.fill(); });
+    B.forEach(b=>{ ctx.save(); ctx.translate(b.x,b.y); ctx.rotate(b.a); const g=Math.round(b.on*255);
+      ctx.fillStyle=`rgb(${227-Math.round(b.on*20)},${239},${207-Math.round(b.on*26)})`; ctx.strokeStyle="#6f9a3e"; ctx.lineWidth=1.5; ctx.beginPath(); ctx.roundRect?ctx.roundRect(-18,-9,36,18,9):ctx.rect(-18,-9,36,18); ctx.fill(); ctx.stroke();
+      ctx.strokeStyle="#7b4fa0"; ctx.lineWidth=3; [[18,0,1],[-18,0,-1]].forEach(([x,y,s])=>{ ctx.beginPath(); ctx.moveTo(x,y); ctx.lineTo(x+8*s,y); ctx.moveTo(x+8*s,y); ctx.lineTo(x+13*s,y-5); ctx.moveTo(x+8*s,y); ctx.lineTo(x+13*s,y+5); ctx.stroke(); });
+      if(b.on>0.5){ ctx.fillStyle="#e0578a"; ctx.beginPath(); ctx.arc(31,0,3.5,0,7); ctx.fill(); ctx.strokeStyle="#2c5aa0"; ctx.lineWidth=1.6; ctx.beginPath(); ctx.moveTo(-10,0); for(let k=1;k<6;k++) ctx.lineTo(-10+k*4,k%2?-3:3); ctx.stroke(); }
+      ctx.restore(); });
+    // meter
+    const mx=W-130; ctx.fillStyle="#fff"; ctx.fillRect(mx-10,0,140,H); ctx.strokeStyle="#cbd5d7"; ctx.strokeRect(mx+30,40,36,280);
+    ctx.fillStyle=on?"#2a7648":"#e0578a"; const hh=280*conc; ctx.fillRect(mx+31,320-hh,34,hh);
+    const ty=320-280*TH; ctx.strokeStyle="#1c2830"; ctx.setLineDash([5,4]); ctx.beginPath(); ctx.moveTo(mx+20,ty); ctx.lineTo(mx+76,ty); ctx.stroke(); ctx.setLineDash([]);
+    clab(ctx,"Peptide",mx+48,24,{a:"center",w:700,s:12}); clab(ctx,"threshold",mx+48,ty-6,{a:"center",s:11}); clab(ctx,on?"Genes ON":"Genes OFF",mx+48,346,{a:"center",w:700,s:13,col:on?"#2a7648":"#a53838"}); clab(ctx,"DNA uptake",mx+48,362,{a:"center",s:11});
+    clab(ctx,`${n} bacteria`,12,20,{w:700,s:14});
+    if(n<=10 && conc<TH*0.6 && !seen.low){ seen.low=true; say(); } if(conc>TH+0.05 && !seen.high){ seen.high=true; say(); }
+  });
+  api.plateHost.innerHTML=""; api.plateHost.append(plate(cv,"<b>Figure 1.2</b> Pneumococcal bacteria release a small peptide all the time. Pink dots: the peptide. Blue squiggles: DNA in the environment. (Notes p. 127, Fig 9.2)"));
+  const note=h("div",{class:"fb"}), q=h("div"), cnt=h("p",{class:"readout"});
+  const sl=h("input",{type:"range",min:"2",max:"40",step:"1",value:String(n),"aria-label":"Number of bacteria"});
+  sl.oninput=()=>{ n=+sl.value; setN(n); cnt.textContent=`Cell density: ${n} bacteria`; };
+  function say(){ note.innerHTML=rich(seen.high?"<b>High density.</b> Many cells each make a little peptide, so its concentration rises above the critical threshold. The peptide binds the [[receptor|receptors]], the signal is relayed by [[signal-transduction|signal transduction]] to the nucleoid, and genes for DNA uptake turn on. The bacteria start taking up DNA from the environment."+(seen.low?"":" Now try a low density."):seen.low?"<b>Low density.</b> The peptide stays below its critical threshold, so too little binds the receptors. DNA-uptake genes stay off. Raise the density.":"Drag the slider to change how many bacteria share this space.");
+    bindRich(note);
+    if(seen.low&&seen.high&&!asked){ asked=true; inlineMCQ(q,"Which of the four elements of cell communication is the small peptide?",[["The signalling molecule",1," Each bacterium is both a signalling cell and a responding cell; the peptide is the signal and the surface protein is the receptor."],["The receptor molecule",0," The receptor is the surface protein the peptide binds."],["The responding cell",0," The responding cell is a bacterium."],["None: bacteria don't signal",0," Prokaryotes need the same four elements as eukaryotes."]],api,"q",["four-elements","signalling-molecule"],()=>api.unlock()); } }
+  cnt.textContent=`Cell density: ${n} bacteria`;
+  api.panel.append(h("p",{class:"kicker"},"Try it"), h("h2",{},"Signalling in bacteria"), h("div",{html:rich("<p>Bacteria can take up DNA from their environment, but only when there are enough of them. Change the density and watch the peptide concentration.</p>")}), h("div",{class:"ctl"},h("label",{},"Cell density"),sl), cnt, note, q);
+  say(); api.lock();
+}
+
+/* ============ 2. Name that signal (notes p. 130, Fig 9.6) ============ */
+const DIST=[["endocrine","Endocrine"],["paracrine","Paracrine"],["autocrine","Autocrine"],["contact-dependent","Contact-dependent"]];
+function simDistance(api){
+  const W=760,H=320; const {cv,ctx}=makeCanvas(W,H,"An animated signalling scenario");
+  const order=shuffle(DIST.map(d=>d[0])); let r=0, first=true, right=0, mode=order[0], T=0, parts=[], pulses={};
+  const WHY={endocrine:"Endocrine: the hormone travels through the bloodstream to a distant cell, and only a cell with the right receptor responds.",
+    paracrine:"Paracrine: the small, water-soluble signal diffuses a short distance to neighbouring cells (within about 20 cells). The far cell gets none.",
+    autocrine:"Autocrine: the cell that releases the signal has receptors for it, so it is its own target.",
+    "contact-dependent":"Contact-dependent (juxtacrine): nothing is released. A transmembrane protein on one cell binds a transmembrane receptor on the touching cell."};
+  function cell(x,y,r,recs,glow,lab){ if(glow>0.02){ ctx.fillStyle=`rgba(242,194,48,${glow*0.6})`; ctx.beginPath(); ctx.arc(x,y,r+12,0,7); ctx.fill(); }
+    ctx.fillStyle="#dff0f2"; ctx.strokeStyle="#e0b84a"; ctx.lineWidth=4; ctx.beginPath(); ctx.arc(x,y,r,0,7); ctx.fill(); ctx.stroke();
+    ctx.fillStyle="#e6dcf2"; ctx.strokeStyle="#8a73b5"; ctx.lineWidth=1.2; ctx.beginPath(); ctx.arc(x,y,r*0.32,0,7); ctx.fill(); ctx.stroke();
+    ctx.strokeStyle="#7b4fa0"; ctx.lineWidth=3; (recs||[]).forEach(a=>{ const bx=x+Math.cos(a)*r, by=y+Math.sin(a)*r, ex=x+Math.cos(a)*(r+10), ey=y+Math.sin(a)*(r+10); ctx.beginPath(); ctx.moveTo(bx,by); ctx.lineTo(ex,ey); ctx.lineTo(ex+Math.cos(a-0.6)*7,ey+Math.sin(a-0.6)*7); ctx.moveTo(ex,ey); ctx.lineTo(ex+Math.cos(a+0.6)*7,ey+Math.sin(a+0.6)*7); ctx.stroke(); });
+    if(lab) clab(ctx,lab,x,y+r+26,{a:"center",s:12}); }
+  const vessel=t=>{ // path for endocrine particles
+    if(t<0.12) return [130+t/0.12*30,160+t/0.12*90]; if(t<0.88){ const u=(t-0.12)/0.76; return [160+u*480,250+Math.sin(u*Math.PI*2)*8]; } const u=(t-0.88)/0.12; return [640+u*20,250-u*70]; };
+  loop(dt=>{ T+=dt; Object.keys(pulses).forEach(k=>pulses[k]=Math.max(0,pulses[k]-dt*1.2));
+    if(mode!=="contact-dependent" && Math.random()<dt*(mode==="endocrine"?5:9)) parts.push({t:0,a:Math.random()*6.28,j:(Math.random()-.5)*16});
+    ctx.fillStyle="#fbfcfc"; ctx.fillRect(0,0,W,H);
+    if(mode==="endocrine"){ ctx.strokeStyle="#f3c9c4"; ctx.lineWidth=40; ctx.lineCap="round"; ctx.beginPath(); for(let u=0;u<=1;u+=0.02){ const x=150+u*500, y=250+Math.sin(u*Math.PI*2)*8; u?ctx.lineTo(x,y):ctx.moveTo(x,y); } ctx.stroke(); ctx.lineCap="butt"; clab(ctx,"blood vessel",400,300,{a:"center",s:12,it:1});
+      cell(110,130,44,[],0,"releases it"); cell(400,110,36,[],0,"no receptor"); cell(680,130,44,[Math.PI*0.7,Math.PI*0.6,Math.PI*0.8],pulses.t||0,"responds");
+      parts=parts.filter(p=>{ p.t+=dt*0.25; if(p.t>=1){ pulses.t=1; return false; } const [x,y]=vessel(p.t); ctx.fillStyle="#e0578a"; ctx.beginPath(); ctx.arc(x,y+p.j*0.5,4,0,7); ctx.fill(); return true; }); }
+    if(mode==="paracrine"){ cell(260,160,44,[],0,"releases it"); const nb=[[380,90],[380,230],[150,250]]; nb.forEach(([x,y],i)=>cell(x,y,32,[Math.atan2(160-y,260-x)],pulses["n"+i]||0)); cell(690,160,40,[Math.PI],0,"too far: no signal");
+      parts=parts.filter(p=>{ p.t+=dt*0.5; const rr=44+p.t*120; const x=260+Math.cos(p.a)*rr, y=160+Math.sin(p.a)*rr; nb.forEach(([nx,ny],i)=>{ if(Math.hypot(nx-x,ny-y)<36) pulses["n"+i]=1; }); if(p.t>=1) return false; ctx.fillStyle=`rgba(224,87,138,${1-p.t})`; ctx.beginPath(); ctx.arc(x,y,3.6,0,7); ctx.fill(); return true; }); }
+    if(mode==="autocrine"){ cell(380,160,56,[-0.6,0,0.6,Math.PI],pulses.s||0,"releases it and responds to it");
+      parts=parts.filter(p=>{ p.t+=dt*0.6; if(p.t>=1){ pulses.s=1; return false; } const ang=-1.2+p.t*1.8+p.j*0.01, rr=60+Math.sin(p.t*Math.PI)*60; ctx.fillStyle="#e0578a"; ctx.beginPath(); ctx.arc(380+Math.cos(ang)*rr,160+Math.sin(ang)*rr,3.8,0,7); ctx.fill(); return true; }); }
+    if(mode==="contact-dependent"){ const pul=(Math.sin(T*3)+1)/2; cell(330,160,62,[],0,"signalling cell"); cell(452,160,62,[],pul*0.8,"responding cell");
+      ctx.fillStyle="#e0578a"; ctx.fillRect(380,150,12,20); ctx.fillStyle="#7b4fa0"; ctx.fillRect(392,150,12,20); clab(ctx,"transmembrane proteins touch",392,40,{a:"center",s:12,it:1}); ctx.strokeStyle="#777"; ctx.beginPath(); ctx.moveTo(392,46); ctx.lineTo(392,146); ctx.stroke(); }
+    clab(ctx,`Scenario ${Math.min(r+1,4)} of 4`,12,22,{w:700,s:14});
+  });
+  api.plateHost.innerHTML=""; api.plateHost.append(plate(cv,"<b>Figure 2.2</b> Watch where the signal goes. Pink dots: signalling molecules. Purple Y: receptors. Gold glow: a responding cell. (Notes p. 130, Fig 9.6)"));
+  const body=h("div");
+  function draw(){ body.innerHTML="";
+    if(r>=4){ body.append(h("div",{class:"fb ok",html:rich(`<b>${right} of 4 right on the first try.</b> [[endocrine|Endocrine]] is long distance through the blood. [[paracrine|Paracrine]], [[autocrine|autocrine]] and [[contact-dependent|contact-dependent]] signalling are short distance.`)})); bindRich(body); api.unlock(); return; }
+    mode=order[r]; parts=[]; pulses={}; first=true;
+    body.append(h("p",{},h("b",{},"Which type of signalling is this?")));
+    const box=h("div",{class:"gates"}), fb=h("div");
+    DIST.forEach(([k,t])=>{ const b=h("button",{class:"gate"},t); b.onclick=()=>{ const ok=k===mode; if(first){ first=false; api.gradeKey("d"+r,ok,[mode]); if(ok) right++; }
+      if(ok){ b.classList.add("right"); $$(".gate",box).forEach(x=>x.disabled=true); fb.innerHTML=""; fb.append(h("div",{class:"fb ok",html:`<b>${t}.</b> ${WHY[k]}`}), h("button",{class:"btn",style:"margin-top:6px",onclick:()=>{ r++; draw(); }},r<3?"Next scenario":"Finish")); }
+      else { b.classList.add("wrong"); b.disabled=true; fb.innerHTML=""; fb.append(h("div",{class:"fb bad",html:"<b>Not that one.</b> Look at how far the signal goes, and which cell responds."})); } }; box.append(b); });
+    body.append(box,fb); }
+  api.panel.append(h("p",{class:"kicker"},"Watch it"), h("h2",{},"Name that signal"), h("p",{},"Each animation shows one way cells signal. Name it from the distance the signal travels and which cell responds."), body);
+  api.lock(); draw();
+}
+
+/* ============ 3. Where is the receptor? (notes p. 131, Fig 9.7) ============ */
+const LIGS=[
+ {n:"Epinephrine (adrenaline)",d:"polar, water soluble",a:"polar",why:"Polar signals cannot cross the hydrophobic core of the membrane, so epinephrine binds a cell-surface receptor (a GPCR)."},
+ {n:"Platelet-derived growth factor (PDGF)",d:"a protein",a:"polar",why:"Proteins are large and polar. PDGF binds receptor kinases on the cell surface."},
+ {n:"Estrogen, a steroid hormone",d:"small, nonpolar",a:"nonpolar",why:"Small nonpolar molecules pass straight through the hydrophobic core and bind a receptor in the cytosol or nucleus."},
+ {n:"Insulin",d:"a protein hormone",a:"polar",why:"Insulin is a polar protein. It binds receptor kinases on the cell surface (notes p. 136)."},
+ {n:"Cortisol, a steroid hormone",d:"small, nonpolar",a:"nonpolar",why:"Nonpolar: it diffuses across the membrane, so it does not need a receptor on the outside of the cell."},
+ {n:"A small, water-soluble paracrine signal",d:"polar",a:"polar",why:"Water soluble means polar, so it cannot cross the membrane and needs a cell-surface receptor."}];
+function simRoute(api){
+  const order=shuffle(LIGS); let i=0, first=true, right=0, hl=null; const host=h("div"), body=h("div");
+  api.plateHost.innerHTML=""; api.plateHost.append(host);
+  function fig(){ host.innerHTML=""; const f=plate(figReceptors(hl),"<b>Figure 3.2</b> Two kinds of receptor. The highlighted panel is where the current signal goes. (Notes p. 131, Fig 9.7)"); host.append(f); bindTerms(f); }
+  function draw(){ fig(); body.innerHTML="";
+    if(i>=order.length){ body.append(h("div",{class:"fb ok",html:rich(`<b>${right} of 6 right on the first try.</b> [[polar-signal|Polar]] signals bind [[cell-surface-receptor|cell-surface receptors]]. Small [[nonpolar-signal|nonpolar]] signals cross the membrane and bind [[intracellular-receptor|intracellular receptors]].`)})); bindRich(body); api.unlock(); return; }
+    const L=order[i]; first=true;
+    body.append(h("div",{class:"idcard"},h("div",{class:"hd"},h("b",{},L.n),h("span",{},`${i+1} of 6`)),h("p",{style:"padding:10px 14px;margin:0"},h("b",{},"Chemistry: "),L.d)));
+    const box=h("div",{class:"gates"}), fb=h("div");
+    [["polar","Binds a cell-surface receptor"],["nonpolar","Crosses the membrane, binds an intracellular receptor"]].forEach(([k,t])=>{ const b=h("button",{class:"gate"},t); b.onclick=()=>{ const ok=k===L.a; if(first){ first=false; api.gradeKey("r"+i,ok,["polar-signal","nonpolar-signal"]); if(ok) right++; }
+      if(ok){ hl=k; fig(); b.classList.add("right"); $$(".gate",box).forEach(x=>x.disabled=true); fb.innerHTML=""; fb.append(h("div",{class:"fb ok",html:`<b>Right.</b> ${L.why}`}), h("button",{class:"btn",style:"margin-top:6px",onclick:()=>{ i++; hl=null; draw(); }},i<5?"Next signal":"Finish")); }
+      else { b.classList.add("wrong"); b.disabled=true; fb.innerHTML=""; fb.append(h("div",{class:"fb bad",html:"<b>Not quite.</b> Can it get through the hydrophobic core of the membrane?"})); } }; box.append(b); });
+    body.append(box,fb); }
+  api.panel.append(h("p",{class:"kicker"},"Route it"), h("h2",{},"Where is the receptor?"), h("p",{},"Each signal arrives at a cell. Decide where its receptor must be."), body);
+  api.lock(); draw();
+}
+
+/* ============ 4. GPCR activation cycle (notes pp. 132, 135, Figs 9.9, 9.10) ============ */
+const GPCR_STATES=[
+ {lig:"near",title:"Inactive: α bound to GDP"},
+ {lig:"bound",title:"Ligand bound: receptor active"},
+ {lig:"bound",gtp:true,title:"GTP replaces GDP"},
+ {lig:"bound",gtp:true,sep:true,title:"α separates from β and γ"},
+ {lig:"bound",gtp:true,sep:true,ac:true,camp:6,title:"α activates the target protein"},
+ {lig:"leaving",camp:6,title:"GTP → GDP: the G protein is off"}];
+function simGPCR(api){
+  simChain(api,{kicker:"Step through it",title:"Switch on a G protein",key:"g",terms:["gpcr","g-protein","gdp-gtp"],
+    intro:"<p>A [[gpcr|GPCR]] is inactive until its ligand binds. Pick each event in order, from ligand binding to the G protein switching itself off.</p>",
+    fig:i=>gpcrSVG(Object.assign({},GPCR_STATES[i],{pka:0,tgt:0})), cap:"<b>Figure 4.2</b> GPCR activation. Gold outline: active. (Notes p. 132, Figs 9.9 and 9.10)",
+    events:[["The ligand binds the GPCR's ligand-binding site","The receptor changes conformation and is turned on."],
+      ["The activated receptor makes the α subunit release GDP and bind GTP","Bound to GTP, the G protein is \"on\" and the signal keeps going."],
+      ["The GTP-bound α subunit separates from β and γ","β and γ stay together; the α subunit is now free to move along the membrane."],
+      ["The α subunit binds and activates a target protein","Here the target is [[adenylyl-cyclase|adenylyl cyclase]], which starts making cAMP."],
+      ["The ligand leaves and the α subunit converts GTP to GDP, rejoining β and γ","The G protein switches itself off. This is part of [[signal-termination|termination]] (p. 135)."]],
+    distract:[["GTP binds the β subunit","Only the α subunit binds GDP or GTP."],["The ligand crosses the membrane into the cytosol","A GPCR ligand is polar; it stays outside and binds the receptor's extracellular side."],["The receptor phosphorylates itself","That is what receptor kinases do, not GPCRs."],["The GDP-bound α subunit activates the target","Bound to GDP, the G protein is off."]],
+    done:"Ligand binds, GDP is swapped for GTP, α separates and activates its target, and GTP is later converted back to GDP. GTP on, GDP off."});
+}
+
+/* ============ 5. Epinephrine in heart muscle (notes p. 133, Fig 9.11) ============ */
+function simEpi(api){
+  const st={lig:"none",title:"Resting heart muscle cell"}; const ecg=makeECG(); let k=-1, wrong=0;
+  const SEQ=[["g-protein","G protein","The activated receptor switches on the G protein: GTP replaces GDP and the α subunit separates from β and γ.",{gtp:true,sep:true},78],
+    ["adenylyl-cyclase","adenylyl cyclase","The GTP-bound α subunit binds and activates adenylyl cyclase, an enzyme in the membrane. It converts ATP into cyclic AMP (cAMP).",{ac:true,camp:14},84],
+    ["camp","cAMP","cAMP, the second messenger, binds to and activates protein kinase A (PKA).",{pka:4},92],
+    ["pka","protein kinase A","Active PKA phosphorylates proteins in the heart muscle.",{tgt:4},110],
+    ["phosphorylation","target proteins","The phosphorylated heart proteins increase the rate of contraction.",{},128]];
+  const alias={"alpha-subunit":"g-protein","gdp-gtp":"g-protein"};
+  const host=h("div"), note=h("div",{class:"fb"}), q=h("div"), steps=h("ol",{style:"margin:6px 0;padding-left:22px;font-size:.92rem"});
+  api.plateHost.innerHTML=""; api.plateHost.append(host);
+  function fig(){ host.innerHTML=""; const f=plate(gpcrSVG(st),"<b>Figure 5.1</b> Epinephrine signalling in a heart muscle cell. Click the parts of the relay in order. (Notes p. 133, Fig 9.11)"); host.append(f); bindTerms(f,pick); }
+  function pick(key){ key=alias[key]||key; if(k<0){ note.innerHTML="Release epinephrine first."; return; } if(k>=SEQ.length){ openTerm(key); return; }
+    const s=SEQ[k]; if(key===s[0]){ Object.assign(st,s[3]); st.title="Relay: "+s[1]; ecg.set(s[4]); steps.append(h("li",{},s[2])); note.innerHTML=rich("<b>Yes: "+s[1]+".</b> "+s[2]); api.gradeKey("e"+k,wrong===0,["epinephrine","camp","pka"]); wrong=0; k++; fig();
+      if(k>=SEQ.length){ st.title="Heart rate up"; fig(); note.innerHTML=rich("<b>Heart rate is up.</b> Epinephrine → GPCR → G protein → adenylyl cyclase → cAMP → PKA → phosphorylated heart proteins. As long as epinephrine stays bound, the heart rate stays high.");
+        inlineMCQ(q,"Why is cAMP called a second messenger?",[["It carries the signal inside the cell after the first messenger (epinephrine) binds the receptor outside",1," Epinephrine never enters the cell; cAMP relays its message through the cytosol."],["It is the second hormone released by the adrenal gland",0," cAMP is made inside the responding cell, from ATP."],["It is made from GTP by the G protein",0," Adenylyl cyclase makes it from ATP."],["It phosphorylates target proteins",0," PKA does that; cAMP activates PKA."]],api,"sm",["second-messenger","camp"],()=>api.unlock()); }
+      bindRich(note); }
+    else { wrong++; const later=SEQ.findIndex(x=>x[0]===key); note.innerHTML=rich(later>k?`<b>Not yet.</b> ${T[key]?T[key].n:"That"} comes later in the relay. What does the step before it activate?`:`<b>Not that one.</b> Find the molecule that ${k===0?"the activated receptor switches on":SEQ[k-1][1]+" activates"}.`); bindRich(note); } }
+  const go=h("button",{class:"btn"},"Release epinephrine"); go.onclick=()=>{ if(k>=0) return; k=0; st.lig="bound"; st.title="Epinephrine bound to the GPCR"; go.disabled=true; fig(); note.innerHTML=rich("Epinephrine from the adrenal glands binds a [[gpcr|GPCR]] on the heart muscle cell. Now click the next molecule in the relay on the figure."); bindRich(note); };
+  api.panel.append(h("p",{class:"kicker"},"Run it"), h("h2",{},"Speed up the heart"), h("p",{},"Release epinephrine, then click each molecule of the relay in the figure, in order."), ecg.el, h("div",{class:"row",style:"margin:10px 0"},go), note, steps, q);
+  note.textContent="Resting heart: no epinephrine bound."; api.lock(); fig();
+}
+
+/* ============ 6. Amplification counter (notes p. 134, Fig 9.13) ============ */
+function simAmp(api){
+  let g=1,c=1,k=1, reached=false, asked=false; const host=h("div"), out=h("div"), q=h("div"), note=h("div",{class:"fb"});
+  api.plateHost.innerHTML=""; api.plateHost.append(host);
+  const fmt=n=>n.toLocaleString("en-CA");
+  function draw(){ host.innerHTML=""; const f=plate(figAmp(g,c,k),"<b>Figure 6.1</b> Signal amplification in the epinephrine pathway. Only one branch of each layer is drawn. (Notes p. 134, Fig 9.13)"); host.append(f); bindTerms(f);
+    const tot=g*c*k; out.innerHTML="";
+    out.append(h("div",{class:"stat"},h("span",{},"Epinephrine bound"),h("b",{},"1 receptor")), h("div",{class:"stat"},h("span",{},"G proteins / adenylyl cyclases"),h("b",{},fmt(g))), h("div",{class:"stat"},h("span",{},"cAMP, so active PKA"),h("b",{},fmt(g*c))), h("div",{class:"stat"},h("span",{},"Phosphorylated targets"),h("b",{style:`color:${tot>=10000?"var(--ok)":"var(--ink)"}`},fmt(tot))));
+    if(tot>=10000 && !reached){ reached=true; note.innerHTML=rich(`<b>${fmt(tot)} target proteins from one molecule of epinephrine.</b> That is [[amplification|amplification]]: a small amount of ligand produces a large response. The three multipliers are the three places your notes list.`); bindRich(note);
+      if(!asked){ asked=true; inlineMCQ(q,"Which is NOT one of the three places the epinephrine signal is amplified?",[["Each cAMP molecule triggers release of more epinephrine",1," Epinephrine comes from the adrenal glands; the responding cell doesn't make it."],["Each epinephrine-bound receptor activates multiple G proteins",0," That is amplification step 1."],["Each adenylyl cyclase produces large amounts of cAMP",0," That is step 2."],["Each active PKA activates multiple protein targets",0," That is step 3."]],api,"amp",["amplification"],()=>api.unlock()); } } }
+  const mk=(lab,min,max,val,set)=>{ const r=h("input",{type:"range",min:String(min),max:String(max),step:"1",value:String(val),"aria-label":lab}); const v=h("span",{class:"readout"},String(val)); r.oninput=()=>{ set(+r.value); v.textContent=r.value; draw(); }; return h("div",{},h("label",{},lab," ",v),r); };
+  api.panel.append(h("p",{class:"kicker"},"Count it"), h("h2",{},"One molecule, a big response"), h("div",{html:rich("<p>One epinephrine molecule binds one receptor. Set how many molecules each layer switches on and get at least <b>10,000</b> target proteins phosphorylated.</p><p class=\"muted small\">To keep the count simple, this model lets each cAMP switch on one PKA.</p>")}),
+    h("div",{class:"ctl"},mk("1. G proteins activated per receptor",1,10,1,x=>g=x),mk("2. cAMP made per adenylyl cyclase",1,100,1,x=>c=x),mk("3. Targets phosphorylated per PKA",1,20,1,x=>k=x)), out, note, q);
+  api.lock(); draw();
+}
+
+/* ============ 7. Turn it off (notes p. 135, Fig 9.14) ============ */
+function simTerm(api){
+  const done={a:false,b:false,c:false,d:false}; const ecg=makeECG(); ecg.set(128); const host=h("div"), note=h("div",{class:"fb"}), stat=h("div");
+  api.plateHost.innerHTML=""; api.plateHost.append(host);
+  function derive(){ const rec=!done.a, gOn=rec||!done.b, cH=gOn||!done.c, tOn=cH||!done.d; return {rec,gOn,cH,tOn}; }
+  function draw(msg){ const d=derive(); const st={lig:done.a?"leaving":"bound",gtp:d.gOn,sep:d.gOn,ac:d.gOn,camp:d.cH?14:0,amp:done.c?8:0,pka:d.cH?4:0,tgt:d.tOn?4:0,ptase:done.d,title:d.tOn?"Signal still on":"Signal terminated"};
+    host.innerHTML=""; const f=plate(gpcrSVG(st),"<b>Figure 7.1</b> Terminating the epinephrine signal. (Notes p. 135, Fig 9.14)"); host.append(f); bindTerms(f);
+    ecg.set(d.tOn?128:72);
+    stat.innerHTML=""; [["Receptor",d.rec],["G protein (GTP)",d.gOn],["cAMP",d.cH],["Phosphorylated targets",d.tOn]].forEach(([n,on])=>stat.append(h("div",{class:"stat"},h("span",{},n),h("b",{style:`color:${on?"var(--bad)":"var(--ok)"}`},on?"on":"off"))));
+    if(msg){ note.innerHTML=rich(msg); bindRich(note); }
+    if(!d.tOn && Object.values(done).every(Boolean)){ note.innerHTML=rich("<b>Signal terminated.</b> Heart rate is back to resting. All four off-switches were needed: while anything upstream is still on, it keeps switching the next step back on. The cell can now respond to new signals."); bindRich(note); api.unlock(); } }
+  const ACT=[["a","Epinephrine leaves the receptor","The receptor goes back to its inactive conformation and stops activating G proteins. How long a ligand stays bound depends on [[binding-affinity|binding affinity]]."],
+    ["b","The G protein converts GTP to GDP","The α subunit turns itself off and rejoins β and γ, so adenylyl cyclase is no longer activated and stops making cAMP."],
+    ["c","Enzymes in the cytosol degrade cAMP to AMP","With no cAMP, no more protein kinase A is activated."],
+    ["d","Phosphatases remove phosphates from the target proteins","[[phosphatase|Phosphatases]] dephosphorylate the targets, which inactivates them."]];
+  const box=h("div",{class:"opts"});
+  ACT.forEach(([k,t,why])=>{ const b=h("button",{class:"opt"},t); b.onclick=()=>{ done[k]=true; b.disabled=true; b.classList.add("right"); const d=derive();
+    const up={b:d.rec&&"the receptor is still bound to epinephrine",c:d.gOn&&"adenylyl cyclase is still being activated, so it keeps making cAMP",d:d.cH&&"PKA is still active, so it re-phosphorylates the targets"}[k];
+    draw("<b>"+t+".</b> "+why+(up?` But ${up}, so this step is switched right back on.`:"")); }; box.append(b); });
+  api.panel.append(h("p",{class:"kicker"},"Switch it off"), h("h2",{},"Bring the heart rate down"), h("p",{},"The heart is racing: epinephrine is bound and every step is on. Use the four off-switches from your notes, in any order, and watch what each one does."), ecg.el, box, stat, note);
+  api.lock(); draw("Every step is on. Choose an off-switch.");
+}
+
+/* ============ 8. Receptor kinase and the MAP kinase pathway (notes pp. 136–137, Figs 9.15, 9.16) ============ */
+const MAPK_STATES=[{},{lig:true},{lig:true,dimer:true},{lig:true,dimer:true,phos:true},{lig:true,dimer:true,phos:true,ras:"gtp"},{lig:true,dimer:true,phos:true,ras:"gtp",k:1},{lig:true,dimer:true,phos:true,ras:"gtp",k:2},{lig:true,dimer:true,phos:true,ras:"gtp",k:3},{lig:true,dimer:true,phos:true,ras:"gtp",k:3,nuc:true,genes:true},{lig:true,dimer:true,phos:true,ras:"gdp",k:3,nuc:true,genes:true}];
+const MAPK_TITLES=["Paper cut: platelets release PDGF","PDGF bound","Receptors dimerize","Cross-phosphorylation","Ras: GTP replaces GDP","Kinase 1 active","Kinase 2 active","Kinase 3 active","Genes for cell division on","Ras back to GDP: pathway off"];
+function simMAPK(api){
+  simChain(api,{kicker:"Step through it",title:"Heal a paper cut",key:"m",terms:["receptor-kinase","ras","map-kinase"],
+    intro:"<p>Platelets at a paper cut release [[pdgf|PDGF]]. Pick each event in order, from PDGF binding to the pathway turning off.</p>",
+    fig:i=>mapkSVG(Object.assign({title:MAPK_TITLES[i]},MAPK_STATES[i])), cap:"<b>Figure 8.2</b> The PDGF receptor kinase and the MAP kinase pathway. Gold outline: active. (Notes pp. 136–137, Figs 9.15 and 9.16)",
+    events:[["PDGF binds PDGF receptor kinases on the cell surface","Each receptor has a ligand-binding site on the outside of the cell."],
+      ["The receptors associate into a dimer","Dimerization brings the two kinase domains together."],
+      ["Each receptor phosphorylates the other (ATP → ADP)","The phosphate groups are binding sites for cytoplasmic signalling proteins."],
+      ["Ras, the cytoplasmic signalling protein, releases GDP and binds GTP","GTP-bound Ras is active, like a G protein."],
+      ["GTP-bound Ras activates kinase 1","This starts the kinase cascade."],
+      ["Kinase 1 phosphorylates and activates kinase 2","Each kinase activates many of the next, so the signal is amplified from kinase to kinase."],
+      ["Kinase 2 phosphorylates and activates kinase 3","The last kinase of the MAP kinase cascade is now active."],
+      ["Kinase 3 enters the nucleus and turns on genes for cell division","Transcription factors change gene expression, and cells divide to repair the cut."],
+      ["GDP replaces GTP on Ras","The pathway is terminated."]],
+    distract:[["PDGF crosses the membrane and binds DNA","PDGF is a polar protein; it binds a cell-surface receptor."],["Ras binds cAMP","cAMP is the second messenger of the GPCR pathway, not this one."],["A G protein α subunit activates adenylyl cyclase","That is the GPCR pathway."],["The receptor opens to let ions through","That is a ligand-gated ion channel."]],
+    done:"PDGF → receptor kinases dimerize and phosphorylate each other → Ras-GTP → kinase 1 → kinase 2 → kinase 3 → nucleus → genes for cell division. GDP on Ras ends it."});
+}
+
+/* ============ 9. Ligand-gated ion channel (notes p. 138, Fig 9.17) ============ */
+function simChannel(api){
+  const W=760,H=360, MY=170, MT=30, CX=380; const {cv,ctx}=makeCanvas(W,H,"A ligand-gated ion channel in the membrane");
+  let open=false, inside=false, ions=[], net=0; const done={open:false,closed:false,efflux:false}; let flowIn=0, flowOut=0;
+  function spread(){ ions=[]; for(let k=0;k<70;k++){ const top=inside?k<5:k>=5; ions.push({top,tr:0,vx:0,vy:0,x:20+Math.random()*(W-40),y:top?20+Math.random()*(MY-30):MY+MT+10+Math.random()*(H-MY-MT-30)}); } flowIn=0; flowOut=0; }
+  spread();
+  loop(dt=>{ const gap=open?14:0, mT=MY-10, mB=MY+MT+10;
+    ions.forEach(o=>{
+      if(o.tr){ o.y+=o.tr*90*dt; o.x=CX+(Math.random()-.5)*4; if(o.tr>0&&o.y>mB+24){ o.tr=0; o.top=false; o.cd=3; o.vy=140; o.vx=(Math.random()-.5)*160; flowIn++; } if(o.tr<0&&o.y<mT-24){ o.tr=0; o.top=true; o.cd=3; o.vy=-140; o.vx=(Math.random()-.5)*160; flowOut++; } return; }
+      if(o.cd) o.cd=Math.max(0,o.cd-dt);
+      o.vx=(o.vx+(Math.random()-.5)*7000*dt)*0.93; o.vy=(o.vy+(Math.random()-.5)*7000*dt)*0.93; const sp=Math.hypot(o.vx,o.vy); if(sp>140){ o.vx*=140/sp; o.vy*=140/sp; }
+      o.x+=o.vx*dt; o.y+=o.vy*dt; if(o.x<10){o.x=10;o.vx*=-1;} if(o.x>W-10){o.x=W-10;o.vx*=-1;}
+      if(o.top){ if(o.y<10){o.y=10;o.vy*=-1;} if(o.y>MY-6){o.y=MY-6;o.vy*=-1;} } else { if(o.y>H-10){o.y=H-10;o.vy*=-1;} if(o.y<MY+MT+6){o.y=MY+MT+6;o.vy*=-1;} }
+      if(open && !o.cd && Math.hypot(o.x-CX,o.y-(o.top?mT:mB))<60) o.tr=o.top?1:-1; });
+    ctx.fillStyle="#fbf6e8"; ctx.fillRect(0,0,W,MY); ctx.fillStyle="#e8f3f5"; ctx.fillRect(0,MY+MT,W,H-MY-MT);
+    ctx.fillStyle="#f6e7b8"; ctx.fillRect(0,MY,W,MT); ctx.fillStyle="#d9a93a"; for(let x=6;x<W;x+=9){ ctx.beginPath(); ctx.arc(x,MY+4,3.4,0,7); ctx.fill(); ctx.beginPath(); ctx.arc(x,MY+MT-4,3.4,0,7); ctx.fill(); }
+    ctx.fillStyle="#8f7ac9"; ctx.strokeStyle=open?"#f2c230":"#5b4a8a"; ctx.lineWidth=open?3.5:1.5; [[CX-gap-26,26],[CX+gap,26]].forEach(([x,w])=>{ ctx.beginPath(); ctx.roundRect?ctx.roundRect(x,MY-14,w,MT+28,9):ctx.rect(x,MY-14,w,MT+28); ctx.fill(); ctx.stroke(); });
+    if(open){ ctx.fillStyle="#e0578a"; ctx.fillRect(CX+gap+18,MY-26,14,12); }
+    ions.forEach(o=>{ ctx.fillStyle="#4a7fd0"; ctx.beginPath(); ctx.arc(o.x,o.y,6,0,7); ctx.fill(); ctx.fillStyle="#fff"; ctx.font="700 9px Arial"; ctx.textAlign="center"; ctx.fillText("+",o.x,o.y+3); });
+    clab(ctx,"Extracellular fluid",12,20,{s:12,it:1}); clab(ctx,"Cytoplasm",12,H-10,{s:12,it:1});
+    clab(ctx,open?"Gate open":"Gate closed",CX,MY+MT+44,{a:"center",w:700,s:13,col:open?"#2a7648":"#a53838"});
+    clab(ctx,`Influx: ${flowIn}   Efflux: ${flowOut}`,W-14,20,{a:"right",w:700,s:13});
+    if(open && !inside && flowIn-flowOut>=8 && !done.open){ done.open=true; say(); }
+    if(open && inside && flowOut-flowIn>=8 && !done.efflux){ done.efflux=true; say(); }
+  });
+  api.plateHost.innerHTML=""; api.plateHost.append(plate(cv,"<b>Figure 9.1</b> A ligand-gated ion channel. Blue: ions. Pink: the ligand. (Notes p. 138, Fig 9.17)"));
+  const note=h("div",{class:"fb"}), tasks=h("div");
+  function say(m){ if(m){ note.innerHTML=rich(m); bindRich(note); } tasks.innerHTML=""; tasks.append(h("b",{},"Tasks"),h("ul",{style:"margin:4px 0;padding-left:20px"},...[["open","Add the ligand and get a net influx of 8 ions"],["closed","Remove the ligand to close the gate"],["efflux","With more ions inside, open the gate and get a net efflux of 8"]].map(([k,t])=>h("li",{style:done[k]?"color:var(--ok);font-weight:600":""},(done[k]?"Done: ":"")+t))));
+    if(done.open&&done.closed&&done.efflux){ note.innerHTML=rich("<b>That's a [[ligand-gated|ligand-gated ion channel]].</b> The ligand opens the gate and ions move through by diffusion, from where they are more concentrated to where they are less: [[influx-efflux|influx]] or efflux. No ligand, gate closed, no movement."); bindRich(note); api.unlock(); } }
+  const lig=h("button",{class:"btn"},"Add the ligand"); lig.onclick=()=>{ open=!open; lig.textContent=open?"Remove the ligand":"Add the ligand"; flowIn=0; flowOut=0;
+    if(!open && (done.open||done.efflux) && !done.closed){ done.closed=true; }
+    say(open?"The ligand binds and the channel changes conformation: the gate opens and ions can move through.":"The ligand leaves and the gate closes. Ions can no longer cross."); };
+  const swap=h("button",{class:"btn ghost"},"Put more ions inside"); swap.onclick=()=>{ inside=!inside; swap.textContent=inside?"Put more ions outside":"Put more ions inside"; spread(); say(inside?"Now the ions are more concentrated inside the cell.":"Now the ions are more concentrated outside the cell."); };
+  api.panel.append(h("p",{class:"kicker"},"Try it"), h("h2",{},"Open the gate"), h("p",{},"Ion channels change the flow of ions across the membrane. This one is ligand-gated."), h("div",{class:"row"},lig,swap), note, tasks);
+  say("The gate is closed. Ions are more concentrated outside."); api.lock();
+}
+
+/* ============ 10. Finale ============ */
+const FIN9=[
+ {q:"Which four elements does every cell-to-cell communication need?",o:[["Signalling cell, signalling molecule, receptor, responding cell",1,"True for prokaryotes and eukaryotes alike."],["Hormone, blood, nucleus, gene",0,"That describes one endocrine example, not the general elements."],["Ligand, G protein, cAMP, PKA",0,"Those are parts of one pathway."],["Receptor, kinase, phosphatase, ATP",0,"Those are signalling tools, not the four elements."]],t:["four-elements"]},
+ {q:"Epinephrine is released by the adrenal glands and reaches the heart through the blood. What type of signalling is this?",o:[["Endocrine",1,"Long distance, through the bloodstream."],["Paracrine",0,"Paracrine signals diffuse to neighbours only."],["Autocrine",0,"The adrenal cells are not the target."],["Contact-dependent",0,"The cells don't touch."]],t:["endocrine","hormone"]},
+ {q:"A small nonpolar hormone reaches a cell. Where is its receptor most likely?",o:[["In the cytosol or nucleus",1,"It passes through the hydrophobic core of the membrane."],["On the cell surface only",0,"That is for polar signals."],["In the blood",0,"Receptors are on or in the responding cell."],["In the membrane of the signalling cell",0,"The receptor belongs to the responding cell."]],t:["nonpolar-signal","intracellular-receptor"]},
+ {q:"In the epinephrine pathway, what does the GTP-bound α subunit activate?",o:[["Adenylyl cyclase",1,"Which converts ATP into cAMP."],["Protein kinase A directly",0,"cAMP activates PKA."],["Ras",0,"Ras is in the receptor kinase pathway."],["The receptor",0,"The receptor activated the G protein, not the other way round."]],t:["alpha-subunit","adenylyl-cyclase"]},
+ {q:"A drug blocks the enzymes that degrade cAMP. What happens after epinephrine leaves the receptor?",o:[["cAMP stays high, so PKA stays active and the heart rate stays up longer",1,"Degrading cAMP is one of the off-switches."],["The heart rate drops faster",0,"Removing an off-switch prolongs the signal."],["The G protein can't bind GTP",0,"The drug acts on cAMP, not the G protein."],["Nothing changes",0,"cAMP degradation helps end the response."]],t:["camp","signal-termination"]},
+ {q:"Which receptor works by pairing up and phosphorylating its partner?",o:[["A receptor kinase",1,"Dimerization, then each member phosphorylates the other."],["A GPCR",0,"GPCRs activate G proteins."],["A ligand-gated ion channel",0,"Channels open a gate."],["An intracellular receptor",0,"These bind nonpolar ligands inside the cell."]],t:["receptor-kinase","dimerization"]},
+ {q:"Ras is stuck bound to GTP. What would you expect?",o:[["The MAP kinase pathway stays on, so genes for cell division stay on",1,"The pathway ends only when GDP replaces GTP on Ras."],["The pathway can never start",0,"GTP-bound Ras is the active form."],["cAMP rises",0,"cAMP belongs to the GPCR pathway."],["The receptor stops dimerizing",0,"Ras acts after the receptor."]],t:["ras","map-kinase"]},
+ {q:"Which statement about a ligand-gated ion channel is right?",o:[["The ligand opens the gate and ions flow in or out of the cell",1,"Influx or efflux, depending on the gradient."],["It responds to changes in voltage",0,"That is a voltage-gated channel."],["It makes cAMP",0,"Adenylyl cyclase makes cAMP."],["It is always open",0,"It is gated: closed until the ligand binds."]],t:["ligand-gated","ion-channel"]}];
+function simFinale9(api){
+  let i=0, right=0; const body=h("div"), bar=h("div",{style:"margin:6px 0 10px"});
+  api.plateHost.innerHTML=""; const f=plate(figClasses(),"<b>Figure 10.1</b> The three groups of cell-surface receptor. (Notes p. 131, Fig 9.8)"); api.plateHost.append(f); bindTerms(f);
+  function drawBar(){ bar.innerHTML=""; FIN9.forEach((_,k)=>bar.append(h("i",{style:`display:inline-block;width:${100/FIN9.length-1}%;height:8px;margin-right:1%;border-radius:4px;background:${k<i?"var(--accent)":"var(--rule)"}`}))); }
+  function draw(){ body.innerHTML=""; drawBar();
+    if(i>=FIN9.length){ body.append(h("div",{class:"fb ok",html:`<b>${right} of ${FIN9.length} on the first try.</b> Elements, distances, receptors, GPCRs, amplification, termination, receptor kinases and ion channels: the whole of Module 9.`})); api.unlock(); return; }
+    const it=FIN9[i]; body.append(h("p",{class:"muted small"},`Call ${i+1} of ${FIN9.length}. One try.`), h("p",{},h("b",{},it.q)));
+    const box=h("div",{class:"opts"}), fb=h("div");
+    shuffle(it.o).forEach(o=>{ const b=h("button",{class:"opt"},o[0]); b.onclick=()=>{ $$(".opt",box).forEach(x=>x.disabled=true); const ok=!!o[1]; api.gradeKey("f"+i,ok,it.t); if(ok){ right++; b.classList.add("right"); fb.append(h("div",{class:"fb ok",html:`<b>Correct.</b> ${o[2]}`})); }
+      else { b.classList.add("wrong"); const g=it.o.find(x=>x[1]); $$(".opt",box).forEach(x=>{ if(x.textContent===g[0]) x.classList.add("right"); }); fb.append(h("div",{class:"fb bad",html:`<b>Not this time.</b> ${o[2]} The answer: ${g[0]}. ${g[2]}`})); }
+      fb.append(h("button",{class:"btn",style:"margin-top:6px",onclick:()=>{ i++; draw(); }},i+1<FIN9.length?"Next call":"Finish")); }; box.append(b); });
+    body.append(box,fb); }
+  api.panel.append(h("p",{class:"kicker"},"Finale"), h("h2",{},"From signal to response"), h("p",{},"Eight calls, one try each, across the whole module."), bar, body);
+  api.lock(); draw();
+}
+
+/* ============ Signal desk: endless practice ============ */
+const pickR=a=>a[Math.floor(Math.random()*a.length)];
+const SCEN=[
+ ["Insulin made by the pancreas travels in the blood to muscle cells","Endocrine"],["Epinephrine from the adrenal glands reaches the heart through the bloodstream","Endocrine"],["A hormone acts on target cells far from the gland that made it","Endocrine"],
+ ["A small, water-soluble growth factor diffuses to cells a few cell-widths away","Paracrine"],["A signal acts on neighbouring cells within about 20 cells","Paracrine"],
+ ["A cell secretes a signal and has receptors for that same signal","Autocrine"],["A developing cell stimulates its own growth with a factor it releases","Autocrine"],
+ ["A transmembrane protein on one cell binds a receptor on the cell it is touching","Contact-dependent"],["Juxtacrine signalling between two neighbouring cells","Contact-dependent"]];
+const PERTURB=[
+ ["A G protein α subunit cannot convert GTP to GDP.","The G protein stays on, so adenylyl cyclase keeps making cAMP and the response continues","The G protein can never be switched on","cAMP is never made","The receptor cannot bind epinephrine","Converting GTP to GDP is how the G protein turns itself off."],
+ ["The enzymes that degrade cAMP are blocked.","cAMP stays high and PKA stays active, so the response lasts longer","PKA can never be activated","Adenylyl cyclase stops working","The G protein cannot bind GTP","Degrading cAMP is one of the off-switches."],
+ ["A cell makes no phosphatases.","Phosphorylated target proteins stay active after the signal ends","Kinases cannot phosphorylate anything","cAMP cannot be made","Epinephrine cannot leave the receptor","Phosphatases remove the phosphates that kinases add."],
+ ["Ras is stuck bound to GTP.","The MAP kinase cascade stays on and genes for cell division stay on","The cascade can never start","Ras makes cAMP","The receptor kinases cannot dimerize","The pathway ends only when GDP replaces GTP on Ras."],
+ ["A mutation stops PDGF receptor kinases from pairing up.","They are not phosphorylated, so Ras and the cascade are not activated","The cascade runs all the time","cAMP rises","The ion channel opens","Dimerization comes before cross-phosphorylation."],
+ ["A heart cell has no adenylyl cyclase.","Epinephrine can bind and activate the G protein, but no cAMP is made and the heart rate does not rise","Epinephrine cannot bind its receptor","The G protein cannot bind GTP","PKA is permanently active","The α subunit's target, adenylyl cyclase, makes the second messenger."],
+ ["A drug keeps a ligand-gated channel's ligand from binding.","The gate stays closed and ions cannot cross","The channel stays open","Ions flow out instead of in","The channel becomes voltage-gated","A ligand-gated channel opens only when its ligand binds."],
+ ["A receptor's binding affinity for its ligand increases.","The ligand stays bound longer, so the receptor stays active longer","The ligand stays bound for less time","The signal is no longer amplified","The ligand can now cross the membrane","Binding affinity sets how long a ligand stays bound."]];
+const NEXTSTEP=[
+ ["Epinephrine binds the GPCR. What happens next?","The G protein is activated: GTP replaces GDP"],["The GTP-bound α subunit separates. What does it bind?","Adenylyl cyclase, which it activates"],
+ ["Adenylyl cyclase is active. What does it make?","cAMP, from ATP"],["cAMP levels rise. What is activated next?","Protein kinase A (PKA)"],["PKA is active. What does it do in heart muscle?","Phosphorylates proteins, increasing the rate of contraction"],
+ ["PDGF binds its receptor kinases. What happens next?","The receptors dimerize and phosphorylate each other"],["The PDGF receptors are phosphorylated. What do they activate?","Ras, which swaps GDP for GTP"],
+ ["GTP-bound Ras is active. What does it trigger?","A kinase cascade: kinase 1, 2, then 3"],["The last kinase of the cascade is active. Where does it go?","Into the nucleus, to turn on genes for cell division"]];
+function makeSignalTask(){
+  const k=Math.floor(Math.random()*8);
+  if(k===0){ const s=pickR(SCEN); return {title:"Signalling distance",prompt:`${s[0]}. What type of signalling is this?`,opts:["Endocrine","Paracrine","Autocrine","Contact-dependent"],ans:s[1],why:"Endocrine: through the blood, long distance. Paracrine: diffuses to neighbours. Autocrine: the cell is its own target. Contact-dependent: cells touch.",t:["endocrine","paracrine","autocrine","contact-dependent"]}; }
+  if(k===1){ const p=pickR(PERTURB); return {title:"What if?",prompt:p[0]+" What happens?",opts:shuffle(p.slice(1,5)),ans:p[1],why:p[5],t:["signal-termination"]}; }
+  if(k===2){ const L=pickR(LIGS); const a=L.a==="polar"?"On the cell surface":"In the cytosol or nucleus"; return {title:"Find the receptor",prompt:`${L.n} (${L.d}) reaches a cell. Where is its receptor?`,opts:["On the cell surface","In the cytosol or nucleus"],ans:a,why:L.why,t:["polar-signal","nonpolar-signal"]}; }
+  if(k===3){ const g=pickR([2,3,4,5,10]), c=pickR([10,20,50,100]), q=pickR([2,5,10]); const ans=g*c*q; const fm=n=>n.toLocaleString("en-CA");
+    return {title:"Amplification",prompt:`One epinephrine-bound receptor activates ${g} G proteins. Each adenylyl cyclase makes ${c} cAMP, each cAMP activates one PKA, and each PKA phosphorylates ${q} targets. How many targets are phosphorylated?`,opts:shuffle([...new Set([ans,g+c+q,g*c,c*q].map(fm))]),ans:fm(ans),why:`The layers multiply: 1 × ${g} × ${c} × ${q} = ${fm(ans)}.`,t:["amplification"]}; }
+  if(k===4){ const s=pickR(NEXTSTEP); const others=shuffle(NEXTSTEP.filter(x=>x!==s).map(x=>x[1])).slice(0,3); return {title:"What comes next?",prompt:s[0],opts:shuffle([s[1],...others]),ans:s[1],why:`${s[1]}.`,t:["signal-transduction"]}; }
+  if(k===5){ const s=pickR([["Activates a G protein","G protein-coupled receptor"],["Dimerizes and phosphorylates its partner","Receptor kinase"],["Lets ions flow across the membrane when the ligand binds","Ligand-gated ion channel"],["The PDGF receptor","Receptor kinase"],["The epinephrine receptor on heart muscle","G protein-coupled receptor"],["Activates Ras","Receptor kinase"],["Found in virtually every eukaryote and leads to cAMP in the heart","G protein-coupled receptor"]]);
+    return {title:"Which receptor?",prompt:`Which receptor fits: ${s[0].toLowerCase()}?`,opts:["G protein-coupled receptor","Receptor kinase","Ligand-gated ion channel"],ans:s[1],why:"GPCR: G protein, then often cAMP. Receptor kinase: dimerize, phosphorylate, Ras. Ion channel: a gate for ions.",t:["gpcr","receptor-kinase","ligand-gated"]}; }
+  if(k===6){ const s=pickR([["adds a phosphate group from ATP to a target protein","Kinase"],["removes a phosphate group from a target protein","Phosphatase"],["converts ATP into cAMP","Adenylyl cyclase"],["is activated by cAMP and phosphorylates heart proteins","Protein kinase A"],["binds GDP or GTP","G protein α subunit"]]);
+    return {title:"Name the molecule",prompt:`Which molecule ${s[0]}?`,opts:shuffle(["Kinase","Phosphatase","Adenylyl cyclase","Protein kinase A","G protein α subunit"]).filter(x=>x!==s[1]).slice(0,3).concat([s[1]]).sort(()=>Math.random()-.5),ans:s[1],why:"Kinases phosphorylate; phosphatases dephosphorylate; adenylyl cyclase makes cAMP; cAMP activates PKA; the α subunit binds GDP or GTP.",t:["kinase","phosphatase","camp"]}; }
+  const s=pickR([["The signalling molecule binds and the receptor changes conformation","Receptor activation"],["A series of proteins is activated in sequence inside the cell","Signal transduction"],["An enzyme is activated or a gene is turned on","Response"],["The ligand leaves and phosphatases inactivate proteins","Signal termination"],["cAMP carries the message through the cytosol","Signal transduction"],["The heart muscle contracts faster","Response"]]);
+  return {title:"Which step?",prompt:`Which step of signalling is this: ${s[0].toLowerCase()}?`,opts:["Receptor activation","Signal transduction","Response","Signal termination"],ans:s[1],why:"Activation, transduction, response, termination.",t:["receptor-activation","signal-transduction","response","signal-termination"]};
+}
+function checkpointView(){
+  const app=$("#app"); app.innerHTML="";
+  app.append(h("div",{class:"banner"},h("span",{class:"num"},"9"),h("span",{class:"ttl"},"Signal desk")));
+  app.append(h("p",{class:"muted"},"Endless practice: signalling distances, receptors, pathway steps, amplification counts, what-if mutations and drugs, and the molecules of each pathway. New questions every time."));
+  const box=h("div",{class:"panel",style:"max-width:860px"}); app.append(box);
+  const sess={r:0,t:0,streak:0}; let task=null, first=true, solved=false;
+  const score=h("div",{class:"score"}), body=h("div"); box.append(score,body);
+  function drawScore(){ score.innerHTML=""; score.append(h("span",{},"This session: ",h("b",{},`${sess.r} of ${sess.t}`)),h("span",{},"Streak: ",h("b",{},String(sess.streak))),h("span",{},"Best streak: ",h("b",{},String(P.cp.best||0)))); }
+  function result(ok){ if(!first) return; first=false; sess.t++; if(ok){ sess.r++; sess.streak++; if(sess.streak>(P.cp.best||0)) P.cp.best=sess.streak; } else sess.streak=0; task.t.forEach(k=>markTerm(k,"tested")); save(); drawScore(); }
+  function next(){ task=makeSignalTask(); if(!task.opts.includes(task.ans)) task.opts[0]=task.ans; task.opts=[...new Set(task.opts)]; first=true; solved=false; draw(); }
+  let showPath=false;
+  function draw(){ body.innerHTML=""; body.append(h("p",{class:"kicker"},task.title), h("p",{},h("b",{},task.prompt)));
+    const fb=h("div"), opts=h("div",{class:"opts"});
+    task.opts.forEach(o=>{ const b=h("button",{class:"opt"},o); b.addEventListener("click",()=>{ if(solved) return; const ok=o===task.ans; result(ok);
+      if(ok){ solved=true; b.classList.add("right"); $$(".opt",opts).forEach(x=>x.disabled=true); fb.innerHTML=""; fb.append(h("div",{class:"fb ok",html:"<b>Correct.</b> "+task.why}), h("button",{class:"btn",style:"margin-top:8px",onclick:next},"Next question")); }
+      else { b.classList.add("wrong"); b.disabled=true; fb.innerHTML=""; fb.append(h("div",{class:"fb bad",html:"<b>Not quite.</b> "+task.why})); } }); opts.append(b); });
+    const tb=h("button",{class:"mini","aria-pressed":String(showPath)},showPath?"Hide the epinephrine pathway":"Show the epinephrine pathway"); const fig=h("div");
+    tb.onclick=()=>{ showPath=!showPath; draw(); }; if(showPath){ const f=plate(gpcrSVG({lig:"bound",gtp:true,sep:true,ac:true,camp:14,pka:4,tgt:4}),"<b>Figure 9.11</b> Epinephrine signalling in heart muscle (notes p. 133)."); fig.append(f); bindTerms(f); }
+    body.append(opts,fb,h("div",{style:"margin-top:10px"},tb),fig,termChips(task.t)); }
+  drawScore(); next();
+}
+
+/* ============ Pathway viewer ============ */
+function atlasView(){
+  const app=$("#app"); app.innerHTML="";
+  app.append(h("div",{class:"banner"},h("span",{class:"num"},"9"),h("span",{class:"ttl"},"Pathway viewer")));
+  app.append(h("p",{class:"muted"},"Explore freely. Click any labelled part to read about it and see where it is in your course notes. Step through the GPCR and MAP kinase pathways one stage at a time."));
+  const grid=h("div",{class:"atlas"}), left=h("div"), right=h("div",{class:"panel"}); grid.append(left,right); app.append(grid);
+  const VIEWS=[["el","Elements"],["bac","Bacteria"],["adr","Adrenaline"],["steps","4 steps"],["dist","Distances"],["rec","Receptors"],["cls","3 groups"],["gpcr","GPCR"],["phos","Kinases"],["amp","Amplify"],["rk","Rec. kinase"],["mapk","MAP kinase"],["chan","Channel"]];
+  let mode="gpcr", stage=0; const seg=h("div",{class:"seg",style:"margin-bottom:10px;flex-wrap:wrap"}), host=h("div");
+  VIEWS.forEach(v=>{ const b=h("button",{"aria-pressed":String(v[0]===mode)},v[1]); b.addEventListener("click",()=>{ mode=v[0]; stage=0; $$("button",seg).forEach(x=>x.setAttribute("aria-pressed","false")); b.setAttribute("aria-pressed","true"); draw(); }); seg.append(b); });
+  left.append(seg,host);
+  function info(k){ const t=T[k]; if(!t) return; markTerm(k,"seen"); right.innerHTML="";
+    right.append(h("h2",{},t.n),h("p",{},t.d),h("p",{class:"notes-ref"},h("b",{},"Course notes: "),`p. ${t.p}`));
+    const rel=related(k); if(rel.length){ right.append(h("p",{class:"muted small",style:"margin:10px 0 0"},"Related")); right.append(termChips(rel)); } }
+  function intro(t,keys){ right.innerHTML=""; right.append(h("h2",{},VIEWS.find(v=>v[0]===mode)[1]),h("p",{},t)); if(keys) right.append(h("p",{class:"muted small",style:"margin:8px 0 0"},"Parts in this figure"),termChips(keys)); }
+  const GSTEPS=[...GPCR_STATES.slice(0,5).map(s=>Object.assign({},s)),{lig:"bound",gtp:true,sep:true,ac:true,camp:14,pka:4,tgt:4,title:"PKA phosphorylates heart proteins"},{lig:"leaving",amp:8,ptase:true,title:"Terminated"}];
+  const GTXT=["Inactive GPCR. The α subunit is bound to GDP and α, β and γ are joined.","The ligand (epinephrine) binds; the receptor changes conformation and is turned on.","The activated receptor makes the α subunit swap GDP for GTP. The G protein is on.","The GTP-bound α subunit separates from β and γ.","α binds and activates adenylyl cyclase, which converts ATP to cAMP.","cAMP activates PKA, which phosphorylates heart proteins. Heart rate rises. Amplified at three places.","Epinephrine leaves, GTP becomes GDP, cAMP is degraded to AMP and phosphatases remove phosphates."];
+  function stepper(n,onStep){ const row=h("div",{class:"row",style:"margin:8px 0"}), cnt=h("span",{class:"readout"},`Stage ${stage+1} of ${n}`);
+    row.append(h("button",{class:"btn ghost",onclick:()=>{ if(stage>0){ stage--; draw(); } }},"Back"),cnt,h("button",{class:"btn",onclick:()=>{ if(stage<n-1){ stage++; draw(); } }},"Next stage")); return row; }
+  function draw(){ stopLoops(); host.innerHTML="";
+    const put=(svg,cap)=>{ const f=plate(svg,cap); host.append(f); bindTerms(f,info); return f; };
+    const M={
+      el:()=>{ put(figElements(),"<b>Viewer</b> Cellular communication (Notes p. 127, Fig 9.1)"); intro("Signalling cell, signalling molecule, receptor, responding cell.",["signalling-cell","signalling-molecule","receptor","responding-cell"]); },
+      bac:()=>{ put(figBacteria(),"<b>Viewer</b> Communication amongst bacteria (Notes p. 127, Fig 9.2)"); intro("Below threshold: genes for DNA uptake off. Above threshold: on.",["quorum"]); },
+      adr:()=>{ put(figAdrenaline(),"<b>Viewer</b> Communication amongst cells (Notes p. 128, Fig 9.3)"); intro("The adrenal glands release epinephrine; the response depends on the target cell.",["epinephrine","response"]); },
+      steps:()=>{ put(figSteps(),"<b>Viewer</b> Cell signalling steps (Notes pp. 128–129, Figs 9.4, 9.5)"); intro("Activation, transduction, response, termination.",["receptor-activation","signal-transduction","response","signal-termination"]); },
+      dist:()=>{ put(figDistances(),"<b>Viewer</b> Signalling distances (Notes p. 130, Fig 9.6)"); intro("One long-distance type and three short-distance types.",["endocrine","paracrine","autocrine","contact-dependent"]); },
+      rec:()=>{ put(figReceptors(),"<b>Viewer</b> Cellular receptors (Notes p. 131, Fig 9.7)"); intro("Polar signals: cell-surface receptors. Small nonpolar signals: intracellular receptors.",["cell-surface-receptor","intracellular-receptor","ligand-binding-site"]); },
+      cls:()=>{ put(figClasses(),"<b>Viewer</b> Cell-surface receptors (Notes p. 131, Fig 9.8)"); intro("Three groups: GPCRs, receptor kinases and ion channels.",["gpcr","receptor-kinase","ligand-gated"]); },
+      gpcr:()=>{ put(gpcrSVG(GSTEPS[stage]),`<b>Viewer</b> The GPCR pathway, stage ${stage+1} (Notes pp. 132–135, Figs 9.9 to 9.14)`); host.append(stepper(GSTEPS.length)); intro(GTXT[stage],["gpcr","g-protein","alpha-subunit","adenylyl-cyclase","camp","pka"]); },
+      phos:()=>{ put(figPhos(),"<b>Viewer</b> Phosphorylation and dephosphorylation (Notes p. 133, Fig 9.12)"); intro("Kinases add phosphates; phosphatases remove them.",["kinase","phosphatase"]); },
+      amp:()=>{ put(figAmp(3,6,4),"<b>Viewer</b> Signal amplification (Notes p. 134, Fig 9.13)"); intro("Three places: G proteins, cAMP, PKA targets.",["amplification"]); },
+      rk:()=>{ put(figRK(),"<b>Viewer</b> Receptor kinase activation (Notes p. 136, Fig 9.15)"); intro("Ligand binds, receptors dimerize, each phosphorylates the other, relay proteins bind.",["receptor-kinase","dimerization"]); },
+      mapk:()=>{ put(mapkSVG(Object.assign({title:MAPK_TITLES[stage]},MAPK_STATES[stage])),`<b>Viewer</b> The MAP kinase pathway, stage ${stage+1} (Notes p. 137, Fig 9.16)`); host.append(stepper(MAPK_STATES.length)); intro(MAPK_TITLES[stage]+".",["pdgf","ras","map-kinase"]); },
+      chan:()=>{ put(figChannel(stage===1),"<b>Viewer</b> Ligand-gated ion channel (Notes p. 138, Fig 9.17)"); host.append(h("div",{class:"row",style:"margin:8px 0"},h("button",{class:"btn",onclick:()=>{ stage=stage?0:1; draw(); }},stage?"Remove the ligand":"Add the ligand"))); intro("Ligand bound: gate open, ions flow. No ligand: gate closed.",["ion-channel","ligand-gated","influx-efflux"]); }
+    }; M[mode]();
+  }
+  draw();
+}
+
+/* ============ Home ============ */
+function homeView(){
+  const app=$("#app"); app.innerHTML="";
+  const nextIdx=CHAPTERS.findIndex(c=>!chState(c.id).done), startIdx=nextIdx<0?0:nextIdx;
+  app.append(h("div",{class:"banner"},h("span",{class:"num"},"Module 9"),h("span",{class:"ttl"},"Cell signalling"),h("span",{class:"pg"},"Course notes pp. 126–139")));
+  const f=plate(gpcrSVG({lig:"bound",gtp:true,sep:true,ac:true,camp:14,pka:4,tgt:4}),"<b>Figure</b> Epinephrine signalling through a GPCR. Click anything.");
+  const text=h("div",{},
+    h("h1",{},"From signal to response."),
+    h("p",{class:"lede"},"This module covers how cells communicate over short and long distances, the receptors that detect signals, and three kinds of cell-surface signalling: G protein-coupled receptors, receptor kinases and ligand-gated ion channels."),
+    h("p",{style:"font-weight:700;margin-bottom:4px"},"Learning outcomes"),
+    h("ol",{style:"margin:0 0 12px;padding-left:20px"},h("li",{},"Describe the process of signal transduction in a target cell from signal molecule to receptor to amplification to termination."),h("li",{},"Compare and contrast signalling over short and long distances."),h("li",{},"Explain the mechanism of G protein-coupled receptor, receptor kinase and ligand-gated ion channel signalling.")),
+    h("p",{class:"muted small"},"Each chapter starts with a figure or experiment you can work with, then tests you. Your score is the share you get right on the first try. Every figure and term points back to a page in your course notes."),
+    h("div",{class:"row",style:"margin-top:10px"}, h("button",{class:"btn",onclick:()=>{RUN=null; renderChapter(startIdx,0);}}, nextIdx===0?"Start chapter 9.1":nextIdx<0?"Replay chapter 9.1":`Continue with chapter 9.${startIdx+1}`), h("button",{class:"btn ghost",onclick:()=>go("checkpoint")},"Signal desk")));
+  app.append(h("div",{class:"hero"},f,text)); bindTerms(f);
+  const list=h("ol",{class:"chlist"});
+  CHAPTERS.forEach((c,i)=>{ const st=chState(c.id);
+    list.append(h("li",{},h("button",{class:"chitem",onclick:()=>{RUN=null; renderChapter(i,0);}}, h("span",{class:"chnum"},`9.${i+1}`), h("h3",{},c.title), h("span",{class:"meta"}, `${c.blurb} Notes ${c.pages}.`, st.done?h("span",{class:"done-tag"},`  Best: ${Math.round((st.best||0)*100)}%`):"")))); });
+  app.append(h("div",{class:"sect"},h("h2",{},"Chapters"),list));
+  app.append(h("div",{class:"sect"},h("h2",{},"Other ways in"),h("p",{class:"muted"},"The pathway viewer lets you click through every figure in the module and step through the GPCR and MAP kinase pathways. The signal desk gives you endless random questions. The mini exam tests the whole module and tells you what to relearn. The glossary lists all the important terms from p. 139 of your notes.")));
+  const reset=h("button",{class:"mini",style:"margin-left:8px",onclick:()=>{ if(confirm("Clear all saved progress for Module 9 in this browser?")){ P={ch:{},terms:{},cp:{best:0}}; save(); homeView(); } }},"Reset progress");
+  app.append(h("p",{class:"foot"},"Made for BIOL 130 review. Content follows the Module 9 course notes (pp. 126 to 139), which use figures from Morris et al., Biology: How Life Works, 4th edition (Macmillan, 2023). All figures here are original drawings. Progress is saved in this browser only.",reset));
+}
+
+/* ============ Glossary ============ */
+function glossaryView(){
+  const app=$("#app"); app.innerHTML="";
+  const keys=Object.keys(T), tested=keys.filter(k=>P.terms[k]==="tested").length, seen=keys.filter(k=>P.terms[k]).length;
+  const search=h("input",{type:"search",placeholder:"Find a term",style:"padding:8px 12px;border:1px solid var(--rule);border-radius:6px;background:var(--paper);color:var(--ink);font:inherit;min-width:240px","aria-label":"Find a term"});
+  app.append(h("div",{class:"banner"},h("span",{class:"num"},"9"),h("span",{class:"ttl"},"Important terms and concepts"),h("span",{class:"pg"},"Course notes p. 139")));
+  app.append(h("div",{class:"crumb"},h("p",{class:"muted",style:"margin:0"},`${seen} of ${keys.length} seen, ${tested} tested. Page numbers point to your course notes.`),h("div",{style:"margin-left:auto"},search)));
+  const box=h("div",{class:"gl"}); app.append(box);
+  function draw(q=""){ box.innerHTML="";
+    TERM_ORDER_GROUPS.forEach(g=>{ const ks=keys.filter(k=>T[k].g===g && (!q || (T[k].n+" "+T[k].d).toLowerCase().includes(q))); if(!ks.length) return;
+      const sec=h("section",{},h("h2",{},g));
+      ks.forEach(k=>{ const st=P.terms[k]; sec.append(h("div",{class:"gi"},h("b",{},T[k].n),h("span",{class:"st "+(st||"")},st==="tested"?"Tested":st==="seen"?"Seen":"Not yet"),h("p",{},T[k].d+" "),h("p",{class:"notes-ref",style:"grid-column:1/-1;margin:2px 0 0"},`Notes p. ${T[k].p}`))); });
+      box.append(sec); }); }
+  search.addEventListener("input",()=>draw(search.value.trim().toLowerCase())); draw();
+}
+
+
+
+/* ============ mini exam (shared engine in exam.js) ============ */
+function examView(){
+  const app=$("#app"); app.innerHTML="";
+  app.append(h("div",{class:"banner"},h("span",{class:"num"},"9"),h("span",{class:"ttl"},"Mini exam")));
+  const host=h("div"); app.append(host);
+  const items=((window.STUDY&&STUDY.exam&&STUDY.exam["m9"])||[]).map((q,i)=>({...q,mod:"m9",id:"m9-"+i}));
+  EXAM.mount(host,{key:"m9",title:"Module 9 mini exam",intro:`${items.length} questions covering every chapter of this module.`,items,sizes:[10]});
+}
+/* ============ router ============ */
+function go(view){
+  stopLoops(); exploreHook=null; RUN=null; tc.classList.remove("show"); tip.style.display="none";
+  $$(".tab").forEach(t=>t.setAttribute("aria-current",String(t.dataset.go===view)));
+  if(view==="atlas") atlasView(); else if(view==="checkpoint") checkpointView(); else if(view==="glossary") glossaryView(); else if(view==="exam") examView(); else homeView();
+  window.scrollTo(0,0);
+}
+$$(".tab").forEach(t=>t.addEventListener("click",()=>go(t.dataset.go)));
+$("#home").addEventListener("click",()=>go("story"));
+function fromHash(){
+  const m=location.hash.match(/^#ch=(\d+)/);
+  if(m && CHAPTERS[+m[1]-1]){ RUN=null; renderChapter(+m[1]-1,0); return true; }
+  if(location.hash==="#exam"){ go("exam"); return true; }
+  return false;
+}
+window.addEventListener("hashchange",fromHash);
+if(!fromHash()) go("story");
+</script>
+<script src="modes.js"></script>
+</body></html>

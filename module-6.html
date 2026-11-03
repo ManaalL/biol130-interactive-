@@ -1,0 +1,1700 @@
+<!DOCTYPE html>
+<html lang="en" data-module="m6">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>Metabolism | BIOL 130 Module 6</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Source+Sans+3:ital,wght@0,400;0,600;0,700;1,400&family=Source+Serif+4:ital,opsz,wght@0,8..60,500;0,8..60,650;1,8..60,400&display=swap" rel="stylesheet">
+<style>
+:root{
+  --page:#e7eeed; --paper:#ffffff; --ink:#1c2830; --ink2:#4b5b64; --rule:#cbd5d7;
+  --head:#23282e; --accent:#1f7a8c; --accentInk:#ffffff; --accentSoft:#e0ecef;
+  --ok:#2a7648; --okSoft:#e2f2e7; --bad:#a53838; --badSoft:#f7e4e2;
+  --plate:#ffffff; --plateRule:#c3cdd0; --cap:#3b4a52; --chip:#f1f5f5;
+  --serif:"Source Serif 4", Georgia, "Times New Roman", serif;
+  --sans:"Source Sans 3", "Segoe UI", system-ui, -apple-system, Roboto, Arial, sans-serif;
+  box-sizing:border-box;
+  padding-top:env(safe-area-inset-top,0px); padding-bottom:env(safe-area-inset-bottom,0px);
+}
+@media (prefers-color-scheme: dark){
+  :root:not([data-theme="light"]){
+    --page:#0f171b; --paper:#162228; --ink:#e2eaec; --ink2:#a5b5bb; --rule:#2b3b42;
+    --head:#e8eeea; --accent:#84b6c0; --accentInk:#051215; --accentSoft:#132a32;
+    --ok:#6cc394; --okSoft:#17311f; --bad:#e8908b; --badSoft:#3a1e1e;
+    --plate:#f4f7f7; --plateRule:#3a4a51; --cap:#b9c7cc; --chip:#1d2b31;
+  }
+}
+:root[data-theme="dark"]{
+  --page:#0f171b; --paper:#162228; --ink:#e2eaec; --ink2:#a5b5bb; --rule:#2b3b42;
+  --head:#e8eeea; --accent:#84b6c0; --accentInk:#051215; --accentSoft:#132a32;
+  --ok:#6cc394; --okSoft:#17311f; --bad:#e8908b; --badSoft:#3a1e1e;
+  --plate:#f4f7f7; --plateRule:#3a4a51; --cap:#b9c7cc; --chip:#1d2b31;
+}
+*,*::before,*::after{box-sizing:inherit}
+html{scroll-padding-top:env(safe-area-inset-top,0px)}
+body{margin:0;background:var(--page);color:var(--ink);font-family:var(--sans);font-size:17px;line-height:1.5;-webkit-text-size-adjust:100%}
+button{font:inherit;color:inherit}
+:focus-visible{outline:3px solid var(--accent);outline-offset:2px}
+h1,h2,h3{font-family:var(--serif);color:var(--head);font-weight:650;line-height:1.2;margin:0}
+p{margin:0 0 .8em}
+sup{font-size:.7em;line-height:0}
+
+/* top bar */
+.top{position:sticky;top:0;z-index:20;background:var(--paper);border-bottom:1px solid var(--rule);padding-top:env(safe-area-inset-top,0px)}
+.topin{max-width:1240px;margin:0 auto;display:flex;align-items:center;gap:20px;padding:10px 20px;flex-wrap:wrap}
+.brand{display:flex;align-items:baseline;gap:12px;cursor:pointer;background:none;border:0;padding:0;text-align:left}
+.brand b{font-family:var(--serif);font-size:1.45rem;color:var(--head);font-weight:650;letter-spacing:-.01em}
+.brand span{color:var(--ink2);font-size:.9rem}
+.tabs{display:flex;gap:4px;margin-left:auto;flex-wrap:wrap}
+.tab{background:none;border:1px solid transparent;border-radius:6px;padding:6px 12px;cursor:pointer;color:var(--ink2);font-weight:600}
+.tab:hover{color:var(--ink);background:var(--chip)}
+.tab[aria-current="true"]{color:var(--accent);border-color:var(--rule);background:var(--paper)}
+.wrap{max-width:1240px;margin:0 auto;padding:22px 20px 60px}
+
+/* figure plates */
+.plate{background:var(--plate);border:1px solid var(--plateRule);border-radius:4px;padding:10px 10px 8px;margin:0;position:relative}
+.plate svg,.plate canvas{display:block;width:100%;height:auto}
+.plate figcaption{font-family:var(--serif);font-size:.93rem;color:#3b4a52;padding:8px 4px 2px;line-height:1.4}
+.plate figcaption b{font-weight:650;color:#1f7a8c}
+.plate .tools{position:absolute;top:8px;right:8px;display:flex;gap:6px;z-index:2}
+.mini{font-size:.82rem;padding:4px 9px;border-radius:5px;border:1px solid #c3cdd0;background:#fff;color:#1c2830;cursor:pointer}
+.mini:hover{background:#eef4f4}
+.mini[aria-pressed="true"]{background:#1f7a8c;color:#fff;border-color:#1f7a8c}
+
+/* buttons */
+.btn{display:inline-flex;align-items:center;gap:8px;padding:10px 18px;border-radius:6px;border:1px solid var(--accent);background:var(--accent);color:var(--accentInk);font-weight:600;cursor:pointer}
+.btn:hover{filter:brightness(1.07)}
+.btn[disabled]{opacity:.45;cursor:not-allowed;filter:none}
+.btn.ghost{background:transparent;color:var(--accent)}
+.row{display:flex;gap:10px;flex-wrap:wrap;align-items:center}
+
+/* home */
+.hero{display:grid;grid-template-columns:minmax(0,1.55fr) minmax(0,1fr);gap:28px;align-items:start}
+.hero h1{font-size:2.3rem;letter-spacing:-.015em;margin-bottom:12px}
+.lede{font-size:1.08rem;color:var(--ink);max-width:36em}
+.muted{color:var(--ink2)}
+.small{font-size:.9rem}
+.chlist{list-style:none;margin:30px 0 0;padding:0;display:grid;grid-template-columns:repeat(auto-fill,minmax(270px,1fr));gap:12px}
+.chitem{background:var(--paper);border:1px solid var(--rule);border-radius:6px;padding:14px 16px;cursor:pointer;text-align:left;width:100%;display:grid;grid-template-columns:auto 1fr;gap:4px 12px;align-items:baseline}
+.chitem:hover{border-color:var(--accent)}
+.chnum{font-family:var(--serif);font-size:1.6rem;color:var(--accent);grid-row:span 2;line-height:1}
+.chitem h3{font-size:1.1rem}
+.chitem .meta{grid-column:2;color:var(--ink2);font-size:.88rem}
+.done-tag{color:var(--ok);font-weight:600}
+.sect{margin-top:34px}
+.sect h2{font-size:1.35rem;margin-bottom:6px}
+
+/* chapter */
+.crumb{display:flex;align-items:center;gap:14px;flex-wrap:wrap;margin-bottom:14px}
+.crumb h1{font-size:1.6rem}
+.crumb .back{background:none;border:0;color:var(--accent);cursor:pointer;font-weight:600;padding:0}
+.steps{display:flex;gap:4px;flex:1;min-width:160px;max-width:420px;margin-left:auto}
+.steps i{flex:1;height:6px;border-radius:3px;background:var(--rule)}
+.steps i.on{background:var(--accent)}
+.steps i.cur{background:var(--head)}
+.stage{display:grid;grid-template-columns:minmax(0,1.5fr) minmax(300px,1fr);gap:24px;align-items:start}
+.stage.wide{grid-template-columns:minmax(0,1fr)}
+.stage.wide>.panel{max-width:860px}
+.stage.wide>.panel:has(.pad){max-width:none}
+.panel{background:var(--paper);border:1px solid var(--rule);border-radius:6px;padding:18px 20px}
+.panel h2{font-size:1.3rem;margin-bottom:10px}
+.kicker{color:var(--accent);font-weight:600;font-size:.92rem;margin-bottom:4px}
+.opts{display:grid;gap:8px;margin:12px 0}
+.opt{text-align:left;padding:10px 14px;border:1px solid var(--rule);border-radius:6px;background:var(--paper);cursor:pointer;line-height:1.35}
+.opt:hover:not([disabled]){border-color:var(--accent)}
+.opt.right{border-color:var(--ok);background:var(--okSoft)}
+.opt.wrong{border-color:var(--bad);background:var(--badSoft)}
+.opt[disabled]{cursor:default}
+.fb{border-left:4px solid var(--accent);background:var(--accentSoft);padding:10px 14px;border-radius:0 6px 6px 0;margin:10px 0}
+.fb.ok{border-color:var(--ok);background:var(--okSoft)}
+.fb.bad{border-color:var(--bad);background:var(--badSoft)}
+.fb > b:first-child{display:block;margin-bottom:2px}
+.nav{display:flex;justify-content:space-between;gap:10px;margin-top:16px;flex-wrap:wrap}
+.explored{font-size:.9rem;color:var(--ink2);margin-top:6px}
+.termlinks{display:flex;flex-wrap:wrap;gap:6px;margin:8px 0}
+.tl{border:1px solid var(--rule);background:var(--chip);border-radius:14px;padding:3px 10px;font-size:.86rem;cursor:pointer}
+.tl:hover{border-color:var(--accent)}
+.tl.inl{background:none;border:0;border-bottom:1.5px dotted var(--accent);border-radius:0;color:var(--accent);padding:0 1px!important;font-weight:600}
+.tl.inl:hover{background:var(--accentSoft)}
+.tl.seen{border-color:var(--accent);color:var(--accent)}
+
+/* order + sort */
+.order{display:grid;gap:8px;margin:10px 0}
+.pool .card,.slot{border:1px dashed var(--rule);border-radius:6px;padding:9px 12px;min-height:44px;background:var(--paper);line-height:1.35}
+.pool{display:grid;gap:8px;margin:10px 0}
+.pool .card{border-style:solid;cursor:pointer;text-align:left}
+.pool .card:hover{border-color:var(--accent)}
+.pool .card.sel{border-color:var(--accent);box-shadow:0 0 0 2px var(--accent) inset}
+.slot{display:flex;gap:10px;align-items:flex-start}
+.slot .n{font-family:var(--serif);color:var(--accent);font-weight:650;min-width:1.2em}
+.slot.filled{border-style:solid;cursor:pointer}
+.slot.right{border-color:var(--ok);background:var(--okSoft)}
+.slot.wrong{border-color:var(--bad);background:var(--badSoft)}
+.bins{display:grid;grid-template-columns:repeat(auto-fit,minmax(150px,1fr));gap:8px;margin:10px 0}
+.bin{border:1px solid var(--rule);border-radius:6px;padding:8px;min-height:90px;background:var(--chip);cursor:pointer}
+.bin h4{margin:0 0 6px;font-size:.92rem;font-family:var(--sans);color:var(--head)}
+.bin .card{display:block;width:100%;font-size:.88rem;padding:5px 8px;margin-bottom:5px;border:1px solid var(--rule);border-radius:5px;background:var(--paper);text-align:left;cursor:pointer}
+.bin .card.right{border-color:var(--ok);background:var(--okSoft)}
+.bin .card.wrong{border-color:var(--bad);background:var(--badSoft)}
+.bin:hover{border-color:var(--accent)}
+
+/* controls in sims */
+.ctl{display:grid;gap:10px;margin:10px 0}
+.ctl label{font-weight:600;font-size:.92rem;display:block;margin-bottom:3px}
+.seg{display:flex;flex-wrap:wrap;border:1px solid var(--rule);border-radius:6px;overflow:hidden}
+.seg button{flex:1;padding:7px 10px;background:var(--paper);border:0;border-right:1px solid var(--rule);cursor:pointer;font-size:.9rem;min-width:70px}
+.seg button:last-child{border-right:0}
+.seg button[aria-pressed="true"]{background:var(--accent);color:var(--accentInk)}
+input[type=range]{width:100%;accent-color:var(--accent)}
+.readout{font-variant-numeric:tabular-nums;font-size:.92rem;color:var(--ink2)}
+.meter{height:10px;background:var(--rule);border-radius:5px;overflow:hidden}
+.meter i{display:block;height:100%;background:var(--accent);transition:width .5s}
+.stat{display:grid;grid-template-columns:130px 1fr;gap:8px;align-items:center;font-size:.9rem;margin:6px 0}
+
+/* tray */
+.tray{display:flex;flex-wrap:wrap;gap:8px;margin:10px 0}
+.tok{border:1px solid var(--rule);background:var(--paper);border-radius:6px;padding:7px 11px;cursor:pointer;font-size:.9rem;display:flex;align-items:center;gap:8px}
+.tok.sel{border-color:var(--accent);box-shadow:0 0 0 2px var(--accent) inset}
+.tok.used{opacity:.4}
+.sw{width:14px;height:14px;border-radius:3px;display:inline-block;border:1px solid rgba(0,0,0,.25)}
+
+/* term card */
+.termcard{position:fixed;right:18px;bottom:calc(18px + env(safe-area-inset-bottom,0px));width:min(380px,calc(100vw - 36px));background:var(--paper);border:1px solid var(--rule);border-radius:8px;box-shadow:0 10px 30px rgba(10,30,40,.18);padding:16px 18px;z-index:50;display:none;max-height:70vh;overflow:auto}
+.termcard.show{display:block}
+.termcard h3{font-size:1.2rem;margin-bottom:6px;padding-right:28px}
+.termcard .x{position:absolute;top:10px;right:10px;background:none;border:0;font-size:1.3rem;cursor:pointer;color:var(--ink2);line-height:1;padding:4px 8px}
+.termcard .rel{font-size:.86rem;color:var(--ink2);margin-top:8px}
+.tip{position:fixed;pointer-events:none;background:#2a2e35;color:#fff;font-size:.82rem;padding:4px 8px;border-radius:4px;z-index:60;display:none;white-space:nowrap}
+
+/* svg hotspots */
+[data-term]{cursor:pointer}
+[data-term]:hover > .hl, [data-term]:focus > .hl{stroke:#1f7a8c;stroke-width:3}
+[data-term]:focus{outline:none}
+[data-term].hit > .hl{stroke:#1f7a8c}
+[data-term]:hover{filter:brightness(1.06)}
+.lbl{font-family:"Source Sans 3",Arial,sans-serif;font-size:13px;fill:#1c2830}
+.lbl.sm{font-size:11.5px}
+.lbl.it{font-style:italic;fill:#3b4a52}
+.lead{stroke:#5b6b73;stroke-width:1;fill:none}
+.labels-off .lbls{display:none}
+
+/* checkpoint */
+.idcard{border:1px solid var(--rule);border-radius:8px;overflow:hidden;background:var(--paper)}
+.idcard .hd{background:var(--head);color:#fff;padding:10px 14px;display:flex;justify-content:space-between;align-items:baseline;gap:10px}
+:root[data-theme="dark"] .idcard .hd{color:#0f171b}
+@media (prefers-color-scheme: dark){:root:not([data-theme="light"]) .idcard .hd{color:#0f171b}}
+.idcard .hd b{font-family:var(--serif);font-size:1.25rem}
+.idcard dl{display:grid;grid-template-columns:auto 1fr;gap:4px 14px;margin:0;padding:12px 14px}
+.idcard dt{color:var(--ink2);font-size:.9rem}
+.idcard dd{margin:0;font-weight:600}
+.gates{display:grid;grid-template-columns:repeat(auto-fit,minmax(140px,1fr));gap:8px;margin:12px 0}
+.gate{border:1px solid var(--rule);border-radius:6px;padding:9px 10px;background:var(--paper);cursor:pointer;text-align:left;font-size:.92rem;line-height:1.3}
+.gate:hover:not([disabled]){border-color:var(--accent)}
+.gate small{display:block;color:var(--ink2);font-size:.8rem;margin-top:2px}
+.gate.right{border-color:var(--ok);background:var(--okSoft)}
+.gate.wrong{border-color:var(--bad);background:var(--badSoft)}
+.score{display:flex;gap:18px;flex-wrap:wrap;font-size:.92rem;color:var(--ink2);margin-bottom:10px}
+.score b{color:var(--ink);font-variant-numeric:tabular-nums}
+
+/* glossary */
+.gl{columns:2 360px;column-gap:28px}
+.gl section{break-inside:avoid;margin-bottom:22px}
+.gl h2{font-size:1.2rem;margin-bottom:8px;border-bottom:1px solid var(--rule);padding-bottom:4px}
+.gi{display:grid;grid-template-columns:1fr auto;gap:2px 10px;padding:8px 0;border-bottom:1px solid var(--rule)}
+.gi b{font-weight:700}
+.gi p{grid-column:1 / -1;margin:0;color:var(--ink2);font-size:.94rem}
+.st{font-size:.78rem;border-radius:10px;padding:1px 8px;border:1px solid var(--rule);color:var(--ink2);white-space:nowrap}
+.st.tested{border-color:var(--ok);color:var(--ok)}
+.st.seen{border-color:var(--accent);color:var(--accent)}
+
+/* atlas */
+.atlas{display:grid;grid-template-columns:minmax(0,1.6fr) minmax(290px,1fr);gap:24px;align-items:start}
+.atlas svg{touch-action:manipulation}
+.quizbar{display:flex;align-items:center;gap:10px;flex-wrap:wrap;background:var(--accentSoft);border-radius:6px;padding:10px 14px;margin-bottom:12px}
+
+.summary{max-width:720px}
+.big{font-family:var(--serif);font-size:3rem;color:var(--accent);line-height:1}
+.foot{margin-top:40px;color:var(--ink2);font-size:.85rem;border-top:1px solid var(--rule);padding-top:12px}
+
+
+/* course-notes styling */
+.banner{display:flex;align-items:stretch;margin:0 0 16px;min-height:44px}
+.banner .num{background:#175c69;color:#fff;font-family:var(--serif);font-weight:650;font-size:1.25rem;padding:8px 16px;display:flex;align-items:center;box-shadow:2px 2px 0 rgba(0,0,0,.18);position:relative;z-index:1}
+.banner .ttl{flex:1;background:#3a8a9a;color:#fff;display:flex;align-items:center;padding:6px 18px;font-variant:small-caps;letter-spacing:.04em;font-weight:700;font-size:1.15rem;margin-left:-2px}
+.banner .pg{background:#3a8a9a;color:#ffffff;display:flex;align-items:center;padding:0 14px;font-size:.85rem;white-space:nowrap}
+.remember{display:flex;gap:12px;align-items:flex-start;background:#e4ebf2;border-radius:4px;padding:10px 14px;margin:10px 0;color:#1c2830;box-shadow:1px 1px 0 rgba(0,0,0,.08)}
+.remember .key{flex:none;width:28px;height:28px}
+.remember b{display:block;font-family:var(--serif)}
+.dyk{background:#e9f2f4;border-left:4px solid #1f7a8c;border-radius:0 4px 4px 0;padding:10px 14px;margin:10px 0;font-style:italic;color:#2a1c18}
+.dyk b{font-style:normal}
+.notes-ref{font-size:.85rem;color:var(--ink2);margin:4px 0 10px}
+.notes-ref b{color:var(--accent)}
+.homelink{color:var(--ink2);font-size:.88rem;text-decoration:none;border:1px solid var(--rule);border-radius:6px;padding:5px 10px;margin-right:4px}
+.homelink:hover{color:var(--accent);border-color:var(--accent)}
+.seqrow{display:flex;gap:3px;flex-wrap:wrap;align-items:center;font-family:ui-monospace,Menlo,Consolas,monospace;margin:6px 0}
+.seqrow .end{font-weight:700;color:var(--ink2);min-width:26px;text-align:center}
+.nt{width:30px;height:34px;border:1px solid var(--rule);border-radius:4px;display:inline-flex;align-items:center;justify-content:center;font-weight:700;font-size:1rem;background:var(--paper);color:var(--ink)}
+.nt.A{background:#8e6cc4;color:#fff;border-color:#6a4e9b}.nt.G{background:#dd5f45;color:#fff;border-color:#b0452f}
+.nt.T{background:#3a9a9a;color:#fff;border-color:#2a7676}.nt.C{background:#f0cf4f;color:#3a2e00;border-color:#c9a92c}
+.nt.U{background:#86b851;color:#fff;border-color:#618f33}
+.nt.slot{border-style:dashed;cursor:pointer}.nt.slot.cur{box-shadow:0 0 0 2px var(--accent)}
+.nt.ok{outline:2px solid var(--ok)}.nt.no{outline:2px solid var(--bad)}
+.pad{display:flex;gap:6px;flex-wrap:wrap;margin:8px 0}
+.pad button{width:46px;height:42px;border-radius:6px;border:1px solid var(--rule);font-weight:700;font-size:1.05rem;cursor:pointer}
+.pad button.A{background:#8e6cc4;color:#fff}.pad button.G{background:#dd5f45;color:#fff}.pad button.T{background:#3a9a9a;color:#fff}.pad button.C{background:#f0cf4f;color:#3a2e00}.pad button.U{background:#86b851;color:#fff}
+.pad button.del{width:auto;padding:0 12px;background:var(--paper);font-size:.9rem}
+
+@media (max-width: 880px){
+  body{font-size:16px}
+  .hero,.stage,.atlas{grid-template-columns:minmax(0,1fr)}
+  .hero h1{font-size:1.8rem}
+  .topin{padding:8px 14px;gap:8px}
+  .tabs{margin-left:0;width:100%}
+  .tab{padding:5px 9px;font-size:.92rem}
+  .brand span{display:none}
+  .wrap{padding:16px 12px 60px}
+  .steps{max-width:none;min-width:100%;order:3}
+  .termcard{right:0;left:0;bottom:0;width:100%;border-radius:12px 12px 0 0;padding-bottom:calc(16px + env(safe-area-inset-bottom,0px))}
+}
+@media (prefers-reduced-motion: reduce){
+  *{transition:none!important;animation:none!important}
+}
+@media (max-width:640px){.banner{flex-wrap:wrap}.banner .pg{flex-basis:100%;padding:4px 14px 6px;white-space:normal}}
+</style>
+</head>
+<body>
+<header class="top"><div class="topin">
+  <button class="brand" id="home" aria-label="Module 6 home"><b>Making Life Work: Energy and Metabolism</b><span>BIOL 130, Module 6</span></button>
+  <nav class="tabs" aria-label="Sections">
+    <a class="homelink" id="hubLink" href="index.html" target="_top">All modules</a>
+    <button class="tab" data-go="story">Chapters</button>
+    <button class="tab" data-go="atlas">Energy lab</button>
+    <button class="tab" data-go="checkpoint">Enzyme desk</button>
+    <button class="tab" data-go="exam">Mini exam</button>
+    <button class="tab" data-go="glossary">Glossary</button>
+  </nav>
+</div></header>
+<main class="wrap" id="app"></main>
+<aside class="termcard" id="termcard" role="dialog" aria-live="polite"><button class="x" aria-label="Close">×</button><div id="tcbody"></div></aside>
+<div class="tip" id="tip"></div>
+<script src="studydata.js"></script>
+<script src="srs.js"></script>
+<script src="exam.js"></script>
+<script src="kip.js"></script>
+<script>
+"use strict";
+/* ============ storage ============ */
+const KEY = "biol130-m6-progress-v1";
+let P = { ch:{}, terms:{}, cp:{best:0} };
+try { const s = localStorage.getItem(KEY); if (s) P = Object.assign(P, JSON.parse(s)); } catch(e) {}
+function save(){ try { localStorage.setItem(KEY, JSON.stringify(P)); } catch(e) {} }
+function markTerm(k, level){
+  const order = {seen:1, tested:2};
+  const cur = P.terms[k];
+  if (!cur || order[level] > order[cur]) { P.terms[k] = level; save(); }
+}
+/* ============ glossary data (p = course notes page) ============ */
+const T = {
+ "phototroph":{n:"Phototroph",g:"Harvesting energy",p:"90",d:"An organism that obtains energy from the sun. Plants are the most common: they use the sun's energy to convert CO₂ and water into sugar and O₂."},
+ "chemotroph":{n:"Chemotroph",g:"Harvesting energy",p:"90",d:"An organism that obtains energy from chemical compounds. Animals are the most common chemotrophs: they ingest other organisms and break them down into CO₂ and water."},
+ "autotroph":{n:"Autotroph",g:"Harvesting energy",p:"90",d:"An organism that can convert CO₂ into glucose, so it makes its own organic source of carbon (carbon from inorganic sources such as CO₂). Examples: plants, cyanobacteria, sulfur-oxidizing bacteria."},
+ "heterotroph":{n:"Heterotroph",g:"Harvesting energy",p:"90",d:"An organism that cannot convert CO₂, so it must ingest other organisms or molecules for a source of carbon (carbon from organic compounds). Examples: animals, most bacteria."},
+ "metabolism":{n:"Metabolism",g:"Metabolism",p:"91",d:"The chemical processes that occur in a living organism to maintain life. It includes building up and breaking down chemical compounds, which lets energy be harnessed or released. These reactions happen continuously in cells."},
+ "pathway":{n:"Metabolic pathway",g:"Metabolism",p:"91",d:"A series of linked reactions in which the products of one reaction are the reactants of the next."},
+ "anabolism":{n:"Anabolic (anabolism)",g:"Metabolism",p:"91",d:"The branch of metabolism that builds molecules from smaller units (e.g. amino acids into proteins). It requires an input of energy (ATP)."},
+ "catabolism":{n:"Catabolic (catabolism)",g:"Metabolism",p:"91",d:"The branch of metabolism that breaks molecules down into smaller units (e.g. macromolecules into sugars, amino acids, fatty acids, nucleotides). It produces energy (ATP)."},
+ "potential-energy":{n:"Potential energy",g:"Forms of energy",p:"91",d:"Energy that is not associated with movement but is stored, like a ball at the top of a staircase. It can be converted to other forms."},
+ "kinetic-energy":{n:"Kinetic energy",g:"Forms of energy",p:"91",d:"The energy of motion, like a ball bouncing down a staircase. Energy can be converted from one form to another."},
+ "chemical-energy":{n:"Chemical energy",g:"Forms of energy",p:"92",d:"The form of potential energy held in the chemical bonds between pairs of atoms in a molecule."},
+ "bond-strength":{n:"Bond strength and potential energy",g:"Forms of energy",p:"92",d:"Bond strength and potential energy are linked: strong bonds hold less potential energy, weak bonds hold more."},
+ "atp":{n:"Adenosine triphosphate (ATP)",g:"ATP",p:"92",d:"The energy currency of the cell: the most common chemical form of readily accessible energy. Made of adenine, a five-carbon sugar (ribose) and three phosphate groups. Its chemical energy is held in the bonds connecting the phosphate groups."},
+ "adp-amp":{n:"ADP and AMP",g:"ATP",p:"92",d:"With only two phosphate groups the molecule is adenosine diphosphate (ADP); with only one it is adenosine monophosphate (AMP). Adenine plus ribose alone is adenosine."},
+ "ribose":{n:"Ribose",g:"ATP",p:"92",d:"The five-carbon sugar in ATP. Adenine is attached to one carbon and the phosphate chain to another (through its CH₂)."},
+ "phosphate-bonds":{n:"Bonds between phosphate groups",g:"ATP",p:"92, 95",d:"The bonds linking ATP's phosphate groups have high potential energy because they are weak. At physiological pH the phosphate groups are negatively charged and resist (repel) one another. Breaking these bonds releases the energy for the cell to do work."},
+ "cellular-work":{n:"Cellular work",g:"ATP",p:"90, 92",d:"What cells use energy for: movement, growth, pumping ions and substances across membranes, vesicle movement, DNA, RNA and protein synthesis, breaking down fats and proteins, and the reactions needed for cellular function."},
+ "atp-hydrolysis":{n:"ATP hydrolysis",g:"ATP",p:"95",d:"ATP + H₂O → ADP + Pᵢ (inorganic phosphate). The reaction of ATP with water is exergonic (spontaneous) and releases free energy (ΔG = −7.3 kcal/mol). ADP has two phosphate groups, so it has lower potential energy than ATP."},
+ "thermodynamics":{n:"Thermodynamics",g:"Thermodynamics",p:"93",d:"The study of changes in energy that accompany events in the universe. Its concepts predict the direction events will take and whether an input of energy is required."},
+ "first-law":{n:"First law of thermodynamics",g:"Thermodynamics",p:"93",d:"Energy can be neither created nor destroyed. It can be converted from one form to another, so total energy before a transformation equals total energy after."},
+ "second-law":{n:"Second law of thermodynamics",g:"Thermodynamics",p:"93",d:"Events in the universe have direction: they proceed from a higher energy state to a lower one. Each transformation reduces the amount of usable energy, because energy transformations are not 100% efficient; some is lost, often as heat, increasing entropy."},
+ "spontaneous":{n:"Spontaneous (thermodynamically favourable)",g:"Thermodynamics",p:"93",d:"An event that proceeds from a higher to a lower energy state with no input of external energy."},
+ "entropy":{n:"Entropy (S)",g:"Thermodynamics",p:"93, 95",d:"Energy lost to disorder. Energy released in a transformation, often as heat, increases entropy. Temperature influences the movement of molecules and adds to the degree of disorder."},
+ "chemical-reaction":{n:"Chemical reaction",g:"Chemical reactions",p:"94",d:"A process in which the bonds linking atoms change while the atoms keep their identity. Example: CO₂ + H₂O ⇌ H₂CO₃, where covalent bonds in CO₂ and H₂O break and new ones form."},
+ "reactants":{n:"Reactants",g:"Chemical reactions",p:"94",d:"The starting molecules of a chemical reaction, written on the left of the arrow."},
+ "products":{n:"Products",g:"Chemical reactions",p:"94",d:"The molecules a chemical reaction makes, written on the right of the arrow. In a pathway, the products of one reaction are the reactants of the next."},
+ "equilibrium":{n:"Chemical equilibrium",g:"Chemical reactions",p:"94, 96",d:"The concentrations of products and reactants influence whether a reaction proceeds forward or backward. At equilibrium the forward and backward reactions balance and there is no net change. Cells keep reactant-to-product ratios above that defined by the equilibrium constant, which helps them run +ΔG reactions."},
+ "gibbs":{n:"Gibbs free energy (G)",g:"Free energy",p:"94",d:"The amount of energy in a system available to do work. ΔG is the difference in Gibbs free energy between the reactants and products of a chemical process."},
+ "delta-g":{n:"ΔG",g:"Free energy",p:"94–95",d:"The change in free energy: Δ = change = final state − initial state, so ΔG = G(products) − G(reactants). Positive ΔG: endergonic. Negative ΔG: exergonic."},
+ "endergonic":{n:"Endergonic",g:"Free energy",p:"94",d:"A reaction whose products have more free energy than its reactants (+ΔG). Thermodynamically unfavourable (nonspontaneous): it needs an input of energy. Endergonic reactions require energy."},
+ "exergonic":{n:"Exergonic",g:"Free energy",p:"94",d:"A reaction whose reactants have more free energy than its products (−ΔG). Thermodynamically favourable (spontaneous): energy is available for use in other processes. Exergonic reactions release energy."},
+ "enthalpy":{n:"Enthalpy (H)",g:"Free energy",p:"95",d:"Total energy. Total energy (H) = energy available to do work (G) + energy lost to entropy (S)."},
+ "gibbs-equation":{n:"ΔG = ΔH − TΔS",g:"Free energy",p:"95",d:"The total-energy relation rearranged for Gibbs free energy. H = total energy (enthalpy), G = energy available to do work, S = energy lost to entropy or disorder, T = absolute temperature in Kelvin."},
+ "coupling":{n:"Energetic coupling",g:"Free energy",p:"96",d:"Pairing an endergonic reaction with an exergonic one so the net ΔG is negative and both proceed. Example: glucose + Pᵢ → glucose 6-phosphate (+3.3 kcal/mol) coupled with ATP hydrolysis (−7.3 kcal/mol) gives glucose + ATP → glucose 6-phosphate + ADP, ΔG = −4 kcal/mol. Pᵢ is shared between the two reactions."},
+ "activation-energy":{n:"Activation energy (EA)",g:"Enzymes",p:"95",d:"The input of energy all reactions need to proceed: reactants must have enough kinetic energy to break certain covalent bonds and get over the activation energy barrier to the transition state."},
+ "transition-state":{n:"Transition state",g:"Enzymes",p:"95–96",d:"The highest-energy point of a reaction, at the top of the activation energy barrier. An enzyme's active site helps stabilize the transition state, which lowers the activation energy."},
+ "enzyme":{n:"Enzymes",g:"Enzymes",p:"95–97",d:"Proteins that catalyze chemical reactions by decreasing the activation energy barrier, so the reaction can proceed faster. ΔG is the same with and without an enzyme. Both anabolic and catabolic reactions are catalyzed by enzymes."},
+ "active-site":{n:"Enzyme active site",g:"Enzymes",p:"96",d:"The region of an enzyme formed by the assembly of certain amino acids in a 3-D structure. These amino acids are often far apart in the linear sequence; folding brings them together. It binds the substrate(s), converts it to product(s), and stabilizes the transition state."},
+ "substrate":{n:"Substrate",g:"Enzymes",p:"96–97",d:"The reactant an enzyme binds in its active site and converts to product."},
+ "es-complex":{n:"Enzyme–substrate complex (ES)",g:"Enzymes",p:"97",d:"The enzyme with its substrate bound. The cycle runs E + S ⇌ ES ⇌ EP ⇌ E + P: the enzyme–product complex (EP) releases the product and the enzyme is free to act again. In a catabolic reaction one substrate is split; in an anabolic reaction two substrates are joined."},
+ "lock-key":{n:"Lock-and-key model",g:"Enzymes",p:"97",d:"A model of enzyme binding in which the substrate fits an active site that already has the matching shape, like a key in a lock (Fig 6.13)."},
+ "induced-fit":{n:"Induced fit model",g:"Enzymes",p:"97",d:"A model of enzyme binding in which the enzyme changes shape when the substrate binds, closing more snugly around it (Fig 6.13)."},
+ "inhibitor":{n:"Enzyme inhibitors",g:"Enzyme regulation",p:"97",d:"Molecules that reduce enzyme activity. There are two different kinds: reversible and irreversible. A competitive inhibitor binds the active site; a noncompetitive inhibitor binds elsewhere."},
+ "competitive":{n:"Competitive inhibition",g:"Enzyme regulation",p:"97",d:"The inhibitor binds to the active site, competing with the substrate and reducing the rate of the reaction."},
+ "noncompetitive":{n:"Noncompetitive inhibition",g:"Enzyme regulation",p:"97",d:"The inhibitor binds to a site other than the active site, changing the shape of the enzyme and reducing the rate of the reaction."},
+ "activator":{n:"Enzyme activators",g:"Enzyme regulation",p:"97",d:"Molecules that increase enzyme activity."},
+ "feedback-inhibition":{n:"Feedback inhibition",g:"Enzyme regulation",p:"97",d:"Regulation in which the final product of a pathway inhibits the first step. Important for maintaining balance in the cell and helping it conserve energy. Example: isoleucine inhibits threonine dehydratase, the first enzyme of the pathway from threonine."},
+ "allosteric":{n:"Allosteric enzyme",g:"Enzyme regulation",p:"97",d:"An enzyme regulated by a molecule binding at a site other than the active site, which changes its shape and activity. In Fig 6.14, isoleucine is an allosteric inhibitor of threonine dehydratase."}
+};
+const TERM_ORDER_GROUPS = ["Harvesting energy","Metabolism","Forms of energy","ATP","Thermodynamics","Chemical reactions","Free energy","Enzymes","Enzyme regulation"];
+const REL = {
+ "phototroph":["chemotroph","autotroph"], "chemotroph":["phototroph","heterotroph"], "autotroph":["heterotroph","phototroph"], "heterotroph":["autotroph","chemotroph"],
+ "metabolism":["anabolism","catabolism","pathway"], "anabolism":["catabolism","atp"], "catabolism":["anabolism","atp"], "pathway":["metabolism","feedback-inhibition"],
+ "potential-energy":["kinetic-energy","chemical-energy"], "kinetic-energy":["potential-energy","activation-energy"], "chemical-energy":["bond-strength","atp"], "bond-strength":["chemical-energy","phosphate-bonds"],
+ "atp":["adp-amp","ribose","phosphate-bonds","atp-hydrolysis"], "phosphate-bonds":["atp-hydrolysis","bond-strength"], "atp-hydrolysis":["exergonic","coupling","adp-amp"], "cellular-work":["atp"],
+ "thermodynamics":["first-law","second-law"], "first-law":["second-law"], "second-law":["entropy","spontaneous"], "entropy":["gibbs-equation","second-law"],
+ "chemical-reaction":["reactants","products","equilibrium"], "gibbs":["delta-g","gibbs-equation"], "delta-g":["endergonic","exergonic"], "endergonic":["exergonic","coupling"], "exergonic":["endergonic","spontaneous"],
+ "gibbs-equation":["enthalpy","entropy","gibbs"], "enthalpy":["gibbs-equation"], "coupling":["atp-hydrolysis","endergonic","exergonic"],
+ "activation-energy":["transition-state","enzyme"], "enzyme":["active-site","substrate","activation-energy"], "active-site":["substrate","es-complex","induced-fit"], "es-complex":["substrate","products"],
+ "lock-key":["induced-fit"], "induced-fit":["lock-key","active-site"], "inhibitor":["competitive","noncompetitive","activator"], "competitive":["noncompetitive","active-site"], "noncompetitive":["competitive","allosteric"],
+ "feedback-inhibition":["allosteric","pathway"], "allosteric":["feedback-inhibition","noncompetitive"]
+};
+
+/* ============ utilities ============ */
+const $ = (s, r=document) => r.querySelector(s);
+const $$ = (s, r=document) => Array.from(r.querySelectorAll(s));
+function h(tag, attrs={}, ...kids){
+  const e = document.createElement(tag);
+  for (const k in attrs){
+    const v = attrs[k];
+    if (k === "class") e.className = v;
+    else if (k === "html") e.innerHTML = v;
+    else if (k.startsWith("on")) e.addEventListener(k.slice(2), v);
+    else if (v !== false && v != null) e.setAttribute(k, v);
+  }
+  for (const c of kids.flat()){ if (c == null) continue; e.append(c.nodeType ? c : document.createTextNode(c)); }
+  return e;
+}
+function shuffle(a){ a = a.slice(); for (let i=a.length-1;i>0;i--){ const j=Math.floor(Math.random()*(i+1)); [a[i],a[j]]=[a[j],a[i]]; } return a; }
+const reduceMotion = window.matchMedia && window.matchMedia("(prefers-reduced-motion: reduce)").matches;
+let activeLoops = [];
+function loop(fn){ let on = true, last = performance.now(); const tick = t => { if(!on) return; const dt = Math.min(0.05,(t-last)/1000); last = t; fn(dt,t); requestAnimationFrame(tick); }; requestAnimationFrame(tick); const s = {stop(){on=false;}}; activeLoops.push(s); return s; }
+function stopLoops(){ activeLoops.forEach(l=>l.stop()); activeLoops = []; }
+function plate(svgOrEl, caption){
+  const f = h("figure",{class:"plate"});
+  if (typeof svgOrEl === "string") f.insertAdjacentHTML("beforeend", svgOrEl); else f.append(svgOrEl);
+  if (caption) f.append(h("figcaption",{html:caption}));
+  return f;
+}
+
+/* ============ term card and tooltip ============ */
+const tc = $("#termcard"), tip = $("#tip");
+let exploreHook = null;
+function openTerm(k){
+  const t = T[k]; if (!t) return;
+  markTerm(k,"seen");
+  $("#tcbody").innerHTML = "";
+  $("#tcbody").append(h("h3",{},t.n), h("p",{},t.d), h("p",{class:"notes-ref"},h("b",{},"Course notes: "),`p. ${t.p}`));
+  const rel = related(k);
+  if (rel.length){
+    const box = h("div",{class:"rel"},"Related: ");
+    rel.forEach((r,i)=>{ box.append(h("button",{class:"tl",style:"margin:2px",onclick:()=>openTerm(r)},T[r].n)); });
+    $("#tcbody").append(box);
+  }
+  tc.classList.add("show");
+  if (exploreHook) exploreHook(k);
+}
+$(".x", tc).addEventListener("click", ()=>tc.classList.remove("show"));
+document.addEventListener("keydown", e=>{ if(e.key==="Escape") tc.classList.remove("show"); });
+const REL_OLD = {
+  "integral-protein":["transmembrane-protein","peripheral-protein"], "transmembrane-protein":["integral-protein","channel","carrier"],
+  "peripheral-protein":["integral-protein","cytoskeleton"], "cytoplasm":["cytosol"], "cytosol":["cytoplasm"],
+  "endomembrane":["er","golgi","lysosome","vesicle","nucleus"], "er":["ribosome","golgi","endomembrane"], "golgi":["er","vesicle","endomembrane"],
+  "nucleus":["nucleolus","nuclear-pores"], "chloroplast":["plastid"], "plastid":["chloroplast"],
+  "channel":["carrier","aquaporin","facilitated-diffusion"], "carrier":["channel","uniporter","facilitated-diffusion"],
+  "osmosis":["osmotic-pressure","hypotonic","hypertonic","isotonic"], "secondary-active":["primary-active","symporter","antiporter","nak-pump"],
+  "nak-pump":["primary-active","electrochemical-gradient","importer","exporter"], "electrochemical-gradient":["membrane-potential","concentration-gradient"],
+  "endocytosis":["phagocytosis","pinocytosis","rme"], "bulk-transport":["exocytosis","endocytosis"],
+  "apical":["basolateral","microvilli","tight-junction"], "basolateral":["apical","interstitial-fluid"],
+  "phospholipid":["hydrophilic-head","fatty-acid-tails","bilayer"], "fatty-acid-tails":["phospholipid","selective-permeability"]
+};
+function related(k){ return (REL[k]||[]).filter(r=>T[r]); }
+function bindTerms(root, onPick){
+  $$("[data-term]", root).forEach(g=>{
+    const k = g.getAttribute("data-term");
+    if (!T[k]) return;
+    g.setAttribute("tabindex","0"); g.setAttribute("role","button"); g.setAttribute("aria-label", T[k].n);
+    const pick = ()=>{ (onPick||openTerm)(k, g); g.classList.add("hit"); };
+    g.addEventListener("click", e=>{ e.stopPropagation(); pick(); });
+    g.addEventListener("keydown", e=>{ if(e.key==="Enter"||e.key===" "){ e.preventDefault(); e.stopPropagation(); pick(); }});
+    g.addEventListener("mousemove", e=>{ tip.textContent = T[k].n; tip.style.display="block"; tip.style.left=(e.clientX+14)+"px"; tip.style.top=(e.clientY+12)+"px"; });
+    g.addEventListener("mouseleave", ()=>{ tip.style.display="none"; });
+  });
+}
+function termChips(keys){
+  const box = h("div",{class:"termlinks"});
+  keys.forEach(k=>{ if(!T[k]) return; box.append(h("button",{class:"tl"+(P.terms[k]?" seen":""),onclick:(e)=>{openTerm(k); e.currentTarget.classList.add("seen");}},T[k].n)); });
+  return box;
+}
+// inline term text in copy: [[key|text]]
+function rich(s){
+  return s.replace(/\[\[([a-z0-9-]+)\|([^\]]+)\]\]/g, (m,k,txt)=>`<button class="tl inl" data-open="${k}" style="font-size:inherit">${txt}</button>`);
+}
+function bindRich(root){ $$("[data-open]",root).forEach(b=>b.addEventListener("click",()=>openTerm(b.dataset.open))); }
+/* ============ shared drawing helpers ============ */
+function lab(text, term, tx, ty, px, py, anchor="start", cls="lbl"){
+  const lines = text.split("\n");
+  const t = lines.map((l,i)=>`<tspan x="${tx}" dy="${i?14:0}">${l}</tspan>`).join("");
+  const cw = cls.includes("sm")?5.7:6.4, wdt = Math.max(...lines.map(l=>l.length))*cw, hgt=(lines.length-1)*14;
+  const x0 = anchor==="end"?tx-wdt: anchor==="middle"?tx-wdt/2 : tx, x1 = x0+wdt;
+  let lx, ly=ty-4;
+  if (px!=null && px>=x0-6 && px<=x1+6){ lx=Math.max(x0,Math.min(x1,px)); ly = py>ty ? ty+hgt+5 : ty-15; }
+  else if (px!=null && px<x0) lx=x0-4; else lx=x1+4;
+  const lead = (px!=null) ? `<line class="lead" x1="${lx}" y1="${ly}" x2="${px}" y2="${py}"/><circle cx="${px}" cy="${py}" r="2" fill="#5b6b73"/>` : "";
+  return `<g ${term?`data-term="${term}"`:""}>${lead}<text class="${cls}" x="${tx}" y="${ty}" text-anchor="${anchor}">${t}</text></g>`;
+}
+
+function arrow(x1,y1,x2,y2,col="#34454e",w=2.2,dash=""){
+  const a=Math.atan2(y2-y1,x2-x1), L=10;
+  const p1=[x2-L*Math.cos(a-0.4),y2-L*Math.sin(a-0.4)], p2=[x2-L*Math.cos(a+0.4),y2-L*Math.sin(a+0.4)];
+  return `<line x1="${x1}" y1="${y1}" x2="${(x2-6*Math.cos(a)).toFixed(1)}" y2="${(y2-6*Math.sin(a)).toFixed(1)}" stroke="${col}" stroke-width="${w}" ${dash?`stroke-dasharray="${dash}"`:""}/><polygon points="${x2},${y2} ${p1[0].toFixed(1)},${p1[1].toFixed(1)} ${p2[0].toFixed(1)},${p2[1].toFixed(1)}" fill="${col}"/>`;
+}
+
+/* ============ Module 6 figures ============ */
+const MC6={ink:"#23282e",ph:"#f6d36b",phS:"#b8901c",rib:"#d8cdee",ribS:"#6f5aa3",ade:"#b9c8ef",adeS:"#3d5c9e",enz:"#d5e5c4",enzS:"#5f8040",sub:"#f3a64a",subS:"#b4691a",sub2:"#8fd19e",sub2S:"#3f8f52",prod:"#7fb2e8",prodS:"#2c5aa0",inh:"#e88f8f",inhS:"#a33a3a",act:"#b48fe0",actS:"#6f4a90",pe:"#3d7fb0",ke:"#e08a2c",heat:"#c94a3d",teal:"#1f7a8c",blue:"#2f6db5",red:"#c8402f"};
+const txt=(x,y,t,o={})=>`<text x="${x}" y="${y}" text-anchor="${o.a||"start"}" font-family="${o.serif?"Source Serif 4,Georgia":"Source Sans 3,Arial"}" font-size="${o.s||13}" font-weight="${o.w||400}" fill="${o.c||MC6.ink}"${o.it?' font-style="italic"':""}>${t}</text>`;
+const bond=(x1,y1,x2,y2,c="#34454e",w=2)=>`<line x1="${x1}" y1="${y1}" x2="${x2}" y2="${y2}" stroke="${c}" stroke-width="${w}"/>`;
+const dbl=(x1,y1,x2,y2,c="#34454e")=>{ const a=Math.atan2(y2-y1,x2-x1), dx=3*Math.sin(a), dy=-3*Math.cos(a); return bond(x1+dx,y1+dy,x2+dx,y2+dy,c)+bond(x1-dx,y1-dy,x2-dx,y2-dy,c); };
+function curveArrow(x1,y1,cx,cy,x2,y2,col="#34454e",w=2.2,cls=""){
+  const a=Math.atan2(y2-cy,x2-cx), L=8+w*1.3, p1=[x2-L*Math.cos(a-0.42),y2-L*Math.sin(a-0.42)], p2=[x2-L*Math.cos(a+0.42),y2-L*Math.sin(a+0.42)];
+  return `<path class="${cls}" d="M${x1} ${y1} Q${cx} ${cy} ${(x2-5*Math.cos(a)).toFixed(1)} ${(y2-5*Math.sin(a)).toFixed(1)}" stroke="${col}" stroke-width="${w}" fill="none"/><polygon points="${x2},${y2} ${p1[0].toFixed(1)},${p1[1].toFixed(1)} ${p2[0].toFixed(1)},${p2[1].toFixed(1)}" fill="${col}"/>`;
+}
+/* energy profile: reactant level yR, product level yP, optional hump peak (y) */
+function energyPath(x0,w,yR,yP,peak){
+  const sm=u=>(1-Math.cos(Math.PI*Math.max(0,Math.min(1,u))))/2; let d="";
+  for(let i=0;i<=80;i++){ const t=i/80; let y;
+    if(peak==null) y=yR+(yP-yR)*sm((t-0.3)/0.4);
+    else y= t<0.5 ? yR+(peak-yR)*sm((t-0.2)/0.3) : peak+(yP-peak)*sm((t-0.5)/0.3);
+    d+=(i?"L":"M")+(x0+t*w).toFixed(1)+" "+y.toFixed(1); }
+  return d;
+}
+function axes(x0,y0,w,hh,yl="Free energy",xl="Course of reaction"){
+  return `<path d="M${x0} ${y0} V${y0+hh} H${x0+w}" stroke="#34454e" stroke-width="1.6" fill="none"/>`+
+   `<text class="lbl" x="${x0-14}" y="${y0+hh/2}" transform="rotate(-90 ${x0-14} ${y0+hh/2})" text-anchor="middle" font-weight="700">${yl}</text>`+
+   `<text class="lbl" x="${x0+w/2}" y="${y0+hh+20}" text-anchor="middle" font-weight="700">${xl}</text>`;
+}
+function vArrow2(x,y1,y2,col,w=2){ return arrow(x,y1,x,y2,col,w)+arrow(x,y2,x,y1,col,w); }
+
+/* ============ metabolic classification (notes p. 90, Fig 6.1) ============ */
+const TROPH_Q={pa:["phototroph","autotroph"],ph:["phototroph","heterotroph"],ca:["chemotroph","autotroph"],ch:["chemotroph","heterotroph"]};
+function figTroph(hl){
+  const W=760,H=380; let s=`<svg viewBox="0 0 ${W} ${H}" role="img" aria-label="Metabolic classification of organisms by energy source and carbon source"><rect width="${W}" height="${H}" fill="#fff"/>`;
+  const cols={pa:120,ph:290,ca:470,ch:640}, ex={pa:["Cyanobacteria","Plants"],ph:["Heliobacteria","Most green","nonsulfur bacteria"],ca:["Sulfur-oxidizing","bacteria","Hydrogen bacteria"],ch:["Most bacteria","Animals"]};
+  Object.entries(cols).forEach(([k,x])=>{ if(hl===k) s+=`<rect x="${x-82}" y="150" width="164" height="${H-160}" rx="10" fill="#e0ecef" stroke="${MC6.teal}" stroke-width="2.5"/>`; });
+  s+=`<rect x="320" y="12" width="120" height="30" rx="15" fill="#fff" stroke="#34454e" stroke-width="1.5"/>${txt(380,32,"All organisms",{a:"middle",w:700})}`;
+  s+=curveArrow(320,27,215,24,205,72,"#c27f1c",3)+curveArrow(440,27,545,24,555,72,"#2f8fb0",3);
+  // energy row
+  s+=`<g data-term="phototroph"><circle cx="122" cy="96" r="13" fill="#f6d36b" stroke="#c9a400"/>`;
+  for(let i=0;i<8;i++){ const a=i*Math.PI/4; s+=`<line x1="${(122+18*Math.cos(a)).toFixed(1)}" y1="${(96+18*Math.sin(a)).toFixed(1)}" x2="${(122+25*Math.cos(a)).toFixed(1)}" y2="${(96+25*Math.sin(a)).toFixed(1)}" stroke="#c9a400" stroke-width="2"/>`; }
+  s+=`<rect x="150" y="78" width="110" height="28" rx="6" fill="#fff4e0" stroke="#c27f1c" stroke-width="1.5"/>${txt(205,97,"Phototrophs",{a:"middle",w:700,c:"#8a5a10"})}${txt(205,122,"Energy from sunlight",{a:"middle",s:12})}</g>`;
+  s+=`<g data-term="chemotroph"><polygon points="640,84 652,90 652,104 640,110 628,104 628,90" fill="#c9b8ee" stroke="#6f5aa3"/>`;
+  s+=`<rect x="500" y="78" width="110" height="28" rx="6" fill="#e3f2f7" stroke="#2f8fb0" stroke-width="1.5"/>${txt(555,97,"Chemotrophs",{a:"middle",w:700,c:"#1d6680"})}${txt(555,122,"Energy from chemical compounds",{a:"middle",s:12})}</g>`;
+  s+=arrow(195,128,140,156,"#c27f1c",2.4)+arrow(215,128,270,156,"#c27f1c",2.4)+arrow(545,128,490,156,"#2f8fb0",2.4)+arrow(565,128,620,156,"#2f8fb0",2.4);
+  Object.entries(cols).forEach(([k,x])=>{ const auto=k[1]==="a";
+    s+=`<g data-term="${auto?"autotroph":"heterotroph"}"><rect x="${x-58}" y="162" width="116" height="26" rx="6" fill="#fff" stroke="${auto?"#3f8a4c":"#a5385a"}" stroke-width="1.6"/>${txt(x,180,auto?"Autotrophs":"Heterotrophs",{a:"middle",w:700,c:auto?"#2e6b39":"#8a2c4a"})}`;
+    s+=`${txt(x,206,auto?"Carbon from inorganic":"Carbon from organic",{a:"middle",s:11.5})}${txt(x,220,auto?"sources (such as CO₂)":"compounds",{a:"middle",s:11.5})}</g>`;
+    s+=`<g data-term="${TROPH_Q[k][0]}"><line x1="${x-60}" y1="240" x2="${x+60}" y2="240" stroke="#cbd5d7"/>`+ex[k].map((t,i)=>txt(x,262+i*17,t,{a:"middle",s:12.5,w:600})).join("")+`</g>`;
+    s+=txt(x,340,{pa:"Photoautotroph",ph:"Photoheterotroph",ca:"Chemoautotroph",ch:"Chemoheterotroph"}[k],{a:"middle",s:12,it:true,c:"#4b5b64"}); });
+  s+=`<text class="lbl sm" x="18" y="100" transform="rotate(-90 18 100)" text-anchor="middle" font-weight="700">Energy</text><text class="lbl sm" x="18" y="196" transform="rotate(-90 18 196)" text-anchor="middle" font-weight="700">Carbon</text><text class="lbl sm" x="18" y="285" transform="rotate(-90 18 285)" text-anchor="middle" font-weight="700">Examples</text>`;
+  s+=`</svg>`; return s;
+}
+
+/* ============ anabolism and catabolism (notes p. 91, Fig 6.2) ============ */
+function figMetab(active){
+  const W=760,H=400; let s=`<svg viewBox="0 0 ${W} ${H}" role="img" aria-label="Anabolism builds macromolecules from subunits using ATP; catabolism breaks them down and makes ATP"><rect width="${W}" height="${H}" fill="#fff"/>`;
+  s+=`<g data-term="metabolism"><rect x="290" y="16" width="180" height="104" rx="8" fill="#f4eefa" stroke="#6f4a90" stroke-width="1.6"/>${txt(380,38,"Macromolecules",{a:"middle",w:700,c:"#5a3a80"})}`+["Carbohydrates","Proteins","Lipids","Nucleic acids"].map((t,i)=>txt(380,58+i*16,t,{a:"middle",s:12.5,c:"#5a3a80"})).join("")+`</g>`;
+  s+=`<g data-term="metabolism"><rect x="280" y="262" width="200" height="116" rx="8" fill="#eef7f0" stroke="#3f8a4c" stroke-width="1.6"/>${txt(380,284,"Subunits",{a:"middle",w:700,c:"#2e6b39"})}`+["Sugars","Amino acids","Fatty acids","Nucleotides","and their precursors"].map((t,i)=>txt(380,302+i*15,t,{a:"middle",s:12.5,c:"#2e6b39"})).join("")+`</g>`;
+  const on=k=>active===k;
+  s+=`<g data-term="anabolism">${curveArrow(300,258,170,190,300,124,on("ana")?MC6.teal:"#b9c2c8",on("ana")?9:7,"flow ana")}<text x="212" y="190" transform="rotate(-82 212 190)" text-anchor="middle" font-family="Source Sans 3,Arial" font-size="14" font-weight="700" fill="${on("ana")?MC6.teal:"#55606a"}">Anabolism</text></g>`;
+  s+=`<g data-term="catabolism">${curveArrow(460,124,590,190,460,258,on("cat")?MC6.teal:"#b9c2c8",on("cat")?9:7,"flow cat")}<text x="548" y="190" transform="rotate(82 548 190)" text-anchor="middle" font-family="Source Sans 3,Arial" font-size="14" font-weight="700" fill="${on("cat")?MC6.teal:"#55606a"}">Catabolism</text></g>`;
+  const atpChip=(x,y,dir)=>`<g data-term="atp"><rect x="${x}" y="${y}" width="136" height="50" rx="8" fill="#fffaf0" stroke="${MC6.phS}"/>${dir==="use"?txt(x+68,y+21,"ATP + H₂O",{a:"middle",w:700})+txt(x+68,y+40,"→ ADP + Pᵢ",{a:"middle"}):txt(x+68,y+21,"ADP + Pᵢ",{a:"middle"})+txt(x+68,y+40,"→ ATP + H₂O",{a:"middle",w:700})}</g>`;
+  s+=atpChip(24,150,"use")+atpChip(600,150,"make");
+  s+=`<g data-term="anabolism"><rect x="14" y="290" width="236" height="74" rx="4" fill="#e3eef6"/>${txt(26,312,"Anabolism: building molecules",{s:13.5,w:700})}${txt(26,330,"from smaller units. Requires an",{s:13})}${txt(26,348,"input of energy (ATP).",{s:13})}</g>`;
+  s+=`<g data-term="catabolism"><rect x="510" y="290" width="236" height="74" rx="4" fill="#fbeee0"/>${txt(522,312,"Catabolism: breakdown of",{s:13.5,w:700})}${txt(522,330,"molecules into smaller units.",{s:13})}${txt(522,348,"Produces energy (ATP).",{s:13})}</g>`;
+  s+=`</svg>`; return s;
+}
+
+/* ============ potential and kinetic energy (notes p. 91, Fig 6.3) ============ */
+function stairPoly(x0,base){ return `<polygon points="${x0},${base} ${x0},${base-120} ${x0+50},${base-120} ${x0+50},${base-80} ${x0+100},${base-80} ${x0+100},${base-40} ${x0+150},${base-40} ${x0+150},${base}" fill="#cfdbe2" stroke="#7a8a96" stroke-width="1.5"/><line x1="${x0-10}" y1="${base}" x2="${x0+210}" y2="${base}" stroke="#7a8a96" stroke-width="1.5"/>`; }
+const ball=(x,y)=>`<circle cx="${x}" cy="${y}" r="14" fill="#f6d36b" stroke="#b8901c" stroke-width="1.5"/><circle cx="${x-4}" cy="${y-5}" r="4" fill="#fff" opacity=".7"/>`;
+function figStairs(){
+  const W=760,H=280; let s=`<svg viewBox="0 0 ${W} ${H}" role="img" aria-label="A ball at the top of stairs has high potential energy, bouncing down it has kinetic energy, at the bottom it has low potential energy"><rect width="${W}" height="${H}" fill="#fff"/>`;
+  const base=210;
+  s+=`<g data-term="potential-energy">${stairPoly(30,base)}${ball(55,base-134)}</g>`;
+  s+=`<g data-term="kinetic-energy">${stairPoly(280,base)}${curveArrow(305,base-140,335,base-176,358,base-100,"#34454e",1.6)}${curveArrow(368,base-98,392,base-130,412,base-60,"#34454e",1.6)}${ball(402,base-72)}<path d="M418 ${base-64} q12 10 8 34" stroke="#34454e" stroke-dasharray="3 3" fill="none"/></g>`;
+  s+=`<g data-term="potential-energy">${stairPoly(530,base)}${ball(712,base-14)}</g>`;
+  s+=txt(105,base+34,"High potential energy",{a:"middle",w:700})+txt(355,base+34,"Kinetic energy",{a:"middle",w:700})+txt(615,base+34,"Low potential energy",{a:"middle",w:700});
+  s+=`<text class="lbl it" x="${W/2}" y="${H-10}" text-anchor="middle">Energy can be converted from one form to another.</text></svg>`; return s;
+}
+
+/* ============ ATP structure (notes p. 92, Fig 6.4) ============ */
+function atpParts(nP,o={}){
+  let s=""; const y=150, PX=[226,146,66];
+  if(nP>0){ s+=`<g data-term="phosphate-bonds">`; for(let i=0;i<nP;i++){ const x=PX[i]; const xr=i===0?266:PX[i-1]-27;
+      s+=`<line x1="${x+27}" y1="${y}" x2="${xr}" y2="${y}" stroke="${i>0&&o.hiBonds?"#d0402f":"#55606a"}" stroke-width="${i>0&&o.hiBonds?5:2.5}"/>`; } s+=`</g>`;
+    s+=`<g data-term="atp">`; for(let i=0;i<nP;i++){ const x=PX[i];
+      s+=`<circle cx="${x}" cy="${y}" r="27" fill="${MC6.ph}" stroke="${MC6.phS}" stroke-width="1.6"/>${txt(x,y+7,"P",{a:"middle",s:21,w:700,c:"#8a6400"})}<circle cx="${x+17}" cy="${y-19}" r="8" fill="#fff" stroke="${MC6.phS}"/>${txt(x+17,y-15,"−",{a:"middle",s:13,w:700,c:"#a33a3a"})}`; }
+    s+=`</g>`;
+    if(o.repel && nP>1) for(let i=1;i<nP;i++){ const x=(PX[i]+PX[i-1])/2+8; s+=`<path d="M${x-14} ${y-46} q14 -12 28 0" stroke="#a33a3a" stroke-width="1.6" fill="none"/>${arrow(x-6,y-50,x-16,y-45,"#a33a3a",1.4)}${arrow(x+6,y-50,x+16,y-45,"#a33a3a",1.4)}`; } }
+  s+=`<g data-term="ribose">${txt(282,y+5,"CH₂",{s:13,w:600})}<line x1="306" y1="${y}" x2="330" y2="${y+14}" stroke="#55606a" stroke-width="2.5"/><polygon points="380,128 424,158 408,210 352,210 336,158" fill="${MC6.rib}" stroke="${MC6.ribS}" stroke-width="1.8"/>${txt(380,146,"O",{a:"middle",s:13,w:700,c:MC6.ribS})}${txt(360,232,"OH",{a:"middle",s:12})}${txt(402,232,"OH",{a:"middle",s:12})}</g>`;
+  s+=`<g data-term="atp"><line x1="420" y1="160" x2="458" y2="146" stroke="#55606a" stroke-width="2.5"/><polygon points="458,130 488,112 518,130 518,164 488,182 458,164" fill="${MC6.ade}" stroke="${MC6.adeS}" stroke-width="1.8"/><polygon points="518,130 548,120 566,147 548,174 518,164" fill="${MC6.ade}" stroke="${MC6.adeS}" stroke-width="1.8"/><line x1="488" y1="112" x2="488" y2="92" stroke="#55606a" stroke-width="2"/>${txt(488,86,"NH₂",{a:"middle",s:12,w:600})}</g>`;
+  return s;
+}
+function figATP(nP=3,o={}){
+  const W=760,H=360; let s=`<svg viewBox="0 0 ${W} ${H}" role="img" aria-label="${["Adenosine","AMP","ADP","ATP"][nP]}: adenine, ribose and ${nP} phosphate group${nP===1?"":"s"}"><rect width="${W}" height="${H}" fill="#fff"/>`;
+  s+=atpParts(nP,o);
+  const br=(x1,y,t,term,on)=>`<g data-term="${term}"><path d="M${x1} ${y-6} V${y} H568 V${y-6}" stroke="${on?MC6.teal:"#7a8a96"}" stroke-width="${on?2.2:1.4}" fill="none"/>${txt((x1+568)/2,y+15,t,{a:"middle",s:12.5,w:on?700:400,c:on?MC6.teal:MC6.ink})}</g>`;
+  s+=br(334,256,"Adenosine (adenine + ribose)","atp",nP===0);
+  if(nP>=1) s+=br(200,284,"Adenosine monophosphate (AMP)","adp-amp",nP===1);
+  if(nP>=2) s+=br(130,310,"Adenosine diphosphate (ADP)","adp-amp",nP===2);
+  if(nP>=3) s+=br(60,336,"Adenosine triphosphate (ATP)","atp",nP===3);
+  s+=`<g class="lbls">`;
+  if(nP>=2) s+=lab("The bonds linking the phosphate\ngroups have high potential energy","phosphate-bonds",40,40,195,148);
+  if(nP>=1) s+=lab("Phosphate group"+(nP>1?"s":""),"atp",250,96,230,120,"start");
+  s+=lab("Ribose (five-carbon sugar)","ribose",600,236,412,206)+lab("Adenine","atp",600,96,548,120)+`</g>`;
+  s+=`</svg>`; return s;
+}
+/* compact ATP icon for equations */
+function atpIcon(x,y,n,lab2){
+  let s=`<rect x="${x}" y="${y-16}" width="74" height="32" rx="8" fill="${MC6.rib}" stroke="${MC6.ribS}"/>${txt(x+37,y+5,lab2||"Aden.",{a:"middle",s:11,w:700,c:"#4a3a70"})}`;
+  for(let i=0;i<n;i++){ const cx=x-16-i*30; s+=`<line x1="${cx+14}" y1="${y}" x2="${cx+16}" y2="${y}" stroke="#55606a" stroke-width="2"/><circle cx="${cx}" cy="${y}" r="13" fill="${MC6.ph}" stroke="${MC6.phS}"/>${txt(cx,y+5,"P",{a:"middle",s:13,w:700,c:"#8a6400"})}`; }
+  return s;
+}
+/* ============ ATP hydrolysis (notes p. 95, Fig 6.9) ============ */
+function figHydrolysis(){
+  const W=760,H=240; let s=`<svg viewBox="0 0 ${W} ${H}" role="img" aria-label="ATP plus water gives ADP plus inorganic phosphate and releases free energy"><rect width="${W}" height="${H}" fill="#fff"/>`;
+  s+=`<g data-term="atp">${atpIcon(120,100,3,"Adenosine")}${txt(90,150,"ATP",{a:"middle",w:700})}</g>`;
+  s+=`<g data-term="atp-hydrolysis">${txt(208,106,"+",{a:"middle",s:20})}<circle cx="246" cy="100" r="14" fill="#d8463c"/><circle cx="231" cy="112" r="8" fill="#eef2f6" stroke="#8a98a8"/><circle cx="261" cy="112" r="8" fill="#eef2f6" stroke="#8a98a8"/>${txt(246,150,"H₂O",{a:"middle",w:700})}${arrow(282,100,338,100,"#34454e",2.4)}</g>`;
+  s+=`<g data-term="adp-amp">${atpIcon(430,100,2,"Adenosine")}${txt(415,150,"ADP",{a:"middle",w:700})}</g>`;
+  s+=`<g data-term="atp-hydrolysis">${txt(510,106,"+",{a:"middle",s:20})}<circle cx="548" cy="100" r="13" fill="${MC6.ph}" stroke="${MC6.phS}"/>${txt(548,105,"P",{a:"middle",s:13,w:700,c:"#8a6400"})}${txt(548,150,"Pᵢ",{a:"middle",w:700})}`;
+  s+=`<path d="M312 56 l-8 14 h10 l-8 14" stroke="#e0a000" stroke-width="2.5" fill="none"/>${txt(322,62,"Free energy released",{s:13,w:700,c:"#a07000"})}</g>`;
+  s+=`<g data-term="exergonic">${txt(220,200,"ATP + H₂O → ADP + Pᵢ",{a:"middle",s:14,w:600})}${txt(520,200,"ΔG = −7.3 kcal/mol (exergonic, spontaneous)",{a:"middle",s:14,w:600})}</g>`;
+  s+=`<text class="lbl it" x="${W/2}" y="${H-12}" text-anchor="middle">Pᵢ = inorganic phosphate. ADP has two phosphate groups, so it has lower potential energy than ATP.</text></svg>`; return s;
+}
+
+/* ============ laws of thermodynamics (notes p. 93, Figs 6.5, 6.6) ============ */
+function cube(x,y,sz=24,f="#f6d36b",st="#b8901c"){ const d=sz*0.35; return `<polygon points="${x},${y} ${x+sz},${y} ${x+sz},${y+sz} ${x},${y+sz}" fill="${f}" stroke="${st}"/><polygon points="${x},${y} ${x+d},${y-d} ${x+sz+d},${y-d} ${x+sz},${y}" fill="${f}" stroke="${st}" opacity=".85"/><polygon points="${x+sz},${y} ${x+sz+d},${y-d} ${x+sz+d},${y+sz-d} ${x+sz},${y+sz}" fill="${f}" stroke="${st}" opacity=".7"/>`; }
+const HEATC=["#f2b5a8","#c94a3d"];
+function figLaw(n){
+  const W=760,H=270; let s=`<svg viewBox="0 0 ${W} ${H}" role="img" aria-label="${n===1?"First law: total energy before equals total energy after":"Second law: some energy is lost as heat, so less is available to do work"}"><rect width="${W}" height="${H}" fill="#fff"/>`;
+  s+=`<g data-term="${n===1?"first-law":"second-law"}">`;
+  [[0,0],[1,0],[0,1],[1,1]].forEach(([i,j])=>s+=cube(60+i*30,100+j*30,30));
+  s+=`<polygon points="170,112 300,112 300,96 336,130 300,164 300,148 170,148" fill="#d6dcdf"/>${txt(250,135,"TRANSFORMATION",{a:"middle",s:12.5,w:700,c:"#4b5b64"})}`;
+  if(n===1){ for(let i=0;i<4;i++) s+=cube(370+i*30,116,30); }
+  else { for(let i=0;i<3;i++) s+=cube(370+i*30,130,30); s+=`<g data-term="entropy">${cube(420,40,30,HEATC[0],HEATC[1])}<path d="M428 34 q4 -8 0 -14 M440 34 q4 -8 0 -14" stroke="${HEATC[1]}" fill="none"/></g>`; }
+  s+=`</g>`;
+  s+=txt(90,210,"Total energy before",{a:"middle",w:700})+txt(250,210,"=",{a:"middle",s:18,w:700})+txt(420,210,"Total energy after",{a:"middle",w:700});
+  s+=cube(70,236,18)+txt(100,250,"= one unit of energy",{s:12.5});
+  s+=`<g class="lbls">`;
+  if(n===1) s+=lab("Same 4 units, rearranged:\nenergy is neither created\nnor destroyed","first-law",560,100,494,130);
+  else s+=lab("Energy, often as heat,\nresulting in increased entropy","entropy",404,30,420,50,"end")+lab("Energy available\nto do work","second-law",520,150,464,146);
+  s+=`</g></svg>`; return s;
+}
+
+/* ============ a chemical reaction (notes p. 94, Fig 6.7) ============ */
+function figReaction(){
+  const W=760,H=260; let s=`<svg viewBox="0 0 ${W} ${H}" role="img" aria-label="Carbon dioxide plus water forms carbonic acid: two bonds break and two new bonds form"><rect width="${W}" height="${H}" fill="#fff"/>`;
+  const O=(x,y)=>txt(x,y,"O",{a:"middle",s:20,w:700,c:"#d8463c"}), C=(x,y)=>txt(x,y,"C",{a:"middle",s:20,w:700,c:"#55585c"}), Hh=(x,y)=>txt(x,y,"H",{a:"middle",s:20,w:700,c:"#4a7fd0"});
+  const y=120;
+  s+=`<g data-term="reactants">${O(60,y+7)}${dbl(72,y,96,y)}${C(108,y+7)}${dbl(120,y,144,y)}${O(156,y+7)}${txt(108,y+50,"CO₂",{a:"middle",w:700})}${txt(108,y+68,"carbon dioxide",{a:"middle",s:12})}`;
+  s+=`${txt(196,y+7,"+",{a:"middle",s:20})}${Hh(232,y+7)}${bond(244,y,264,y)}${O(276,y+7)}${bond(288,y,308,y)}${Hh(320,y+7)}${txt(276,y+50,"H₂O",{a:"middle",w:700})}${txt(276,y+68,"water",{a:"middle",s:12})}</g>`;
+  s+=`<path d="M132 ${y-8} l8 16 M256 ${y-8} l-6 16" stroke="#a33a3a" stroke-width="2.5"/>`;
+  s+=`<g data-term="equilibrium">${arrow(360,y-6,430,y-6,"#34454e",2)}${arrow(430,y+6,360,y+6,"#34454e",2)}</g>`;
+  s+=`<g data-term="products">${O(470,y+7)}${dbl(482,y,506,y)}${C(518,y+7)}<line x1="528" y1="${y-10}" x2="548" y2="${y-34}" stroke="#d0402f" stroke-width="3"/>${O(558,y-38)}${bond(570,y-44,590,y-44,"#34454e")}${Hh(602,y-38)}`;
+  s+=`<line x1="528" y1="${y+10}" x2="548" y2="${y+34}" stroke="#34454e" stroke-width="2"/>${O(558,y+46)}<line x1="570" y1="${y+40}" x2="590" y2="${y+40}" stroke="#d0402f" stroke-width="3"/>${Hh(602,y+46)}`;
+  s+=`${txt(530,y+90,"H₂CO₃",{a:"middle",w:700})}${txt(530,y+108,"carbonic acid",{a:"middle",s:12})}</g>`;
+  s+=`<g class="lbls">${lab("Bonds broken: one C–O\nbond in CO₂ and one\nO–H bond in H₂O","chemical-reaction",20,30,136,y-10)}${lab("New covalent bonds (red):\nC to the O of water,\nan O of CO₂ to an H","chemical-reaction",750,196,590,y+40,"end")}</g>`;
+  s+=`<text class="lbl it" x="${W/2}" y="${H-10}" text-anchor="middle">Atoms keep their identity; only the bonds linking them change.</text></svg>`; return s;
+}
+
+/* ============ endergonic vs exergonic (notes p. 94, Fig 6.8) ============ */
+function figDG(){
+  const W=760,H=320; let s=`<svg viewBox="0 0 ${W} ${H}" role="img" aria-label="Endergonic reaction: products higher than reactants, +ΔG. Exergonic: products lower, −ΔG."><rect width="${W}" height="${H}" fill="#fff"/>`;
+  const panel=(x0,end)=>{ const yR=end?240:90, yP=end?90:240; let p=axes(x0,50,280,220);
+    p+=`<g data-term="${end?"endergonic":"exergonic"}"><path d="${energyPath(x0+4,270,yR,yP)}" stroke="${MC6.blue}" stroke-width="3" fill="none"/></g>`;
+    p+=`<line x1="${x0+120}" y1="${yR}" x2="${x0+275}" y2="${yR}" stroke="#7a8a96" stroke-dasharray="5 4"/>`;
+    p+=`<g data-term="delta-g">${vArrow2(x0+262,yR,yP,"#34454e",1.8)}${txt(x0+254,end?172:122,"Amount of",{s:12.5,a:"end"})}${txt(x0+254,end?188:138,"energy",{s:12.5,a:"end"})}${txt(x0+254,end?204:154,end?"required (+ΔG)":"released (−ΔG)",{s:12.5,w:700,a:"end"})}</g>`;
+    p+=`<g data-term="reactants">${txt(x0+12,yR-8,"Reactants",{s:13,w:600})}</g><g data-term="products">${txt(x0+250,yP-8,"Products",{s:13,w:600,a:"end"})}</g>`;
+    p+=txt(x0,24,end?"a. Endergonic reaction":"b. Exergonic reaction",{w:700,s:14})+txt(x0,40,end?"(nonspontaneous)":"(spontaneous)",{s:12.5});
+    return p; };
+  s+=panel(60,true)+panel(440,false)+`</svg>`; return s;
+}
+
+/* ============ energetic coupling (notes p. 96, Fig 6.11) ============ */
+function figCoupling(){
+  const W=760,H=240; let s=`<svg viewBox="0 0 ${W} ${H}" role="img" aria-label="ATP hydrolysis (−7.3) coupled to glucose phosphorylation (+3.3) gives a net ΔG of −4 kcal/mol"><rect width="${W}" height="${H}" fill="#fff"/>`;
+  const row=(y,l,r,dg,kind,col,term)=>`<g data-term="${term}">${txt(30,y,l,{s:14})}${txt(310,y,"→",{a:"middle",s:16})}${txt(340,y,r,{s:14})}${txt(560,y,dg,{s:14,w:700,c:col})}${txt(745,y,kind,{s:13,w:700,c:col,a:"end"})}</g>`;
+  s+=row(60,"ATP + H₂O","ADP + Pᵢ","ΔG₁ = −7.3","Exergonic",MC6.red,"atp-hydrolysis");
+  s+=row(104,"Glucose + Pᵢ","Glucose 6-phosphate + H₂O","ΔG₂ = +3.3","Endergonic",MC6.blue,"endergonic");
+  s+=`<line x1="24" y1="128" x2="745" y2="128" stroke="#34454e" stroke-width="1.5"/>`;
+  s+=row(160,"Glucose + ATP","Glucose 6-phosphate + ADP","ΔG = −4","Coupled",MC6.red,"coupling");
+  s+=txt(600,32,"kcal/mol",{s:12,a:"middle",c:"#4b5b64"});
+  s+=`<g data-term="coupling"><rect x="30" y="182" width="700" height="44" rx="6" fill="#e0ecef"/>${txt(44,201,"The coupled reaction proceeds because the net ΔG is negative (−7.3 + 3.3 = −4.0),",{s:13})}${txt(44,218,"and Pᵢ is shared between the two reactions.",{s:13})}</g>`;
+  s+=`</svg>`; return s;
+}
+
+/* ============ activation energy (notes p. 95, Fig 6.10) ============ */
+function figEA(){
+  const W=760,H=360; let s=`<svg viewBox="0 0 ${W} ${H}" role="img" aria-label="An enzyme lowers the activation energy; ΔG is the same with and without the enzyme"><rect width="${W}" height="${H}" fill="#fff"/>`;
+  const x0=70,w=430,yR=220,yP=300; s+=axes(x0,40,w+20,280);
+  s+=`<g data-term="activation-energy"><path d="${energyPath(x0+6,w,yR,yP,70)}" stroke="${MC6.blue}" stroke-width="3" fill="none"/></g>`;
+  s+=`<g data-term="enzyme"><path d="${energyPath(x0+6,w,yR,yP,165)}" stroke="${MC6.red}" stroke-width="3" fill="none"/></g>`;
+  s+=`<line x1="${x0+6}" y1="${yR}" x2="${x0+w+30}" y2="${yR}" stroke="#7a8a96" stroke-dasharray="5 4"/>`;
+  const px=x0+6+w*0.5;
+  s+=`<g data-term="activation-energy">${vArrow2(px-14,yR,72,MC6.blue,1.8)}${txt(px-22,140,'E<tspan dy="4" font-size="11">A</tspan>',{a:"end",s:15,w:700,c:MC6.blue,it:true})}</g>`;
+  s+=`<g data-term="enzyme">${vArrow2(px+14,yR,167,MC6.red,1.8)}${txt(px+22,200,'E<tspan dy="4" font-size="11">A</tspan>',{s:15,w:700,c:MC6.red,it:true})}</g>`;
+  s+=`<g data-term="delta-g">${vArrow2(x0+w+20,yR,yP,"#34454e",1.8)}${txt(x0+w+28,266,"ΔG",{s:14,w:700})}</g>`;
+  s+=`<g data-term="transition-state">${txt(px,60,"Transition state",{a:"middle",s:13,w:600})}</g>`;
+  s+=`<g data-term="reactants">${txt(x0+12,yR-8,"Reactants",{s:13,w:600})}</g><g data-term="products">${txt(x0+w-10,yP-8,"Products",{s:13,w:600,a:"end"})}</g>`;
+  s+=`<line x1="${x0+20}" y1="282" x2="${x0+46}" y2="282" stroke="${MC6.blue}" stroke-width="3"/>${txt(x0+52,286,"Uncatalyzed reaction",{s:12.5})}<line x1="${x0+20}" y1="300" x2="${x0+46}" y2="300" stroke="${MC6.red}" stroke-width="3"/>${txt(x0+52,304,"Catalyzed reaction (enzyme)",{s:12.5})}`;
+  s+=`<g class="lbls">${lab("All reactions require an input\nof energy, called activation\nenergy, to proceed","activation-energy",560,96,px-14,110)}${lab("An enzyme accelerates the\nreaction by reducing the\nactivation energy","enzyme",560,170,px+14,190)}${lab("ΔG is the same with\nand without an enzyme","delta-g",600,260,x0+w+20,262)}</g>`;
+  s+=`</svg>`; return s;
+}
+
+/* ============ enzyme shapes ============ */
+function enzPath(cx,cy,R,n,mode){
+  const top=cy-Math.sqrt(R*R-n*n);
+  if(mode==="v") return `M${cx-n} ${top} L${cx} ${top+n*1.15} L${cx+n} ${top} A${R} ${R} 0 1 1 ${cx-n} ${top} Z`;
+  if(mode==="bent") return `M${cx-n*1.15} ${top+3} Q${cx} ${top+n*0.25} ${cx+n*1.15} ${top+3} A${R} ${R} 0 1 1 ${cx-n*1.15} ${top+3} Z`;
+  return `M${cx-n} ${top} A${n} ${n} 0 0 0 ${cx+n} ${top} A${R} ${R} 0 1 1 ${cx-n} ${top} Z`;
+}
+function enzyme(cx,cy,R,n,mode="round",o={}){
+  const top=cy-Math.sqrt(R*R-n*n);
+  let s=`<path d="${enzPath(cx,cy,R,n,mode)}" fill="${o.fill||MC6.enz}" stroke="${o.stroke||MC6.enzS}" stroke-width="1.8"/>`;
+  if(mode==="closed") s+=`<circle cx="${cx-n*0.92}" cy="${top-n*0.18}" r="${n*0.36}" fill="${MC6.enz}" stroke="${MC6.enzS}" stroke-width="1.5"/><circle cx="${cx+n*0.92}" cy="${top-n*0.18}" r="${n*0.36}" fill="${MC6.enz}" stroke="${MC6.enzS}" stroke-width="1.5"/><rect x="${cx-n*1.3}" y="${top-1}" width="${n*2.6}" height="${n*0.35}" fill="${MC6.enz}"/><path d="M${cx-n} ${top} A${n} ${n} 0 0 0 ${cx+n} ${top}" stroke="${MC6.enzS}" stroke-width="1.8" fill="none"/>`;
+  if(o.site) s+=`<path d="M${cx-n} ${top} A${n} ${n} 0 0 0 ${cx+n} ${top}" stroke="#a24fb8" stroke-width="4" fill="none" opacity=".75"/>`;
+  return s;
+}
+const notchTop=(cy,R,n)=>cy-Math.sqrt(R*R-n*n);
+const blobS=(x,y,r,f,st)=>`<circle cx="${x.toFixed?x.toFixed(1):x}" cy="${y.toFixed?y.toFixed(1):y}" r="${r}" fill="${f}" stroke="${st}" stroke-width="1.5"/>`;
+
+/* ============ active site from folding (notes p. 96, Fig 6.12) ============ */
+function figActiveSite(){
+  const W=760,H=330; let s=`<svg viewBox="0 0 ${W} ${H}" role="img" aria-label="Amino acids far apart in the unfolded chain come together in the folded enzyme to form the active site"><rect width="${W}" height="${H}" fill="#fff"/>`;
+  const f=x=>170+55*Math.sin(x/34)+22*Math.cos(x/13);
+  let d=""; for(let x=40;x<=330;x+=4) d+=(x===40?"M":"L")+x+" "+f(x).toFixed(1);
+  s+=`<g data-term="enzyme"><path d="${d}" stroke="#8fb36a" stroke-width="9" fill="none" stroke-linecap="round"/><path d="${d}" stroke="#6f8f4a" stroke-width="1" fill="none" stroke-dasharray="2 5"/>${txt(30,f(40)+30,"NH₂",{s:12,w:600})}${txt(334,f(330)-12,"COOH",{s:12,w:600})}</g>`;
+  s+=`<g data-term="active-site">`+[70,190,300].map(x=>`<circle cx="${x}" cy="${f(x).toFixed(1)}" r="7" fill="#a24fb8" stroke="#6a2a80"/>`).join("")+`</g>`;
+  s+=txt(185,290,"Unfolded enzyme",{a:"middle",w:700});
+  s+=arrow(385,200,445,200,"#34454e",2.4)+txt(415,222,"folding",{a:"middle",s:12,it:true});
+  // folded enzyme
+  const cx=580,cy=190; s+=`<g data-term="enzyme"><path d="${enzPath(cx,cy,95,26,"round")}" fill="#e6f0dc" stroke="#6f8f4a" stroke-width="1.6"/>`;
+  let r=12345, rnd=()=>{ r=(r*16807)%2147483647; return r/2147483647; }; let dd="M"+(cx-60)+" "+(cy+40);
+  for(let i=0;i<15;i++){ const a=rnd()*Math.PI*2, rr=20+rnd()*55; dd+=` Q${(cx+Math.cos(a)*rr*1.1).toFixed(0)} ${(cy+15+Math.sin(a)*rr).toFixed(0)} ${(cx+Math.cos(a+1)*rr*.8).toFixed(0)} ${(cy+15+Math.sin(a+1)*rr*.8).toFixed(0)}`; }
+  s+=`<path d="${dd}" stroke="#8fb36a" stroke-width="5" fill="none" stroke-linecap="round" opacity=".7"/></g>`;
+  const top=notchTop(cy,95,26);
+  s+=`<g data-term="active-site">`+[[cx-26,top+4],[cx,top+24],[cx+26,top+4]].map(p=>`<circle cx="${p[0]}" cy="${p[1]}" r="7" fill="#a24fb8" stroke="#6a2a80"/>`).join("")+`</g>`;
+  s+=`<g data-term="substrate">${blobS(cx,top,15,MC6.sub,MC6.subS)}</g>`;
+  s+=txt(cx,310,"Folded enzyme",{a:"middle",w:700});
+  s+=`<g class="lbls">${lab("Amino acids that form the active\nsite are far apart in the\nlinear sequence","active-site",40,40,70,f(70)-8)}${lab("Folding brings them together\nto form the active site","active-site",430,40,cx-26,top)}${lab("Bound substrate","substrate",690,110,cx+14,top-4,"middle")}</g>`;
+  s+=`</svg>`; return s;
+}
+
+/* ============ lock-and-key vs induced fit (notes p. 97, Fig 6.13) ============ */
+function figModels(){
+  const W=760,H=240; let s=`<svg viewBox="0 0 ${W} ${H}" role="img" aria-label="Lock-and-key: the active site already fits the substrate. Induced fit: the enzyme changes shape around the substrate."><rect width="${W}" height="${H}" fill="#fff"/>`;
+  const R=46,n=17,cy=150;
+  s+=`<g data-term="lock-key">${txt(20,26,"a. Lock-and-key model",{w:700,s:14})}${enzyme(90,cy,R,n,"round")}${blobS(90,notchTop(cy,R,n)-52,14,MC6.sub,MC6.subS)}${arrow(90,notchTop(cy,R,n)-34,90,notchTop(cy,R,n)-18,"#34454e",1.6)}${arrow(160,cy,215,cy,"#5b7fd0",2.4)}${enzyme(280,cy,R,n,"round")}${blobS(280,notchTop(cy,R,n),14,MC6.sub,MC6.subS)}${txt(185,222,"Substrate fits a pre-shaped site",{a:"middle",s:12.5,it:true})}</g>`;
+  s+=`<g data-term="induced-fit">${txt(410,26,"b. Induced fit model",{w:700,s:14})}${enzyme(480,cy,R,n,"v")}${blobS(480,notchTop(cy,R,n)-52,14,MC6.sub,MC6.subS)}${arrow(480,notchTop(cy,R,n)-34,480,notchTop(cy,R,n)-18,"#34454e",1.6)}${arrow(550,cy,605,cy,"#5b7fd0",2.4)}${enzyme(670,cy,R,n,"closed")}${blobS(670,notchTop(cy,R,n),14,MC6.sub,MC6.subS)}${curveArrow(636,notchTop(cy,R,n)-20,644,notchTop(cy,R,n)-30,652,notchTop(cy,R,n)-12,"#34454e",1.4)}${curveArrow(704,notchTop(cy,R,n)-20,696,notchTop(cy,R,n)-30,688,notchTop(cy,R,n)-12,"#34454e",1.4)}${txt(575,222,"Enzyme changes shape when substrate binds",{a:"middle",s:12.5,it:true})}</g>`;
+  s+=`<g data-term="substrate">${txt(118,notchTop(cy,R,n)-48,"Substrate",{s:12})}</g><g data-term="enzyme">${txt(40,cy+4,"Enzyme",{a:"end",s:12})}</g>`;
+  s+=`</svg>`; return s;
+}
+
+/* ============ enzyme-substrate cycle (notes p. 97, Fig 6.13) ============ */
+// stage 0: E+S, 1: ES, 2: EP, 3: E+P. t tweens toward the stage (0..1)
+function cycleScene(cx,cy,kind,stage,fit,t=1){
+  const R=46,n=18, top=notchTop(cy,R,n); let s="";
+  const mode= fit ? (stage===2 || (stage===1 && t>0.6) ? "closed" : "v") : "round";
+  s+=enzyme(cx,cy,R,n,mode);
+  const lerp=(a,b)=>a+(b-a)*t;
+  if(kind==="cat"){ // one substrate: two linked parts split into two products
+    if(stage===0){ s+=`<line x1="${cx-9}" y1="${top-60}" x2="${cx+9}" y2="${top-60}" stroke="#55606a" stroke-width="3"/>`+blobS(cx-9,top-60,10,MC6.sub,MC6.subS)+blobS(cx+9,top-60,10,"#f6d36b",MC6.phS); }
+    if(stage===1){ const y=lerp(top-60,top); s+=`<line x1="${cx-9}" y1="${y}" x2="${cx+9}" y2="${y}" stroke="#55606a" stroke-width="3"/>`+blobS(cx-9,y,10,MC6.sub,MC6.subS)+blobS(cx+9,y,10,"#f6d36b",MC6.phS); }
+    if(stage===2){ s+=blobS(cx-lerp(9,12),top,10,MC6.sub,MC6.subS)+blobS(cx+lerp(9,12),top,10,"#f6d36b",MC6.phS); }
+    if(stage===3){ s+=blobS(cx-lerp(12,40),top-lerp(0,60),10,MC6.sub,MC6.subS)+blobS(cx+lerp(12,40),top-lerp(0,70),10,"#f6d36b",MC6.phS); }
+  } else { // two substrates join into one product
+    if(stage===0){ s+=blobS(cx-30,top-60,11,MC6.prod,MC6.prodS)+blobS(cx+30,top-60,11,MC6.sub2,MC6.sub2S); }
+    if(stage===1){ s+=blobS(lerp(cx-30,cx-10),lerp(top-60,top),11,MC6.prod,MC6.prodS)+blobS(lerp(cx+30,cx+10),lerp(top-60,top),11,MC6.sub2,MC6.sub2S); }
+    if(stage===2){ s+=blobS(cx,top,lerp(11,15),"#2f8f8a","#1d5f5c"); }
+    if(stage===3){ s+=blobS(cx,lerp(top,top-64),15,"#2f8f8a","#1d5f5c"); }
+  }
+  return s;
+}
+function figCycle(kind){
+  const W=760,H=230; let s=`<svg viewBox="0 0 ${W} ${H}" role="img" aria-label="${kind==="cat"?"Catabolic":"Anabolic"} reaction: E + S, ES, EP, E + P"><rect width="${W}" height="${H}" fill="#fff"/>`;
+  s+=txt(14,22,kind==="cat"?"a. Catabolic reaction: one substrate is split":"b. Anabolic reaction: two substrates are joined",{w:700,s:14});
+  const xs=[90,280,470,660], nm=[["E + S","Enzyme + substrate"],["ES","Enzyme–substrate complex"],["EP","Enzyme–product complex"],["E + P","Enzyme + product"+(kind==="cat"?"s":"")]];
+  xs.forEach((x,i)=>{ s+=`<g data-term="${i===1?"es-complex":i===0?"substrate":i===3?"products":"es-complex"}">${cycleScene(x,150,kind,i,false)}</g>${txt(x,214,nm[i][0],{a:"middle",w:700})}${txt(x,229,nm[i][1],{a:"middle",s:11.5})}`;
+    if(i<3){ s+=`<g data-term="equilibrium">${arrow(x+56,140,x+132,140,"#5b7fd0",1.8)}${arrow(x+132,152,x+56,152,"#5b7fd0",1.8)}</g>`; } });
+  s+=`</svg>`; return s;
+}
+
+/* ============ inhibition (notes p. 97, Fig 6.13) ============ */
+function figInhib(){
+  const W=760,H=480; let s=`<svg viewBox="0 0 ${W} ${H}" role="img" aria-label="Normal reaction, competitive inhibition at the active site, noncompetitive inhibition at another site"><rect width="${W}" height="${H}" fill="#fff"/>`;
+  const R=40,n=15;
+  let cy=118, top=notchTop(cy,R,n);
+  s+=`<g data-term="active-site">${txt(14,cy-97,"a. An enzyme-catalyzed reaction",{w:700,s:13.5})}${enzyme(80,cy,R,n,"round",{site:true})}${blobS(80,top-34,11,MC6.sub,MC6.subS)}${arrow(80,top-21,80,top-12,"#34454e",1.5)}${arrow(130,cy,170,cy,"#5b7fd0",2.2)}${enzyme(230,cy,R,n)}${blobS(230,top,11,MC6.sub,MC6.subS)}${arrow(280,cy,320,cy,"#5b7fd0",2.2)}${enzyme(380,cy,R,n)}${blobS(400,top-30,11,MC6.prod,MC6.prodS)}${txt(408,top-46,"Product",{s:12})}${txt(98,top-36,"Substrate",{s:12})}</g>`;
+  s+=`<g data-term="substrate">${txt(450,cy-6,"The substrate binds to the active site,",{s:12.5})}${txt(450,cy+10,"where it is converted to product.",{s:12.5})}</g>`;
+  cy=272; top=notchTop(cy,R,n);
+  s+=`<g data-term="competitive">${txt(14,cy-97,"b. Competitive inhibition",{w:700,s:13.5})}${enzyme(80,cy,R,n)}<polygon points="${80-12},${top-10} ${80+12},${top-10} ${80+12},${top+6} ${80},${top+14} ${80-12},${top+6}" fill="${MC6.inh}" stroke="${MC6.inhS}" stroke-width="1.5"/>${blobS(40,top-30,11,MC6.sub,MC6.subS)}<path d="M54 ${top-22} l10 10 M64 ${top-22} l-10 10" stroke="${MC6.inhS}" stroke-width="2.5"/>${txt(450,cy-20,"The inhibitor binds to the active site,",{s:12.5})}${txt(450,cy-4,"competing with the substrate and",{s:12.5})}${txt(450,cy+12,"reducing the rate of the reaction.",{s:12.5})}${txt(110,top-8,"Competitive inhibitor (in the active site)",{s:12})}</g>`;
+  cy=420; top=notchTop(cy,R,n);
+  s+=`<g data-term="noncompetitive">${txt(14,cy-97,"c. Noncompetitive inhibition",{w:700,s:13.5})}${enzyme(80,cy,R,n)}${blobS(80,top-34,11,MC6.sub,MC6.subS)}${arrow(130,cy,170,cy,"#5b7fd0",2.2)}${enzyme(230,cy,R,n,"bent")}${blobS(230,cy+R,10,MC6.inh,MC6.inhS)}${blobS(230,top-30,11,MC6.sub,MC6.subS)}${arrow(272,cy,312,cy,"#5b7fd0",2.2)}<path d="M286 ${cy-8} l12 12 M298 ${cy-8} l-12 12" stroke="${MC6.inhS}" stroke-width="2.5"/>${txt(450,cy-20,"The inhibitor binds to a site other than",{s:12.5})}${txt(450,cy-4,"the active site, changing the shape of the",{s:12.5})}${txt(450,cy+12,"enzyme and reducing the rate of the reaction.",{s:12.5})}${txt(250,cy+R+6,"Noncompetitive inhibitor",{s:12})}${txt(264,top-4,"site changed shape",{s:11.5,it:true})}</g>`;
+  s+=`</svg>`; return s;
+}
+
+/* ============ allosteric enzyme / feedback inhibition (notes p. 97, Fig 6.14) ============ */
+function figFeedback(act=1){
+  const W=760,H=230; let s=`<svg viewBox="0 0 ${W} ${H}" role="img" aria-label="Isoleucine, the end product, inhibits threonine dehydratase, the first enzyme of the pathway"><rect width="${W}" height="${H}" fill="#fff"/>`;
+  const xs=[62,192,302,412,522,670], nm=["Threonine","P1","P2","P3","P4","Isoleucine"];
+  xs.forEach((x,i)=>{ const w=i===0||i===5?100:70; s+=`<g data-term="pathway"><rect x="${x-w/2}" y="62" width="${w}" height="34" rx="8" fill="#fff" stroke="${i===0?"#3f8a4c":i===5?"#6f4a90":"#2f8fb0"}" stroke-width="1.8"/>${txt(x,84,nm[i],{a:"middle",w:700,c:i===0?"#2e6b39":i===5?"#5a3a80":"#1d6680"})}</g>`;
+    if(i<5){ const x1=x+(i===0?52:37), x2=xs[i+1]-(i===4?52:37); s+=`<g data-term="${i===0?"allosteric":"pathway"}">${arrow(x1,79,x2,79,i===0?(act>0.5?"#7a8a96":"#cfd6da"):"#7a8a96",i===0?4:3)}</g>`; } });
+  s+=`<g data-term="allosteric">${txt(132,44,"Threonine",{a:"middle",s:12,w:700})}${txt(132,57,"dehydratase",{a:"middle",s:12,w:700})}</g>`;
+  s+=`<g data-term="feedback-inhibition"><path d="M670 98 V170 H132 V100" stroke="#d0402f" stroke-width="3" fill="none"/><line x1="120" y1="100" x2="144" y2="100" stroke="#d0402f" stroke-width="4"/><circle cx="400" cy="170" r="12" fill="#23282e"/><line x1="393" y1="170" x2="407" y2="170" stroke="#fff" stroke-width="3"/>${txt(420,198,"Isoleucine acts as an allosteric inhibitor of the first enzyme",{a:"middle",s:12.5})}</g>`;
+  s+=`</svg>`; return s;
+}
+
+/* ============ story engine ============ */
+let RUN = null; // {id, first:{}}
+function chState(id){ return P.ch[id] || (P.ch[id] = {done:false, best:null, last:null}); }
+function recordFirst(stepIdx, correct, terms){
+  if (!RUN) return;
+  if (!(stepIdx in RUN.first)) RUN.first[stepIdx] = !!correct;
+  (terms||[]).forEach(k=>markTerm(k,"tested"));
+}
+function runScore(){ const v=Object.values(RUN.first); return {right:v.filter(Boolean).length, total:v.length}; }
+
+function renderChapter(ci, si=0){
+  stopLoops(); exploreHook=null; window.scrollTo(0,0);
+  $$(".tab").forEach(t=>t.setAttribute("aria-current",String(t.dataset.go==="story")));
+  const ch = CHAPTERS[ci];
+  if (!RUN || RUN.id !== ch.id) RUN = {id:ch.id, first:{}};
+  const app = $("#app"); app.innerHTML = "";
+  const bar = h("div",{class:"steps","aria-hidden":"true"});
+  ch.steps.forEach((_,i)=>bar.append(h("i",{class:i<si?"on":i===si?"cur":""})));
+  app.append(h("div",{class:"banner"}, h("span",{class:"num"},`6.${ci+1}`), h("span",{class:"ttl"},ch.title), h("span",{class:"pg"},`Course notes ${ch.pages}`)));
+  app.append(h("div",{class:"crumb"}, h("button",{class:"back",onclick:()=>go("story")},"All chapters"), h("span",{class:"muted small"},`Step ${si+1} of ${ch.steps.length}`), bar));
+  const step = ch.steps[si];
+  const stage = h("div",{class:"stage"+(step.wide?" wide":"")});
+  const plateHost = h("div"), panel = h("div",{class:"panel"});
+  stage.append(plateHost, panel); app.append(stage);
+  const next = h("button",{class:"btn",onclick:()=>{ if(si+1<ch.steps.length) renderChapter(ci,si+1); else finishChapter(ci); }}, si+1<ch.steps.length?"Continue":"Finish chapter");
+  const back = h("button",{class:"btn ghost",onclick:()=>{ if(si>0) renderChapter(ci,si-1); else go("story"); }}, si>0?"Back":"All chapters");
+  const api = {
+    ci, si, panel, plateHost, next,
+    lock(){ next.disabled = true; }, unlock(){ next.disabled = false; },
+    grade(ok, terms){ recordFirst(si, ok, terms||step.terms); },
+    gradeKey(key, ok, terms){ recordFirst(si+'.'+key, ok, terms); },
+  };
+  (STEP_TYPES[step.type])(step, api);
+  panel.append(h("div",{class:"nav"}, back, next));
+  bindTerms(app); bindRich(app);
+  tc.classList.remove("show");
+}
+function finishChapter(ci){
+  stopLoops(); window.scrollTo(0,0);
+  const ch = CHAPTERS[ci], sc = runScore(), st = chState(ch.id);
+  const frac = sc.total ? sc.right/sc.total : 1;
+  const prevBest = st.best;
+  st.done = true; st.last = frac; if (st.best==null || frac>st.best) st.best = frac; save();
+  const app=$("#app"); app.innerHTML="";
+  const box = h("div",{class:"summary"});
+  box.append(h("div",{class:"banner"}, h("span",{class:"num"},`6.${ci+1}`), h("span",{class:"ttl"},ch.title+": complete")));
+  box.append(h("div",{class:"row",style:"gap:26px;margin:10px 0 18px"},
+     h("div",{}, h("div",{class:"big"},`${sc.right}/${sc.total}`), h("div",{class:"muted small"},"right on the first try")),
+     h("div",{}, h("div",{class:"big",style:"color:var(--head)"},Math.round((st.best||0)*100)+"%"), h("div",{class:"muted small"}, prevBest==null?"your best so far": (frac>prevBest?"new personal best":"your best"))) ));
+  box.append(h("p",{},ch.wrap));
+  box.append(h("p",{class:"muted small"},"Terms from this chapter. Click one to review it."), termChips(ch.terms));
+  const nextBtn = ci+1<CHAPTERS.length ? h("button",{class:"btn",onclick:()=>{RUN=null; renderChapter(ci+1,0);}},`Start chapter ${ci+2}: ${CHAPTERS[ci+1].title}`) : h("button",{class:"btn",onclick:()=>go("checkpoint")},"Go to the enzyme desk");
+  box.append(h("div",{class:"row",style:"margin-top:16px"}, nextBtn, h("button",{class:"btn ghost",onclick:()=>{RUN=null; renderChapter(ci,0);}},"Replay chapter"), h("button",{class:"btn ghost",onclick:()=>go("story")},"All chapters")));
+  app.append(box);
+  RUN = null;
+}
+
+/* ---- step types ---- */
+function figHost(step, api, svg){
+  if (!svg) return;
+  const f = plate(svg, step.cap);
+  if (step.labelsToggle){
+    const b = h("button",{class:"mini","aria-pressed":"true"},"Labels");
+    b.addEventListener("click",()=>{ const on=b.getAttribute("aria-pressed")==="true"; b.setAttribute("aria-pressed",on?"false":"true"); f.classList.toggle("labels-off",on); });
+    f.prepend(h("div",{class:"tools"},b));
+  }
+  api.plateHost.innerHTML=""; api.plateHost.append(f);
+  if (step.onFig) step.onFig(f.querySelector("svg"));
+  return f;
+}
+const STEP_TYPES = {
+  brief(step, api){
+    figHost(step, api, step.fig && step.fig());
+    api.panel.append(h("h2",{},step.title), h("div",{html:rich(step.text)}));
+    if (step.terms) api.panel.append(termChips(step.terms));
+  },
+  review(step, api){
+    figHost(step, api, step.fig());
+    api.panel.append(h("h2",{},step.title), h("div",{html:rich(step.text)}));
+    const counter = h("p",{class:"explored"});
+    const seen = new Set();
+    const upd = ()=>{ counter.textContent = `Parts explored: ${seen.size} of ${step.terms.length}`; };
+    exploreHook = k=>{ if(step.terms.includes(k)){ seen.add(k); upd(); } };
+    upd(); api.panel.append(counter, termChips(step.terms));
+  },
+  mcq(step, api){
+    const f = figHost(step, api, step.fig && step.fig());
+    if (!step.fig) api.plateHost.remove(), api.panel.parentElement.classList.add("wide");
+    api.panel.append(h("p",{class:"kicker"},step.kicker||"Your call"), h("h2",{},step.title));
+    if (step.q) api.panel.append(h("div",{html:rich(step.q)}));
+    const box = h("div",{class:"opts"}), fb = h("div");
+    let solved=false, first=true;
+    const opts = step.keep ? step.opts : shuffle(step.opts);
+    opts.forEach(o=>{
+      const b = h("button",{class:"opt"},o[0]);
+      b.addEventListener("click",()=>{
+        if (solved) return;
+        if (first){ api.grade(o[1], step.terms); first=false; }
+        fb.innerHTML="";
+        if (o[1]){
+          solved=true; b.classList.add("right");
+          $$(".opt",box).forEach(x=>x.disabled=true);
+          fb.append(h("div",{class:"fb ok",html:`<b>Correct.</b>${rich(o[2]||"")}`}));
+          if (step.after) fb.append(h("div",{class:"fb",html:rich(step.after)}));
+          if (step.afterFig && f){ const nf = plate(step.afterFig(), step.afterCap||step.cap); api.plateHost.innerHTML=""; api.plateHost.append(nf); bindTerms(nf); }
+          api.unlock();
+        } else {
+          b.classList.add("wrong"); b.disabled=true;
+          fb.append(h("div",{class:"fb bad",html:`<b>Not quite.</b>${rich(o[2]||"")} Try another answer.`}));
+        }
+        bindRich(fb);
+      });
+      box.append(b);
+    });
+    api.panel.append(box, fb); api.lock();
+  },
+  order(step, api){
+    const f = figHost(step, api, step.fig && step.fig());
+    if (!step.fig) api.plateHost.remove(), api.panel.parentElement.classList.add("wide");
+    api.panel.append(h("p",{class:"kicker"},"Put these in order"), h("h2",{},step.title), h("div",{html:rich(step.q)}));
+    const n = step.items.length, slots = new Array(n).fill(null);
+    let pool = shuffle(step.items.map((t,i)=>({t,i})));
+    let first = true;
+    const slotBox = h("div",{class:"order"}), poolBox = h("div",{class:"pool"}), fb = h("div");
+    const check = h("button",{class:"btn",disabled:true},"Check order");
+    function draw(){
+      slotBox.innerHTML=""; poolBox.innerHTML="";
+      slots.forEach((s,i)=>{
+        const el = h("div",{class:"slot"+(s?" filled":"")+(s&&s.mark?" "+s.mark:""),tabindex:s?"0":null,role:s?"button":null}, h("span",{class:"n"},String(i+1)), h("span",{}, s?s.t:"Click a step below to place it here"));
+        if (s && !s.locked) el.addEventListener("click",()=>{ pool.push(s); slots[i]=null; delete s.mark; draw(); });
+        slotBox.append(el);
+      });
+      pool.forEach(p=>{ const b=h("button",{class:"card"},p.t); b.addEventListener("click",()=>{ const k=slots.indexOf(null); if(k<0) return; slots[k]=p; pool=pool.filter(x=>x!==p); draw(); }); poolBox.append(b); });
+      check.disabled = slots.includes(null);
+    }
+    check.addEventListener("click",()=>{
+      let all=true;
+      slots.forEach((s,i)=>{ s.mark = s.i===i?"right":"wrong"; if(s.i!==i) all=false; else s.locked=true; });
+      if (first){ api.grade(all, step.terms); first=false; }
+      fb.innerHTML="";
+      if (all){ fb.append(h("div",{class:"fb ok",html:"<b>That's the right order.</b>"+rich(step.after||"")})); check.remove(); api.unlock(); draw(); bindRich(fb); return; }
+      draw();
+      fb.append(h("div",{class:"fb bad",html:"<b>Some steps are out of place.</b> The green ones are right and locked in. Click a red one to send it back, then try again."}));
+    });
+    draw();
+    api.panel.append(slotBox, poolBox, h("div",{class:"row"},check), fb); api.lock();
+  },
+  sort(step, api){
+    figHost(step, api, step.fig && step.fig());
+    if (!step.fig) api.plateHost.remove(), api.panel.parentElement.classList.add("wide");
+    api.panel.append(h("p",{class:"kicker"},"Sort them"), h("h2",{},step.title), h("div",{html:rich(step.q)}));
+    let items = shuffle(step.items.map((it,i)=>({t:it[0],bin:it[1],why:it[2],i,at:null})));
+    let sel = null, first = true;
+    const poolBox = h("div",{class:"pool"}), binBox = h("div",{class:"bins"}), fb = h("div");
+    const check = h("button",{class:"btn",disabled:true},"Check");
+    function draw(){
+      poolBox.innerHTML=""; binBox.innerHTML="";
+      items.filter(x=>x.at===null).forEach(x=>{ const b=h("button",{class:"card"+(sel===x?" sel":"")},x.t); b.addEventListener("click",()=>{ sel = sel===x?null:x; draw(); }); poolBox.append(b); });
+      step.bins.forEach((name,bi)=>{
+        const bin = h("div",{class:"bin",tabindex:"0",role:"button","aria-label":"Place in "+name}, h("h4",{},name));
+        const place = ()=>{ if(sel){ sel.at=bi; delete sel.mark; sel=null; draw(); } };
+        bin.addEventListener("click",place); bin.addEventListener("keydown",e=>{ if(e.key==="Enter") place(); });
+        items.filter(x=>x.at===bi).forEach(x=>{ const c=h("button",{class:"card"+(x.mark?" "+x.mark:"")},x.t); c.addEventListener("click",e=>{ e.stopPropagation(); if(sel){ place(); return; } if(x.locked) return; x.at=null; delete x.mark; draw(); }); bin.append(c); });
+        binBox.append(bin);
+      });
+      if (!items.some(x=>x.at===null)) poolBox.append(h("p",{class:"muted small"},"All placed. Check your sort, or click a card in a box to take it back out."));
+      else if (!sel) poolBox.prepend(h("p",{class:"muted small",style:"margin:0"},"Click a card, then click the box it belongs in."));
+      check.disabled = items.some(x=>x.at===null);
+    }
+    check.addEventListener("click",()=>{
+      let all=true; const misses=[];
+      items.forEach(x=>{ if(x.at===x.bin){ x.mark="right"; x.locked=true; } else { x.mark="wrong"; all=false; misses.push(x); } });
+      if (first){ api.grade(all, step.terms); first=false; }
+      fb.innerHTML="";
+      if (all){
+        fb.append(h("div",{class:"fb ok",html:"<b>All sorted correctly.</b>"+rich(step.after||"")}));
+        check.remove(); api.unlock(); draw(); bindRich(fb);
+        if (step.onSolved) step.onSolved(api);
+        return;
+      }
+      draw();
+      const why = misses.filter(m=>m.why).map(m=>`<li>${m.t}: ${m.why}</li>`).join("");
+      fb.append(h("div",{class:"fb bad",html:`<b>${misses.length} in the wrong box.</b>${why?`<ul style="margin:6px 0 0;padding-left:18px">${why}</ul>`:""} Move the red ones and check again.`}));
+    });
+    draw();
+    api.panel.append(poolBox, binBox, h("div",{class:"row"},check), fb); api.lock();
+  },
+  custom(step, api){ step.render(api, step); }
+};
+
+const KEYICON = `<svg class="key" viewBox="0 0 32 32" aria-hidden="true"><circle cx="9" cy="10" r="6" fill="#e9b52f" stroke="#a57a0c" stroke-width="1.5"/><circle cx="9" cy="10" r="2.2" fill="#fff"/><path d="M13 14 L26 27 M20 21 l3 -3 M23 24 l3 -3" stroke="#a57a0c" stroke-width="3" stroke-linecap="round"/></svg>`;
+function remember(title, body){ return `<div class="remember">${KEYICON}<div><b>${title}</b>${body}</div></div>`; }
+function dyk(body){ return `<div class="dyk"><b>Did you know…</b> ${body}</div>`; }
+
+/* ============ chapters ============ */
+const CHAPTERS = [
+{ id:"harvest", title:"Harvesting energy", pages:"p. 90", blurb:"Why cells need energy, and how organisms are classified by their energy source and carbon source.",
+  terms:["phototroph","chemotroph","autotroph","heterotroph","cellular-work"],
+  wrap:"Energy comes from the sun (phototrophs) or from chemical compounds (chemotrophs); carbon comes from CO₂ (autotrophs) or from organic compounds (heterotrophs). Next: what cells do with that energy.",
+  steps:[
+  {type:"brief", title:"Why do cells need energy?", fig:()=>figTroph(null), cap:"<b>Figure 1.1</b> A metabolic classification of organisms. (Notes p. 90, Fig 6.1)",
+   text:`<p>Recall that cells need three things:</p><p>1. A way to separate the inside of the cell from the outside: the membrane.<br>2. A way to encode and transmit information: nucleic acids and proteins.<br>3. Energy to do the [[cellular-work|work of the cell]]: movement, growth, pumping ions, and performing the reactions needed for cellular function.</p><p>This module is about the third one: where the energy comes from and how cells use it.</p>`, terms:["cellular-work"]},
+  {type:"review", title:"Two questions: energy and carbon", fig:()=>figTroph(null), cap:"<b>Figure 1.1</b> A metabolic classification of organisms. Click the boxes. (Notes p. 90, Fig 6.1)",
+   text:`<p>Organisms harvest energy from their environment in one of two ways:</p><p>[[phototroph|Phototrophs]] obtain energy from the sun. Plants are the most common: they use the sun's energy to convert CO₂ and water into sugar and O₂.<br>[[chemotroph|Chemotrophs]] obtain energy from chemical compounds. Animals are the most common: they ingest other organisms and break them down into CO₂ and water.</p><p>Organisms are also classified by their source of carbon:</p><p>[[autotroph|Autotrophs]] can convert CO₂ into glucose, so they make their own organic source of carbon.<br>[[heterotroph|Heterotrophs]] can't convert CO₂, so they must ingest other organisms or molecules for carbon.</p>`,
+   terms:["phototroph","chemotroph","autotroph","heterotroph"]},
+  {type:"custom", title:"Classify the organism", render:api=>simTroph(api), terms:["phototroph","chemotroph","autotroph","heterotroph"]},
+  {type:"mcq", title:"A maple tree", q:"<p>A maple tree uses sunlight for energy and builds its sugars from CO₂. What is it?</p>",
+   opts:[["A photoautotroph",true," Energy from the sun (phototroph), carbon from CO₂ (autotroph)."],["A chemoheterotroph",false," That's an animal: energy and carbon both come from the organisms it eats."],["A photoheterotroph",false," A photoheterotroph can't fix CO₂, like heliobacteria."],["A chemoautotroph",false," Chemoautotrophs, like sulfur-oxidizing bacteria, get energy from chemical compounds."]], terms:["phototroph","autotroph"]},
+  {type:"mcq", title:"You", q:"<p>Which pair describes a human?</p>",
+   opts:[["Chemotroph and heterotroph",true," You get energy by breaking down the chemical compounds in food, and your carbon comes from those same organic compounds."],["Phototroph and heterotroph",false," Humans don't capture energy from sunlight."],["Chemotroph and autotroph",false," Humans can't convert CO₂ into glucose."],["Phototroph and autotroph",false," That describes plants."]], terms:["chemotroph","heterotroph"]}
+  ]},
+
+{ id:"metab", title:"Metabolism", pages:"p. 91", blurb:"Metabolic pathways, and the two branches: anabolism builds and uses ATP, catabolism breaks down and makes ATP.",
+  terms:["metabolism","pathway","anabolism","catabolism"],
+  wrap:"Metabolism is all the chemical processes that maintain life. Catabolism breaks molecules down and produces ATP; anabolism builds molecules and uses it. Next: the forms energy takes.",
+  steps:[
+  {type:"review", title:"What is metabolism?", fig:()=>figMetab(null), cap:"<b>Figure 2.1</b> Anabolism and catabolism. (Notes p. 91, Fig 6.2)",
+   text:`<p><b>Question (from your notes):</b> What is metabolism?<br><b>Answer:</b> [[metabolism|Metabolism]] is the chemical processes that occur in a living organism to maintain life.</p><p>It includes building up and breaking down chemical compounds, which lets energy be harnessed or released. These reactions happen continuously. Many are linked so that the products of one reaction are the reactants of the next: a [[pathway|metabolic pathway]].</p><p>There are two branches. [[anabolism|Anabolism]] builds molecules from smaller units and requires an input of energy (ATP). [[catabolism|Catabolism]] breaks molecules down into smaller units and produces energy (ATP).</p>`,
+   terms:["metabolism","anabolism","catabolism"]},
+  {type:"custom", title:"Run the cycle", render:api=>simMetab(api), terms:["anabolism","catabolism","atp"]},
+  {type:"sort", title:"Build or break?", q:"<p>Sort each process into the branch of metabolism it belongs to.</p>", bins:["Anabolic (builds, uses ATP)","Catabolic (breaks down, makes ATP)"],
+   items:[["Joining amino acids into a protein",0],["Making DNA from nucleotides",0],["Linking glucose into glycogen",0],["Building fats from fatty acids",0],["Breaking glucose down to CO₂ and water",1],["Digesting a protein into amino acids",1],["Breaking starch into sugars",1]], terms:["anabolism","catabolism"]},
+  {type:"mcq", title:"Linked reactions", q:"<p>In a cell, the product of reaction 1 is the reactant of reaction 2, whose product is the reactant of reaction 3. What is this called?</p>",
+   opts:[["A metabolic pathway",true," Many reactions are linked this way."],["Chemical equilibrium",false," Equilibrium is about the balance of forward and backward reactions."],["Energetic coupling",false," Coupling pairs an exergonic and an endergonic reaction so the net ΔG is negative."],["Catabolism",false," Catabolism is one branch of metabolism; pathways exist in both branches."]], terms:["pathway"]}
+  ]},
+
+{ id:"energy", title:"Kinetic and potential energy", pages:"pp. 91–92", blurb:"Stored energy vs energy of motion, chemical energy in bonds, and why weak bonds hold more energy.",
+  terms:["potential-energy","kinetic-energy","chemical-energy","bond-strength"],
+  wrap:"Potential energy is stored; kinetic energy is motion; one converts into the other. Chemical energy is potential energy in bonds, and weak bonds hold more of it. Next: the molecule cells use to store it.",
+  steps:[
+  {type:"review", title:"Stored energy and motion", fig:figStairs, cap:"<b>Figure 3.1</b> Potential and kinetic energy. (Notes p. 91, Fig 6.3)",
+   text:`<p>There are two types of energy.</p><p>[[potential-energy|Potential energy]] is not associated with movement but is stored. A ball at the top of the stairs has high potential energy.<br>[[kinetic-energy|Kinetic energy]] is the energy of motion: the ball bouncing down the stairs.</p><p>Once the ball is at the bottom it has low potential energy. Your notes add: energy can be converted from one form to another.</p>`,
+   terms:["potential-energy","kinetic-energy"]},
+  {type:"custom", title:"Down the stairs", render:api=>simStairs(api), terms:["potential-energy","kinetic-energy"]},
+  {type:"brief", title:"Energy in chemical bonds", fig:()=>figATP(3,{hiBonds:true}), cap:"<b>Figure 3.2</b> A preview of ATP: the red bonds are weak and hold high potential energy. (Notes p. 92, Fig 6.4)",
+   text:`<p>Chemical bonds between pairs of atoms in a molecule hold a form of potential energy: [[chemical-energy|chemical energy]].</p><p>[[bond-strength|Bond strength and potential energy are linked]]:</p><p><b>Strong bonds = less potential energy.</b><br><b>Weak bonds = more potential energy.</b></p><p>This is the key to ATP, next chapter: the bonds between its phosphate groups are weak, so they hold a lot of potential energy.</p>`, terms:["chemical-energy","bond-strength"]},
+  {type:"mcq", title:"Which bond holds more?", q:"<p>Bond A is strong and stable. Bond B is weak and easily broken. Which holds more potential energy?</p>",
+   opts:[["Bond B, the weak bond",true," Weak bonds = more potential energy; strong bonds = less."],["Bond A, the strong bond",false," Your notes link them the other way: strong bonds hold less potential energy."],["They hold the same",false," Bond strength and potential energy are linked."],["Neither; bonds hold kinetic energy",false," Bonds hold potential (chemical) energy."]], terms:["bond-strength","chemical-energy"]},
+  {type:"sort", title:"Stored or moving?", q:"<p>Is each one mainly potential or kinetic energy?</p>", bins:["Potential (stored)","Kinetic (motion)"],
+   items:[["A ball at the top of the stairs",0],["Glucose sitting in a cell",0],["ATP before it is used",0],["A ball bouncing down the stairs",1],["A vesicle moving along the cell",1],["A contracting muscle",1]], terms:["potential-energy","kinetic-energy"]}
+  ]},
+
+{ id:"atp", title:"ATP, the energy currency", pages:"p. 92", blurb:"Adenine, ribose and three phosphates; AMP, ADP and ATP; and where ATP's energy is held.",
+  terms:["atp","ribose","adp-amp","phosphate-bonds","cellular-work"],
+  wrap:"ATP is adenine, ribose and three phosphate groups. Its energy is in the weak bonds between the phosphates, which repel each other. Next: the laws that govern every energy transfer.",
+  steps:[
+  {type:"review", title:"Three parts", fig:()=>figATP(3,{hiBonds:true}), labelsToggle:true, cap:"<b>Figure 4.1</b> ATP structure. (Notes p. 92, Fig 6.4)",
+   text:`<p>Cells don't use all their energy at once. It's best to keep it stored in a chemical form that is readily accessible. The most common form is [[atp|ATP]], the energy currency of the cell.</p><p>ATP (adenosine triphosphate) is made of adenine, a five-carbon sugar ([[ribose|ribose]]) and three phosphate groups. With only two phosphate groups it is ADP; with only one it is [[adp-amp|AMP]].</p><p>ATP provides energy in a form all cells can readily use to perform [[cellular-work|cellular work]]: DNA, RNA and protein synthesis, vesicle movement, pumping substances across membranes, breaking down fats and proteins, and oxidizing sugars to produce ATP.</p>`,
+   terms:["atp","ribose","adp-amp","phosphate-bonds"]},
+  {type:"custom", title:"Build ATP, then spend it", render:api=>simATP(api), terms:["atp","adp-amp","phosphate-bonds"]},
+  {type:"mcq", title:"Where is the energy?", fig:()=>figATP(3,{hiBonds:true,repel:true}), cap:"<b>Figure 4.1</b> ATP. (Notes p. 92, Fig 6.4)", q:"<p>Your notes mark this as important. Where is ATP's chemical energy held?</p>",
+   opts:[["In the bonds connecting the phosphate groups",true," These bonds are weak, so they have high potential energy. Breaking them releases it for the cell to do work."],["In the adenine ring",false," Adenine is the base; the energy is in the phosphate chain."],["In the ribose sugar",false," Ribose links adenine to the phosphates."],["In the bond between adenine and ribose",false," That's part of adenosine, not the energy store."]],
+   after:remember("Important (notes p. 92):"," the chemical energy of ATP is held in the bonds connecting the phosphate groups."), terms:["phosphate-bonds","atp"]},
+  {type:"mcq", title:"Why so much energy?", q:"<p>Why are the bonds between ATP's phosphate groups weak?</p>",
+   opts:[["The phosphate groups are all negatively charged and repel one another",true," At physiological pH they resist one another, so the bonds linking them are unstable and hold a lot of potential energy (notes pp. 92, 95)."],["Phosphorus can't form covalent bonds",false," The phosphates are joined by covalent bonds; they're just weak ones."],["Ribose pulls the phosphates apart",false," The repulsion is between the charged phosphates themselves."],["They are hydrogen bonds",false," They are covalent bonds."]], terms:["phosphate-bonds"]},
+  {type:"mcq", title:"Fewest phosphates", q:"<p>Rank by potential energy. Which has the least?</p>",
+   opts:[["AMP: one phosphate group",true," ATP (three) > ADP (two) > AMP (one)."],["ADP: two phosphate groups",false," ADP has one more phosphate than AMP."],["ATP: three phosphate groups",false," ATP has the most."],["They're all equal",false," Each phosphate bond holds potential energy."]], terms:["adp-amp"]}
+  ]},
+
+{ id:"thermo", title:"Laws of thermodynamics", pages:"p. 93", blurb:"Energy is neither created nor destroyed, and every transformation loses some usable energy as heat.",
+  terms:["thermodynamics","first-law","second-law","spontaneous","entropy"],
+  wrap:"First law: total energy is constant. Second law: events run downhill, and each transformation loses usable energy, often as heat, increasing entropy. Next: how this applies to chemical reactions.",
+  steps:[
+  {type:"review", title:"The first law", fig:()=>figLaw(1), labelsToggle:true, cap:"<b>Figure 5.1</b> The first law of thermodynamics. (Notes p. 93, Fig 6.5)",
+   text:`<p>[[thermodynamics|Thermodynamics]] is the study of changes in energy that accompany events in the universe. Its concepts let us predict the direction events will take and whether an input of energy is required.</p><p>[[first-law|First law]]: <b>energy can be neither created nor destroyed.</b> It can be converted from one form to another, for example the chemical energy in food into the kinetic energy of movement. Total energy before = total energy after.</p>${remember("Note (p. 93):"," when electrons move from a higher to a lower energy level, energy is released as heat or light.")}`,
+   terms:["thermodynamics","first-law"]},
+  {type:"review", title:"The second law", fig:()=>figLaw(2), labelsToggle:true, cap:"<b>Figure 5.2</b> The second law of thermodynamics. (Notes p. 93, Fig 6.6)",
+   text:`<p>[[second-law|Second law]]: events in the universe have direction. They proceed from a higher energy state to a lower energy state.</p><p>These events are thermodynamically favourable and are said to be [[spontaneous|spontaneous]]: they need no input of external energy.</p><p>Each event reduces the amount of usable energy, because energy transformations are not 100% efficient. Some energy is released, often as heat, resulting in increased [[entropy|entropy]]. Total energy is still the same (first law); less of it is available to do work.</p>`,
+   terms:["second-law","spontaneous","entropy"]},
+  {type:"custom", title:"Follow the energy", render:api=>simLaws(api), terms:["first-law","second-law","entropy"]},
+  {type:"sort", title:"First or second law?", q:"<p>Which law does each statement describe?</p>", bins:["First law","Second law"],
+   items:[["Energy can be neither created nor destroyed",0],["Total energy before = total energy after",0],["Chemical energy can become kinetic energy",0],["Events go from a higher to a lower energy state",1],["Energy transformations are not 100% efficient",1],["Some energy is lost as heat, increasing entropy",1]], terms:["first-law","second-law"]},
+  {type:"mcq", title:"Where did it go?", q:"<p>A muscle cell uses the energy in glucose to contract, but only part of that energy ends up as movement. What happened to the rest?</p>",
+   opts:[["It was released, mostly as heat, increasing entropy",true," The second law: transformations are not 100% efficient. The first law says it wasn't destroyed."],["It was destroyed",false," The first law: energy can't be destroyed."],["It was stored as new energy the cell created",false," Energy can't be created either."],["It stayed in the glucose",false," The glucose was used; its energy was converted."]], terms:["second-law","entropy","first-law"]}
+  ]},
+
+{ id:"freeg", title:"Chemical reactions and free energy", pages:"pp. 94–95", blurb:"Bonds breaking and forming, Gibbs free energy, ΔG, and endergonic vs exergonic reactions.",
+  terms:["chemical-reaction","reactants","products","equilibrium","gibbs","delta-g","endergonic","exergonic","enthalpy","gibbs-equation"],
+  wrap:"ΔG = G(products) − G(reactants). Negative ΔG: exergonic, spontaneous, energy released. Positive ΔG: endergonic, nonspontaneous, energy required. Next: how cells pay for the endergonic ones.",
+  steps:[
+  {type:"review", title:"Bonds change, atoms don't", fig:figReaction, labelsToggle:true, cap:"<b>Figure 6.1</b> A chemical reaction: CO₂ + H₂O ⇌ H₂CO₃. (Notes p. 94, Fig 6.7)",
+   text:`<p>In a [[chemical-reaction|chemical reaction]], atoms keep their identity but the bonds linking them change.</p><p>In the figure, the [[reactants|reactants]] are carbon dioxide and water. One C–O bond in CO₂ and one O–H bond in H₂O break. New covalent bonds form between the C of CO₂ and the O of water, and between an O of CO₂ and an H of water. The [[products|product]] is carbonic acid.</p><p>The concentrations of products and reactants can influence whether a reaction proceeds forward or backward ([[equilibrium|chemical equilibrium]]), shown by the double arrow.</p>`,
+   terms:["chemical-reaction","reactants","products","equilibrium"]},
+  {type:"review", title:"Free energy and ΔG", fig:figDG, cap:"<b>Figure 6.2</b> Endergonic and exergonic reactions. (Notes p. 94, Fig 6.8)",
+   text:`<p>The amount of energy in a system available to do work is [[gibbs|Gibbs free energy]] (G). [[delta-g|ΔG]] is the difference in free energy between the reactants and products.</p><p>If the products have <b>more</b> free energy than the reactants: [[endergonic|endergonic]], +ΔG, thermodynamically unfavourable (nonspontaneous). It needs an input of energy.</p><p>If the reactants have <b>more</b> free energy than the products: [[exergonic|exergonic]], −ΔG, thermodynamically favourable (spontaneous). Energy is available for use in other processes.</p>${remember("Key (p. 94):"," endergonic reactions require energy; exergonic reactions release energy.")}`,
+   terms:["gibbs","delta-g","endergonic","exergonic"]},
+  {type:"custom", title:"Set the free energy", render:api=>simDeltaG(api), terms:["delta-g","endergonic","exergonic"]},
+  {type:"brief", title:"ΔG = ΔH − TΔS", fig:()=>figLaw(2), cap:"<b>Figure 6.3</b> Total energy splits into energy available to do work and energy lost to entropy. (Notes pp. 93, 95)",
+   text:`<p><b>Total energy (H) = energy available to do work (G) + energy lost to entropy (S).</b></p><p>Rearranged for Gibbs free energy: <b>[[gibbs-equation|ΔG = ΔH − TΔS]]</b></p><p>H = total energy ([[enthalpy|enthalpy]])<br>G = energy available to do work<br>S = energy lost to [[entropy|entropy]] or disorder<br>T = absolute temperature in Kelvin</p><p>Temperature influences the movement of molecules and adds to the degree of disorder.</p>${remember("Remember:"," Δ = change = final state − initial state.")}`, terms:["gibbs-equation","enthalpy","entropy"]},
+  {type:"mcq", title:"Use the equation", q:"<p>For a reaction, ΔH = −10 kcal/mol and TΔS = +2 kcal/mol. What is ΔG, and what kind of reaction is it?</p>",
+   opts:[["−12 kcal/mol; exergonic",true," ΔG = ΔH − TΔS = −10 − (+2) = −12. Negative ΔG: exergonic and spontaneous."],["−8 kcal/mol; exergonic",false," Subtract TΔS: −10 − 2, not −10 + 2."],["+12 kcal/mol; endergonic",false," Check the signs: −10 − 2 = −12."],["−12 kcal/mol; endergonic",false," Negative ΔG means exergonic."]], terms:["gibbs-equation","exergonic"]},
+  {type:"sort", title:"Endergonic or exergonic?", q:"<p>Sort each description.</p>", bins:["Endergonic (+ΔG)","Exergonic (−ΔG)"],
+   items:[["Products have more free energy than reactants",0],["Needs an input of energy",0],["Nonspontaneous",0],["Building a protein from amino acids",0],["Reactants have more free energy than products",1],["Spontaneous",1],["ATP + H₂O → ADP + Pᵢ",1],["Breaking glucose down to CO₂ and water",1]], terms:["endergonic","exergonic"]}
+  ]},
+
+{ id:"couple", title:"ATP hydrolysis and energetic coupling", pages:"pp. 95–96", blurb:"Why ATP hydrolysis is exergonic, and how it drives endergonic reactions.",
+  terms:["atp-hydrolysis","phosphate-bonds","adp-amp","coupling","equilibrium","endergonic","exergonic"],
+  wrap:"ATP + H₂O → ADP + Pᵢ releases 7.3 kcal/mol. Coupled to an endergonic reaction, it makes the net ΔG negative so both run. Next: why reactions need a push to start at all.",
+  steps:[
+  {type:"review", title:"What happens when ATP is hydrolyzed?", fig:figHydrolysis, cap:"<b>Figure 7.1</b> ATP hydrolysis. (Notes p. 95, Fig 6.9)",
+   text:`<p><b>Question (from your notes):</b> What happens when ATP is hydrolyzed?<br><b>Answer:</b> The reaction of ATP with water is [[exergonic|exergonic]] (spontaneous): [[atp-hydrolysis|ATP + H₂O → ADP + Pᵢ]], releasing free energy (ΔG = −7.3 kcal/mol).</p><p>At physiological pH the phosphate groups in ATP are negatively charged and resist one another. Compared to ATP, which has three phosphate groups, [[adp-amp|ADP]] has two, so it has lower potential energy.</p>`,
+   terms:["atp-hydrolysis","adp-amp","exergonic"]},
+  {type:"brief", title:"Running uphill reactions", fig:figCoupling, cap:"<b>Figure 7.2</b> Energetic coupling. (Notes p. 96, Fig 6.11)",
+   text:`<p>Cells can carry out many reactions with a +ΔG. This happens for two reasons:</p><p>1. The relative concentrations of reactants to products are kept above those defined by the equilibrium constant ([[equilibrium|chemical equilibrium]]), which pushes the reaction forward.</p><p>2. [[coupling|Coupling]] endergonic and exergonic reactions. For example, hydrolysis of ATP drives endergonic reactions.</p><p>In the figure, adding a phosphate to glucose is endergonic (+3.3 kcal/mol). Coupled with ATP hydrolysis (−7.3 kcal/mol), the net ΔG is −4 kcal/mol, so the coupled reaction proceeds. Pᵢ is shared between the two reactions.</p>`, terms:["coupling","equilibrium"]},
+  {type:"custom", title:"Pay with ATP", render:api=>simCouple(api), terms:["coupling","atp-hydrolysis","endergonic"]},
+  {type:"mcq", title:"Does it run?", q:"<p>An endergonic reaction has ΔG = +5.0 kcal/mol. It is coupled to the hydrolysis of one ATP (−7.3 kcal/mol). What is the net ΔG?</p>",
+   opts:[["−2.3 kcal/mol, so the coupled reaction proceeds",true," +5.0 + (−7.3) = −2.3. Negative net ΔG: favourable."],["+12.3 kcal/mol, so it can't proceed",false," ATP hydrolysis has a negative ΔG; add it, don't subtract it."],["+2.3 kcal/mol, so it can't proceed",false," Check the sign: 5.0 − 7.3 = −2.3."],["−7.3 kcal/mol, the same as ATP alone",false," Both ΔG values count."]], terms:["coupling"]},
+  {type:"mcq", title:"Why ADP is lower", q:"<p>Why does ADP have lower potential energy than ATP?</p>",
+   opts:[["It has one fewer negatively charged phosphate group, so less repulsion is stored in its bonds",true," ATP has three phosphates resisting one another; ADP has two."],["ADP has no ribose",false," ADP still has adenine and ribose."],["ADP has more phosphate groups",false," ADP (di) has two; ATP (tri) has three."],["ADP is bonded to water",false," Water is used in hydrolysis, not kept in ADP."]], terms:["adp-amp","phosphate-bonds"]}
+  ]},
+
+{ id:"enzymes", title:"Activation energy and enzymes", pages:"pp. 95–97", blurb:"The activation energy barrier, how enzymes lower it, the active site, and the enzyme cycle.",
+  terms:["activation-energy","transition-state","enzyme","active-site","substrate","es-complex","lock-key","induced-fit"],
+  wrap:"Enzymes speed reactions by lowering the activation energy; they don't change ΔG. The active site binds the substrate, stabilizes the transition state, and releases the product. Next: how cells turn enzymes up and down.",
+  steps:[
+  {type:"review", title:"The activation energy barrier", fig:figEA, labelsToggle:true, cap:"<b>Figure 8.1</b> An enzyme-catalyzed reaction. (Notes p. 95, Fig 6.10)",
+   text:`<p>Chemical transformations require breaking certain covalent bonds within the reactant. Reactants must have enough kinetic energy to get over the [[activation-energy|activation energy]] barrier (E<sub>A</sub>), to the [[transition-state|transition state]] at the top.</p><p>[[enzyme|Enzymes]] catalyze reactions by decreasing the size of the E<sub>A</sub> barrier, so the reaction can proceed.</p><p>Look at the figure: <b>ΔG is the same with and without an enzyme.</b> An enzyme changes how fast a reaction goes, not whether it is exergonic or endergonic.</p>`,
+   terms:["activation-energy","transition-state","enzyme","delta-g"]},
+  {type:"custom", title:"Get over the hump", render:api=>simEA(api), terms:["activation-energy","enzyme"]},
+  {type:"review", title:"The active site", fig:figActiveSite, labelsToggle:true, cap:"<b>Figure 8.2</b> The enzyme active site forms when the enzyme folds. (Notes p. 96, Fig 6.12)",
+   text:`<p><b>Question (from your notes):</b> How are chemical reactions catalyzed?<br><b>Answer:</b> By proteins called [[enzyme|enzymes]].</p><p>The [[active-site|active site]] is formed by the assembly of certain amino acids in a 3-D structure. These amino acids are often far apart in the linear sequence; folding brings them together (tertiary structure, Module 5).</p><p>The active site binds the [[substrate|substrate(s)]] and converts it to the product(s). It also helps stabilize the transition state, which lowers the activation energy.</p>`,
+   terms:["active-site","substrate","enzyme"]},
+  {type:"custom", title:"Inside the active site", render:api=>simFit(api), terms:["es-complex","induced-fit","lock-key"]},
+  {type:"order", title:"One catalytic cycle", q:"<p>Put the steps of one enzyme cycle in order (notes p. 97, Fig 6.13).</p>",
+   items:["E + S: the enzyme and its substrate are separate","ES: the substrate binds the active site","EP: the substrate is converted to product while still bound","E + P: the product is released and the enzyme is free to act again"], after:" Anabolic and catabolic reactions are both catalyzed by enzymes this way.", terms:["es-complex","substrate"]},
+  {type:"mcq", title:"What does the enzyme change?", fig:figEA, cap:"<b>Figure 8.1</b> Catalyzed and uncatalyzed.", q:"<p>An enzyme is added to an exergonic reaction. Which changes?</p>",
+   opts:[["The activation energy decreases; ΔG stays the same",true," The enzyme lowers the barrier, so the reaction proceeds faster. The start and end free energies don't change."],["ΔG becomes more negative",false," ΔG is the same with and without an enzyme."],["The reaction becomes endergonic",false," Enzymes don't change the direction of ΔG."],["The products gain free energy",false," The product level doesn't move."]], terms:["enzyme","activation-energy","delta-g"]}
+  ]},
+
+{ id:"regulate", title:"Enzyme regulation", pages:"p. 97", blurb:"Competitive and noncompetitive inhibitors, reversible and irreversible inhibition, activators, and feedback inhibition.",
+  terms:["inhibitor","competitive","noncompetitive","activator","feedback-inhibition","allosteric","pathway"],
+  wrap:"Inhibitors lower enzyme activity (competitive at the active site, noncompetitive elsewhere; reversible or irreversible) and activators raise it. Feedback inhibition lets a pathway's end product switch off its first enzyme. Last: the whole module in one go.",
+  steps:[
+  {type:"review", title:"Inhibitors and activators", fig:figInhib, cap:"<b>Figure 9.1</b> Enzyme-substrate interactions and inhibition. (Notes p. 97, Fig 6.13)",
+   text:`<p>It is possible to affect enzyme activity.</p><p>Activity can be reduced by two different kinds of [[inhibitor|inhibitors]]: <b>reversible</b> and <b>irreversible</b>.</p><p>A [[competitive|competitive inhibitor]] binds the active site, competing with the substrate and reducing the rate of the reaction.<br>A [[noncompetitive|noncompetitive inhibitor]] binds a site other than the active site, changing the shape of the enzyme and reducing the rate of the reaction.</p><p>Activity can be increased by [[activator|activators]].</p>`,
+   terms:["inhibitor","competitive","noncompetitive","activator"]},
+  {type:"custom", title:"Slow the enzymes down", render:api=>simInhib(api), terms:["competitive","noncompetitive","inhibitor"]},
+  {type:"sort", title:"Competitive or noncompetitive?", q:"<p>Sort each statement.</p>", bins:["Competitive","Noncompetitive"],
+   items:[["Binds the active site",0],["Competes directly with the substrate",0],["Often shaped like the substrate",0],["Binds a site other than the active site",1],["Changes the shape of the enzyme",1],["Works by changing the active site's shape from a distance",1]], terms:["competitive","noncompetitive"]},
+  {type:"review", title:"Feedback inhibition", fig:()=>figFeedback(1), cap:"<b>Figure 9.2</b> An allosteric enzyme. (Notes p. 97, Fig 6.14)",
+   text:`<p>Because energy is needed for chemical reactions, many [[pathway|metabolic pathways]] are regulated.</p><p>In [[feedback-inhibition|feedback inhibition]] the final product of a pathway inhibits the first step. This is important for maintaining balance in the cell and helping it conserve energy.</p><p>In the figure, threonine is converted to isoleucine in five steps. Isoleucine binds threonine dehydratase, the first enzyme, at a site other than the active site: it is an [[allosteric|allosteric]] inhibitor.</p>`,
+   terms:["feedback-inhibition","allosteric","pathway"]},
+  {type:"custom", title:"Isoleucine on demand", render:api=>simFeedback(api), terms:["feedback-inhibition","allosteric"]},
+  {type:"mcq", title:"Why bother?", q:"<p>Why does the isoleucine pathway shut itself off when isoleucine builds up?</p>",
+   opts:[["To keep balance in the cell and conserve energy, since making more isoleucine than needed wastes energy",true,""],["Because isoleucine is toxic to all enzymes",false," It inhibits one specific enzyme, the first in its own pathway."],["Because threonine runs out",false," The pathway stops because of the end product, not the starting material."],["To make the reactions endergonic",false," Inhibitors change enzyme activity, not ΔG."]], terms:["feedback-inhibition"]}
+  ]},
+
+{ id:"finale", title:"Making life work", pages:"pp. 89–98", blurb:"The finale: follow a meal from food to muscle work, one call at a time.",
+  terms:["chemotroph","catabolism","anabolism","atp-hydrolysis","coupling","enzyme","feedback-inhibition"],
+  wrap:"Energy in, energy stored as ATP, energy spent on work, and enzymes controlling every step. Try the enzyme desk for endless practice, or take the mini exam.",
+  steps:[
+  {type:"custom", title:"From a meal to a muscle", render:api=>simFinale6(api), terms:["catabolism","atp"]}
+  ]}
+];
+
+/* ============ sim helpers ============ */
+function makeCanvas(W,H,label){
+  const cv = h("canvas",{role:"img","aria-label":label||""}); const dpr = Math.min(2, window.devicePixelRatio||1);
+  cv.width=W*dpr; cv.height=H*dpr; const ctx=cv.getContext("2d"); ctx.scale(dpr,dpr); return {cv,ctx,W,H};
+}
+function label(ctx,t,x,y,opts={}){ ctx.fillStyle=opts.col||"#1c2830"; ctx.font=`${opts.it?"italic ":""}${opts.w||400} ${opts.s||13}px Source Sans 3, Arial`; ctx.textAlign=opts.a||"left"; ctx.textBaseline="alphabetic"; ctx.fillText(t,x,y); }
+function inlineMCQ(host, q, opts, api, key, terms, onRight){
+  host.append(h("p",{style:"margin-top:10px"},h("b",{},q)));
+  const box=h("div",{class:"opts"}), fb=h("div"); let first=true, done=false;
+  shuffle(opts).forEach(o=>{ const b=h("button",{class:"opt"},o[0]); b.addEventListener("click",()=>{
+    if(done) return; if(first){ api.gradeKey(key,o[1],terms); first=false; }
+    fb.innerHTML="";
+    if(o[1]){ done=true; b.classList.add("right"); $$(".opt",box).forEach(x=>x.disabled=true); fb.append(h("div",{class:"fb ok",html:"<b>Correct.</b>"+o[2]})); onRight&&onRight(); }
+    else { b.classList.add("wrong"); b.disabled=true; fb.append(h("div",{class:"fb bad",html:"<b>Not quite.</b>"+o[2]+" Try another answer."})); }
+  }); box.append(b); });
+  host.append(box,fb);
+}
+
+
+/* ============ shared sim bits ============ */
+function taskList(items, done){ return h("div",{},h("b",{},"Tasks"),h("ul",{style:"margin:4px 0;padding-left:20px"},...items.map(([k,t])=>h("li",{style:done[k]?"color:var(--ok);font-weight:600":""},(done[k]?"Done: ":"")+t)))); }
+function meterRow(name,frac,col,txtv){ return h("div",{class:"stat"},h("span",{},name),h("div",{style:"display:flex;align-items:center;gap:8px"},h("div",{class:"meter",style:"flex:1"},h("i",{style:`width:${Math.max(0,Math.min(100,frac*100)).toFixed(0)}%;background:${col};transition:none`})),h("span",{class:"readout",style:"min-width:54px;text-align:right"},txtv||""))); }
+const fmtG=v=>(v>0?"+":v<0?"−":"")+Math.abs(v).toFixed(1);
+
+/* ============ Classify the organism (notes p. 90, Fig 6.1) ============ */
+const TROPH_ORGS=[
+ {n:"Cyanobacteria",d:"Bacteria that capture sunlight and build their sugars from CO₂.",q:"pa"},
+ {n:"An oak tree",d:"Uses the sun's energy to convert CO₂ and water into sugar and O₂.",q:"pa"},
+ {n:"Heliobacteria",d:"Bacteria that capture light energy but can't convert CO₂; they take in organic compounds for carbon.",q:"ph"},
+ {n:"Green nonsulfur bacteria",d:"Most use light for energy and take up organic compounds as their carbon source.",q:"ph"},
+ {n:"Sulfur-oxidizing bacteria",d:"Get energy from a chemical reaction with sulfur compounds and build their sugars from CO₂.",q:"ca"},
+ {n:"Hydrogen bacteria",d:"Get energy from hydrogen gas, a chemical compound, and build their sugars from CO₂.",q:"ca"},
+ {n:"A cheetah",d:"Eats other animals and breaks them down for both energy and carbon.",q:"ch"},
+ {n:"Most bacteria (e.g. gut bacteria)",d:"Break down organic molecules they absorb, for both energy and carbon.",q:"ch"}];
+const QNAME={pa:"photoautotroph",ph:"photoheterotroph",ca:"chemoautotroph",ch:"chemoheterotroph"};
+function simTroph(api){
+  const pick=["pa","ph","ca","ch"].map(q=>shuffle(TROPH_ORGS.filter(o=>o.q===q))[0]);
+  const extra=shuffle(TROPH_ORGS.filter(o=>!pick.includes(o)))[0]; const list=shuffle([...pick,extra]);
+  let i=0, right=0, hl=null; const host=h("div"), body=h("div");
+  api.plateHost.innerHTML=""; api.plateHost.append(host);
+  function fig(){ host.innerHTML=""; const f=plate(figTroph(hl),"<b>Figure 1.2</b> Where each organism sits. (Notes p. 90, Fig 6.1)"); host.append(f); bindTerms(f); }
+  function draw(){ body.innerHTML=""; fig();
+    if(i>=list.length){ body.append(h("div",{class:"fb ok",html:rich(`<b>All ${list.length} classified.</b> ${right} of ${list.length} right on the first try. Two questions place any organism: where its energy comes from ([[phototroph|phototroph]] or [[chemotroph|chemotroph]]) and where its carbon comes from ([[autotroph|autotroph]] or [[heterotroph|heterotroph]]).`)})); bindRich(body); api.unlock(); return; }
+    const o=list[i]; let ok1=false, first=true, wrongAny=false;
+    body.append(h("div",{class:"idcard"},h("div",{class:"hd"},h("b",{},o.n),h("span",{},`${i+1} of ${list.length}`)),h("p",{style:"padding:10px 14px;margin:0"},o.d)));
+    const g1=h("div",{class:"gates"}), g2=h("div",{class:"gates"}), fb=h("div"), q2=h("div");
+    const mk=(host,opts,ans,onRight)=>opts.forEach(([k,t])=>{ const b=h("button",{class:"gate"},t); b.onclick=()=>{ if(k===ans){ b.classList.add("right"); $$(".gate",host).forEach(x=>x.disabled=true); onRight(); } else { wrongAny=true; b.classList.add("wrong"); b.disabled=true; fb.innerHTML=""; fb.append(h("div",{class:"fb bad",html:"<b>Not quite.</b> Read the description again: what does it use for "+(host===g1?"energy?":"carbon?")})); } }; host.append(b); });
+    mk(g1,[["p","Energy from sunlight"],["c","Energy from chemical compounds"]],o.q[0],()=>{ fb.innerHTML=""; q2.append(h("p",{style:"margin:8px 0 0"},h("b",{},"Carbon source?")),g2); });
+    mk(g2,[["a","Carbon from CO₂ (inorganic)"],["h","Carbon from organic compounds"]],o.q[1],()=>{ api.gradeKey("o"+i,!wrongAny,TROPH_Q[o.q]); if(!wrongAny) right++; hl=o.q; fig();
+      fb.innerHTML=""; fb.append(h("div",{class:"fb ok",html:`<b>${o.n}: ${QNAME[o.q]}.</b> ${o.q[0]==="p"?"Phototroph":"Chemotroph"} for energy, ${o.q[1]==="a"?"autotroph":"heterotroph"} for carbon.`}), h("button",{class:"btn",style:"margin-top:6px",onclick:()=>{ i++; hl=null; draw(); }},i+1<list.length?"Next organism":"Finish")); });
+    body.append(h("p",{style:"margin:10px 0 0"},h("b",{},"Energy source?")),g1,q2,fb); }
+  api.panel.append(h("p",{class:"kicker"},"Classify it"), h("h2",{},"Classify the organism"), h("p",{},"Read each description, then answer the two questions from Fig 6.1."), body);
+  api.lock(); draw();
+}
+
+/* ============ Run the metabolism cycle (notes p. 91, Fig 6.2) ============ */
+const MPROC_A=["Join amino acids into a protein","Link nucleotides into DNA","Build glycogen from glucose"], MPROC_C=["Break glucose down to CO₂ and water","Digest a fat into fatty acids","Break a protein into amino acids"];
+function simMetab(api){
+  const A=shuffle(MPROC_A), C=shuffle(MPROC_C), list=[]; for(let k=0;k<3;k++){ list.push([C[k],"cat"],[A[k],"ana"]); }
+  let i=0, pool=4, right=0, act=null; const host=h("div"), body=h("div"), meter=h("div"), q=h("div");
+  api.plateHost.innerHTML=""; api.plateHost.append(host);
+  function fig(){ host.innerHTML=""; const f=plate(figMetab(act),"<b>Figure 2.2</b> Anabolism and catabolism. The moving arrow shows the branch in use. (Notes p. 91, Fig 6.2)"); host.append(f); bindTerms(f); }
+  let off=0; loop(dt=>{ off-=dt*40; const p=host.querySelector("path.flow."+act); if(p){ p.setAttribute("stroke-dasharray","16 10"); p.setAttribute("stroke-dashoffset",off.toFixed(1)); } });
+  function drawMeter(){ meter.innerHTML=""; meter.append(h("p",{style:"margin:6px 0 2px"},h("b",{},"ATP in the cell: "),String(pool)), h("div",{class:"row",style:"gap:4px"},...Array.from({length:10},(_,k)=>h("span",{style:`width:22px;height:22px;border-radius:50%;display:inline-block;border:1px solid #b8901c;background:${k<pool?"#f6d36b":"transparent"}`})))); }
+  function draw(){ body.innerHTML=""; fig(); drawMeter();
+    if(i>=list.length){ body.append(h("div",{class:"fb ok",html:rich(`<b>All six done.</b> ${right} of 6 right on the first try. [[catabolism|Catabolism]] refilled the ATP that [[anabolism|anabolism]] spent.`)})); bindRich(body);
+      if(!q.childElementCount) inlineMCQ(q,"So where does the energy for anabolism come from?",[["ATP made by catabolism",1," Breaking molecules down produces ATP; building them up spends it."],["Anabolism makes its own ATP",0," Anabolism requires an input of energy."],["Directly from sunlight in every cell",0," Only phototrophs capture sunlight, and even they store it as chemical energy first."],["From the subunits themselves",0," Subunits are the building blocks; joining them needs ATP."]],api,"src",["anabolism","catabolism"],()=>api.unlock());
+      body.append(q); return; }
+    const [t,ans]=list[i]; let first=true;
+    body.append(h("div",{class:"idcard"},h("div",{class:"hd"},h("b",{},t),h("span",{},`${i+1} of 6`))));
+    const g=h("div",{class:"gates"}), fb=h("div");
+    [["ana","Anabolic: building up"],["cat","Catabolic: breaking down"]].forEach(([k,lbl])=>{ const b=h("button",{class:"gate"},lbl); b.onclick=()=>{ const ok=k===ans; if(first){ first=false; api.gradeKey("m"+i,ok,["anabolism","catabolism"]); if(ok) right++; }
+      if(ok){ act=k; pool=Math.max(0,Math.min(10,pool+(k==="cat"?3:-2))); fig(); drawMeter(); b.classList.add("right"); $$(".gate",g).forEach(x=>x.disabled=true); fb.innerHTML="";
+        fb.append(h("div",{class:"fb ok",html:k==="cat"?"<b>Catabolic.</b> Molecules are broken into smaller units and ATP is produced (ADP + Pᵢ → ATP).":"<b>Anabolic.</b> Molecules are built from smaller units, which requires an input of energy (ATP + H₂O → ADP + Pᵢ)."}), h("button",{class:"btn",style:"margin-top:6px",onclick:()=>{ i++; draw(); }},i<5?"Next process":"Finish")); }
+      else { b.classList.add("wrong"); b.disabled=true; fb.innerHTML=""; fb.append(h("div",{class:"fb bad",html:"<b>Not quite.</b> Is it making something bigger, or breaking something into smaller units?"})); } }; g.append(b); });
+    body.append(g,fb); }
+  api.panel.append(h("p",{class:"kicker"},"Run it"), h("h2",{},"Run the cycle"), h("p",{},"A cell does six jobs. Decide which branch each belongs to, and watch the ATP supply."), meter, body);
+  api.lock(); draw();
+}
+
+/* ============ Ball on the stairs (notes p. 91, Fig 6.3) ============ */
+function simStairs(api){
+  const W=760,H=360; const {cv,ctx}=makeCanvas(W,H,"A ball rolling down stairs, with energy bars");
+  const r=16, FLOOR=330, steps=[[80,200,150],[200,320,210],[320,440,270]];
+  const surf=x=>{ for(const [a,b,y] of steps) if(x>=a&&x<b) return y; return FLOOR; };
+  const g=700, REST=FLOOR-r;
+  const S={x:130,y:150-r,vx:0,vy:0,state:"top",E0:0,done:{roll:false,rest:false}};
+  const pe=()=>g*(REST-S.y), ke=()=>0.5*(S.vx*S.vx+S.vy*S.vy);
+  function reset(){ S.x=130; S.y=150-r; S.vx=0; S.vy=0; S.state="top"; }
+  function step(dt){ if(S.state!=="moving") return;
+    S.vy+=g*dt; S.x+=S.vx*dt; S.y+=S.vy*dt; const gr=surf(S.x)-r;
+    if(S.y>=gr){ S.y=gr; if(S.vy>60) S.vy=-S.vy*0.5; else S.vy=0; }
+    if(S.vy===0 && S.y>=REST-0.5){ S.vx*=Math.exp(-1.3*dt); if(Math.abs(S.vx)<3){ S.vx=0; S.state="rest"; } } }
+  loop(dt=>{ for(let k=0;k<4;k++) step(dt/4);
+    ctx.fillStyle="#fff"; ctx.fillRect(0,0,W,H);
+    ctx.fillStyle="#cfdbe2"; ctx.strokeStyle="#7a8a96"; ctx.lineWidth=1.5; ctx.beginPath(); ctx.moveTo(80,FLOOR); steps.forEach(([a,b,y])=>{ ctx.lineTo(a,y); ctx.lineTo(b,y); }); ctx.lineTo(440,FLOOR); ctx.closePath(); ctx.fill(); ctx.stroke();
+    ctx.beginPath(); ctx.moveTo(20,FLOOR); ctx.lineTo(W-20,FLOOR); ctx.stroke();
+    ctx.fillStyle="#f6d36b"; ctx.strokeStyle="#b8901c"; ctx.beginPath(); ctx.arc(S.x,S.y,r,0,7); ctx.fill(); ctx.stroke(); ctx.fillStyle="rgba(255,255,255,.7)"; ctx.beginPath(); ctx.arc(S.x-5,S.y-6,5,0,7); ctx.fill();
+    // energy bars
+    const E=S.E0||(g*(REST-(150-r))+0.5*80*80), P=Math.max(0,pe()), K=Math.max(0,ke()), Q=Math.max(0,E-P-K);
+    const bx=500,bw=50,bh=200,by=40; const bars=[["Potential",P,MC6.pe],["Kinetic",K,MC6.ke],["Heat",Q,MC6.heat]];
+    bars.forEach(([n,v,c],k)=>{ const x=bx+k*(bw+14), hh=bh*v/E; ctx.strokeStyle="#cbd5d7"; ctx.strokeRect(x,by,bw,bh); ctx.fillStyle=c; ctx.fillRect(x,by+bh-hh,bw,hh); label(ctx,n,x+bw/2,by+bh+16,{a:"center",s:14,w:600}); });
+    label(ctx,"Energy",bx,by-12,{s:15,w:700}); label(ctx,"Total stays the same",bx+96,by-12,{s:14,col:"#4b5b64",it:true});
+    label(ctx,S.state==="top"?"At the top: high potential energy":S.state==="moving"?"Moving: potential energy becomes kinetic energy":"At the bottom: low potential energy",16,26,{s:17,w:700});
+    if(S.state==="rest" && !S.done.rest){ S.done.rest=true; say(); }
+  });
+  api.plateHost.innerHTML=""; api.plateHost.append(plate(cv,"<b>Figure 3.2</b> Potential energy turning into kinetic energy. Bars show where the energy is. (Notes p. 91, Fig 6.3)"));
+  const note=h("div",{class:"fb"}), tasks=h("div"), q=h("div");
+  function say(m){ if(m) { note.innerHTML=rich(m); bindRich(note); } tasks.innerHTML=""; tasks.append(taskList([["roll","Let the ball roll off the top step"],["rest","Watch until it stops at the bottom"]],S.done));
+    if(S.done.rest && !q.childElementCount){ note.innerHTML=rich("It stopped. The [[potential-energy|potential energy]] it had at the top became [[kinetic-energy|kinetic energy]] on the way down, and each bounce and roll turned some into heat. The total never changed: energy was converted, not lost."); bindRich(note);
+      inlineMCQ(q,"Which ball has the most potential energy?",[["One resting on the top step",1," Stored energy depends on position: highest = most potential energy."],["One bouncing halfway down",0," Some of its potential energy is already kinetic."],["One resting on the floor",0," That's low potential energy."],["They all have the same",0," Potential energy changes with position."]],api,"pe",["potential-energy"],()=>api.unlock()); } }
+  const go=h("button",{class:"btn"},"Let it roll"); go.onclick=()=>{ if(S.state!=="top") reset(); S.vx=80; S.state="moving"; S.E0=pe()+ke(); S.done.roll=true; say("Watch the bars: blue (potential) drains into orange (kinetic) as it falls, and each bounce turns some into red (heat)."); };
+  const back=h("button",{class:"btn ghost"},"Put it back at the top"); back.onclick=()=>{ reset(); say("Back at the top. Lifting it took work: energy went in, and is now stored as potential energy."); };
+  api.panel.append(h("p",{class:"kicker"},"Try it"), h("h2",{},"Down the stairs"), h("p",{},"Your notes use a ball on a staircase. Release it and follow its energy."), h("div",{class:"row"},go,back), note, tasks, q);
+  say("The ball sits on the top step: high potential energy, no motion."); api.lock();
+}
+
+/* ============ Build ATP, then spend it (notes pp. 92, 95) ============ */
+function simATP(api){
+  let nP=0; const done={atp:false,hyd:false}; const host=h("div"), info=h("div",{class:"fb"}), meter=h("div"), tasks=h("div");
+  api.plateHost.innerHTML=""; api.plateHost.append(host);
+  const NAMES=["Adenosine","AMP (adenosine monophosphate)","ADP (adenosine diphosphate)","ATP (adenosine triphosphate)"];
+  function draw(msg){ host.innerHTML=""; const f=plate(figATP(nP,{hiBonds:true,repel:true}),`<b>Figure 4.2</b> ${NAMES[nP]}. Red bonds: high potential energy. (Notes p. 92, Fig 6.4)`); host.append(f); bindTerms(f);
+    meter.innerHTML=""; meter.append(h("p",{style:"margin:4px 0"},h("b",{},"Now: "),NAMES[nP]), meterRow("Potential energy in the phosphate bonds",nP<2?0:(nP-1)/2,"#d0402f",nP<2?"low":nP===2?"medium":"high"));
+    if(msg){ info.innerHTML=rich(msg); bindRich(info); }
+    add.disabled=nP>=3; cut.disabled=nP<=0;
+    tasks.innerHTML=""; tasks.append(taskList([["atp","Build ATP from adenosine"],["hyd","Hydrolyze ATP back to ADP"]],done)); if(done.atp&&done.hyd) api.unlock(); }
+  const add=h("button",{class:"btn"},"Add a phosphate"), cut=h("button",{class:"btn ghost"},"Hydrolyze the last phosphate (+ H₂O)");
+  add.onclick=()=>{ if(nP>=3) return; nP++; if(nP===3) done.atp=true;
+    draw(["","AMP: one phosphate group on the ribose.","ADP: two phosphate groups. Both are negatively charged and repel each other, so the bond between them is weak and holds potential energy. Adding it took energy.","ATP: three phosphates, all negatively charged and resisting one another. The [[phosphate-bonds|bonds linking them]] are weak and have high potential energy. This is the cell's [[atp|energy currency]]."][nP]); };
+  cut.onclick=()=>{ if(nP<=0) return; const was=nP; nP--; if(was===3) done.hyd=true;
+    draw(was===3?"[[atp-hydrolysis|ATP + H₂O → ADP + Pᵢ]]. The reaction is exergonic: breaking the bond releases free energy (ΔG = −7.3 kcal/mol) for the cell to do work. ADP has two phosphate groups, so lower potential energy.":"Another phosphate removed. Fewer phosphates, less potential energy."); };
+  api.panel.append(h("p",{class:"kicker"},"Build it"), h("h2",{},"Build ATP, then spend it"), h("p",{},"Start with adenosine (adenine + ribose). Add phosphate groups one at a time and watch the name and the stored energy change."), meter, h("div",{class:"row"},add,cut), info, tasks);
+  api.lock(); draw("Adenosine: adenine attached to ribose, the five-carbon sugar. No phosphates yet.");
+}
+
+/* ============ Follow the energy (notes p. 93) ============ */
+const LSTAGE=[
+ {name:"Light energy from the sun",useful:16,kind:"Light",col:"#f6d36b",st:"#b8901c",step:""},
+ {name:"Chemical energy in sugar",useful:10,kind:"Chemical (sugar)",col:"#9ccf7a",st:"#3f8a4c",step:"A leaf captures light and stores it as chemical energy in sugar (photosynthesis)."},
+ {name:"Chemical energy in ATP",useful:6,kind:"Chemical (ATP)",col:"#f2b33d",st:"#a8690f",step:"An animal eats the plant and breaks the sugar down, storing energy in ATP (catabolism)."},
+ {name:"Kinetic energy of a moving muscle",useful:3,kind:"Kinetic (movement)",col:"#e08a2c",st:"#a5532c",step:"A muscle cell hydrolyzes ATP to contract: chemical energy becomes motion."}];
+function lawsSVG(k){
+  const s0=LSTAGE[k], W=760,H=300; let s=`<svg viewBox="0 0 ${W} ${H}" role="img" aria-label="${s0.useful} units of ${s0.kind} energy and ${16-s0.useful} units of heat"><rect width="${W}" height="${H}" fill="#fff"/>`;
+  s+=txt(20,28,`Stage ${k+1} of 4: ${s0.name}`,{s:15,w:700});
+  for(let i=0;i<16;i++){ const x=40+(i%8)*44, y=70+Math.floor(i/8)*56, heat=i>=s0.useful;
+    s+=`<g data-term="${heat?"entropy":"first-law"}">${cube(x,y,32,heat?HEATC[0]:s0.col,heat?HEATC[1]:s0.st)}${heat?`<path d="M${x+8} ${y-14} q4 -6 0 -12 M${x+20} ${y-14} q4 -6 0 -12" stroke="${HEATC[1]}" fill="none"/>`:""}</g>`; }
+  const bx=440; s+=`<g data-term="first-law"><rect x="${bx}" y="62" width="300" height="130" rx="8" fill="#f6f8f8" stroke="#cbd5d7"/>`;
+  s+=txt(bx+16,90,`Useful energy (${s0.kind}):`,{s:13})+txt(bx+284,90,String(s0.useful),{s:15,w:700,a:"end"});
+  s+=txt(bx+16,118,"Heat (increased entropy):",{s:13,c:HEATC[1]})+txt(bx+284,118,String(16-s0.useful),{s:15,w:700,a:"end",c:HEATC[1]});
+  s+=`<line x1="${bx+16}" y1="134" x2="${bx+284}" y2="134" stroke="#7a8a96"/>`+txt(bx+16,160,"Total energy:",{s:13,w:700})+txt(bx+284,160,"16",{s:15,w:700,a:"end"})+txt(bx+16,180,"illustrative units",{s:11.5,it:true,c:"#4b5b64"})+`</g>`;
+  s+=txt(20,230,s0.step,{s:13.5,it:true,c:"#3b4a52"});
+  for(let i=0;i<4;i++){ const x=40+i*180; s+=`<rect x="${x}" y="254" width="150" height="24" rx="12" fill="${i<=k?LSTAGE[i].col:"#eef0f2"}" stroke="${i<=k?LSTAGE[i].st:"#cbd5d7"}"/>${txt(x+75,271,LSTAGE[i].kind,{a:"middle",s:11.5,w:600})}`; if(i<3) s+=arrow(x+152,266,x+176,266,"#7a8a96",1.5); }
+  s+=`</svg>`; return s;
+}
+function simLaws(api){
+  let k=0; const host=h("div"), q=h("div"), q2=h("div"), note=h("div",{class:"fb"},"Stage 1: all 16 units are light energy, all of it usable. Press the button to pass it to the next form.");
+  api.plateHost.innerHTML=""; api.plateHost.append(host);
+  function draw(){ host.innerHTML=""; const f=plate(lawsSVG(k),"<b>Figure 5.3</b> Energy through a food chain. Each cube is one unit of energy. (Notes p. 93, Figs 6.5 and 6.6)"); host.append(f); bindTerms(f);
+    go.disabled=k>=3; if(k>=3 && !q.childElementCount){ note.innerHTML="Three transformations. Count the cubes.";
+      inlineMCQ(q,"The total stayed at 16 units through every step. Which law is that?",[["The first law: energy can be neither created nor destroyed",1," Energy was converted from light to chemical to kinetic, and some to heat, but the total never changed."],["The second law",0," The second law is about direction and usable energy."],["Neither; energy was destroyed",0," Count again: useful + heat = 16 every time."],["The law of free energy",0," There's no such law in your notes."]],api,"l1",["first-law"],()=>{
+        inlineMCQ(q2,"But useful energy fell from 16 to 3. Which law is that?",[["The second law: transformations are not 100% efficient, so usable energy decreases and entropy increases",1," The lost energy left as heat, so less was available to do work."],["The first law",0," The first law only says the total stays the same."],["Heat is destroyed energy",0," Heat is still energy; it's just not usable for work."],["Muscles create heat from nothing",0," Energy can't be created."]],api,"l2",["second-law","entropy"],()=>api.unlock()); }); } }
+  const go=h("button",{class:"btn"},"Transform the energy"); go.onclick=()=>{ if(k<3){ k++; if(k<3) note.textContent=`Stage ${k+1}: ${LSTAGE[k].step} Total: still 16. Useful: ${LSTAGE[k].useful}.`; draw(); } };
+  const restart=h("button",{class:"btn ghost"},"Start over"); restart.onclick=()=>{ k=0; note.textContent="Stage 1: all 16 units are light energy, all of it usable."; draw(); };
+  api.panel.append(h("p",{class:"kicker"},"Try it"), h("h2",{},"Follow the energy"), h("p",{},"Sunlight's energy passes through a plant, an animal and a muscle. Transform it three times and watch the cubes."), h("div",{class:"row"},go,restart), note, q, q2);
+  api.lock(); draw();
+}
+
+/* ============ Set the free energy (notes p. 94, Fig 6.8) ============ */
+function simDeltaG(api){
+  const W=760,H=360, x0=90, w=420, yR=200, sc=8; let G=0; const done={ex:false,en:false};
+  const yOf=g=>yR-g*sc;
+  let s=`<svg viewBox="0 0 ${W} ${H}" role="img" aria-label="Free energy diagram with draggable products level" style="touch-action:none"><rect width="${W}" height="${H}" fill="#fff"/>${axes(x0,30,w+50,290)}`;
+  s+=`<line x1="${x0+120}" y1="${yR}" x2="${x0+w+40}" y2="${yR}" stroke="#7a8a96" stroke-dasharray="5 4"/><g data-term="reactants">${txt(x0+10,yR-10,"Reactants (G = 0)",{s:13,w:600})}</g>`;
+  s+=`<path class="cv" d="" stroke="${MC6.blue}" stroke-width="3.5" fill="none"/><g class="ar"></g><text class="pl lbl" x="${x0+w-10}" y="0" text-anchor="end" font-weight="700">Products</text>`;
+  s+=`<circle class="hd" cx="${x0+w-30}" cy="${yR}" r="14" fill="${MC6.teal}" fill-opacity=".85" stroke="#fff" stroke-width="2" style="cursor:ns-resize"/>`;
+  s+=`<g class="info"></g></svg>`;
+  const f=plate(s,"<b>Figure 6.4</b> Drag the products level up or down. ΔG = G(products) − G(reactants). (Notes p. 94, Fig 6.8)"); api.plateHost.innerHTML=""; api.plateHost.append(f); bindTerms(f);
+  const svg=f.querySelector("svg"), cvp=svg.querySelector(".cv"), ar=svg.querySelector(".ar"), hd=svg.querySelector(".hd"), pl=svg.querySelector(".pl"), info=svg.querySelector(".info");
+  const read=h("div",{class:"fb"}), tasks=h("div"), slider=h("input",{type:"range",min:"-15",max:"15",step:"0.5",value:"0","aria-label":"Free energy of the products, kcal/mol"});
+  function upd(){ const yP=yOf(G); cvp.setAttribute("d",energyPath(x0+4,w,yR,yP)); hd.setAttribute("cy",yP); pl.setAttribute("y",yP+(G>=0?-12:24));
+    ar.innerHTML=Math.abs(G)>=1?vArrow2(x0+w+20,yR,yP,G>0?MC6.blue:MC6.red,2)+txt(x0+w+30,(yR+yP)/2+5,"ΔG",{s:14,w:700,c:G>0?MC6.blue:MC6.red}):"";
+    const kind=G>0?"Endergonic":G<0?"Exergonic":"No change";
+    info.innerHTML=`<rect x="560" y="40" width="190" height="96" rx="8" fill="#f6f8f8" stroke="#cbd5d7"/>`+txt(574,64,`ΔG = ${fmtG(G)} kcal/mol`,{s:15,w:700})+txt(574,88,kind,{s:14,w:700,c:G>0?MC6.blue:G<0?MC6.red:MC6.ink})+txt(574,108,G>0?"Nonspontaneous":G<0?"Spontaneous":"",{s:13})+txt(574,126,G>0?"Energy required":G<0?"Energy released":"",{s:13});
+    read.innerHTML=rich(G>0?`<b>Endergonic, +ΔG.</b> The products have more free energy than the reactants. Thermodynamically unfavourable (nonspontaneous): it needs an input of ${G.toFixed(1)} kcal/mol.`:G<0?`<b>Exergonic, −ΔG.</b> The reactants have more free energy than the products. Thermodynamically favourable (spontaneous): ${Math.abs(G).toFixed(1)} kcal/mol is available for use in other processes.`:"<b>ΔG = 0.</b> Products and reactants have the same free energy. Drag the handle."); bindRich(read);
+    if(G<=-5) done.ex=true; if(G>=5) done.en=true; tasks.innerHTML=""; tasks.append(taskList([["ex","Make an exergonic reaction with ΔG of −5 or lower"],["en","Make an endergonic reaction with ΔG of +5 or higher"]],done));
+    if(done.ex&&done.en) api.unlock(); }
+  let drag=false; const toG=e=>{ const pt=svg.createSVGPoint(); pt.x=e.clientX; pt.y=e.clientY; const p=pt.matrixTransform(svg.getScreenCTM().inverse()); return Math.max(-15,Math.min(15,Math.round((yR-p.y)/sc*2)/2)); };
+  hd.addEventListener("pointerdown",e=>{ drag=true; hd.setPointerCapture(e.pointerId); e.preventDefault(); });
+  hd.addEventListener("pointermove",e=>{ if(!drag) return; G=toG(e); slider.value=G; upd(); });
+  hd.addEventListener("pointerup",()=>{ drag=false; });
+  slider.oninput=()=>{ G=+slider.value; upd(); };
+  api.panel.append(h("p",{class:"kicker"},"Try it"), h("h2",{},"Set the free energy"), h("div",{html:rich("<p>The reactants sit at G = 0. Drag the teal handle (or use the slider) to set how much free energy the products have. Watch the sign of [[delta-g|ΔG]].</p>")}), h("div",{class:"ctl"},h("label",{},"Free energy of the products (kcal/mol)"),slider), read, tasks,
+    h("div",{html:remember("Remember:"," Δ = change = final state − initial state. Products are the final state, so ΔG = G(products) − G(reactants).")}));
+  api.lock(); upd();
+}
+
+/* ============ Pay with ATP: energetic coupling (notes p. 96, Fig 6.11) ============ */
+const CPL=[
+ {n:"Glucose + Pᵢ → glucose 6-phosphate + H₂O",c:"Glucose + ATP → glucose 6-phosphate + ADP",dg:3.3,src:"Your notes' example (Fig 6.11)."},
+ {n:"Glutamic acid + NH₃ → glutamine + H₂O",c:"Glutamic acid + NH₃ + ATP → glutamine + ADP + Pᵢ",dg:3.4,src:"A standard textbook example: making the amino acid glutamine."},
+ {n:"Reaction X (practice numbers)",c:"Reaction X coupled to ATP hydrolysis",dg:11.0,src:"A made-up reaction with a large +ΔG, for practice."}];
+function coupleSVG(r,n){
+  const W=760,H=330, z=150, sc=5.5; let s=`<svg viewBox="0 0 ${W} ${H}" role="img" aria-label="Bar chart: reaction +${r.dg}, ${n} ATP at −7.3 each, net ${fmtG(r.dg-7.3*n)}"><rect width="${W}" height="${H}" fill="#fff"/>`;
+  const net=+(r.dg-7.3*n).toFixed(1);
+  s+=`<line x1="40" y1="${z}" x2="720" y2="${z}" stroke="#34454e" stroke-width="1.5"/>${txt(36,z+4,"0",{a:"end",s:12})}${txt(36,z-r.dg*sc+4,fmtG(r.dg),{a:"end",s:11.5,c:MC6.blue})}`;
+  const bar=(x,v,col,lab1,term)=>`<g data-term="${term}"><rect x="${x}" y="${v>0?z-v*sc:z}" width="70" height="${Math.max(1,Math.abs(v)*sc)}" fill="${col}" opacity=".85"/>${txt(x+35,v>0?z-v*sc-8:z+Math.abs(v)*sc+16,fmtG(v),{a:"middle",s:13,w:700,c:col})}${txt(x+35,H-34,lab1,{a:"middle",s:12,w:600})}</g>`;
+  s+=bar(60,r.dg,MC6.blue,"Reaction","endergonic");
+  for(let i=0;i<n;i++) s+=bar(160+i*90,-7.3,MC6.red,"ATP → ADP","atp-hydrolysis");
+  s+=`<line x1="${160+n*90}" y1="40" x2="${160+n*90}" y2="${H-50}" stroke="#cbd5d7" stroke-dasharray="4 4"/>`;
+  s+=bar(180+n*90,net,net<0?MC6.teal:"#9aa3ab","Net ΔG","coupling");
+  s+=txt(W-20,30,net<0?"Net ΔG negative: the coupled reaction proceeds":"Net ΔG positive: it can't proceed",{a:"end",s:14,w:700,c:net<0?MC6.teal:MC6.red});
+  s+=txt(20,H-10,"kcal/mol. Each ATP hydrolysis: ATP + H₂O → ADP + Pᵢ, ΔG = −7.3",{s:12,it:true,c:"#4b5b64"});
+  s+=`</svg>`; return s;
+}
+function simCouple(api){
+  let k=0, n=0, first=true, right=0; const host=h("div"), body=h("div");
+  api.plateHost.innerHTML=""; api.plateHost.append(host);
+  function fig(){ host.innerHTML=""; const f=plate(coupleSVG(CPL[Math.min(k,2)],n),"<b>Figure 7.3</b> Adding up ΔG for a coupled reaction. (Notes p. 96, Fig 6.11)"); host.append(f); bindTerms(f); }
+  function draw(){ body.innerHTML=""; fig();
+    if(k>=CPL.length){ body.append(h("div",{class:"fb ok",html:rich(`<b>All three running.</b> ${right} of 3 right on the first run. [[coupling|Energetic coupling]]: pair an endergonic reaction with enough ATP hydrolysis that the net ΔG is negative.`)})); bindRich(body); api.unlock(); return; }
+    const r=CPL[k], net=+(r.dg-7.3*n).toFixed(1);
+    body.append(h("div",{class:"idcard"},h("div",{class:"hd"},h("b",{},`Reaction ${k+1} of 3`),h("span",{},`ΔG = ${fmtG(r.dg)} kcal/mol`)),h("p",{style:"padding:10px 14px 4px;margin:0"},r.n),h("p",{class:"muted small",style:"padding:0 14px 10px;margin:0"},r.src)));
+    body.append(h("p",{class:"readout",style:"margin:8px 0"},`ATP coupled: ${n}.`,h("br"),`Net ΔG = ${fmtG(r.dg)}${n?` + ${n} × (−7.3) = ${fmtG(net)}`:""} kcal/mol`));
+    const fb=h("div");
+    const add=h("button",{class:"btn ghost",onclick:()=>{ if(n<3){ n++; draw(); } }},"Couple one ATP (−7.3)"), rem=h("button",{class:"btn ghost",onclick:()=>{ if(n>0){ n--; draw(); } }},"Remove one ATP");
+    add.disabled=n>=3; rem.disabled=n<=0;
+    const run=h("button",{class:"btn",onclick:()=>{ const ok=net<0; if(first){ first=false; api.gradeKey("c"+k,ok,["coupling"]); if(ok) right++; }
+      fb.innerHTML="";
+      if(ok){ const need=Math.ceil((r.dg+0.001)/7.3); fb.append(h("div",{class:"fb ok",html:`<b>It runs.</b> Net ΔG = ${fmtG(net)} kcal/mol. ${n===1&&k===0?"Coupled: "+r.c+", ΔG = −4 kcal/mol, as in your notes.":n>need?`It works, though ${need} ATP would have been enough.`:`Coupled: ${r.c}.`}`}), h("button",{class:"btn",style:"margin-top:6px",onclick:()=>{ k++; n=0; first=true; draw(); }},k<2?"Next reaction":"Finish")); }
+      else fb.append(h("div",{class:"fb bad",html:`<b>It won't run.</b> Net ΔG = ${fmtG(net)} kcal/mol is not negative, so the reaction is still endergonic. Couple more ATP hydrolysis.`})); }},"Run the reaction");
+    body.append(h("div",{class:"row"},add,rem,run),fb); }
+  api.panel.append(h("p",{class:"kicker"},"Pay for it"), h("h2",{},"Pay with ATP"), h("p",{},"Each reaction is endergonic. Couple ATP hydrolysis to it until the net ΔG is negative, then run it."), body);
+  api.lock(); draw();
+}
+
+/* ============ Activation energy with and without an enzyme (notes p. 95, Fig 6.10) ============ */
+function simEA(api){
+  const W=760,H=380; const {cv,ctx}=makeCanvas(W,H,"Molecules crossing an activation energy barrier");
+  const X0=60, XW=640, yR=250, yP=320, EAU=150, EAC=60, kT=30;
+  const S={enz:false, ea:EAU, t:0, log:[], tNo:0, tYes:0, done:{no:false,yes:false}, ro:0}; const live=h("p",{class:"readout",style:"font-weight:600;margin:8px 0"});
+  const sm=u=>(1-Math.cos(Math.PI*Math.max(0,Math.min(1,u))))/2;
+  const prof=(t,peak)=> t<0.5 ? yR+(peak-yR)*sm((t-0.2)/0.3) : peak+(yP-peak)*sm((t-0.5)/0.3);
+  const P=Array.from({length:30},()=>({x:0.02+Math.random()*0.15,e:-Math.log(Math.random())*kT,tt:Math.random()*0.5,mode:"well",u:0}));
+  loop(dt=>{ S.t+=dt; const target=S.enz?EAC:EAU; S.ea+=(target-S.ea)*Math.min(1,dt*3); const peak=yR-S.ea;
+    if(S.enz) S.tYes+=dt; else S.tNo+=dt;
+    P.forEach(p=>{ if(p.mode==="well"){ p.tt-=dt; p.x+=(Math.random()-.5)*dt*0.08; p.x=Math.max(0.02,Math.min(0.17,p.x)); if(p.tt<=0){ p.e=-Math.log(Math.random())*kT; p.tt=0.3+Math.random()*0.3; if(p.e>S.ea){ p.mode="cross"; p.u=p.x; } } }
+      else if(p.mode==="cross"){ p.u+=dt*0.55; if(p.u>=0.86){ p.mode="done"; p.tt=1.2; S.log.push(S.t); } }
+      else { p.tt-=dt; if(p.tt<=0){ p.mode="well"; p.x=0.02+Math.random()*0.15; p.e=0; p.tt=0.2; } } });
+    S.log=S.log.filter(t=>S.t-t<10);
+    ctx.fillStyle="#fff"; ctx.fillRect(0,0,W,H);
+    ctx.strokeStyle="#34454e"; ctx.lineWidth=1.5; ctx.beginPath(); ctx.moveTo(X0-10,30); ctx.lineTo(X0-10,H-30); ctx.lineTo(X0+XW+20,H-30); ctx.stroke();
+    label(ctx,"Course of reaction",X0+XW/2,H-10,{a:"center",s:14,w:700});
+    ctx.save(); ctx.translate(X0-24,(H-30)/2+20); ctx.rotate(-Math.PI/2); label(ctx,"Free energy",0,0,{a:"center",s:14,w:700}); ctx.restore();
+    if(S.enz){ ctx.strokeStyle="rgba(47,109,181,.35)"; ctx.setLineDash([6,5]); ctx.lineWidth=2; ctx.beginPath(); for(let i=0;i<=100;i++){ const t=i/100; const y=prof(t,yR-EAU); i?ctx.lineTo(X0+t*XW,y):ctx.moveTo(X0+t*XW,y); } ctx.stroke(); ctx.setLineDash([]); }
+    ctx.strokeStyle=S.enz?MC6.red:MC6.blue; ctx.lineWidth=3.5; ctx.beginPath(); for(let i=0;i<=100;i++){ const t=i/100, y=prof(t,peak); i?ctx.lineTo(X0+t*XW,y):ctx.moveTo(X0+t*XW,y); } ctx.stroke();
+    ctx.strokeStyle="#9aa3ab"; ctx.lineWidth=1; ctx.setLineDash([5,4]); ctx.beginPath(); ctx.moveTo(X0,peak); ctx.lineTo(X0+XW*0.5,peak); ctx.stroke(); ctx.beginPath(); ctx.moveTo(X0,yR); ctx.lineTo(X0+XW+10,yR); ctx.stroke(); ctx.setLineDash([]);
+    label(ctx,"Energy needed to get over",X0+4,peak-6,{s:13.5,col:"#4b5b64"});
+    // EA and ΔG brackets
+    const ax=X0+XW*0.5+18; ctx.strokeStyle=S.enz?MC6.red:MC6.blue; ctx.lineWidth=2; ctx.beginPath(); ctx.moveTo(ax,yR); ctx.lineTo(ax,peak+2); ctx.stroke(); label(ctx,"EA",ax+6,(yR+peak)/2+4,{s:15,w:700,col:S.enz?MC6.red:MC6.blue,it:true});
+    const gx=X0+XW+10; ctx.strokeStyle="#34454e"; ctx.beginPath(); ctx.moveTo(gx,yR); ctx.lineTo(gx,yP); ctx.stroke(); label(ctx,"ΔG",gx-28,(yR+yP)/2+4,{s:15,w:700});
+    label(ctx,"Reactants",X0+4,yR+20,{s:14,w:600}); label(ctx,"Products",X0+XW*0.86,yP+20,{s:14,w:600});
+    P.forEach(p=>{ let x,y,a=1; if(p.mode==="well"){ x=X0+p.x*XW; y=yR-Math.min(p.e,EAU+30)-6; ctx.strokeStyle="rgba(224,138,44,.25)"; ctx.lineWidth=1; ctx.beginPath(); ctx.moveTo(x,yR); ctx.lineTo(x,y); ctx.stroke(); }
+      else if(p.mode==="cross"){ x=X0+p.u*XW; y=prof(p.u,peak)-8; } else { x=X0+(0.86+0.1*(1-p.tt/1.2))*XW; y=yP-8; a=Math.max(0,p.tt/1.2); }
+      ctx.globalAlpha=a; ctx.fillStyle=p.mode==="well"?"#f3a64a":"#7fb2e8"; ctx.strokeStyle=p.mode==="well"?"#b4691a":"#2c5aa0"; ctx.beginPath(); ctx.arc(x,y,6,0,7); ctx.fill(); ctx.stroke(); ctx.globalAlpha=1; });
+    label(ctx,S.enz?"With enzyme: lower activation energy":"No enzyme: high activation energy",16,24,{s:17,w:700});
+    label(ctx,`Reactions in the last 10 s: ${S.log.length}`,W-16,24,{a:"right",s:16,w:700,col:MC6.teal});
+    S.ro+=dt; if(S.ro>0.25){ S.ro=0; live.textContent=`${S.enz?"With enzyme":"No enzyme"}: ${S.log.length} reactions in the last 10 s.`; }
+    if(!S.done.no && S.tNo>8){ S.done.no=true; say(); } if(!S.done.yes && S.tYes>8){ S.done.yes=true; say(); }
+  });
+  api.plateHost.innerHTML=""; api.plateHost.append(plate(cv,"<b>Figure 8.3</b> Each dot is a reactant molecule. Its height shows its kinetic energy at that moment. Only those above the barrier cross. (Notes p. 95, Fig 6.10)"));
+  const note=h("div",{class:"fb"}), tasks=h("div"), q=h("div");
+  function say(m){ if(m){ note.innerHTML=rich(m); bindRich(note); } tasks.innerHTML=""; tasks.append(taskList([["no","Watch the reaction without an enzyme for about 8 s"],["yes","Add the enzyme and watch for about 8 s"]],S.done));
+    if(S.done.no&&S.done.yes&&!q.childElementCount) inlineMCQ(q,"Compare the two. What did the enzyme change?",[["The activation energy: more molecules get over, so the rate rises. ΔG did not change",1," The reactant and product levels stayed put."],["ΔG: the products dropped lower",0," Look at the ΔG bracket on the right: same length."],["The molecules' kinetic energy",0," Temperature was constant; the barrier moved."],["It made the reaction endergonic",0," It is exergonic with or without the enzyme."]],api,"ea",["activation-energy","enzyme","delta-g"],()=>api.unlock()); }
+  const tog=h("button",{class:"btn"},"Add the enzyme"); tog.onclick=()=>{ S.enz=!S.enz; tog.textContent=S.enz?"Remove the enzyme":"Add the enzyme"; say(S.enz?"The [[enzyme|enzyme]] lowers the [[activation-energy|activation energy]] barrier. Far more molecules have enough kinetic energy to cross at any moment, so the count climbs fast.":"Without the enzyme, only the rare molecule with a lot of kinetic energy gets over the barrier."); };
+  api.panel.append(h("p",{class:"kicker"},"Try it"), h("h2",{},"Get over the hump"), h("div",{html:rich("<p>Reactants must have enough kinetic energy to get over the [[activation-energy|activation energy]] barrier. Molecules are always jostling, so each one's energy keeps changing.</p>")}), h("div",{class:"row"},tog), live, note, tasks, q);
+  say("Watch: a molecule crosses only when its energy is above the barrier line."); api.lock();
+}
+
+/* ============ Inside the active site (notes p. 97, Fig 6.13) ============ */
+function simFit(api){
+  let kind="cat", fit=false, stage=0, t=1; const done={cat:false,ana:false,fit:false}; let path=[0];
+  const host=h("div"), note=h("div",{class:"fb"}), tasks=h("div"), lbl=h("p",{class:"readout",style:"margin:6px 0"});
+  api.plateHost.innerHTML=""; const f=plate(`<svg viewBox="0 0 760 330" role="img" aria-label="An enzyme and substrate"></svg>`,"<b>Figure 8.4</b> One enzyme going through its cycle: E + S ⇌ ES ⇌ EP ⇌ E + P. (Notes p. 97, Fig 6.13)"); api.plateHost.append(f); const svg=f.querySelector("svg");
+  const NM=["E + S","ES: enzyme–substrate complex","EP: enzyme–product complex","E + P"];
+  function render(){ svg.innerHTML=`<rect width="760" height="330" fill="#fff"/><g transform="translate(380 200) scale(1.9) translate(-380 -200)" data-term="es-complex">${cycleScene(380,200,kind,stage,fit,t)}</g>`+txt(20,30,NM[stage],{s:16,w:700})+txt(20,52,kind==="cat"?"Catabolic: one substrate split into two products":"Anabolic: two substrates joined into one product",{s:13})+txt(740,30,fit?"Induced fit model":"Lock-and-key model",{a:"end",s:13,w:700,c:MC6.teal})+[0,1,2,3].map(i=>`<circle cx="${300+i*54}" cy="312" r="7" fill="${i===stage?MC6.teal:"#cbd5d7"}"/>`).join(""); }
+  loop(dt=>{ if(t<1){ t=Math.min(1,t+dt*1.8); render(); } });
+  const DESC=[()=>"The enzyme and its substrate"+(kind==="ana"?"s":"")+" are separate.",
+    ()=>"The substrate"+(kind==="ana"?"s bind":" binds")+" the active site. "+(fit?"<b>Induced fit:</b> the enzyme changes shape, closing around the substrate.":"<b>Lock-and-key:</b> the substrate fits the site's existing shape."),
+    ()=>"While bound, the substrate is converted to product. The active site stabilizes the transition state, lowering the activation energy. "+(kind==="cat"?"Here one substrate is split.":"Here two substrates are joined."),
+    ()=>"The product"+(kind==="cat"?"s are":" is")+" released. The enzyme is unchanged and free to act again."];
+  function upd(){ lbl.textContent=`Step ${stage+1} of 4: ${NM[stage]}`; note.innerHTML=DESC[stage](); tasks.innerHTML=""; tasks.append(taskList([["cat","Run a full catabolic cycle"],["ana","Run a full anabolic cycle"],["fit","Run a full cycle with the induced fit model"]],done)); if(done.cat&&done.ana&&done.fit) api.unlock(); }
+  const nxt=h("button",{class:"btn"},"Next step"); nxt.onclick=()=>{ stage=(stage+1)%4; t=0; path.push(stage);
+    if(stage===3 && path.join("").endsWith("0123")){ done[kind]=true; if(fit) done.fit=true; }
+    if(stage===0) path=[0]; upd(); render(); };
+  const segK=h("div",{class:"seg"}), segF=h("div",{class:"seg"});
+  const mkSeg=(seg,opts,get,set)=>opts.forEach(([v,t1])=>{ const b=h("button",{"aria-pressed":String(get()===v)},t1); b.onclick=()=>{ set(v); $$("button",seg).forEach(x=>x.setAttribute("aria-pressed","false")); b.setAttribute("aria-pressed","true"); stage=0; t=1; path=[0]; upd(); render(); }; seg.append(b); });
+  mkSeg(segK,[["cat","Catabolic"],["ana","Anabolic"]],()=>kind,v=>kind=v); mkSeg(segF,[[false,"Lock-and-key"],[true,"Induced fit"]],()=>fit,v=>fit=v);
+  api.panel.append(h("p",{class:"kicker"},"Step through it"), h("h2",{},"Inside the active site"), h("div",{html:rich("<p>Anabolic and catabolic reactions are both catalyzed by enzymes. Pick a reaction type and a binding model, then step through the cycle. Your notes show both the [[lock-key|lock-and-key]] and [[induced-fit|induced fit]] models.</p>")}), h("div",{class:"ctl"},segK,segF), h("div",{class:"row"},nxt), lbl, note, tasks);
+  api.lock(); render(); upd();
+}
+
+/* ============ Slow the enzymes down: inhibitors (notes p. 97) ============ */
+function simInhib(api){
+  const W=760,H=400; const {cv,ctx}=makeCanvas(W,H,"Enzymes, substrates and inhibitors moving in a solution");
+  const R=36,n=13, EY=250; const E=[120,290,460,630].map(x=>({x,site:null,siteT:0,bot:null,botT:0,busy:0}));
+  const top=EY-Math.sqrt(R*R-n*n);
+  const S={t:0,mode:"rev",log:[],done:{comp:false,non:false,irr:false},irrCleared:false,ro:0}; let parts=[]; const live=h("p",{class:"readout",style:"font-weight:600;margin:8px 0"});
+  const spawn=(type,x,y)=>parts.push({type,x:x??(30+Math.random()*(W-60)),y:y??(50+Math.random()*120),vx:(Math.random()-.5)*60,vy:(Math.random()-.5)*60,life:2,mode:S.mode});
+  for(let i=0;i<16;i++) spawn("S");
+  const pth={round:new Path2D(), bent:new Path2D()};
+  loop(dt=>{ S.t+=dt;
+    parts.forEach(p=>{ p.vx+=(Math.random()-.5)*400*dt; p.vy+=(Math.random()-.5)*400*dt+ (p.type==="P"?-30*dt:0); const sp=Math.hypot(p.vx,p.vy); if(sp>90){ p.vx*=90/sp; p.vy*=90/sp; }
+      p.x+=p.vx*dt; p.y+=p.vy*dt; if(p.x<14||p.x>W-14) p.vx*=-1; if(p.y<40||p.y>H-14) p.vy*=-1; p.x=Math.max(14,Math.min(W-14,p.x)); p.y=Math.max(40,Math.min(H-14,p.y));
+      if(p.type==="P") p.life-=dt;
+      E.forEach(e=>{ if(p.dead) return; const dS=Math.hypot(p.x-e.x,p.y-top), dB=Math.hypot(p.x-e.x,p.y-(EY+R));
+        if(!e.site && !e.bot && dS<16 && (p.type==="S"||p.type==="C")){ e.site=p.type; e.siteMode=p.mode; e.siteT=p.type==="S"?0.6:2.5+Math.random()*2.5; p.dead=true; }
+        else if(!e.bot && dB<18 && p.type==="N"){ e.bot="N"; e.botMode=p.mode; e.botT=2.5+Math.random()*2.5; if(e.site==="S"){ e.site=null; spawn("S",e.x,top-30); } p.dead=true; } }); });
+    E.forEach(e=>{ if(e.site){ e.siteT-=dt; if(e.siteT<=0){ if(e.site==="S"){ spawn("P",e.x,top-14); S.log.push(S.t); e.site=null; } else if(e.siteMode==="rev"){ spawn("C",e.x,top-30); e.site=null; } } }
+      if(e.bot){ e.botT-=dt; if(e.botT<=0 && e.botMode==="rev"){ spawn("N",e.x,EY+R+22); e.bot=null; } } });
+    parts=parts.filter(p=>!p.dead && !(p.type==="P"&&p.life<=0));
+    const nS=parts.filter(p=>p.type==="S").length+E.filter(e=>e.site==="S").length; for(let i=nS;i<16;i++) spawn("S",Math.random()*W,45);
+    S.log=S.log.filter(t=>S.t-t<10);
+    ctx.fillStyle="#f3f8fa"; ctx.fillRect(0,0,W,H);
+    E.forEach(e=>{ const p=new Path2D(enzPath(e.x,EY,R,n,e.bot?"bent":"round")); ctx.fillStyle=MC6.enz; ctx.strokeStyle=MC6.enzS; ctx.lineWidth=1.8; ctx.fill(p); ctx.stroke(p);
+      if(e.site==="S"){ ctx.fillStyle=MC6.sub; ctx.strokeStyle=MC6.subS; ctx.beginPath(); ctx.arc(e.x,top,9,0,7); ctx.fill(); ctx.stroke(); }
+      if(e.site==="C"){ ctx.fillStyle=MC6.inh; ctx.strokeStyle=MC6.inhS; ctx.beginPath(); ctx.moveTo(e.x-9,top-8); ctx.lineTo(e.x+9,top-8); ctx.lineTo(e.x+9,top+4); ctx.lineTo(e.x,top+11); ctx.lineTo(e.x-9,top+4); ctx.closePath(); ctx.fill(); ctx.stroke(); if(e.siteMode==="irr"){ label(ctx,"locked",e.x,top-14,{a:"center",s:12.5,w:700,col:MC6.inhS}); } }
+      if(e.bot){ ctx.fillStyle=MC6.inh; ctx.strokeStyle=MC6.inhS; ctx.beginPath(); ctx.arc(e.x,EY+R,9,0,7); ctx.fill(); ctx.stroke(); if(e.botMode==="irr") label(ctx,"locked",e.x,EY+R+24,{a:"center",s:12.5,w:700,col:MC6.inhS}); }
+      label(ctx,e.site==="C"||e.bot?"blocked":e.site==="S"?"working":"free",e.x,EY+12,{a:"center",s:13,w:600,col:e.site==="C"||e.bot?MC6.inhS:"#3f6a2a"}); });
+    parts.forEach(p=>{ ctx.globalAlpha=p.type==="P"?Math.max(0,p.life/2):1;
+      if(p.type==="S"){ ctx.fillStyle=MC6.sub; ctx.strokeStyle=MC6.subS; ctx.beginPath(); ctx.arc(p.x,p.y,8,0,7); ctx.fill(); ctx.stroke(); }
+      if(p.type==="P"){ ctx.fillStyle=MC6.prod; ctx.strokeStyle=MC6.prodS; ctx.beginPath(); ctx.arc(p.x,p.y,8,0,7); ctx.fill(); ctx.stroke(); }
+      if(p.type==="C"){ ctx.fillStyle=MC6.inh; ctx.strokeStyle=MC6.inhS; ctx.beginPath(); ctx.moveTo(p.x-8,p.y-7); ctx.lineTo(p.x+8,p.y-7); ctx.lineTo(p.x+8,p.y+3); ctx.lineTo(p.x,p.y+9); ctx.lineTo(p.x-8,p.y+3); ctx.closePath(); ctx.fill(); ctx.stroke(); }
+      if(p.type==="N"){ ctx.fillStyle=MC6.inh; ctx.strokeStyle=MC6.inhS; ctx.beginPath(); ctx.arc(p.x,p.y,8,0,7); ctx.fill(); ctx.stroke(); }
+      ctx.globalAlpha=1; });
+    label(ctx,`Products made in the last 10 s: ${S.log.length}`,16,24,{s:17,w:700,col:MC6.teal});
+    const blocked=E.filter(e=>e.site==="C"||e.bot).length; S.ro+=dt; if(S.ro>0.25){ S.ro=0; live.textContent=`Products in the last 10 s: ${S.log.length}. Enzymes blocked: ${blocked} of 4.`; } label(ctx,`Enzymes blocked: ${blocked} of 4`,W-16,24,{a:"right",s:16,w:700,col:blocked?MC6.inhS:"#3f6a2a"});
+    const keys=[["Substrate",MC6.sub],["Product",MC6.prod],["Inhibitor",MC6.inh]]; keys.forEach(([t1,c],i)=>{ ctx.fillStyle=c; ctx.beginPath(); ctx.arc(20+i*110,H-14,6,0,7); ctx.fill(); label(ctx,t1,32+i*110,H-10,{s:14}); });
+    if(!S.irrCleared && S.irrWatch && E.some(e=>(e.site==="C"&&e.siteMode==="irr")||(e.bot&&e.botMode==="irr")) && !parts.some(p=>p.type==="C"||p.type==="N")){ S.irrCleared=true; S.done.irr=true; say("The free inhibitors are gone, but the irreversibly bound ones stay stuck: those enzymes stay blocked. Reversible inhibitors let go after a while; irreversible ones don't."); }
+  });
+  api.plateHost.innerHTML=""; api.plateHost.append(plate(cv,"<b>Figure 9.3</b> Four enzymes in a solution of substrate. Add inhibitors and watch the product count. (Notes p. 97, Fig 6.13)"));
+  const note=h("div",{class:"fb"}), tasks=h("div"), q=h("div");
+  function say(m){ if(m){ note.innerHTML=rich(m); bindRich(note); } tasks.innerHTML=""; tasks.append(taskList([["comp","Add competitive inhibitors"],["non","Add noncompetitive inhibitors"],["irr","Switch to irreversible, add inhibitors, then clear them"]],S.done));
+    if(S.done.comp&&S.done.non&&S.done.irr&&!q.childElementCount) inlineMCQ(q,"A noncompetitive inhibitor never touches the active site. How does it still slow the enzyme?",[["It binds another site and changes the enzyme's shape, so the active site no longer works",1," That's why its shape doesn't need to resemble the substrate."],["It uses up the substrate",0," It binds the enzyme, not the substrate."],["It raises ΔG",0," Inhibitors change enzyme activity, not ΔG."],["It competes for the active site",0," That's competitive inhibition."]],api,"nc",["noncompetitive"],()=>api.unlock()); }
+  const addC=h("button",{class:"btn ghost"},"Add competitive inhibitors"); addC.onclick=()=>{ for(let i=0;i<8;i++) spawn("C"); S.done.comp=true; say("[[competitive|Competitive inhibitors]] fit the active site. While one sits there, substrate can't bind: they compete, and the rate drops."); };
+  const addN=h("button",{class:"btn ghost"},"Add noncompetitive inhibitors"); addN.onclick=()=>{ for(let i=0;i<8;i++) spawn("N",30+Math.random()*(W-60),330+Math.random()*50); S.done.non=true; say("[[noncompetitive|Noncompetitive inhibitors]] bind underneath, away from the active site. The enzyme changes shape (watch the notch flatten), so substrate can't be converted."); };
+  const clr=h("button",{class:"btn ghost"},"Clear free inhibitors"); clr.onclick=()=>{ parts=parts.filter(p=>p.type!=="C"&&p.type!=="N"); if(S.mode==="irr") S.irrWatch=true; say(S.mode==="irr"?"Cleared the free ones. Watch the bound ones.":"Cleared. Reversibly bound inhibitors will let go on their own."); };
+  const seg=h("div",{class:"seg"}); [["rev","Reversible"],["irr","Irreversible"]].forEach(([v,t1])=>{ const b=h("button",{"aria-pressed":String(v==="rev")},t1); b.onclick=()=>{ S.mode=v; $$("button",seg).forEach(x=>x.setAttribute("aria-pressed","false")); b.setAttribute("aria-pressed","true"); say(v==="irr"?"New inhibitors will bind irreversibly: once on, they stay on.":"New inhibitors will bind reversibly: they let go after a few seconds."); }; seg.append(b); });
+  api.panel.append(h("p",{class:"kicker"},"Try it"), h("h2",{},"Slow the enzymes down"), h("div",{html:rich("<p>Enzyme activity can be reduced by two kinds of [[inhibitor|inhibitors]]: reversible and irreversible. Watch the products-per-10-s count as you add them.</p>")}), h("div",{class:"ctl"},h("label",{},"New inhibitors bind"),seg), h("div",{class:"row"},addC,addN,clr), live, note, tasks, q);
+  say("Four enzymes, plenty of substrate (orange). Each substrate that lands in an active site comes out as a product (blue)."); api.lock();
+}
+
+/* ============ Feedback inhibition (notes p. 97, Fig 6.14) ============ */
+function simFeedback(api){
+  const W=760,H=330; const {cv,ctx}=makeCanvas(W,H,"The isoleucine pathway with feedback inhibition");
+  const S={I:8,d:1,a:1,spawnAcc:0,dots:[],done:{off:false,on:false},wasOff:false,ro:0}; const live=h("p",{class:"readout",style:"font-weight:600;margin:8px 0"});
+  const xs=[62,192,302,412,522,670], nm=["Threonine","P1","P2","P3","P4","Isoleucine"], by=70;
+  loop(dt=>{ S.a=1/(1+Math.pow(S.I/40,4)); const prod=12*S.a; S.I=Math.max(0,S.I+(prod-S.d)*dt);
+    S.spawnAcc+=prod*dt*0.5; while(S.spawnAcc>=1){ S.spawnAcc-=1; S.dots.push({u:0}); }
+    S.dots.forEach(d=>d.u+=dt*0.45); S.dots=S.dots.filter(d=>d.u<1);
+    ctx.fillStyle="#fff"; ctx.fillRect(0,0,W,H);
+    S.dots.forEach(d=>{ const x=xs[0]+d.u*(xs[5]-xs[0]); ctx.fillStyle="#2f8fb0"; ctx.beginPath(); ctx.arc(x,by+17+ (Math.sin(d.u*40)*2),4,0,7); ctx.fill(); });
+    xs.forEach((x,i)=>{ const w=i===0||i===5?100:70; ctx.fillStyle="#fff"; ctx.strokeStyle=i===0?"#3f8a4c":i===5?"#6f4a90":"#2f8fb0"; ctx.lineWidth=1.8; ctx.beginPath(); ctx.roundRect?ctx.roundRect(x-w/2,by,w,34,8):ctx.rect(x-w/2,by,w,34); ctx.fill(); ctx.stroke(); label(ctx,nm[i],x,by+22,{a:"center",s:15,w:700,col:i===0?"#2e6b39":i===5?"#5a3a80":"#1d6680"});
+      if(i<5){ const x1=x+(i===0?52:37), x2=xs[i+1]-(i===4?52:37); ctx.strokeStyle=i===0?`rgba(122,138,150,${0.25+0.75*S.a})`:"#9aa3ab"; ctx.lineWidth=i===0?5:3; ctx.beginPath(); ctx.moveTo(x1,by+17); ctx.lineTo(x2-8,by+17); ctx.stroke(); ctx.fillStyle=ctx.strokeStyle; ctx.beginPath(); ctx.moveTo(x2,by+17); ctx.lineTo(x2-10,by+11); ctx.lineTo(x2-10,by+23); ctx.fill(); } });
+    // enzyme
+    const ex=132, on=S.a; ctx.fillStyle=on>0.5?MC6.enz:"#e3e6e8"; ctx.strokeStyle=on>0.5?MC6.enzS:"#9aa3ab"; ctx.lineWidth=1.8; const ep=new Path2D(enzPath(ex,by-24,18,7,S.I>45?"bent":"round")); ctx.fill(ep); ctx.stroke(ep);
+    label(ctx,"Threonine dehydratase",ex,by-50,{a:"center",s:14,w:700});
+    // feedback line
+    const strong=Math.min(1,S.I/60); ctx.strokeStyle=`rgba(208,64,47,${0.25+0.75*strong})`; ctx.lineWidth=3; ctx.beginPath(); ctx.moveTo(670,by+34); ctx.lineTo(670,170); ctx.lineTo(ex,170); ctx.lineTo(ex,by-4); ctx.stroke();
+    ctx.beginPath(); ctx.moveTo(ex-12,by-4); ctx.lineTo(ex+12,by-4); ctx.lineWidth=4; ctx.stroke();
+    if(S.I>45){ ctx.fillStyle=MC6.inh; ctx.strokeStyle=MC6.inhS; ctx.beginPath(); ctx.arc(ex,by-24+18,6,0,7); ctx.fill(); ctx.stroke(); }
+    label(ctx,"Isoleucine inhibits the first enzyme (allosteric site)",400,190,{a:"center",s:14.5,col:"#a33a3a"});
+    // isoleucine tank
+    const tx=620,ty=210,tw=100,th=90; ctx.strokeStyle="#6f4a90"; ctx.lineWidth=1.5; ctx.strokeRect(tx,ty,tw,th); const lv=Math.min(1,S.I/100); ctx.fillStyle="rgba(180,143,224,.6)"; ctx.fillRect(tx,ty+th*(1-lv),tw,th*lv);
+    label(ctx,`Isoleucine: ${S.I.toFixed(0)}`,tx+tw/2,ty-6,{a:"center",s:14.5,w:700});
+    // activity meter
+    label(ctx,"Enzyme activity",30,232,{s:15,w:700}); ctx.strokeStyle="#cbd5d7"; ctx.strokeRect(30,242,300,16); ctx.fillStyle=S.a>0.5?MC6.teal:S.a>0.25?"#c9a400":MC6.inhS; ctx.fillRect(30,242,300*S.a,16); label(ctx,`${Math.round(S.a*100)}%`,340,255,{s:15,w:700});
+    label(ctx,S.a<0.3?"Pathway switched OFF: isoleucine is plentiful":S.a>0.7?"Pathway ON: making isoleucine":"Pathway slowing down",30,290,{s:16,w:700,col:S.a<0.3?MC6.inhS:MC6.teal});
+    label(ctx,`Cell uses ${S.d.toFixed(1)} units/s for protein synthesis`,30,312,{s:14,col:"#4b5b64"});
+    S.ro+=dt; if(S.ro>0.25){ S.ro=0; live.textContent=`Isoleucine: ${S.I.toFixed(0)}. Enzyme activity: ${Math.round(S.a*100)}%. ${S.a<0.3?"Pathway off.":S.a>0.7?"Pathway on.":"Slowing down."}`; }
+    if(!S.done.off && S.a<0.3){ S.done.off=true; S.wasOff=true; say("Isoleucine piled up and switched off threonine dehydratase. No point making more: the cell saves the energy. Now make the cell use isoleucine faster."); }
+    if(S.wasOff && !S.done.on && S.a>0.7){ S.done.on=true; say("Isoleucine is being used up, so less of it is bound to the enzyme. The enzyme turns back on and the pathway restarts. The end product regulates its own supply."); }
+  });
+  api.plateHost.innerHTML=""; api.plateHost.append(plate(cv,"<b>Figure 9.4</b> Isoleucine made from threonine in five steps. Its level feeds back on the first enzyme. (Notes p. 97, Fig 6.14)"));
+  const note=h("div",{class:"fb"}), tasks=h("div");
+  function say(m){ if(m){ note.innerHTML=rich(m); bindRich(note); } tasks.innerHTML=""; tasks.append(taskList([["off","Let isoleucine build up until the pathway switches off"],["on","Then raise the cell's demand until the pathway turns back on"]],S.done)); if(S.done.off&&S.done.on) api.unlock(); }
+  const sl=h("input",{type:"range",min:"0",max:"11",step:"0.5",value:"1","aria-label":"How fast the cell uses isoleucine"}); sl.oninput=()=>{ S.d=+sl.value; };
+  api.panel.append(h("p",{class:"kicker"},"Try it"), h("h2",{},"Isoleucine on demand"), h("div",{html:rich("<p>This is [[feedback-inhibition|feedback inhibition]]: the final product of the pathway inhibits the first step. Threonine dehydratase is an [[allosteric|allosteric enzyme]].</p>")}), h("div",{class:"ctl"},h("label",{},"How fast the cell uses isoleucine"),sl), live, note, tasks);
+  say("Demand is low. Watch the isoleucine level and the enzyme's activity."); api.lock();
+}
+
+/* ============ Finale ============ */
+const FIN6=[
+ {q:"A cheetah eats a gazelle. How is the cheetah classified?",o:[["Chemoheterotroph: energy and carbon both from organic compounds",1,"It gets energy by breaking down chemical compounds and can't convert CO₂."],["Photoautotroph",0,"That's a plant."],["Chemoautotroph",0,"Chemoautotrophs build sugars from CO₂."],["Photoheterotroph",0,"Cheetahs don't capture light energy."]],t:["chemotroph","heterotroph"]},
+ {q:"In the cheetah's gut, the gazelle's proteins are broken into amino acids. Which branch of metabolism is this?",o:[["Catabolism",1,"Breaking molecules into smaller units; catabolism produces energy."],["Anabolism",0,"Anabolism builds molecules up."],["Energetic coupling",0,"Coupling pairs reactions; it isn't a branch of metabolism."],["Feedback inhibition",0,"That's a way of regulating a pathway."]],t:["catabolism"]},
+ {q:"Its cells break glucose down and store the energy as ATP. Where in ATP is that energy held?",o:[["In the bonds connecting the phosphate groups",1,"The phosphates are negatively charged and repel, so the bonds are weak and hold high potential energy."],["In the adenine",0,"The energy is in the phosphate bonds."],["In the ribose",0,"Ribose is the sugar that links adenine to the phosphates."],["In the water molecule",0,"Water is used to hydrolyze ATP."]],t:["phosphate-bonds"]},
+ {q:"The cheetah sprints. Muscle cells hydrolyze ATP: ATP + H₂O → ADP + Pᵢ, ΔG = −7.3 kcal/mol. This reaction is:",o:[["Exergonic and spontaneous",1,"Negative ΔG: energy is released for work."],["Endergonic and spontaneous",0,"Endergonic reactions are nonspontaneous."],["Endergonic and nonspontaneous",0,"Negative ΔG means exergonic."],["At equilibrium",0,"ΔG isn't zero."]],t:["exergonic","atp-hydrolysis"]},
+ {q:"Only part of the energy in the meal ends up as movement. Most is released as heat. Which law explains this?",o:[["The second law: energy transformations are not 100% efficient",1,"Usable energy decreases and entropy increases with each transformation."],["The first law: energy is destroyed",0,"The first law says energy can't be destroyed."],["The first law: energy is created as heat",0,"Energy can't be created either."],["Neither; heat isn't energy",0,"Heat is energy, just not usable for work."]],t:["second-law","entropy"]},
+ {q:"Later, its cells build new muscle protein from amino acids (+ΔG). How does the cell make this happen?",o:[["Couple it to ATP hydrolysis so the net ΔG is negative",1,"Energetic coupling: anabolism requires an input of energy (ATP)."],["Add an enzyme to make ΔG negative",0,"Enzymes don't change ΔG."],["Raise the temperature",0,"That isn't how cells drive endergonic reactions."],["Wait; it will happen spontaneously",0,"+ΔG means nonspontaneous."]],t:["coupling","anabolism"]},
+ {q:"Every one of these reactions is catalyzed by an enzyme. What does the enzyme do?",o:[["Lowers the activation energy, so the reaction proceeds faster",1,"ΔG is the same with and without the enzyme."],["Makes ΔG more negative",0,"ΔG doesn't change."],["Supplies ATP",0,"Enzymes are catalysts, not energy sources."],["Gets used up in the reaction",0,"The enzyme is released unchanged (E + P)."]],t:["enzyme","activation-energy"]},
+ {q:"A drug binds an enzyme's active site and blocks the substrate. What kind of inhibitor is it?",o:[["Competitive",1,"It competes with the substrate for the active site."],["Noncompetitive",0,"Noncompetitive inhibitors bind elsewhere and change the enzyme's shape."],["An activator",0,"Activators increase enzyme activity."],["An allosteric product",0,"Allosteric regulators bind away from the active site."]],t:["competitive"]},
+ {q:"The cheetah's cells have plenty of isoleucine. What stops them making more?",o:[["Feedback inhibition: isoleucine binds the first enzyme of its pathway and shuts it off",1,"This keeps balance and conserves energy."],["Threonine runs out",0,"The end product does the regulating."],["The pathway's ΔG becomes positive",0,"Regulation acts on the enzyme, not ΔG."],["The enzymes are destroyed",0,"Isoleucine inhibits the enzyme; when levels drop it works again."]],t:["feedback-inhibition","allosteric"]}];
+function simFinale6(api){
+  let i=0, right=0; const body=h("div"), bar=h("div",{class:"meter",style:"margin:6px 0 10px;background:none;height:auto"});
+  api.plateHost.innerHTML=""; const f=plate(figMetab(null),"<b>Figure 10.1</b> The cycle that runs through every chapter: catabolism makes ATP, anabolism spends it. (Notes p. 91, Fig 6.2)"); api.plateHost.append(f); bindTerms(f);
+  function drawBar(){ bar.innerHTML=""; FIN6.forEach((_,k)=>bar.append(h("i",{style:`display:inline-block;width:${100/FIN6.length-1}%;height:8px;margin-right:1%;border-radius:4px;background:${k<i?"var(--accent)":"var(--rule)"}`}))); }
+  function draw(){ body.innerHTML=""; drawBar();
+    if(i>=FIN6.length){ body.append(h("div",{class:"fb ok",html:`<b>${right} of ${FIN6.length} on the first try.</b> Energy in from food, stored as ATP, spent on work and building, lost partly as heat, and every step run and regulated by enzymes: the whole of Module 6.`})); api.unlock(); return; }
+    const it=FIN6[i]; body.append(h("p",{class:"muted small"},`Call ${i+1} of ${FIN6.length}. One try.`), h("p",{},h("b",{},it.q)));
+    const box=h("div",{class:"opts"}), fb=h("div");
+    shuffle(it.o).forEach(o=>{ const b=h("button",{class:"opt"},o[0]); b.onclick=()=>{ $$(".opt",box).forEach(x=>x.disabled=true); const ok=!!o[1]; api.gradeKey("f"+i,ok,it.t); if(ok){ right++; b.classList.add("right"); fb.append(h("div",{class:"fb ok",html:`<b>Correct.</b> ${o[2]}`})); }
+      else { b.classList.add("wrong"); const g2=it.o.find(x=>x[1]); $$(".opt",box).forEach(x=>{ if(x.textContent===g2[0]) x.classList.add("right"); }); fb.append(h("div",{class:"fb bad",html:`<b>Not this time.</b> ${o[2]} The answer: ${g2[0]}. ${g2[2]}`})); }
+      fb.append(h("button",{class:"btn",style:"margin-top:6px",onclick:()=>{ i++; draw(); }},i+1<FIN6.length?"Next call":"Finish")); }; box.append(b); });
+    body.append(box,fb); }
+  api.panel.append(h("p",{class:"kicker"},"Finale"), h("h2",{},"From a meal to a muscle"), h("p",{},"Nine calls, one try each, following one meal through a cheetah."), bar, body);
+  api.lock(); draw();
+}
+
+/* ============ Enzyme desk: endless practice ============ */
+const pickR=a=>a[Math.floor(Math.random()*a.length)];
+const rint=(a,b)=>a+Math.floor(Math.random()*(b-a+1));
+function makeEnzTask(){
+  const k=Math.floor(Math.random()*9);
+  if(k===0){ const o=pickR(TROPH_ORGS), a=QNAME[o.q];
+    return {title:"Classify the organism",prompt:`${o.n}: ${o.d} What is it?`,opts:shuffle(Object.values(QNAME)),ans:a,why:`Energy source: ${o.q[0]==="p"?"sunlight (phototroph)":"chemical compounds (chemotroph)"}. Carbon source: ${o.q[1]==="a"?"CO₂ (autotroph)":"organic compounds (heterotroph)"}.`,t:TROPH_Q[o.q]}; }
+  if(k===1){ let gr=rint(-12,12), gp=rint(-12,12); if(gr===gp) gp+=3; const dg=gp-gr; const kind=dg<0?"exergonic":"endergonic";
+    const opts=[`ΔG = ${fmtG(dg)}; exergonic, spontaneous`,`ΔG = ${fmtG(dg)}; endergonic, nonspontaneous`,`ΔG = ${fmtG(-dg)}; exergonic, spontaneous`,`ΔG = ${fmtG(-dg)}; endergonic, nonspontaneous`];
+    const ans=dg<0?opts[0]:opts[1];
+    return {title:"Find ΔG",prompt:`The reactants have G = ${gr} kcal/mol and the products have G = ${gp} kcal/mol. What is ΔG, and what kind of reaction is it?`,opts:shuffle(opts),ans,why:`ΔG = final − initial = G(products) − G(reactants) = ${gp} − (${gr}) = ${fmtG(dg)} kcal/mol. ${dg<0?"Negative: exergonic, energy released.":"Positive: endergonic, energy required."}`,t:["delta-g",kind]}; }
+  if(k===2){ const H=rint(-20,20), TS=rint(-10,10); const g=H-TS; const opts=[...new Set([g,H+TS,-g,H].map(v=>fmtG(v)+" kcal/mol"))];
+    while(opts.length<4) opts.push(fmtG(g+opts.length*2+1)+" kcal/mol");
+    return {title:"ΔG = ΔH − TΔS",prompt:`ΔH = ${fmtG(H)} kcal/mol and TΔS = ${fmtG(TS)} kcal/mol. What is ΔG?`,opts:shuffle(opts),ans:fmtG(g)+" kcal/mol",why:`ΔG = ΔH − TΔS = ${fmtG(H)} − (${fmtG(TS)}) = ${fmtG(g)} kcal/mol. ${g<0?"Exergonic.":g>0?"Endergonic.":""}`,t:["gibbs-equation"]}; }
+  if(k===3){ let x; do { x=rint(10,200)/10; } while(Math.abs(x-7.3)<0.05||Math.abs(x-14.6)<0.05);
+    const need=Math.ceil((x+0.001)/7.3); const opts=["1","2","3","4"];
+    return {title:"How many ATP?",prompt:`An endergonic reaction has ΔG = +${x.toFixed(1)} kcal/mol. What is the smallest number of ATP hydrolyses (−7.3 kcal/mol each) that must be coupled to it so the net ΔG is negative?`,opts,ans:String(need),why:`${x.toFixed(1)} − ${need} × 7.3 = ${(x-7.3*need).toFixed(1)} kcal/mol, which is negative.${need>1?` With ${need-1}, the net is +${(x-7.3*(need-1)).toFixed(1)}.`:""}`,t:["coupling"]}; }
+  if(k===4){ const x=rint(5,70)/10, net=+(x-7.3).toFixed(1); const opts=[...new Set([net,+(x+7.3).toFixed(1),+(7.3-x).toFixed(1),-7.3].map(v=>fmtG(v)+" kcal/mol"))];
+    return {title:"Net ΔG",prompt:`A reaction with ΔG = +${x.toFixed(1)} kcal/mol is coupled to the hydrolysis of one ATP (−7.3 kcal/mol). What is the net ΔG?`,opts:shuffle(opts),ans:fmtG(net)+" kcal/mol",why:`Add the ΔG values: +${x.toFixed(1)} + (−7.3) = ${fmtG(net)}. Negative, so the coupled reaction proceeds.`,t:["coupling"]}; }
+  if(k===5){ const all=[...MPROC_A.map(t=>[t,"Anabolic"]),...MPROC_C.map(t=>[t,"Catabolic"]),["Building fats from fatty acids","Anabolic"],["Breaking starch into sugars","Catabolic"]]; const p=pickR(all);
+    return {title:"Build or break?",prompt:`"${p[0]}." Which branch of metabolism is this?`,opts:["Anabolic","Catabolic"],ans:p[1],why:p[1]==="Anabolic"?"It builds molecules from smaller units and requires an input of energy (ATP).":"It breaks molecules into smaller units and produces energy (ATP).",t:[p[1]==="Anabolic"?"anabolism":"catabolism"]}; }
+  if(k===6){ const s=pickR([["A molecule shaped like the substrate binds the active site and blocks it.","Competitive inhibitor","competitive"],["A molecule binds a site away from the active site and changes the enzyme's shape, lowering activity.","Noncompetitive inhibitor","noncompetitive"],["A molecule binds an enzyme and increases its activity.","Activator","activator"],["The last product of a pathway binds and inhibits the first enzyme of that pathway.","Feedback inhibition","feedback-inhibition"]]);
+    return {title:"Enzyme regulation",prompt:s[0]+" What is this?",opts:shuffle(["Competitive inhibitor","Noncompetitive inhibitor","Activator","Feedback inhibition"]),ans:s[1],why:"Competitive: active site. Noncompetitive: another site, shape change. Activators increase activity. Feedback inhibition: end product inhibits the first step.",t:[s[2]]}; }
+  if(k===7){ const s=pickR([["How many phosphate groups does ADP have?","2"],["How many phosphate groups does AMP have?","1"],["How many phosphate groups does ATP have?","3"]]);
+    return {title:"ATP, ADP, AMP",prompt:s[0],opts:["0","1","2","3"],ans:s[1],why:"Tri = three (ATP), di = two (ADP), mono = one (AMP). The more phosphates, the more potential energy in the phosphate bonds.",t:["atp","adp-amp"]}; }
+  const s=pickR([
+    ["An enzyme is added to a reaction. What changes?","The activation energy decreases",["ΔG becomes more negative","The products gain free energy","The reaction becomes endergonic"],"Enzymes lower the activation energy barrier; ΔG is the same with and without the enzyme.",["enzyme","activation-energy"]],
+    ["Total energy before a transformation equals total energy after. Which law?","The first law of thermodynamics",["The second law of thermodynamics","Feedback inhibition","Energetic coupling"],"Energy can be neither created nor destroyed.",["first-law"]],
+    ["Each energy transformation leaves less usable energy, often lost as heat. Which law?","The second law of thermodynamics",["The first law of thermodynamics","Chemical equilibrium","Energetic coupling"],"Transformations are not 100% efficient, and entropy increases.",["second-law"]],
+    ["Which bond holds more potential energy?","A weak bond",["A strong bond","They are always equal","Neither; bonds hold kinetic energy"],"Strong bonds = less potential energy; weak bonds = more.",["bond-strength"]],
+    ["What does the active site of an enzyme do?","Binds the substrate and stabilizes the transition state",["Supplies ATP to the reaction","Raises the activation energy","Changes the ΔG of the reaction"],"Stabilizing the transition state lowers the activation energy.",["active-site"]],
+    ["Why are ATP's phosphate bonds high in potential energy?","The phosphate groups are negatively charged and repel one another",["They are very strong bonds","Adenine stores the charge","Ribose pulls them apart"],"At physiological pH the phosphates resist one another, so the bonds are weak.",["phosphate-bonds"]]]);
+  return {title:"Concepts",prompt:s[0],opts:shuffle([s[1],...s[2]]),ans:s[1],why:s[3],t:s[4]};
+}
+function checkpointView(){
+  const app=$("#app"); app.innerHTML="";
+  app.append(h("div",{class:"banner"},h("span",{class:"num"},"6"),h("span",{class:"ttl"},"Enzyme desk")));
+  app.append(h("p",{class:"muted"},"Endless practice: classifying organisms, ΔG and its sign, ΔG = ΔH − TΔS, coupling with ATP, anabolic vs catabolic, ATP structure, enzymes and their regulation. New questions every time."));
+  const box=h("div",{class:"panel",style:"max-width:860px"}); app.append(box);
+  const sess={r:0,t:0,streak:0}; let task=null, first=true, solved=false;
+  const score=h("div",{class:"score"}), body=h("div"); box.append(score,body);
+  function drawScore(){ score.innerHTML=""; score.append(h("span",{},"This session: ",h("b",{},`${sess.r} of ${sess.t}`)),h("span",{},"Streak: ",h("b",{},String(sess.streak))),h("span",{},"Best streak: ",h("b",{},String(P.cp.best||0)))); }
+  function result(ok){ if(!first) return; first=false; sess.t++; if(ok){ sess.r++; sess.streak++; if(sess.streak>(P.cp.best||0)) P.cp.best=sess.streak; } else sess.streak=0; task.t.forEach(k=>markTerm(k,"tested")); save(); drawScore(); }
+  function next(){ task=makeEnzTask(); if(!task.opts.includes(task.ans)) task.opts[0]=task.ans; task.opts=[...new Set(task.opts)]; first=true; solved=false; draw(); }
+  function draw(){ body.innerHTML=""; body.append(h("p",{class:"kicker"},task.title), h("p",{},h("b",{},task.prompt)));
+    const fb=h("div"), opts=h("div",{class:"opts"});
+    task.opts.forEach(o=>{ const b=h("button",{class:"opt"},o); b.addEventListener("click",()=>{ if(solved) return; const ok=o===task.ans; result(ok);
+      if(ok){ solved=true; b.classList.add("right"); $$(".opt",opts).forEach(x=>x.disabled=true); fb.innerHTML=""; fb.append(h("div",{class:"fb ok",html:"<b>Correct.</b> "+task.why}), h("button",{class:"btn",style:"margin-top:8px",onclick:next},"Next question")); }
+      else { b.classList.add("wrong"); b.disabled=true; fb.innerHTML=""; fb.append(h("div",{class:"fb bad",html:"<b>Not quite.</b> "+task.why})); } }); opts.append(b); });
+    body.append(opts,fb,termChips(task.t)); }
+  drawScore(); next();
+}
+
+/* ============ Energy lab ============ */
+function atlasView(){
+  const app=$("#app"); app.innerHTML="";
+  app.append(h("div",{class:"banner"},h("span",{class:"num"},"6"),h("span",{class:"ttl"},"Energy lab")));
+  app.append(h("p",{class:"muted"},"Explore freely. Click any labelled part to read about it and see where it is in your course notes."));
+  const grid=h("div",{class:"atlas"}), left=h("div"), right=h("div",{class:"panel"}); grid.append(left,right); app.append(grid);
+  const VIEWS=[["troph","Classification"],["metab","Metabolism"],["stairs","Potential and kinetic"],["atp","ATP"],["law1","First law"],["law2","Second law"],["rxn","A reaction"],["dg","ΔG"],["hyd","ATP hydrolysis"],["couple","Coupling"],["ea","Activation energy"],["site","Active site"],["models","Binding models"],["cat","Catabolic cycle"],["ana","Anabolic cycle"],["inhib","Inhibition"],["feed","Feedback"]];
+  let mode="metab"; const seg=h("div",{class:"seg",style:"margin-bottom:10px;flex-wrap:wrap"}), host=h("div");
+  VIEWS.forEach(v=>{ const b=h("button",{"aria-pressed":String(v[0]===mode)},v[1]); b.addEventListener("click",()=>{ mode=v[0]; $$("button",seg).forEach(x=>x.setAttribute("aria-pressed","false")); b.setAttribute("aria-pressed","true"); draw(); }); seg.append(b); });
+  left.append(seg,host);
+  function info(k){ const t=T[k]; if(!t) return; markTerm(k,"seen"); right.innerHTML="";
+    right.append(h("h2",{},t.n),h("p",{},t.d),h("p",{class:"notes-ref"},h("b",{},"Course notes: "),`p. ${t.p}`));
+    const rel=related(k); if(rel.length){ right.append(h("p",{class:"muted small",style:"margin:10px 0 0"},"Related")); right.append(termChips(rel)); } }
+  function intro(t){ right.innerHTML=""; right.append(h("h2",{},VIEWS.find(v=>v[0]===mode)[1]),h("p",{},t)); }
+  function draw(){ stopLoops(); host.innerHTML="";
+    const put=(svg,cap)=>{ const f=plate(svg,cap); host.append(f); bindTerms(f,info); return f; };
+    const M={
+      troph:()=>{ put(figTroph(null),"<b>Lab</b> A metabolic classification of organisms (Notes p. 90, Fig 6.1)"); intro("Energy from the sun or from chemicals; carbon from CO₂ or from organic compounds."); },
+      metab:()=>{ put(figMetab(null),"<b>Lab</b> Anabolism and catabolism (Notes p. 91, Fig 6.2)"); intro("Catabolism breaks down and makes ATP; anabolism builds up and spends it."); },
+      stairs:()=>{ put(figStairs(),"<b>Lab</b> Potential and kinetic energy (Notes p. 91, Fig 6.3)"); intro("Stored energy vs energy of motion."); },
+      atp:()=>{ put(figATP(3,{hiBonds:true,repel:true}),"<b>Lab</b> ATP structure (Notes p. 92, Fig 6.4)"); intro("Adenine, ribose and three phosphates. The energy is in the phosphate bonds."); },
+      law1:()=>{ put(figLaw(1),"<b>Lab</b> The first law of thermodynamics (Notes p. 93, Fig 6.5)"); intro("Energy can be neither created nor destroyed."); },
+      law2:()=>{ put(figLaw(2),"<b>Lab</b> The second law of thermodynamics (Notes p. 93, Fig 6.6)"); intro("Each transformation loses some usable energy, often as heat."); },
+      rxn:()=>{ put(figReaction(),"<b>Lab</b> A chemical reaction (Notes p. 94, Fig 6.7)"); intro("Atoms keep their identity; bonds change."); },
+      dg:()=>{ put(figDG(),"<b>Lab</b> Endergonic and exergonic reactions (Notes p. 94, Fig 6.8)"); intro("ΔG = G(products) − G(reactants)."); },
+      hyd:()=>{ put(figHydrolysis(),"<b>Lab</b> ATP hydrolysis (Notes p. 95, Fig 6.9)"); intro("ATP + H₂O → ADP + Pᵢ, ΔG = −7.3 kcal/mol."); },
+      couple:()=>{ put(figCoupling(),"<b>Lab</b> Energetic coupling (Notes p. 96, Fig 6.11)"); intro("−7.3 + 3.3 = −4.0 kcal/mol: the coupled reaction proceeds."); },
+      ea:()=>{ put(figEA(),"<b>Lab</b> An enzyme-catalyzed reaction (Notes p. 95, Fig 6.10)"); intro("Enzymes lower the activation energy; ΔG is unchanged."); },
+      site:()=>{ put(figActiveSite(),"<b>Lab</b> The enzyme active site (Notes p. 96, Fig 6.12)"); intro("Folding brings distant amino acids together to form the active site."); },
+      models:()=>{ put(figModels(),"<b>Lab</b> Lock-and-key and induced fit (Notes p. 97, Fig 6.13)"); intro("Does the site already fit, or does the enzyme change shape?"); },
+      cat:()=>{ put(figCycle("cat"),"<b>Lab</b> A catabolic reaction (Notes p. 97, Fig 6.13)"); intro("E + S ⇌ ES ⇌ EP ⇌ E + P, one substrate split."); },
+      ana:()=>{ put(figCycle("ana"),"<b>Lab</b> An anabolic reaction (Notes p. 97, Fig 6.13)"); intro("E + S ⇌ ES ⇌ EP ⇌ E + P, two substrates joined."); },
+      inhib:()=>{ put(figInhib(),"<b>Lab</b> Competitive and noncompetitive inhibition (Notes p. 97, Fig 6.13)"); intro("Active site vs another site."); },
+      feed:()=>{ put(figFeedback(1),"<b>Lab</b> An allosteric enzyme (Notes p. 97, Fig 6.14)"); intro("Isoleucine shuts off threonine dehydratase: feedback inhibition."); }
+    }; M[mode]();
+  }
+  draw();
+}
+
+/* ============ Home ============ */
+function homeView(){
+  const app=$("#app"); app.innerHTML="";
+  const nextIdx=CHAPTERS.findIndex(c=>!chState(c.id).done), startIdx=nextIdx<0?0:nextIdx;
+  app.append(h("div",{class:"banner"},h("span",{class:"num"},"Module 6"),h("span",{class:"ttl"},"Making life work: energy and metabolism"),h("span",{class:"pg"},"Course notes pp. 89–98")));
+  const f=plate(figMetab(null),"<b>Figure</b> Anabolism and catabolism. Click anything.");
+  const text=h("div",{},
+    h("h1",{},"Energy in, work out."),
+    h("p",{class:"lede"},"This module covers how organisms get energy, the two branches of metabolism, kinetic and potential energy, ATP, the laws of thermodynamics, free energy and ΔG, energetic coupling, and how enzymes speed up reactions and are regulated."),
+    h("p",{style:"font-weight:700;margin-bottom:4px"},"Learning outcomes"),
+    h("ol",{style:"margin:0 0 12px;padding-left:20px"},h("li",{},"Describe energy flow in anabolic and catabolic metabolism."),h("li",{},"Contrast kinetic and potential forms of energy and relate the structure of ATP to its role in cellular energy interactions."),h("li",{},"Explain the laws of thermodynamics as they apply to biological systems."),h("li",{},"Describe the type(s) of energy involved in chemical reactions and the role of enzymes.")),
+    h("p",{class:"muted small"},"Each chapter starts with a figure or experiment you can work with, then tests you. Your score is the share you get right on the first try. Every figure and term points back to a page in your course notes."),
+    h("div",{class:"row",style:"margin-top:10px"}, h("button",{class:"btn",onclick:()=>{RUN=null; renderChapter(startIdx,0);}}, nextIdx===0?"Start chapter 6.1":nextIdx<0?"Replay chapter 6.1":`Continue with chapter 6.${startIdx+1}`), h("button",{class:"btn ghost",onclick:()=>go("checkpoint")},"Enzyme desk")));
+  app.append(h("div",{class:"hero"},f,text)); bindTerms(f);
+  const list=h("ol",{class:"chlist"});
+  CHAPTERS.forEach((c,i)=>{ const st=chState(c.id);
+    list.append(h("li",{},h("button",{class:"chitem",onclick:()=>{RUN=null; renderChapter(i,0);}}, h("span",{class:"chnum"},`6.${i+1}`), h("h3",{},c.title), h("span",{class:"meta"}, `${c.blurb} Notes ${c.pages}.`, st.done?h("span",{class:"done-tag"},`  Best: ${Math.round((st.best||0)*100)}%`):"")))); });
+  app.append(h("div",{class:"sect"},h("h2",{},"Chapters"),list));
+  app.append(h("div",{class:"sect"},h("h2",{},"Other ways in"),h("p",{class:"muted"},"The energy lab lets you click through every figure in the module. The enzyme desk gives you endless random questions, including ΔG and coupling calculations. The mini exam tests the whole module and tells you what to relearn. The glossary lists all the important terms from p. 98 of your notes.")));
+  const reset=h("button",{class:"mini",style:"margin-left:8px",onclick:()=>{ if(confirm("Clear all saved progress for Module 6 in this browser?")){ P={ch:{},terms:{},cp:{best:0}}; save(); homeView(); } }},"Reset progress");
+  app.append(h("p",{class:"foot"},"Made for BIOL 130 review. Content follows the Module 6 course notes (pp. 89 to 98), which use figures from Morris et al., Biology: How Life Works, 4th edition (Macmillan, 2023). All figures here are original drawings. Progress is saved in this browser only.",reset));
+}
+
+/* ============ Glossary ============ */
+function glossaryView(){
+  const app=$("#app"); app.innerHTML="";
+  const keys=Object.keys(T), tested=keys.filter(k=>P.terms[k]==="tested").length, seen=keys.filter(k=>P.terms[k]).length;
+  const search=h("input",{type:"search",placeholder:"Find a term",style:"padding:8px 12px;border:1px solid var(--rule);border-radius:6px;background:var(--paper);color:var(--ink);font:inherit;min-width:240px","aria-label":"Find a term"});
+  app.append(h("div",{class:"banner"},h("span",{class:"num"},"6"),h("span",{class:"ttl"},"Important terms and concepts"),h("span",{class:"pg"},"Course notes p. 98")));
+  app.append(h("div",{class:"crumb"},h("p",{class:"muted",style:"margin:0"},`${seen} of ${keys.length} seen, ${tested} tested. Page numbers point to your course notes.`),h("div",{style:"margin-left:auto"},search)));
+  const box=h("div",{class:"gl"}); app.append(box);
+  function draw(q=""){ box.innerHTML="";
+    TERM_ORDER_GROUPS.forEach(g=>{ const ks=keys.filter(k=>T[k].g===g && (!q || (T[k].n+" "+T[k].d).toLowerCase().includes(q))); if(!ks.length) return;
+      const sec=h("section",{},h("h2",{},g));
+      ks.forEach(k=>{ const st=P.terms[k]; sec.append(h("div",{class:"gi"},h("b",{},T[k].n),h("span",{class:"st "+(st||"")},st==="tested"?"Tested":st==="seen"?"Seen":"Not yet"),h("p",{},T[k].d+" "),h("p",{class:"notes-ref",style:"grid-column:1/-1;margin:2px 0 0"},`Notes p. ${T[k].p}`))); });
+      box.append(sec); }); }
+  search.addEventListener("input",()=>draw(search.value.trim().toLowerCase())); draw();
+}
+
+
+
+/* ============ mini exam (shared engine in exam.js) ============ */
+function examView(){
+  const app=$("#app"); app.innerHTML="";
+  app.append(h("div",{class:"banner"},h("span",{class:"num"},"6"),h("span",{class:"ttl"},"Mini exam")));
+  const host=h("div"); app.append(host);
+  const items=((window.STUDY&&STUDY.exam&&STUDY.exam["m6"])||[]).map((q,i)=>({...q,mod:"m6",id:"m6-"+i}));
+  EXAM.mount(host,{key:"m6",title:"Module 6 mini exam",intro:`${items.length} questions covering every chapter of this module.`,items,sizes:[10]});
+}
+/* ============ router ============ */
+function go(view){
+  stopLoops(); exploreHook=null; RUN=null; tc.classList.remove("show"); tip.style.display="none";
+  $$(".tab").forEach(t=>t.setAttribute("aria-current",String(t.dataset.go===view)));
+  if(view==="atlas") atlasView(); else if(view==="checkpoint") checkpointView(); else if(view==="glossary") glossaryView(); else if(view==="exam") examView(); else homeView();
+  window.scrollTo(0,0);
+}
+$$(".tab").forEach(t=>t.addEventListener("click",()=>go(t.dataset.go)));
+$("#home").addEventListener("click",()=>go("story"));
+function fromHash(){
+  const m=location.hash.match(/^#ch=(\d+)/);
+  if(m && CHAPTERS[+m[1]-1]){ RUN=null; renderChapter(+m[1]-1,0); return true; }
+  if(location.hash==="#exam"){ go("exam"); return true; }
+  return false;
+}
+window.addEventListener("hashchange",fromHash);
+if(!fromHash()) go("story");
+</script>
+<script src="modes.js"></script>
+</body></html>

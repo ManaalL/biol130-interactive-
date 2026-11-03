@@ -104,5 +104,5 @@ export function build(ctx) {
   }
   ctx.label('Hydrogen bonds', hb[Math.floor(hb.length * 0.25)][0].clone().lerp(hb[Math.floor(hb.length * 0.25)][1], 0.5), { part: 'hbond', priority: 1.2 });
 
-  return { view: { pos: [6.2, 2.2, 10.5], target: [0.2, 0, 0], min: 3, max: 30 } };
+  return { view: { pos: [6.2, 2.2, 10.5], target: [0.2, 0, 0], min: 3, max: 30, k: 0.35 } };
 }

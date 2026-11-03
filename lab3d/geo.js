@@ -212,7 +212,7 @@ export function bilayer({ w = 12, d = 4, spacing = 0.46, y = 0, half = 1.0, head
           const top = a.set(hx + dx, hy - l.sgn * headR * 0.7, hz);
           const endY = hy - l.sgn * (headR * 0.7 + tailLen);
           const kinkX = (t && l.kink) ? 0.16 : 0;
-          b.set(hx + dx + kinkX, endY, hz + (R() - 0.5) * 0.0);
+          b.set(hx + dx + kinkX, endY, hz);
           rodMatrix(m4, top, b, tailR); tailIM.setMatrixAt(i * 2 + t, m4);
         }
       });

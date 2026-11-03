@@ -262,6 +262,8 @@ input[type=range]{width:100%;accent-color:var(--accent)}
   *{transition:none!important;animation:none!important}
 }
 @media (max-width:640px){.banner{flex-wrap:wrap}.banner .pg{flex-basis:100%;padding:4px 14px 6px;white-space:normal}}
+.atlas .seg button{flex:1 0 auto;white-space:nowrap;min-width:0}
+
 </style>
 </head>
 <body>
@@ -576,7 +578,7 @@ function figSpectrum(o={}){
   const show=o.show||{a:1,b:1,c:1}, W=760,H=430; let s=`<svg viewBox="0 0 ${W} ${H}" role="img" aria-label="The electromagnetic spectrum, visible light from 400 to 700 nm, and absorption by chlorophyll a, chlorophyll b and carotenoids"><rect width="${W}" height="${H}" fill="#fff"/>`;
   let gr=`<linearGradient id="vis8" x1="0" x2="1" y1="0" y2="0">`; for(let w=400;w<=700;w+=20) gr+=`<stop offset="${(w-400)/300}" stop-color="${nmRGB(w)}"/>`; s+=`<defs>${gr}</linearGradient></defs>`;
   const EM=["Gamma rays","X-rays","Ultraviolet","Visible","Infrared","Microwaves","Radio waves"], ex=60, ew=92;
-  s+=`<g data-term="em-spectrum">${arrow(330,22,60,22,"#7a8a96",1.5)}${arrow(430,22,704,22,"#7a8a96",1.5)}<text class="lbl sm" x="380" y="26" text-anchor="middle">Electromagnetic spectrum</text><text class="lbl sm" x="60" y="40">High energy, short λ</text><text class="lbl sm" x="704" y="40" text-anchor="end">Low energy, long λ</text>`;
+  s+=`<g data-term="em-spectrum">${arrow(306,22,60,22,"#7a8a96",1.5)}${arrow(454,22,704,22,"#7a8a96",1.5)}<text class="lbl sm" x="380" y="26" text-anchor="middle">Electromagnetic spectrum</text><text class="lbl sm" x="60" y="40">High energy, short λ</text><text class="lbl sm" x="704" y="40" text-anchor="end">Low energy, long λ</text>`;
   EM.forEach((t,i)=>s+=`<rect x="${ex+i*ew}" y="48" width="${ew-2}" height="28" fill="${i===3?"url(#vis8)":"#dfe3e6"}" stroke="#fff"/><text class="lbl sm" x="${ex+i*ew+ew/2-1}" y="66" text-anchor="middle" font-weight="${i===3?700:400}">${t}</text>`); s+=`</g>`;
   const X=w=>120+(w-400)*580/300, Y=v=>356-v*170;
   s+=`<path d="M${ex+3*ew} 76 L120 112 M${ex+4*ew-2} 76 L700 112" stroke="#b9c2c8" fill="none"/>`;
@@ -603,10 +605,10 @@ function figChlorophyll(){
   [[0,-48],[48,0],[0,48],[-48,0]].forEach(([dx,dy])=>{ const a=Math.atan2(dy,dx); s+=pent(cx+dx,cy+dy,20,a+Math.PI); s+=`<line x1="${cx+dx*0.62}" y1="${cy+dy*0.62}" x2="${cx+dx*0.3}" y2="${cy+dy*0.3}" stroke="#3f7a1f" stroke-width="1.6" stroke-dasharray="3 2"/>`+chem(cx+dx*0.6,cy+dy*0.6+4,"N",MC_N8,12); });
   s+=`</g>`;
   s+=`<g data-term="porphyrin"><circle cx="${cx}" cy="${cy}" r="14" fill="#9ad06b" stroke="#2e6b1f" stroke-width="1.8"/>${chem(cx,cy+5,"Mg","#1d4a12",13)}</g>`;
-  s+=`<g data-term="chlorophyll"><line x1="${cx+52}" y1="${cy-52}" x2="${cx+74}" y2="${cy-74}" stroke="#7a1d14" stroke-width="2"/>${chem(cx+92,cy-78,"–CH₃ (a) or –CHO (b)","#7a1d14",12,700,"start")}<line x1="${cx-52}" y1="${cy-52}" x2="${cx-70}" y2="${cy-70}" stroke="#55606a" stroke-width="2"/>${chem(cx-76,cy-76,"CH=CH₂","#55606a",11,600,"end")}<line x1="${cx-56}" y1="${cy+50}" x2="${cx-74}" y2="${cy+66}" stroke="#55606a" stroke-width="2"/>${chem(cx-80,cy+76,"CH₃","#55606a",11,600,"end")}</g>`;
+  s+=`<g data-term="chlorophyll"><line x1="${cx+52}" y1="${cy-52}" x2="${cx+74}" y2="${cy-74}" stroke="#7a1d14" stroke-width="2"/>${chem(cx+80,cy-76,"–CH₃ (a) or –CHO (b)","#7a1d14",12,700,"start")}<line x1="${cx-52}" y1="${cy-52}" x2="${cx-70}" y2="${cy-70}" stroke="#55606a" stroke-width="2"/>${chem(cx-76,cy-76,"CH=CH₂","#55606a",11,600,"end")}<line x1="${cx-56}" y1="${cy+50}" x2="${cx-74}" y2="${cy+66}" stroke="#55606a" stroke-width="2"/>${chem(cx-80,cy+76,"CH₃","#55606a",11,600,"end")}</g>`;
   let d=`M${cx+20} ${cy+76}`; for(let i=1;i<=14;i++) d+=` L${cx+(i%2?34:20)} ${cy+76+i*15.5}`;
   s+=`<g data-term="phytol"><path class="hl" d="${d}" stroke="#55606a" stroke-width="3" fill="none" stroke-linejoin="round"/></g>`;
-  s+=`<g class="lbls">${lab("Porphyrin ring: absorbs light","porphyrin",470,70,cx+72,cy-20)}${lab("Magnesium (Mg) atom\nin the centre of the ring","porphyrin",470,124,cx+14,cy)}${lab("Side groups differ: this one\ngives chlorophyll a or b","chlorophyll",470,26,cx+86,cy-82)}${lab("Phytol side chain\n(hydrocarbon tail)","phytol",470,228,cx+32,cy+126)}${lab("Inserts chlorophyll into the\nlipid bilayer of the thylakoid membrane","thylakoid",470,300,410,300)}</g>`;
+  s+=`<g class="lbls">${lab("Porphyrin ring: absorbs light","porphyrin",470,70,cx+72,cy-20)}${lab("Magnesium (Mg) atom\nin the centre of the ring","porphyrin",470,124,cx+14,cy)}${lab("Side groups differ: this one\ngives chlorophyll a or b","chlorophyll",470,38,446,44)}${lab("Phytol side chain\n(hydrocarbon tail)","phytol",470,228,cx+32,cy+126)}${lab("Inserts chlorophyll into the\nlipid bilayer of the thylakoid membrane","thylakoid",470,300,410,300)}</g>`;
   s+=`</svg>`; return s;
 }
 const MC_N8="#4a7fd0";
@@ -621,14 +623,14 @@ function antennaSVG(st={}){
   if(st.path && st.path.length>1){ const pts=st.path.map(i=>ANT[i]).concat([[306,236]]); s+=`<polyline points="${pts.map(p=>p.join(",")).join(" ")}" fill="none" stroke="#e0a21b" stroke-width="3" stroke-dasharray="6 4"/>`; }
   const rcCol=st.rc==="ox"?"#f1f3ee":st.rc==="ex"?"#f6e27a":"#8cc152";
   s+=`<g data-term="reaction-center"><ellipse cx="306" cy="262" rx="84" ry="22" fill="#6f9f37" stroke="#3f6a1a" stroke-width="1.6"/><ellipse class="hl" cx="306" cy="246" rx="84" ry="22" fill="${rcCol}" stroke="#3f6a1a" stroke-width="2"/>`;
-  s+=st.rc==="ox"?`<circle cx="306" cy="246" r="9" fill="none" stroke="#a5501a" stroke-width="2" stroke-dasharray="3 2"/><text class="lbl sm" x="306" y="282" text-anchor="middle" font-weight="700" fill="#a33a2f">missing an electron</text>`:eDot(306,246,9);
+  s+=st.rc==="ox"?`<circle cx="306" cy="246" r="9" fill="none" stroke="#a5501a" stroke-width="2" stroke-dasharray="3 2"/><text class="lbl sm" x="306" y="302" text-anchor="middle" font-weight="700" fill="#a33a2f">missing an electron</text>`:eDot(306,246,9);
   s+=`</g>`;
   s+=`<g data-term="reaction-center"><rect x="520" y="226" width="130" height="40" rx="6" fill="#fbe3cc" stroke="#d07a3a"/>${chem(585,251,"Electron acceptor","#7a3a10",13)}</g>`;
   s+=`<g data-term="water-split"><rect x="32" y="226" width="150" height="40" rx="6" fill="#dfeaf6" stroke="#3f6a9a"/>${chem(107,251,"Electron donor: H₂O","#1f4a7a",13)}</g>`;
   if(st.out) s+=arrow(392,246,516,246,PC.e,2.5)+eDot(470,232,8);
   if(st.in) s+=arrow(186,246,220,246,PC.e,2.5)+eDot(204,232,8);
-  if(st.light!==false){ const t=st.lightAt!=null?ANT[st.lightAt]:[302,74]; s+=`<g data-term="photon">${wavy(t[0]-120,t[1]-64,t[0]-28,t[1]-12,"#d99a12",5,4,2.4)}<text class="lbl" x="${t[0]-128}" y="${t[1]-70}">light</text></g>`; }
-  if(st.o2!=null) s+=`<text class="lbl" x="32" y="300">Electrons from water: <tspan font-weight="700">${st.o2e||0}</tspan>   O₂ released: <tspan font-weight="700">${st.o2}</tspan></text>`;
+  if(st.light!==false){ const t=st.lightAt!=null?ANT[st.lightAt]:[302,74]; s+=`<g data-term="photon">${wavy(t[0]-120,t[1]-64,t[0]-28,t[1]-12,"#d99a12",5,4,2.4)}<text class="lbl" x="${t[0]-126}" y="${t[1]-58}" text-anchor="end">light</text></g>`; }
+  if(st.o2!=null) s+=`<text class="lbl" x="32" y="336">Electrons from water: <tspan font-weight="700">${st.o2e||0}</tspan>   O₂ released: <tspan font-weight="700">${st.o2}</tspan></text>`;
   if(st.title) s+=`<text class="lbl" x="16" y="${H-14}" font-weight="700" font-size="15">${st.title}</text>`;
   if(st.labels!==false) s+=`<g class="lbls">${lab("Antenna chlorophylls:\npass energy, not electrons","antenna",470,90,408,120)}${lab("Reaction center: a pair of chlorophylls\nthat gives its excited electron away","reaction-center",430,330,350,264)}</g>`;
   s+=`</svg>`; return s;
@@ -641,15 +643,15 @@ const ZN=[ // [x,y,label,term]
 function figZ(o={}){
   const W=760,H=420; let s=`<svg viewBox="0 0 ${W} ${H}" role="img" aria-label="Z scheme: electrons from water are raised by light at photosystem II, lose energy along the chain, are raised again at photosystem I and reduce NADP+"><rect width="${W}" height="${H}" fill="#fff"/>`;
   s+=`${arrow(36,392,36,40,"#55606a",1.6)}<text class="lbl" x="26" y="220" transform="rotate(-90 26 220)" text-anchor="middle">Energy of the electron</text>`;
-  s+=`<g data-term="psii"><rect class="hl" x="166" y="104" width="36" height="236" rx="8" fill="${PC.psii}" fill-opacity=".35" stroke="${PC.psiiS}" stroke-width="1.6"/><text class="lbl" x="184" y="372" text-anchor="middle" font-weight="700">Photosystem II</text></g>`;
-  s+=`<g data-term="psi"><rect class="hl" x="482" y="54" width="36" height="222" rx="8" fill="${PC.psi}" fill-opacity=".35" stroke="${PC.psiS}" stroke-width="1.6"/><text class="lbl" x="500" y="300" text-anchor="middle" font-weight="700">Photosystem I</text></g>`;
+  s+=`<g data-term="psii"><rect class="hl" x="166" y="104" width="36" height="236" rx="8" fill="${PC.psii}" fill-opacity=".35" stroke="${PC.psiiS}" stroke-width="1.6"/><text class="lbl" x="184" y="96" text-anchor="middle" font-weight="700">Photosystem II</text></g>`;
+  s+=`<g data-term="psi"><rect class="hl" x="482" y="54" width="36" height="222" rx="8" fill="${PC.psi}" fill-opacity=".35" stroke="${PC.psiS}" stroke-width="1.6"/><text class="lbl" x="500" y="46" text-anchor="middle" font-weight="700">Photosystem I</text></g>`;
   s+=`<g data-term="photon">${wavy(110,250,162,214,"#d99a12",4,3,2.2)}<text class="lbl sm" x="96" y="244">light</text>${wavy(424,140,478,110,"#d99a12",4,3,2.2)}<text class="lbl sm" x="410" y="136">light</text></g>`;
   const P=ZN.map(n=>[n[0],n[1]]);
   s+=`<g data-term="z-scheme"><polyline class="hl" points="${P.map(p=>p.join(",")).join(" ")}" fill="none" stroke="${PC.e}" stroke-width="3" stroke-linejoin="round" opacity=".85"/></g>`;
-  ZN.forEach(([x,y,t,term],i)=>{ if(i===1||i===2||i===6||i===7) return; s+=`<g data-term="${term}"><circle cx="${x}" cy="${y}" r="${i===0||i===10?0:7}" fill="#fff" stroke="${PC.e}" stroke-width="2"/>${i===0?chem(x-10,y+6,t,PC.h,17):i===10?"":chem(x+(i===9?0:12),y-12,t,PC.ink,13,700,i===9?"middle":"start")}</g>`; });
+  ZN.forEach(([x,y,t,term],i)=>{ if(i===1||i===2||i===6||i===7) return; s+=`<g data-term="${term}"><circle cx="${x}" cy="${y}" r="${i===0||i===10?0:7}" fill="#fff" stroke="${PC.e}" stroke-width="2"/>${i===0?chem(x-30,y+6,t,PC.h,17):i===10?"":chem(x+(i===9?0:12),y-12,t,PC.ink,13,700,i===9?"middle":"start")}</g>`; });
   s+=`<g data-term="nadph">${nadphP(712,172)}<text class="lbl sm" x="712" y="200" text-anchor="middle">NADP⁺ + H⁺</text><text class="lbl sm" x="712" y="213" text-anchor="middle">→ NADPH</text></g>`;
   s+=`<g data-term="water-split"><text class="lbl sm" x="56" y="384">2 H₂O → O₂ + 4 H⁺ + 4 e⁻</text></g>`;
-  s+=`<g data-term="proton-gradient">${hDot(350,250,8)}<text class="lbl sm" x="364" y="254">H⁺ pumped</text><text class="lbl sm" x="364" y="267">into lumen</text></g>`;
+  s+=`<g data-term="proton-gradient">${hDot(330,262,8)}<text class="lbl sm" x="344" y="262">H⁺ pumped</text><text class="lbl sm" x="344" y="275">into lumen</text></g>`;
   s+=`<g data-term="ps-etc"><text class="lbl it" x="250" y="300">electron transport chain:</text><text class="lbl it" x="250" y="314">energy drops step by step</text></g>`;
   if(o.dot) s+=`<g id="zdot">${eDot(P[0][0],P[0][1],9)}</g>`;
   s+=`</svg>`; return s;
@@ -659,7 +661,7 @@ function figZ(o={}){
 const TH={top:150,bot:222};
 function figThylakoid(o={}){
   const W=780,H=420; let s=`<svg viewBox="0 0 ${W} ${H}" role="img" aria-label="Thylakoid membrane with photosystem II, plastoquinone, cytochrome b6f, plastocyanin, photosystem I, ferredoxin, NADP+ reductase and ATP synthase"><rect width="${W}" height="${H}" fill="#fff"/>`;
-  s+=`<g data-term="stroma"><rect x="0" y="0" width="${W}" height="${TH.top}" fill="${PC.str}"/><text class="lbl" x="12" y="22" font-weight="700" font-style="italic">Stroma</text></g>`;
+  s+=`<g data-term="stroma"><rect x="0" y="0" width="${W}" height="${TH.top}" fill="${PC.str}"/><text class="lbl" x="12" y="140" font-weight="700" font-style="italic">Stroma</text></g>`;
   s+=`<g data-term="lumen"><rect x="0" y="${TH.bot}" width="${W}" height="${H-TH.bot}" fill="${PC.lum}"/><text class="lbl" x="12" y="${H-12}" font-weight="700" font-style="italic">Thylakoid lumen</text></g>`;
   s+=`<g data-term="thylakoid"><rect x="0" y="${TH.top}" width="${W}" height="${TH.bot-TH.top}" fill="#f5edd2"/>`; for(let x=6;x<W;x+=12) s+=`<circle cx="${x}" cy="${TH.top+5}" r="5" fill="#e8c96a" stroke="#b8901c" stroke-width=".6"/><circle cx="${x}" cy="${TH.bot-5}" r="5" fill="#e8c96a" stroke="#b8901c" stroke-width=".6"/>`; s+=`</g>`;
   const blob=(x,y,w,hh,f,st)=>`<rect class="hl" x="${x-w/2}" y="${y-hh/2}" width="${w}" height="${hh}" rx="${Math.min(w,hh)/2.6}" fill="${f}" stroke="${st}" stroke-width="1.8"/>`;
@@ -674,10 +676,10 @@ function figThylakoid(o={}){
     s+=`<g data-term="photon">${wavy(70,26,108,122,"#d99a12",4,4,2.2)}<text class="lbl sm" x="58" y="20">light</text>${wavy(412,26,450,122,"#d99a12",4,4,2.2)}<text class="lbl sm" x="400" y="20">light</text></g>`;
     s+=`<g data-term="ps-etc" opacity=".95"><path d="M120 222 L120 200 M150 186 L202 186 M238 186 L258 186 M318 226 Q330 258 368 258 M398 252 Q430 240 440 214 M488 138 Q500 112 518 112 M548 112 L564 112" stroke="${PC.e}" stroke-width="2.4" fill="none"/>${arrow(248,186,258,186,PC.e,2.4)}${arrow(360,258,368,258,PC.e,2.4)}${arrow(438,222,442,212,PC.e,2.4)}${arrow(556,112,564,112,PC.e,2.4)}</g>`;
     s+=`<g data-term="water-split">${chem(78,300,"H₂O",PC.h,16)}${arrow(94,292,112,236,PC.h,2)}${arrow(126,236,150,300,"#a33a2f",1.6)}${chem(166,316,"O₂",PC.o2,15)}${hDot(186,300,8)}</g>`;
-    s+=`<g data-term="proton-gradient">${hDot(220,70,8)}${arrow(220,80,220,170,PC.hS,1.8)}${arrow(300,236,300,296,PC.hS,1.8)}${hDot(300,306,8)}${[[340,340],[420,320],[520,350],[600,316],[250,360],[640,370],[470,380],[560,290]].map(p=>hDot(p[0],p[1],7)).join("")}</g>`;
+    s+=`<g data-term="proton-gradient">${hDot(220,70,8)}${arrow(220,80,220,170,PC.hS,1.8)}${arrow(300,236,300,296,PC.hS,1.8)}${hDot(300,306,8)}${[[340,340],[430,352],[520,350],[600,316],[250,360],[640,370],[470,380],[560,290]].map(p=>hDot(p[0],p[1],7)).join("")}</g>`;
     s+=`<g data-term="nadph">${arrow(604,90,604,64,PC.nadphS,1.8)}${nadphP(604,50)}<text class="lbl sm" x="560" y="80" text-anchor="end">NADP⁺ + H⁺</text></g>`;
-    s+=`<g data-term="atp">${arrow(712,300,712,240,PC.hS,2)}${hDot(712,312,8)}${arrow(712,60,712,40,PC.atpS,1.8)}${atpP(712,28)}<text class="lbl sm" x="680" y="40" text-anchor="end">ADP + Pᵢ</text></g>`;
-    s+=`<g class="lbls">${lab("Plastoquinone carries e⁻\nfrom PSII to b6f","plastoquinone",160,108,214,174,"middle","lbl sm")}${lab("Plastocyanin diffuses\nthrough the lumen to PSI","plastocyanin",384,300,384,272,"middle","lbl sm")}${lab("H⁺ builds up in the lumen","proton-gradient",500,410,470,380,"start","lbl sm")}</g>`;
+    s+=`<g data-term="atp">${arrow(712,300,712,240,PC.hS,2)}${hDot(712,312,8)}${arrow(692,72,676,46,PC.atpS,1.8)}${atpP(662,32)}<text class="lbl sm" x="748" y="56" text-anchor="middle">ADP + Pᵢ</text></g>`;
+    s+=`<g class="lbls">${lab("Plastoquinone carries e⁻\nfrom PSII to b6f","plastoquinone",240,96,228,176,"start","lbl sm")}${lab("Plastocyanin diffuses\nthrough the lumen to PSI","plastocyanin",384,300,384,272,"middle","lbl sm")}${lab("H⁺ builds up in the lumen","proton-gradient",500,410,470,380,"start","lbl sm")}</g>`;
   }
   s+=`</svg>`; return s;
 }
@@ -686,7 +688,7 @@ function figThylakoid(o={}){
 function figCalvin(o={}){
   const W=760,H=430, hl=o.hl, c=o.counts; let s=`<svg viewBox="0 0 ${W} ${H}" role="img" aria-label="Calvin cycle: carboxylation of RuBP by rubisco gives PGA, reduction gives triose phosphate, regeneration rebuilds RuBP"><rect width="${W}" height="${H}" fill="#fff"/>`;
   const op=k=>hl&&hl!==k?' opacity=".35"':'';
-  s+=`<g data-term="carboxylation"${op("carb")}><path class="hl" d="M150 214 C150 110 220 84 300 84" fill="none" stroke="#4f9a6a" stroke-width="7"/><polygon points="314,84 296,74 296,94" fill="#4f9a6a"/><text class="lbl" x="172" y="136" font-weight="700" fill="#2e6b45">1. Carboxylation</text></g>`;
+  s+=`<g data-term="carboxylation"${op("carb")}><path class="hl" d="M150 214 C150 110 220 84 300 84" fill="none" stroke="#4f9a6a" stroke-width="7"/><polygon points="314,84 296,74 296,94" fill="#4f9a6a"/><text class="lbl" x="36" y="196" font-weight="700" fill="#2e6b45">1. Carboxylation</text></g>`;
   s+=`<g data-term="calvin-reduction"${op("red")}><path class="hl" d="M462 84 C560 84 604 130 604 206" fill="none" stroke="#3f7fc0" stroke-width="7"/><polygon points="604,222 594,204 614,204" fill="#3f7fc0"/><text class="lbl" x="616" y="136" font-weight="700" fill="#2b5a8f">2. Reduction</text></g>`;
   s+=`<g data-term="regeneration"${op("regen")}><path class="hl" d="M590 286 C560 400 200 400 162 290" fill="none" stroke="#d08a3a" stroke-width="7"/><polygon points="156,272 152,294 170,288" fill="#d08a3a"/><text class="lbl" x="376" y="392" text-anchor="middle" font-weight="700" fill="#9a5a1a">3. Regeneration of RuBP</text></g>`;
   s+=`<g data-term="rubp">${pill(150,248,c?118:96,34,"#f6e3c4","#b07a2a",c?`${c.rubp} RuBP (5C)`:"RuBP (5C)",PC.ink,14)}</g>`;
@@ -704,19 +706,22 @@ function figCalvin(o={}){
 }
 
 /* ---- Fig 8.10: evolution of photosynthesis (notes p. 124) ---- */
-function cell8(x,y,rx,ry,ps,lab2){ let s=`<ellipse cx="${x}" cy="${y}" rx="${rx}" ry="${ry}" fill="#d8eef0" stroke="#2f8f8a" stroke-width="3"/><ellipse cx="${x}" cy="${y}" rx="${rx-6}" ry="${ry-6}" fill="#eef8f6" stroke="#8cc4bf"/>`;
-  (ps||[]).forEach((p,i)=>{ const a=-0.9+i*0.75, px=x+(rx-5)*Math.cos(a), py=y+(ry-5)*Math.sin(a); s+=`<circle cx="${px.toFixed(1)}" cy="${py.toFixed(1)}" r="6.5" fill="${p==="I"?"#d8463c":p==="II"?"#e8912f":"#c9a400"}" stroke="#fff" stroke-width="1.2"/><text class="lbl sm" x="${(px+12).toFixed(1)}" y="${(py+4).toFixed(1)}" font-weight="700">PS ${p}</text>`; });
+function cell8(x,y,rx,ry,ps,lab2,noLab){ let s=`<ellipse cx="${x}" cy="${y}" rx="${rx}" ry="${ry}" fill="#d8eef0" stroke="#2f8f8a" stroke-width="3"/><ellipse cx="${x}" cy="${y}" rx="${rx-6}" ry="${ry-6}" fill="#eef8f6" stroke="#8cc4bf"/>`;
+  (ps||[]).forEach((p,i)=>{ const a=-0.9+i*0.75, px=x+(rx-5)*Math.cos(a), py=y+(ry-5)*Math.sin(a); s+=`<circle cx="${px.toFixed(1)}" cy="${py.toFixed(1)}" r="6.5" fill="${p==="I"?"#d8463c":p==="II"?"#e8912f":"#c9a400"}" stroke="#fff" stroke-width="1.2"/>${noLab?"":`<text class="lbl sm" x="${(px+12).toFixed(1)}" y="${(py+4).toFixed(1)}" font-weight="700">PS ${p}</text>`}`; });
   if(lab2) s+=`<text class="lbl sm" x="${x}" y="${y+ry+16}" text-anchor="middle">${lab2}</text>`; return s; }
 function figEvo(part){
-  const W=760,H=part==="endo"?360:380; let s=`<svg viewBox="0 0 ${W} ${H}" role="img" aria-label="${part==="endo"?"Endosymbiosis: a eukaryotic cell engulfs a cyanobacterium, which becomes the chloroplast":"Two hypotheses for the evolution of two photosystems"}"><rect width="${W}" height="${H}" fill="#fff"/>`;
+  const W=760,H=part==="endo"?360:part==="hyp"?370:200; let s=`<svg viewBox="0 0 ${W} ${H}" role="img" aria-label="${part==="endo"?"Endosymbiosis: a eukaryotic cell engulfs a cyanobacterium, which becomes the chloroplast":"Two hypotheses for the evolution of two photosystems"}"><rect width="${W}" height="${H}" fill="#fff"/>`;
   if(part!=="endo"){
-    if(part!=="dup"){ s+=`<g data-term="hgt"><text class="lbl" x="16" y="26" font-weight="700">Hypothesis 1: horizontal gene transfer</text>${cell8(90,100,46,34,["II"],"has PS II")}${cell8(250,100,46,34,["I"],"has PS I")}<path d="M216 72 C200 34 132 34 116 62" fill="none" stroke="#5a54a8" stroke-width="2"/><polygon points="112,70 110,56 124,62" fill="#5a54a8"/><path d="M160 42 q5 -8 10 0 t10 0 t10 0" stroke="#5a54a8" stroke-width="2.4" fill="none"/><text class="lbl sm" x="166" y="30" text-anchor="middle">genes transferred</text></g>`;
-      s+=`${arrow(312,100,420,100,"#5a6fb0",2.4)}<g data-term="cyanobacteria">${cell8(500,100,48,36,["I","II"],"cyanobacterium: PS I and PS II")}</g>`; }
-    if(part!=="hgt"){ const y0=part==="dup"?70:250; s+=`<g data-term="duplication"><text class="lbl" x="16" y="${y0-74}" font-weight="700">Hypothesis 2: gene duplication and divergence</text>${cell8(90,y0,46,34,["II"],"one photosystem")}${arrow(140,y0,236,y0,"#5a6fb0",2.4)}<text class="lbl sm" x="188" y="${y0-10}" text-anchor="middle">gene duplication</text>${cell8(300,y0,46,34,["II","II"],"two copies")}${arrow(350,y0,446,y0,"#5a6fb0",2.4)}<text class="lbl sm" x="398" y="${y0-10}" text-anchor="middle">genetic divergence</text></g><g data-term="cyanobacteria">${cell8(510,y0,48,36,["I","II"],"cyanobacterium: PS I and PS II")}</g>`; }
-    s+=`<g data-term="single-ps"><rect x="590" y="${part==="dup"?20:60}" width="156" height="${part==="dup"?100:180}" rx="8" fill="#f6f8f4" stroke="#cfd8c6"/><text class="lbl sm" x="600" y="${part==="dup"?42:84}" font-weight="700">Start: one photosystem</text><text class="lbl sm" x="600" y="${part==="dup"?58:100}">Early photosynthetic</text><text class="lbl sm" x="600" y="${part==="dup"?72:114}">bacteria had only one.</text><text class="lbl sm" x="600" y="${part==="dup"?86:128}">It can't capture</text><text class="lbl sm" x="600" y="${part==="dup"?100:142}">enough energy.</text></g>`;
+    const y1=part==="hgt"?120:118, y2=part==="dup"?120:286;
+    if(part!=="dup"){ s+=`<g data-term="hgt"><text class="lbl" x="16" y="${y1-96}" font-weight="700">Hypothesis 1: horizontal gene transfer</text>${cell8(90,y1,46,34,["II"],"has PS II",1)}${cell8(250,y1,46,34,["I"],"has PS I",1)}<path d="M216 ${y1-28} C200 ${y1-66} 132 ${y1-66} 116 ${y1-38}" fill="none" stroke="#5a54a8" stroke-width="2"/><polygon points="112,${y1-30} 110,${y1-44} 124,${y1-38}" fill="#5a54a8"/><path d="M152 ${y1-58} q5 -8 10 0 t10 0 t10 0" stroke="#5a54a8" stroke-width="2.4" fill="none"/><text class="lbl sm" x="198" y="${y1-62}">genes transferred</text></g>`;
+      s+=`${arrow(312,y1,420,y1,"#5a6fb0",2.4)}<g data-term="cyanobacteria">${cell8(500,y1,48,36,["I","II"],"cyanobacterium: PS I and PS II",1)}</g>`; }
+    if(part!=="hgt"){ s+=`<g data-term="duplication"><text class="lbl" x="16" y="${y2-62}" font-weight="700">Hypothesis 2: gene duplication and divergence</text>${cell8(90,y2,46,34,["II"],"one photosystem (PS II)",1)}${arrow(146,y2,236,y2,"#5a6fb0",2.4)}<text class="lbl sm" x="191" y="${y2+18}" text-anchor="middle">gene duplication</text>${cell8(300,y2,46,34,["II","II"],"two copies of PS II",1)}${arrow(356,y2,446,y2,"#5a6fb0",2.4)}<text class="lbl sm" x="401" y="${y2+18}" text-anchor="middle">genetic divergence</text></g><g data-term="cyanobacteria">${cell8(510,y2,48,36,["I","II"],"cyanobacterium: PS I and PS II",1)}</g>`; }
+    const by=part==="hyp"?150:20;
+    s+=`<g data-term="single-ps"><rect x="596" y="${by}" width="150" height="96" rx="8" fill="#f6f8f4" stroke="#cfd8c6"/><text class="lbl sm" x="606" y="${by+20}" font-weight="700">Start: one photosystem</text><text class="lbl sm" x="606" y="${by+38}">Early photosynthetic</text><text class="lbl sm" x="606" y="${by+52}">bacteria had only one.</text><text class="lbl sm" x="606" y="${by+66}">It can't capture</text><text class="lbl sm" x="606" y="${by+80}">enough energy.</text></g>`;
+    const ly=H-14; s+=`<circle cx="606" cy="${ly-4}" r="6.5" fill="#d8463c"/><text class="lbl sm" x="616" y="${ly}">PS I</text><circle cx="666" cy="${ly-4}" r="6.5" fill="#e8912f"/><text class="lbl sm" x="676" y="${ly}">PS II</text>`;
   } else {
-    s+=`<g data-term="cyanobacteria">${cell8(80,190,40,30,["I","II"],"cyanobacterium")}</g>${arrow(126,190,176,190,"#5a6fb0",2.6)}<text class="lbl sm" x="150" y="176" text-anchor="middle">engulfment</text>`;
-    s+=`<g data-term="endosymbiosis"><path d="M200 140 C200 70 330 50 390 90 C450 130 440 250 380 290 C320 330 220 320 196 260 C180 220 200 190 200 140Z" fill="#d6ecef" stroke="#c9a400" stroke-width="3"/><circle cx="280" cy="140" r="30" fill="#c8b6e6" stroke="#7a5aa8"/><text class="lbl sm" x="280" y="144" text-anchor="middle">nucleus</text><ellipse cx="370" cy="200" rx="30" ry="16" fill="#f6b48c" stroke="#c0703f"/><text class="lbl sm" x="370" y="232" text-anchor="middle">mitochondrion</text><ellipse cx="270" cy="250" rx="52" ry="40" fill="none" stroke="#9aa3ab" stroke-dasharray="4 3"/>${cell8(270,250,36,27,["I","II"])}</g>`;
+    s+=`<g data-term="cyanobacteria">${cell8(80,190,40,30,["I","II"],"cyanobacterium",1)}<text class="lbl sm" x="80" y="252" text-anchor="middle">(PS I and PS II)</text></g>${arrow(126,190,176,190,"#5a6fb0",2.6)}<text class="lbl sm" x="150" y="176" text-anchor="middle">engulfment</text>`;
+    s+=`<g data-term="endosymbiosis"><path d="M200 140 C200 70 330 50 390 90 C450 130 440 250 380 290 C320 330 220 320 196 260 C180 220 200 190 200 140Z" fill="#d6ecef" stroke="#c9a400" stroke-width="3"/><circle cx="280" cy="140" r="30" fill="#c8b6e6" stroke="#7a5aa8"/><text class="lbl sm" x="280" y="144" text-anchor="middle">nucleus</text><ellipse cx="370" cy="200" rx="30" ry="16" fill="#f6b48c" stroke="#c0703f"/><text class="lbl sm" x="370" y="232" text-anchor="middle">mitochondrion</text><ellipse cx="270" cy="250" rx="52" ry="40" fill="none" stroke="#9aa3ab" stroke-dasharray="4 3"/>${cell8(270,250,36,27,["I","II"],"",1)}</g>`;
     s+=`${arrow(452,190,512,190,"#5a6fb0",2.6)}<text class="lbl sm" x="482" y="176" text-anchor="middle">endosymbiosis</text><text class="lbl sm" x="482" y="210" text-anchor="middle">(over time)</text>`;
     s+=`<g data-term="chloroplast"><path d="M528 130 C528 60 660 50 714 90 C760 130 754 250 700 290 C640 330 546 320 528 260 C516 220 528 190 528 130Z" fill="#d6ecef" stroke="#c9a400" stroke-width="3"/><circle cx="586" cy="268" r="24" fill="#c8b6e6" stroke="#7a5aa8"/><ellipse cx="690" cy="262" rx="22" ry="12" fill="#f6b48c" stroke="#c0703f"/><ellipse cx="640" cy="168" rx="86" ry="52" fill="#e6f0d2" stroke="${PC.mem}" stroke-width="2.5"/>${thyStack(606,142,44,4,2,10)}${thyStack(668,150,44,4,2,10)}<circle cx="584" cy="146" r="5" fill="#d8463c"/><circle cx="584" cy="158" r="5" fill="#e8912f"/><text class="lbl sm" x="640" y="236" text-anchor="middle" font-weight="700">chloroplast</text><text class="lbl sm" x="640" y="104" text-anchor="middle">PS I and PS II in the thylakoids</text></g>`;
     s+=`<text class="lbl" x="16" y="26" font-weight="700">Endosymbiosis: the cyanobacterium becomes the chloroplast</text><text class="lbl sm" x="16" y="${H-14}">The cyanobacterium lost the ability to live outside the host.</text>`;
@@ -1107,7 +1112,7 @@ function simChloroLabel(api){
     if(sel===null){ note.className="fb"; note.textContent="Pick a name first, then click a box."; return; }
     const ok=sel===m; if(!(sel in first)){ first[sel]=1; api.gradeKey("l"+sel,ok,[CHL_PARTS[sel].term]); if(ok) right++; }
     if(ok){ marks[m]=true; note.className="fb ok"; note.innerHTML=rich(`<b>${CHL_PARTS[m].name}.</b> ${CHL_WHY[m]}`); bindRich(note); sel=null; }
-    else { note.className="fb bad"; note.innerHTML=`<b>Not box ${m+1}.</b> Look again at where the leader line points.`; }
+    else { note.className="fb bad"; note.innerHTML=`<b>${CHL_PARTS[sel].name} is not box ${m+1}.</b> Look again at where the leader line points, then pick a name and a box again.`; sel=null; }
     draw();
     if(marks.every(Boolean) && !q.childElementCount){ note.className="fb ok"; note.innerHTML=rich(`<b>All six labelled, ${right} of 6 on the first try.</b> Both stages of photosynthesis happen in the [[chloroplast|chloroplast]]: light capture in the thylakoid membranes, carbon fixation in the stroma.`); bindRich(note);
       inlineMCQ(q,"Where does carbon fixation (the Calvin cycle) take place?",[["In the stroma",1," The fluid around the thylakoids."],["In the thylakoid lumen",0," The lumen is where H⁺ builds up."],["In the thylakoid membrane",0," That's where the light-dependent reactions happen."],["Between the outer and inner membranes",0," That narrow space is not where either stage happens."]],api,"where",["stroma","carbon-fixation"],()=>api.unlock()); } }
@@ -1212,25 +1217,25 @@ function simETC(api){
     if(Object.values(done).every(Boolean)) api.unlock(); }
   function say(m){ note.innerHTML=rich(m); bindRich(note); sayTasks(); }
   loop(dt=>{ S.t+=dt;
-    if(S.light){ S.eAcc+=dt*1.6; while(S.eAcc>=1){ S.eAcc-=1; S.es.push({p:0,path:S.cyclic?ECYC:EPATH});
+    if(S.light){ S.eAcc+=dt*2.4; while(S.eAcc>=1){ S.eAcc-=1; S.es.push({p:0,path:S.cyclic?ECYC:EPATH});
         if(!S.cyclic){ S.lumen+=1; S.nadph+=0.5; S.o2+=0.25; } S.hs.push({x:220,y:70,ty:300,tx:300,p:0,kind:"pump"}); S.hs.push({x:228,y:66,ty:290,tx:310,p:0,kind:"pump"}); } }
     const grad=Math.max(0,S.lumen-4);
-    if(grad>0){ S.synAcc+=dt*Math.min(3.2,grad*0.12); while(S.synAcc>=1 && S.lumen>4){ S.synAcc-=1; S.lumen-=1; S.hAcc+=1; S.hs.push({x:712,y:300,tx:712,ty:60,p:0,kind:"syn"}); if(S.hAcc>=3){ S.hAcc-=3; S.atp++; if(S.cyclic&&S.light) S.atpCyc++; } } S.rot+=dt*grad*0.25; }
+    if(grad>0){ S.synAcc+=dt*Math.min(8,grad*0.25); while(S.synAcc>=1 && S.lumen>4){ S.synAcc-=1; S.lumen-=1; S.hAcc+=1; S.hs.push({x:712,y:300,tx:712,ty:60,p:0,kind:"syn"}); if(S.hAcc>=3){ S.hAcc-=3; S.atp++; if(S.cyclic&&S.light) S.atpCyc++; } } S.rot+=dt*grad*0.25; }
     S.es.forEach(o=>o.p+=dt*2.4); S.es=S.es.filter(o=>o.p<o.path.length-1);
     S.hs.forEach(o=>{ o.p+=dt*(o.kind==="syn"?1.4:0.9); if(o.kind==="pump" && o.p>=1){ o.dead=true; S.lumen+=1; } }); S.hs=S.hs.filter(o=>!o.dead && o.p<1);
     S.peak=Math.max(S.peak,S.lumen);
-    if(!done.grad && S.light && S.lumen>=24){ done.grad=true; say("A <b>proton gradient</b>: H⁺ is moved from the stroma into the lumen by the [[b6f|cytochrome b6f complex]] (carried by plastoquinone), and splitting water adds more. The proton concentration is now much higher in the lumen."); }
+    if(!done.grad && S.light && S.lumen>=22){ done.grad=true; say("A <b>proton gradient</b>: H⁺ is moved from the stroma into the lumen by the [[b6f|cytochrome b6f complex]] (carried by plastoquinone), and splitting water adds more. The proton concentration is now much higher in the lumen."); }
     if(!done.atp && S.atp>=5){ done.atp=true; say("Protons flow back to the stroma through [[atp-synthase|ATP synthase]], and ATP is generated from ADP and Pᵢ. Making ATP this way, with light energy, is [[photophosphorylation|photophosphorylation]]."); }
-    if(!done.dark && done.atp && !S.light && S.peak>=24 && S.lumen<=8){ done.dark=true; say("No light, no electron flow, no new pumping. The gradient runs down and ATP synthase stops. This is why the light-dependent reactions need light."); }
+    if(!done.dark && done.atp && !S.light && S.peak>=22 && S.lumen<=10){ done.dark=true; say("No light, no electron flow, no new pumping. The gradient runs down and ATP synthase stops. This is why the light-dependent reactions need light."); }
     if(!done.cyc && S.cyclic && S.atpCyc>=3){ done.cyc=true; say("<b>Cyclic electron transport</b> (from your important terms list): electrons from PSI go back to the b6f complex instead of to NADP⁺. H⁺ is still pumped, so ATP is made, but no NADPH and no O₂. It tops up the extra ATP the Calvin cycle needs."); }
     // draw
     let d=""; const n=Math.min(POS.length,Math.round(S.lumen)); for(let i=0;i<n;i++) d+=`<circle cx="${POS[i][0].toFixed(0)}" cy="${POS[i][1].toFixed(0)}" r="5.5" fill="${PC.h}" stroke="${PC.hS}" stroke-width=".8"/>`;
     S.hs.forEach(o=>{ const x=o.x+(o.tx-o.x)*o.p, y=o.y+(o.ty-o.y)*o.p; d+=`<circle cx="${x.toFixed(1)}" cy="${y.toFixed(1)}" r="5.5" fill="${PC.h}" stroke="${PC.hS}"/>`; });
     S.es.forEach(o=>{ const i=Math.floor(o.p), t=o.p-i, a=o.path[i], b=o.path[i+1]; d+=`<circle cx="${(a[0]+(b[0]-a[0])*t).toFixed(1)}" cy="${(a[1]+(b[1]-a[1])*t).toFixed(1)}" r="6" fill="${PC.e}" stroke="#a5501a"/>`; });
-    const ang=S.rot; d+=`<line x1="712" y1="88" x2="${(712+20*Math.cos(ang)).toFixed(1)}" y2="${(88+20*Math.sin(ang)).toFixed(1)}" stroke="${PC.synS}" stroke-width="3"/>`;
+    const ang=S.rot; d+=`<circle cx="${(712+21*Math.cos(ang)).toFixed(1)}" cy="${(88+21*Math.sin(ang)).toFixed(1)}" r="3.5" fill="${PC.synS}"/>`;
     if(S.light) d+=wavy(70,26,108,122,"#d99a12",4,4,2.2)+wavy(412,26,450,122,"#d99a12",4,4,2.2);
     if(S.cyclic) d+=`<path d="M520 120 Q470 132 312 150" stroke="${PC.e}" stroke-width="2" stroke-dasharray="5 4" fill="none"/><text class="lbl sm" x="420" y="128" font-weight="700" fill="#a5501a">cyclic</text>`;
-    d+=`<rect x="12" y="34" width="250" height="68" rx="6" fill="#fff" fill-opacity=".85" stroke="#cfd8c6"/><text class="lbl" x="22" y="54">ATP made: <tspan font-weight="700">${S.atp}</tspan></text><text class="lbl" x="22" y="72">NADPH made: <tspan font-weight="700">${Math.floor(S.nadph)}</tspan></text><text class="lbl" x="22" y="90">O₂ released: <tspan font-weight="700">${Math.floor(S.o2)}</tspan>   Light: <tspan font-weight="700">${S.light?"on":"off"}</tspan></text>`;
+    d+=`<rect x="236" y="10" width="150" height="80" rx="6" fill="#fff" fill-opacity=".9" stroke="#cfd8c6"/><text class="lbl" x="246" y="28">ATP made: <tspan font-weight="700">${S.atp}</tspan></text><text class="lbl" x="246" y="45">NADPH made: <tspan font-weight="700">${Math.floor(S.nadph)}</tspan></text><text class="lbl" x="246" y="62">O₂ released: <tspan font-weight="700">${Math.floor(S.o2)}</tspan></text><text class="lbl" x="246" y="79">Light: <tspan font-weight="700">${S.light?"on":"off"}${S.cyclic?", cyclic":""}</tspan></text>`;
     dyn.innerHTML=d;
     $("i",meter).style.width=Math.min(100,S.lumen/60*100)+"%"; read.textContent=`H⁺ in the lumen: ${Math.round(S.lumen)} (stroma stays low)`;
   });
@@ -1245,7 +1250,7 @@ function simCalvin(api){
   const S={phase:0,turn:0,rubp:3,pga:0,g3p:0,out:0,atp:0,nadph:0,co2:0}; let first=true, right=0, total=0, hl=null;
   const host=h("div"), note=h("div",{class:"fb"}), tally=h("div"), box=h("div",{class:"gates"});
   api.plateHost.innerHTML=""; api.plateHost.append(host);
-  function fig(){ host.innerHTML=""; const c={co2:3,rubp:S.rubp,pga:S.pga,g3p:S.g3p,atpR:6,nadph:6,atpG:3,out:S.out,note:`Turn ${S.turn+1}`};
+  function fig(){ host.innerHTML=""; const c={co2:3,rubp:S.rubp,pga:S.pga,g3p:S.g3p,atpR:6,nadph:6,atpG:3,out:S.out,note:S.turn?`Turns completed: ${S.turn}`:"Turn 1"};
     const f=plate(figCalvin({counts:c,hl}),"<b>Figure 7.2</b> One turn of the Calvin cycle fixes 3 CO₂. Counts are molecules. (Notes p. 123, Fig 8.9)"); host.append(f); bindTerms(f); }
   function tal(){ const C=S.rubp*5+S.pga*3+S.g3p*3; tally.innerHTML=""; tally.append(h("div",{class:"score",style:"margin:6px 0"},h("span",{},"Carbons in the cycle: ",h("b",{},String(C))),h("span",{},"CO₂ fixed: ",h("b",{},String(S.co2))),h("span",{},"Triose phosphates out: ",h("b",{},String(S.out))),h("span",{},"ATP used: ",h("b",{},String(S.atp))),h("span",{},"NADPH used: ",h("b",{},String(S.nadph))))); }
   const ACT=[

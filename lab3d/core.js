@@ -82,6 +82,7 @@ export class Viewer {
     }
     this.labels.forEach(l => { l.el.remove(); l.line.remove(); l.dot.remove(); });
     this.parts.clear(); this.pickables = []; this.labels = []; this.selected = null; this.api = null;
+    if (this.hudEl) { this.hudEl.hidden = true; this.hudEl.innerHTML = ''; this.hudEl._t = null; }
     this.matOwner = new WeakMap();
     this.root = new THREE.Group(); this.scene.add(this.root);
     this.dirty = true;
@@ -103,6 +104,7 @@ export class Viewer {
       part(id, name, desc, ...objs) { return self.addPart(id, name, desc, objs, false); },
       region(id, name, desc, ...objs) { return self.addPart(id, name, desc, objs, true); },
       attach(id, ...objs) { const p = self.parts.get(id); if (p) self.registerObjs(p, objs); },
+      seeThrough(...ids) { ids.forEach(id => { const p = self.parts.get(id); if (p) p.seeThrough = true; }); },
       label(text, anchor, o = {}) { return self.addLabel(text, anchor, o); },
       dirty() { self.dirty = true; },
     };
@@ -197,7 +199,8 @@ export class Viewer {
     const r = this.canvas.getBoundingClientRect();
     const ndc = new THREE.Vector2(((cx - r.left) / r.width) * 2 - 1, -((cy - r.top) / r.height) * 2 + 1);
     const hits = this.intersect(ndc);
-    let hit = hits.find(h => !this.parts.get(h.object.userData.partId)?.region) || hits[0];
+    const kind = (h) => { const p = this.parts.get(h.object.userData.partId); return p?.region ? 2 : p?.seeThrough ? 1 : 0; };
+    const hit = hits.find(h => kind(h) === 0) || hits.find(h => kind(h) === 1) || hits[0];
     if (hit) { const id = hit.object.userData.partId; if (this.selected !== id) this.select(id); }
     else if (this.selected) this.select(null);
   }
@@ -206,7 +209,7 @@ export class Viewer {
   fit(view) {
     const t = V(...view.target), p = V(...view.pos);
     const aspect = (this.w || 800) / (this.h || 500), ref = 1.45;
-    if (aspect < ref) p.sub(t).multiplyScalar(Math.pow(ref / aspect, 0.82)).add(t);
+    if (aspect < ref) p.sub(t).multiplyScalar(Math.pow(ref / aspect, view.k ?? 0.82)).add(t);
     return { p, t };
   }
   flyTo(view, instant) {
@@ -223,7 +226,7 @@ export class Viewer {
     if (!this.onscreen || document.hidden || !this.w) return;
     let changed = this.dirty; this.dirty = false;
     if (this.tween) {
-      const T = this.tween; T.k = Math.min(1, T.k + dt / 0.85); const e = T.k < 0.5 ? 2 * T.k * T.k : 1 - Math.pow(-2 * T.k + 2, 2) / 2;
+      const T = this.tween; if (!T.t0ms) T.t0ms = performance.now(); T.k = Math.min(1, (performance.now() - T.t0ms) / 850); const e = T.k < 0.5 ? 2 * T.k * T.k : 1 - Math.pow(-2 * T.k + 2, 2) / 2;
       this.camera.position.lerpVectors(T.p0, T.p1, e); this.controls.target.lerpVectors(T.t0, T.t1, e);
       if (T.k >= 1) this.tween = null; changed = true;
     }
@@ -241,16 +244,24 @@ export class Viewer {
 
   occlusion() {
     const cam = this.camera.position, w = V(), dir = V();
+    const list = this.pickables.filter(m => { const p = this.parts.get(m.userData.partId); return this.visibleDeep(m) && !p?.region && !p?.seeThrough; });
     for (const L of this.labels) {
       L.occluded = false;
       if (!L.occlude || !this.labelVisible(L)) continue;
       this.anchorWorld(L, w);
-      const dist = w.distanceTo(cam); dir.copy(w).sub(cam).normalize();
-      this.raycaster.set(cam, dir); this.raycaster.far = dist * 0.985;
-      const list = this.pickables.filter(m => this.visibleDeep(m) && !this.parts.get(m.userData.partId)?.region);
-      const hits = this.raycaster.intersectObjects(list, false);
-      const blocker = hits.find(h => h.object.userData.partId !== L.part && h.distance < dist * 0.97);
-      L.occluded = !!blocker;
+      // three rays (anchor and two points a few pixels away) so a thin strand in front does not hide a label
+      const dist = w.distanceTo(cam), wpp = 2 * dist * Math.tan(this.camera.fov * Math.PI / 360) / (this.h || 500);
+      const right = new THREE.Vector3().setFromMatrixColumn(this.camera.matrixWorld, 0), up = new THREE.Vector3().setFromMatrixColumn(this.camera.matrixWorld, 1);
+      let blocked = 0;
+      for (const [ox, oy] of [[0, 0], [9, 6], [-9, -6]]) {
+        const tgt = w.clone().addScaledVector(right, ox * wpp).addScaledVector(up, oy * wpp);
+        const dd = tgt.distanceTo(cam); dir.copy(tgt).sub(cam).normalize();
+        this.raycaster.set(cam, dir); this.raycaster.far = dd * 0.985;
+        const hits = this.raycaster.intersectObjects(list, false);
+        if (hits.find(h => h.object.userData.partId !== L.part && h.distance < dd * 0.97)) blocked++;
+        if (blocked >= 2) break;
+      }
+      L.occluded = blocked >= 2;
     }
   }
 
@@ -291,7 +302,8 @@ export class Viewer {
     for (const L of items) {
       if (!L.w || L.el._t !== L.text) { L.el.style.display = 'block'; L.el.style.transform = 'translate(-9999px,0)'; L.w = L.el.offsetWidth; L.h = L.el.offsetHeight; L.el._t = L.text; }
       const side = L.ax >= W / 2 ? 1 : -1, up = L.ay < H / 2 ? -1 : 1;
-      const C = [[side, up * 0.7], [side, 0], [side, -up * 0.7], [0, up * 1.3], [-side, up * 0.7], [-side, 0], [0, -up * 1.3], [-side, -up * 0.7], [side * 1.9, up * 1.6], [-side * 1.9, up * 1.6], [side * 2.2, 0], [-side * 2.2, 0], [0, up * 2.4], [side * 1.6, -up * 1.8], [-side * 1.6, -up * 1.8]];
+      const dirs = [[side, up * 0.7], [side, 0], [side, -up * 0.7], [0, up * 1.3], [-side, up * 0.7], [-side, 0], [0, -up * 1.3], [-side, -up * 0.7]];
+      const C = []; for (const m of [1, 1.9, 2.9, 4.2]) for (const [x, y] of dirs) C.push([x * m, y * m]);
       const order = L.cand >= 0 ? [L.cand, ...C.keys()] : [...C.keys()];
       let best = null;
       for (const ci of order) {
