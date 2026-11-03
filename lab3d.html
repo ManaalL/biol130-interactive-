@@ -1,0 +1,207 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>BIOL 130 3D Lab</title>
+<meta name="description" content="Ten 3D models from the BIOL 130 course notes: an animal cell, the membrane, DNA, protein structure, mitochondria, chloroplasts, a GPCR, the cytoskeleton, a replication fork and mitosis. Rotate, zoom and click any part.">
+<link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:wght@400;500&family=Source+Sans+3:ital,wght@0,400;0,600;0,700;1,400&family=Source+Serif+4:opsz,wght@8..60,400;8..60,600;8..60,700&display=swap" rel="stylesheet">
+<style>
+:root{
+  --page:#f4f6f3; --paper:#ffffff; --ink:#1c2624; --ink2:#5a6a65; --rule:#d9e2de; --grid:#e4ebe7; --head:#14302b;
+  --accent:#2a7f6d; --accentInk:#fff; --accentSoft:#e3f1ec; --ok:#2a7648; --bad:#a53838;
+  --display:"Source Serif 4", Georgia, serif; --sans:"Source Sans 3", system-ui, -apple-system, "Segoe UI", Arial, sans-serif; --mono:"IBM Plex Mono", ui-monospace, SFMono-Regular, Menlo, monospace;
+  --fig-stroke:#24423b; --fig-fill:#fbfaf5; --fig-soft:#eef3ef;
+  --lbl-bg:rgba(255,255,255,.9);
+  box-sizing:border-box; padding-top:env(safe-area-inset-top,0px); padding-bottom:env(safe-area-inset-bottom,0px);
+}
+@media (prefers-color-scheme: dark){ :root:not([data-theme="light"]){ --page:#0f1715; --paper:#151f1c; --ink:#e3eeea; --ink2:#9fb4ad; --rule:#26352f; --grid:#1a2622; --head:#dcefe8; --accent:#5cc0a8; --accentInk:#0c1a16; --accentSoft:#1a2f29; --fig-stroke:#bcd9cf; --fig-fill:#18241f; --fig-soft:#1d2c27; --lbl-bg:rgba(21,31,28,.9); } }
+:root[data-theme="dark"]{ --page:#0f1715; --paper:#151f1c; --ink:#e3eeea; --ink2:#9fb4ad; --rule:#26352f; --grid:#1a2622; --head:#dcefe8; --accent:#5cc0a8; --accentInk:#0c1a16; --accentSoft:#1a2f29; --fig-stroke:#bcd9cf; --fig-fill:#18241f; --fig-soft:#1d2c27; --lbl-bg:rgba(21,31,28,.9); }
+*,*::before,*::after{box-sizing:inherit}
+body{margin:0;background:var(--page);color:var(--ink);font-family:var(--sans);font-size:17px;line-height:1.55;overflow-x:hidden}
+a{color:var(--accent)}
+:focus-visible{outline:3px solid var(--accent);outline-offset:2px}
+h1,h2,h3{font-family:var(--display);color:var(--head);font-weight:600;line-height:1.12;margin:0}
+.wrap{max-width:1320px;margin:0 auto;padding:0 20px}
+.mono{font-family:var(--mono);font-size:.78rem;letter-spacing:.04em;text-transform:uppercase;color:var(--ink2)}
+/* nav (same as the hub) */
+.nav{position:sticky;top:0;z-index:30;background:color-mix(in srgb,var(--page) 90%,transparent);backdrop-filter:blur(8px);border-bottom:1px solid var(--rule)}
+.nav .wrap{display:flex;align-items:center;gap:18px;height:56px}
+.logo{display:flex;align-items:center;gap:10px;text-decoration:none;color:var(--head);font-family:var(--display);font-weight:600;font-size:1.15rem}
+.logo svg{flex:none}
+.nav nav{margin-left:auto;display:flex;gap:2px;flex-wrap:wrap}
+.nav nav a,.nav nav button{color:var(--ink2);text-decoration:none;font-weight:600;padding:6px 12px;border-radius:6px;font-size:.95rem;background:none;border:0;cursor:pointer;font-family:inherit}
+.nav nav a:hover,.nav nav button:hover{color:var(--head);background:var(--accentSoft)}
+.nav nav a[aria-current]{color:var(--head);background:var(--accentSoft)}
+/* hero */
+.hero{position:relative;padding:30px 0 20px;background-image:linear-gradient(var(--grid) 1px,transparent 1px),linear-gradient(90deg,var(--grid) 1px,transparent 1px);background-size:24px 24px;background-position:-1px -1px;border-bottom:1px solid var(--rule)}
+.hero::after{content:"";position:absolute;inset:0;background:linear-gradient(180deg,transparent 55%,var(--page));pointer-events:none}
+.hero .wrap{position:relative;z-index:1}
+.hero h1{font-size:clamp(1.9rem,3.6vw,2.7rem);letter-spacing:-.015em}
+.hero h1 em{font-style:italic;color:var(--accent)}
+.hero .lede{font-size:1.06rem;max-width:44em;margin:10px 0 0}
+/* layout */
+.lab{display:grid;grid-template-columns:196px minmax(0,1fr) 330px;gap:18px;align-items:start;padding-top:20px;padding-bottom:20px}
+.scenes{position:sticky;top:72px;display:flex;flex-direction:column;gap:2px}
+.scenes .g{font:500 .7rem var(--mono);letter-spacing:.07em;text-transform:uppercase;color:var(--ink2);margin:12px 0 3px;padding-left:10px}
+.scenes .g:first-child{margin-top:0}
+.scenes button{display:flex;align-items:baseline;gap:8px;width:100%;text-align:left;font:600 .95rem var(--sans);color:var(--ink);background:none;border:1px solid transparent;border-radius:8px;padding:6px 10px;cursor:pointer;line-height:1.25}
+.scenes button .n{font:500 .7rem var(--mono);color:var(--ink2);min-width:1.6em;display:none}
+.scenes button:hover{background:var(--accentSoft);color:var(--head)}
+.scenes button[aria-current="true"]{background:var(--paper);border-color:var(--rule);color:var(--head);box-shadow:inset 3px 0 0 var(--accent)}
+/* the plate */
+.plate{margin:0;background:var(--paper);border:1px solid var(--rule);border-radius:10px;padding:12px 12px 10px;box-shadow:0 1px 0 var(--rule),0 18px 40px -26px rgba(20,48,43,.35);min-width:0}
+.plate figcaption{font-family:var(--display);font-size:.92rem;color:var(--ink2);margin-top:8px;line-height:1.4}
+.plate figcaption b{color:var(--head);font-weight:600}
+.bar{display:flex;flex-wrap:wrap;align-items:center;gap:8px}
+.bar.top{margin-bottom:10px}
+.bar.top:empty{display:none}
+.bar .sp{flex:1 1 auto}
+.btn{display:inline-flex;align-items:center;gap:6px;padding:7px 12px;border-radius:8px;background:var(--paper);color:var(--accent);font:700 .9rem var(--sans);border:1.5px solid var(--accent);cursor:pointer;line-height:1.1;white-space:nowrap}
+.btn:hover{background:var(--accentSoft)}
+.btn.fill,.btn[aria-pressed="true"].tog{background:var(--accent);color:var(--accentInk)}
+.btn[disabled]{opacity:.45;cursor:default}
+.btn svg{width:14px;height:14px;flex:none}
+.seg{display:inline-flex;border:1.5px solid var(--accent);border-radius:8px;overflow:hidden}
+.seg button{font:600 .88rem var(--sans);padding:6px 11px;border:0;background:var(--paper);color:var(--accent);cursor:pointer;border-right:1px solid color-mix(in srgb,var(--accent) 40%,var(--paper))}
+.seg button:last-child{border-right:0}
+.seg button[aria-pressed="true"]{background:var(--accent);color:var(--accentInk)}
+.seglab{font:500 .72rem var(--mono);letter-spacing:.05em;text-transform:uppercase;color:var(--ink2)}
+.stage{position:relative;height:min(64vh,600px);min-height:340px;border-radius:8px;overflow:hidden;border:1px solid var(--rule);background:var(--fig-fill);touch-action:none;user-select:none;-webkit-user-select:none}
+.stage canvas{display:block;width:100%;height:100%;cursor:grab}
+.stage canvas:active{cursor:grabbing}
+.stage svg.leaders{position:absolute;inset:0;width:100%;height:100%;pointer-events:none}
+.leaders line{stroke:var(--fig-stroke);stroke-width:1;opacity:.75}
+.leaders circle{fill:var(--paper);stroke:var(--fig-stroke);stroke-width:1.3}
+.leaders line.sel{stroke:var(--accent);stroke-width:1.6;opacity:1}
+.leaders circle.sel{fill:var(--accent);stroke:var(--accent)}
+.labels{position:absolute;inset:0;pointer-events:none}
+.lbl{position:absolute;left:0;top:0;display:none;pointer-events:auto;cursor:pointer;font:600 12.5px/1.2 var(--sans);color:var(--head);background:var(--lbl-bg);border:1px solid var(--rule);border-radius:4px;padding:2px 6px;white-space:nowrap;will-change:transform}
+.lbl.static{cursor:default;font:500 11px/1.2 var(--mono);letter-spacing:.03em;color:var(--ink2);text-transform:none}
+.lbl.end{font:600 12px/1.2 var(--mono);color:var(--head);padding:1px 5px}
+.lbl.sel{border-color:var(--accent);box-shadow:0 0 0 1px var(--accent);color:var(--head)}
+.hud{position:absolute;right:8px;top:8px;font:500 11.5px/1.45 var(--mono);color:var(--ink2);background:var(--lbl-bg);border:1px solid var(--rule);border-radius:6px;padding:5px 8px;pointer-events:none;max-width:60%}
+.hud b{color:var(--head);font-weight:500}
+.hint{position:absolute;left:8px;bottom:8px;font:500 11px var(--mono);color:var(--ink2);background:var(--lbl-bg);border:1px solid var(--rule);border-radius:6px;padding:4px 8px;pointer-events:none;transition:opacity .4s}
+.hint.gone{opacity:0}
+.loading{position:absolute;inset:0;display:grid;place-items:center;font:500 .8rem var(--mono);letter-spacing:.05em;text-transform:uppercase;color:var(--ink2);background:var(--fig-fill)}
+.loading[hidden]{display:none}
+.bar.tools{margin-top:10px}
+.stepnow{font:500 .78rem var(--mono);color:var(--ink2);letter-spacing:.03em}
+/* info panel */
+.info{background:var(--paper);border:1px solid var(--rule);border-radius:10px;padding:18px;position:sticky;top:72px;max-height:calc(100vh - 88px);overflow:auto}
+.info h2{font-size:1.5rem;margin:6px 0 10px}
+.info p{margin:0 0 10px}
+.info .intro{font-size:.98rem}
+.box{border-top:1px solid var(--rule);padding-top:12px;margin-top:12px}
+.box h3{font-size:1.15rem;margin:4px 0 6px}
+.box p{font-size:.95rem;margin:0}
+.box .mono{font-size:.7rem}
+.box.step{border-top:0;margin-top:4px;padding:10px 12px;background:var(--fig-soft);border-radius:8px}
+.box.step[hidden]{display:none}
+.box.sel h3{color:var(--accent)}
+.box .empty{color:var(--ink2);font-size:.92rem}
+details.plist{margin-top:14px;border-top:1px solid var(--rule);padding-top:10px}
+details.plist summary{cursor:pointer;font:600 .9rem var(--sans);color:var(--ink2)}
+.chips{display:flex;flex-wrap:wrap;gap:6px;margin-top:8px}
+.chips button{font:600 .82rem var(--sans);padding:4px 9px;border-radius:999px;border:1px solid var(--rule);background:var(--paper);color:var(--ink);cursor:pointer}
+.chips button:hover{border-color:var(--accent)}
+.chips button[aria-pressed="true"]{border-color:var(--accent);background:var(--accentSoft);color:var(--head)}
+.foot{margin:30px auto 0;padding:20px 20px 130px;border-top:1px solid var(--rule);color:var(--ink2);font-size:.86rem}
+@media (max-width:1180px){
+  .lab{grid-template-columns:minmax(0,1fr) 300px}
+  .scenes{grid-column:1/-1;position:static;flex-direction:row;flex-wrap:wrap;gap:6px}
+  .scenes .g{display:none}
+  .scenes button{width:auto;border:1px solid var(--rule);background:var(--paper);padding:5px 10px;font-size:.88rem}
+  .scenes button .n{display:inline}
+  .scenes button[aria-current="true"]{background:var(--accent);color:var(--accentInk);border-color:var(--accent);box-shadow:none}
+  .scenes button[aria-current="true"] .n{color:var(--accentInk)}
+}
+@media (max-width:860px){
+  .lab{grid-template-columns:minmax(0,1fr)}
+  .info{position:static;max-height:none}
+}
+@media (max-width:600px){
+  .wrap{padding:0 16px}
+  .nav nav a,.nav nav button{padding:6px 7px}
+  .logo span{display:none}
+  .hero{padding:20px 0 14px}
+  .hero .lede{font-size:.98rem}
+  .lab{gap:12px;padding-top:14px}
+  .plate{padding:8px 8px 8px}
+  .stage{height:55vh;min-height:300px}
+  .scenes button{font-size:.82rem;padding:4px 8px}
+  .lbl{font-size:11px;padding:1px 4px}
+  .lbl.static{font-size:10px}
+  .hud{font-size:10.5px;max-width:70%}
+  .btn{padding:6px 9px;font-size:.84rem}
+  .seg button{padding:5px 8px;font-size:.82rem}
+  .info{padding:14px}
+}
+@media (prefers-reduced-motion: reduce){ .hint{transition:none} }
+</style>
+</head>
+<body>
+<header class="nav"><div class="wrap">
+  <a class="logo" href="index.html"><svg width="30" height="30" viewBox="0 0 30 30" aria-hidden="true"><circle cx="15" cy="15" r="13" fill="none" stroke="var(--accent)" stroke-width="1.6"/><circle cx="15" cy="15" r="10.2" fill="none" stroke="var(--accent)" stroke-width=".7" stroke-dasharray="1.6 1.4"/><circle cx="17" cy="13" r="4.4" fill="var(--accent)" opacity=".85"/></svg><span>BIOL 130 Interactive</span></a>
+  <nav aria-label="Site">
+    <a href="index.html#modules">Modules</a>
+    <a href="lab3d.html" aria-current="page">3D lab</a>
+    <a href="midterm.html">Midterm prep</a>
+    <button type="button" onclick="window.KIP&&KIP.open()">Ask Kip</button>
+  </nav>
+</div></header>
+
+<section class="hero">
+  <div class="wrap">
+    <p class="mono" style="margin:0 0 8px">BIOL 130 · 3D lab · Modules 1 to 11</p>
+    <h1>Structures you can <em>turn over</em>.</h1>
+    <p class="lede">Ten models drawn from the course notes. Drag to rotate, scroll or pinch to zoom, and click any part to see what it is and which page of the notes covers it. Turn the labels off to test yourself.</p>
+  </div>
+</section>
+
+<main class="wrap lab">
+  <nav class="scenes" id="scenes" aria-label="Models"></nav>
+
+  <figure class="plate" id="plate">
+    <div class="bar top" id="modes"></div>
+    <div class="stage" id="stage">
+      <canvas id="cv" role="img" aria-label="3D model"></canvas>
+      <svg class="leaders" id="leaders" aria-hidden="true"></svg>
+      <div class="labels" id="labels"></div>
+      <div class="hud" id="hud" hidden></div>
+      <div class="hint" id="hint">Drag to rotate · scroll or pinch to zoom · click a part</div>
+      <div class="loading" id="loading">Building model</div>
+    </div>
+    <div class="bar tools">
+      <button class="btn" id="reset" type="button"><svg viewBox="0 0 16 16" aria-hidden="true"><path d="M3 8a5 5 0 1 0 1.6-3.7M3 2.5v2.6h2.6" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/></svg>Reset view</button>
+      <button class="btn tog" id="labelsBtn" type="button" aria-pressed="true">Labels on</button>
+      <span class="sp"></span>
+      <span class="stepnow" id="stepnow"></span>
+      <button class="btn" id="prev" type="button" hidden><svg viewBox="0 0 16 16" aria-hidden="true"><path d="M10 3 5 8l5 5" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg>Back</button>
+      <button class="btn" id="play" type="button" hidden>Play</button>
+      <button class="btn" id="next" type="button" hidden>Step<svg viewBox="0 0 16 16" aria-hidden="true"><path d="m6 3 5 5-5 5" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg></button>
+    </div>
+    <figcaption id="caption"></figcaption>
+  </figure>
+
+  <aside class="info" id="info" aria-live="polite">
+    <p class="mono" id="kicker"></p>
+    <h2 id="title"></h2>
+    <p class="intro" id="intro"></p>
+    <div class="box step" id="stepbox" hidden><span class="mono" id="stepnum"></span><h3 id="steptitle"></h3><p id="steptext"></p></div>
+    <div class="box sel" id="selbox"></div>
+    <details class="plist" id="plist"><summary id="psum">All parts</summary><div class="chips" id="pchips"></div></details>
+  </aside>
+</main>
+
+<footer class="wrap foot">
+  An independent study aid made for BIOL 130 (Introductory Cell Biology) at the University of Waterloo. It is not an official University of Waterloo resource; check details against your course notes and LEARN. Models are simplified and not to scale unless stated. Page numbers refer to the BIOL 130 course notes. All models are original.
+</footer>
+
+<script src="studydata.js" defer></script>
+<script src="kip.js" defer></script>
+<script type="module" src="lab3d/main.js"></script>
+</body>
+</html>

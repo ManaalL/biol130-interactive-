@@ -11,13 +11,13 @@
 :root{
   --page:#f4f6f3; --paper:#ffffff; --ink:#1c2624; --ink2:#5a6a65; --rule:#d9e2de; --grid:#e4ebe7; --head:#14302b;
   --accent:#2a7f6d; --accentInk:#fff; --accentSoft:#e3f1ec; --ok:#2a7648; --bad:#a53838;
-  --m1:#3f8a4c; --m2:#5a5fc4; --m3:#11707b; --m4:#b0342c; --m5:#b07a12; --mid:#5b3f8f;
+  --m1:#3f8a4c; --m2:#5a5fc4; --m3:#11707b; --m4:#b0342c; --m5:#b07a12; --m6:#1f7a8c; --m7:#a3365a; --m8:#5f7f1f; --m9:#2b62a8; --m10:#c0612b; --m11:#7a3f8f; --mid:#3d4a5c;
   --display:"Source Serif 4", Georgia, serif; --sans:"Source Sans 3", system-ui, -apple-system, "Segoe UI", Arial, sans-serif; --mono:"IBM Plex Mono", ui-monospace, SFMono-Regular, Menlo, monospace;
   --fig-stroke:#24423b; --fig-fill:#fbfaf5; --fig-soft:#eef3ef;
   box-sizing:border-box; padding-top:env(safe-area-inset-top,0px); padding-bottom:env(safe-area-inset-bottom,0px);
 }
-@media (prefers-color-scheme: dark){ :root:not([data-theme="light"]){ --page:#0f1715; --paper:#151f1c; --ink:#e3eeea; --ink2:#9fb4ad; --rule:#26352f; --grid:#1a2622; --head:#dcefe8; --accent:#5cc0a8; --accentInk:#0c1a16; --accentSoft:#1a2f29; --m1:#6cc07a; --m2:#9a9ef0; --m3:#4db2be; --m4:#ec8b80; --m5:#e3b050; --mid:#b39ae6; --fig-stroke:#bcd9cf; --fig-fill:#18241f; --fig-soft:#1d2c27; } }
-:root[data-theme="dark"]{ --page:#0f1715; --paper:#151f1c; --ink:#e3eeea; --ink2:#9fb4ad; --rule:#26352f; --grid:#1a2622; --head:#dcefe8; --accent:#5cc0a8; --accentInk:#0c1a16; --accentSoft:#1a2f29; --m1:#6cc07a; --m2:#9a9ef0; --m3:#4db2be; --m4:#ec8b80; --m5:#e3b050; --mid:#b39ae6; --fig-stroke:#bcd9cf; --fig-fill:#18241f; --fig-soft:#1d2c27; }
+@media (prefers-color-scheme: dark){ :root:not([data-theme="light"]){ --page:#0f1715; --paper:#151f1c; --ink:#e3eeea; --ink2:#9fb4ad; --rule:#26352f; --grid:#1a2622; --head:#dcefe8; --accent:#5cc0a8; --accentInk:#0c1a16; --accentSoft:#1a2f29; --m1:#6cc07a; --m2:#9a9ef0; --m3:#4db2be; --m4:#ec8b80; --m5:#e3b050; --m6:#6fb9c7; --m7:#e08aa6; --m8:#a9c46a; --m9:#86aee6; --m10:#eba277; --m11:#c497d6; --mid:#a9b6c8; --fig-stroke:#bcd9cf; --fig-fill:#18241f; --fig-soft:#1d2c27; } }
+:root[data-theme="dark"]{ --page:#0f1715; --paper:#151f1c; --ink:#e3eeea; --ink2:#9fb4ad; --rule:#26352f; --grid:#1a2622; --head:#dcefe8; --accent:#5cc0a8; --accentInk:#0c1a16; --accentSoft:#1a2f29; --m1:#6cc07a; --m2:#9a9ef0; --m3:#4db2be; --m4:#ec8b80; --m5:#e3b050; --m6:#6fb9c7; --m7:#e08aa6; --m8:#a9c46a; --m9:#86aee6; --m10:#eba277; --m11:#c497d6; --mid:#a9b6c8; --fig-stroke:#bcd9cf; --fig-fill:#18241f; --fig-soft:#1d2c27; }
 *,*::before,*::after{box-sizing:inherit}
 html{scroll-behavior:smooth}
 body{margin:0;background:var(--page);color:var(--ink);font-family:var(--sans);font-size:17px;line-height:1.55;overflow-x:hidden}
@@ -64,7 +64,7 @@ h1,h2,h3{font-family:var(--display);color:var(--head);font-weight:600;line-heigh
 .cell .co{cursor:pointer}
 .cell .co:hover circle,.cell .co:focus circle{fill:var(--c)} .cell .co:hover text.n,.cell .co:focus text.n{fill:var(--paper)}
 .cell .hl{transition:opacity .2s;opacity:0}
-.cell.on-m1 .hl.m1,.cell.on-m2 .hl.m2,.cell.on-m3 .hl.m3,.cell.on-m4 .hl.m4,.cell.on-m5 .hl.m5{opacity:1}
+.cell.on-m1 .hl.m1,.cell.on-m2 .hl.m2,.cell.on-m3 .hl.m3,.cell.on-m4 .hl.m4,.cell.on-m5 .hl.m5,.cell.on-m6 .hl.m6,.cell.on-m7 .hl.m7,.cell.on-m8 .hl.m8,.cell.on-m9 .hl.m9,.cell.on-m10 .hl.m10,.cell.on-m11 .hl.m11{opacity:1}
 .sec{padding:30px 0}
 .sec h2{font-size:clamp(1.6rem,2.8vw,2.1rem)}
 .sec .sub{color:var(--ink2);margin:6px 0 18px;max-width:46em}
@@ -83,9 +83,19 @@ h1,h2,h3{font-family:var(--display);color:var(--head);font-weight:600;line-heigh
 .mod .go{margin-left:auto;font-weight:700;color:var(--c)}
 .mod.soon{background:repeating-linear-gradient(135deg,var(--paper) 0 12px,color-mix(in srgb,var(--c) 5%,var(--paper)) 12px 24px);cursor:default}
 .mod.soon:hover{box-shadow:none;border-color:var(--rule)}
-.mod.mid{grid-column:span 2;background:linear-gradient(135deg,color-mix(in srgb,var(--mid) 8%,var(--paper)),var(--paper) 60%)}
+.mod.mid{grid-column:span 1;background:linear-gradient(135deg,color-mix(in srgb,var(--mid) 8%,var(--paper)),var(--paper) 60%)}
 .mod.mid h3{font-size:1.5rem}
 .pill{display:inline-block;font:500 .7rem var(--mono);letter-spacing:.05em;text-transform:uppercase;border-radius:4px;padding:3px 7px;background:color-mix(in srgb,var(--c) 12%,var(--paper));color:var(--c)}
+.today{display:grid;grid-template-columns:minmax(0,1fr) minmax(0,1.35fr) minmax(0,1fr);gap:16px}
+.tcard{background:var(--paper);border:1px solid var(--rule);border-radius:10px;padding:18px 18px 16px;display:flex;flex-direction:column;gap:8px}
+.tcard h3{font-size:1.25rem}
+.tcard .big{font-family:var(--display);font-size:2.3rem;color:var(--head);line-height:1;font-weight:600}
+.tcard .row{display:flex;gap:8px;flex-wrap:wrap;align-items:center}
+.tcard select{flex:1;min-width:0;padding:8px 10px;border:1px solid var(--rule);border-radius:8px;background:var(--paper);color:var(--ink);font:inherit;font-size:.95rem}
+.tcard .btn{padding:8px 13px;font-size:.93rem}
+.tcard .lbl{font:500 .7rem var(--mono);letter-spacing:.06em;text-transform:uppercase;color:var(--ink2)}
+.tcard .links a{display:flex;flex-direction:column;gap:1px;padding:8px 0;border-bottom:1px dashed var(--rule);text-decoration:none;color:var(--head);font-weight:600}
+.tcard .links a span{color:var(--ink2);font-weight:400;font-size:.88rem}
 .qod{display:grid;grid-template-columns:minmax(0,1fr) minmax(0,1.3fr);gap:24px;align-items:start;background:var(--paper);border:1px solid var(--rule);border-radius:10px;padding:22px}
 .qod h3{font-size:1.4rem}
 .qod .q{font-weight:700;font-size:1.06rem;margin:6px 0 10px}
@@ -99,7 +109,7 @@ h1,h2,h3{font-family:var(--display);color:var(--head);font-weight:600;line-heigh
 .how b{display:block;font-family:var(--display);font-size:1.1rem;color:var(--head);margin:4px 0 4px;font-weight:600}
 .how .n{font:500 .72rem var(--mono);letter-spacing:.06em;color:var(--accent)}
 .foot{margin:40px auto 0;padding:20px 20px 130px;border-top:1px solid var(--rule);color:var(--ink2);font-size:.86rem}
-@media (max-width:900px){ .hero .wrap{grid-template-columns:1fr} .mods{grid-template-columns:repeat(2,minmax(0,1fr))} .mod.mid{grid-column:span 2} .qod{grid-template-columns:1fr} .how{grid-template-columns:repeat(2,minmax(0,1fr))} .how div:nth-child(2){border-right:0} .how div:nth-child(-n+2){border-bottom:1px solid var(--rule)} }
+@media (max-width:900px){ .today{grid-template-columns:1fr} .hero .wrap{grid-template-columns:1fr} .mods{grid-template-columns:repeat(2,minmax(0,1fr))} .mod.mid{grid-column:span 2} .qod{grid-template-columns:1fr} .how{grid-template-columns:repeat(2,minmax(0,1fr))} .how div:nth-child(2){border-right:0} .how div:nth-child(-n+2){border-bottom:1px solid var(--rule)} }
 @media (max-width:600px){ .wrap{padding:0 16px} .mods{grid-template-columns:1fr} .mod.mid{grid-column:auto} .how{grid-template-columns:1fr} .how div{border-right:0;border-bottom:1px solid var(--rule)} .nav nav a,.nav nav button{padding:6px 7px} .hero{padding-top:26px} .logo span{display:none} }
 @media (prefers-reduced-motion: reduce){ .mod,.btn{transition:none} }
 </style>
@@ -109,7 +119,10 @@ h1,h2,h3{font-family:var(--display);color:var(--head);font-weight:600;line-heigh
   <a class="logo" href="index.html"><svg width="30" height="30" viewBox="0 0 30 30" aria-hidden="true"><circle cx="15" cy="15" r="13" fill="none" stroke="var(--accent)" stroke-width="1.6"/><circle cx="15" cy="15" r="10.2" fill="none" stroke="var(--accent)" stroke-width=".7" stroke-dasharray="1.6 1.4"/><circle cx="17" cy="13" r="4.4" fill="var(--accent)" opacity=".85"/></svg><span>BIOL 130 Interactive</span></a>
   <nav aria-label="Site">
     <a href="#modules">Modules</a>
-    <a href="midterm.html">Midterm prep</a>
+    <a href="review.html">Daily review</a>
+    <a href="diagrams.html">Diagrams</a>
+    <a href="lab3d.html">3D lab</a>
+    <a href="midterm.html">Exam prep</a>
     <button type="button" onclick="window.KIP&&KIP.open()">Ask Kip</button>
   </nav>
 </div></header>
@@ -119,10 +132,10 @@ h1,h2,h3{font-family:var(--display);color:var(--head);font-weight:600;line-heigh
     <div>
       <p class="mono" style="margin:0 0 10px">BIOL 130 · Introductory Cell Biology · Waterloo</p>
       <h1>Cell biology you can <em>run</em>, not just read.</h1>
-      <p class="lede">Each module turns a unit of the course notes into figures you can click, experiments you can run and simulations you can break. A mini exam then shows you exactly what to go back to.</p>
+      <p class="lede">All eleven modules of the course notes as figures you can click, simulations you can run and questions that come back until you know them. Read before class, check yourself after, and review a little every day.</p>
       <div class="btns">
-        <a class="btn" id="continueBtn" href="module-1.html">Start with Module 1</a>
-        <a class="btn ghost" href="midterm.html">Midterm prep</a>
+        <a class="btn" id="reviewBtn" href="review.html">Daily review</a>
+        <a class="btn ghost" id="continueBtn" href="module-1.html">Start with Module 1</a>
       </div>
       <div class="counts" id="counts"></div>
     </div>
@@ -130,6 +143,11 @@ h1,h2,h3{font-family:var(--display);color:var(--head);font-weight:600;line-heigh
   </div>
 </section>
 
+<section class="sec" id="todaysec"><div class="wrap">
+  <h2>Today</h2>
+  <p class="sub">Read and prep before a lecture, check yourself after it, and do the daily review every day. That loop is what makes it stick.</p>
+  <div class="today" id="today"></div>
+</div></section>
 <section class="sec" id="modules"><div class="wrap">
   <h2>The modules</h2>
   <p class="sub">Work through a module's chapters in order, or jump straight to its mini exam. Your progress saves in this browser.</p>
@@ -144,13 +162,13 @@ h1,h2,h3{font-family:var(--display);color:var(--head);font-weight:600;line-heigh
 </div></section>
 
 <section class="sec"><div class="wrap">
-  <h2>What's inside every module</h2>
-  <p class="sub">You predict, you try, and the figure shows you what happens.</p>
+  <h2>How each module works</h2>
+  <p class="sub">Four modes on every module page, plus a review loop that runs across all of them.</p>
   <div class="how">
-    <div><span class="n">01</span><b>Chapters you do</b>Short sections that follow the course notes, with page numbers. Your first-try score is saved so you can beat it.</div>
-    <div><span class="n">02</span><b>A mini exam</b>No hints until you submit. Then a breakdown by chapter and a list of what to relearn.</div>
-    <div><span class="n">03</span><b>Free explore</b>An atlas or viewer where you can click through every structure, with labels on or off.</div>
-    <div><span class="n">04</span><b>Kip</b>The kinesin in the corner. Drag him along his microtubule, or tap him to ask about any term, get quizzed, or see what to study next.</div>
+    <div><span class="n">01 · Before class</span><b>Read and Prep</b>Read is the notes, cleaned up, with the blanks filled in and the figures alongside. Prep takes 5 minutes: you guess at three questions first, then get the big picture and the words you'll hear.</div>
+    <div><span class="n">02 · Learn</span><b>Chapters you do</b>Short sections that follow the course notes with page numbers. Each one has figures, simulations and questions, and your first-try score is saved.</div>
+    <div><span class="n">03 · After class</span><b>Check</b>Write down everything you remember, compare it with the notes, then take a short quiz. Anything you miss or guess goes into your daily review.</div>
+    <div><span class="n">04 · Every day</span><b>Daily review</b>Spaced, mixed review across every module you've covered: questions, terms, diagrams with the labels covered, and explain-it prompts.</div>
   </div>
 </div></section>
 
@@ -159,6 +177,8 @@ h1,h2,h3{font-family:var(--display);color:var(--head);font-weight:600;line-heigh
 </footer>
 
 <script src="studydata.js"></script>
+<script src="srs.js"></script>
+<script src="diagrams/index.js"></script>
 <script src="kip.js"></script>
 <script>
 (function(){
@@ -190,6 +210,17 @@ const esc=s=>String(s).replace(/[&<>"]/g,c=>({"&":"&amp;","<":"&lt;",">":"&gt;",
   // mitochondria
   const mito=(x,y,rot)=>`<g transform="rotate(${rot} ${x} ${y})"><ellipse class="sf" cx="${x}" cy="${y}" rx="24" ry="11"/><ellipse class="ln" cx="${x}" cy="${y}" rx="24" ry="11"/><path class="lt" d="M${x-17} ${y} l5 -7 l5 13 l5 -13 l5 13 l5 -13 l4 7"/></g>`;
   g+=mito(146,110,-20)+mito(396,320,-25)+mito(130,320,25);
+  g+=`<ellipse class="hl m7" cx="146" cy="110" rx="36" ry="24" transform="rotate(-20 146 110)" fill="var(--m7)" style="fill-opacity:.14"/>`;
+  // module 6: an enzyme with its substrate in the cytosol
+  g+=`<circle class="hl m6" cx="262" cy="300" r="22" fill="var(--m6)" style="fill-opacity:.14"/><path d="M252 291 a12 12 0 1 0 19 0 l-9 9 z" fill="var(--fig-soft)" stroke="var(--fig-stroke)" stroke-width="1"/><circle cx="262" cy="291" r="3.2" fill="var(--m6)"/>`;
+  // module 9: a receptor in the plasma membrane with its ligand
+  g+=`<circle class="hl m9" cx="470" cy="190" r="22" fill="var(--m9)" style="fill-opacity:.14"/><g transform="rotate(84 470 190)"><path d="M466 200 v-14 l-6 -8 M474 200 v-14 l6 -8" stroke="var(--m9)" stroke-width="2.2" fill="none" stroke-linecap="round"/></g><circle cx="487" cy="181" r="3.4" fill="var(--m9)"/>`;
+  // module 10: highlight the microtubule
+  g+=`<path class="hl m10" d="M300 200 C340 180 380 150 420 128" stroke="var(--m10)" stroke-width="9" fill="none" style="stroke-opacity:.25" stroke-linecap="round"/>`;
+  // module 11: a duplicated chromosome in the nucleus
+  g+=`<circle class="hl m11" cx="186" cy="246" r="16" fill="var(--m11)" style="fill-opacity:.16"/><path d="M180 238 l12 16 M192 238 l-12 16" stroke="var(--m11)" stroke-width="3" stroke-linecap="round"/>`;
+  // module 8: chloroplast inset (plant cells only)
+  g+=`<g transform="translate(548 70)"><circle class="hl m8" r="36" fill="var(--m8)" style="fill-opacity:.12"/><circle r="30" fill="var(--paper)" stroke="var(--fig-stroke)" stroke-width="1"/><ellipse rx="22" ry="12" fill="#e9f0dc" stroke="var(--m8)" stroke-width="1.4"/>${[-12,-1,10].map(x=>`<g>${[0,1,2].map(i=>`<rect x="${x-3}" y="${-5+i*3.4}" width="6" height="2.4" rx="1" fill="var(--m8)"/>`).join("")}</g>`).join("")}<text y="44" text-anchor="middle" style="font-size:8.5px">in plant cells</text></g>`;
   // lysosome + vesicles
   g+=`<circle class="sf" cx="300" cy="330" r="11"/><circle class="ln" cx="300" cy="330" r="11"/><circle class="ln" cx="418" cy="200" r="6"/><circle class="ln" cx="402" cy="176" r="5"/>`;
   g+=`<g id="ves"><circle cx="0" cy="0" r="6" fill="var(--fig-fill)" stroke="var(--accent)" stroke-width="1.4"/><circle cx="0" cy="0" r="2" fill="var(--accent)"/>${reduce?"":`<animateMotion dur="7s" repeatCount="indefinite" rotate="0"><mpath href="#mtpath"/></animateMotion>`}</g>`;
@@ -203,9 +234,9 @@ const esc=s=>String(s).replace(/[&<>"]/g,c=>({"&":"&amp;","<":"&lt;",">":"&gt;",
   for(let i=-5;i<=5;i++){ const x=i*7; g+=`<circle cx="${x}" cy="-10" r="3" fill="var(--m3)"/><path d="M${x-1.2} -7 v8 M${x+1.2} -7 v8" stroke="var(--fig-stroke)" stroke-width=".8"/><circle cx="${x}" cy="12" r="3" fill="var(--m3)"/><path d="M${x-1.2} 9 v-8 M${x+1.2} 9 v-8" stroke="var(--fig-stroke)" stroke-width=".8"/>`; }
   g+=`</g></g><line x1="98" y1="366" x2="112" y2="330" class="lt" stroke-dasharray="2 2"/>`;
   // callouts
-  const CO=[["m1",1,272,52,300,22,"The cell","r"],["m2",2,494,330,566,262,"Molecules of life","b"],["m3",3,92,402,150,424,"Membranes","r"],["m4",4,180,206,40,40,"DNA → RNA","r"],["m5",5,308,236,566,140,"Proteins","b"]];
+  const CO=[["m1",1,272,52,300,22,"The cell","r"],["m2",2,494,330,566,262,"Molecules","b"],["m3",3,92,402,150,424,"Membranes","r"],["m4",4,180,206,40,40,"DNA → RNA","r"],["m5",5,308,236,566,150,"Proteins","b"],["m6",6,262,312,330,424,"Metabolism","r"],["m7",7,124,118,34,150,"Respiration","b"],["m8",8,520,82,470,108,"Photosynthesis","l"],["m9",9,488,190,566,206,"Signalling","b"],["m10",10,392,146,430,22,"Cytoskeleton","r"],["m11",11,178,252,34,280,"Division","b"]];
   CO.forEach(([id,n,px,py,cx,cy,t,pos])=>{ const m=mods[id]; const href=m&&m.ready?m.file:"#modules";
-    const tx=pos==="b"?cx:cx+16, ty=pos==="b"?cy+28:cy+4, an=pos==="b"?"middle":"start";
+    const tx=pos==="b"?cx:pos==="l"?cx-16:cx+16, ty=pos==="b"?cy+28:cy+4, an=pos==="b"?"middle":pos==="l"?"end":"start";
     g+=`<a class="co" href="${href}" style="--c:var(--${id})" data-m="${id}" aria-label="Module ${n}: ${t}"><line x1="${px}" y1="${py}" x2="${cx}" y2="${cy}"/><circle cx="${cx}" cy="${cy}" r="11"/><text class="n" x="${cx}" y="${cy+4}">${n}</text><text class="t" x="${tx}" y="${ty}" text-anchor="${an}">${t}</text></a>`; });
   g+=`<text x="612" y="434" text-anchor="end">schematic · not to scale</text></svg>`;
   const p=document.getElementById("plate"); p.innerHTML=g+`<figcaption><b>Fig. 1</b> A eukaryotic cell, annotated by module. The vesicle is riding a microtubule, pulled by a kinesin like Kip. Click a number to open that module.</figcaption>`;
@@ -219,6 +250,12 @@ const ICON={
  m3:`<svg width="44" height="44" viewBox="0 0 44 44">${[6,14,22,30,38].map(x=>`<circle cx="${x}" cy="10" r="3.4" fill="var(--m3)"/><path d="M${x-1.5} 13 v8 M${x+1.5} 13 v8" stroke="#d6a93a" stroke-width="1.5"/><circle cx="${x}" cy="34" r="3.4" fill="var(--m3)"/><path d="M${x-1.5} 31 v-8 M${x+1.5} 31 v-8" stroke="#d6a93a" stroke-width="1.5"/>`).join("")}<rect x="17" y="6" width="10" height="32" rx="4" fill="#8a67bd"/></svg>`,
  m4:`<svg width="44" height="44" viewBox="0 0 44 44"><path d="M12 4 C34 14 10 30 32 40" stroke="var(--m4)" stroke-width="3" fill="none"/><path d="M32 4 C10 14 34 30 12 40" stroke="#76a9dc" stroke-width="3" fill="none"/>${[9,15,21,27,33].map((y,i)=>`<line x1="${15+ (i%2?3:0)}" y1="${y}" x2="${29-(i%2?3:0)}" y2="${y}" stroke="${["#8e6cc4","#dd5f45","#3a9a9a","#f0cf4f","#8e6cc4"][i]}" stroke-width="2.5"/>`).join("")}</svg>`,
  m5:`<svg width="44" height="44" viewBox="0 0 44 44"><ellipse cx="22" cy="17" rx="12" ry="8" fill="var(--m5)" opacity=".85"/><ellipse cx="22" cy="28" rx="15" ry="6.5" fill="var(--m5)"/><path d="M4 28 H40" stroke="#c83a4f" stroke-width="2.5"/><path d="M22 9 q-5 -3 0 -6 q5 -3 0 -6" stroke="#4f9a55" stroke-width="2.5" fill="none" transform="translate(0,4)"/></svg>`,
+ m6:`<svg width="44" height="44" viewBox="0 0 44 44"><path d="M4 32 C12 32 14 10 22 10 C30 10 30 26 40 26" fill="none" stroke="var(--m6)" stroke-width="2.6"/><path d="M4 32 C12 32 15 20 22 20 C29 20 30 26 40 26" fill="none" stroke="var(--m6)" stroke-width="1.6" stroke-dasharray="3 2" opacity=".7"/><path d="M6 38 H40" stroke="var(--m6)" stroke-width="1.2" opacity=".5"/></svg>`,
+ m7:`<svg width="44" height="44" viewBox="0 0 44 44"><ellipse cx="22" cy="22" rx="19" ry="12" fill="#f6e4ea" stroke="var(--m7)" stroke-width="2.5"/><path d="M8 22 l4 -7 l4 13 l4 -13 l4 13 l4 -13 l4 13 l4 -6" fill="none" stroke="var(--m7)" stroke-width="1.8" stroke-linejoin="round"/></svg>`,
+ m8:`<svg width="44" height="44" viewBox="0 0 44 44"><ellipse cx="22" cy="22" rx="19" ry="12" fill="#eef3e2" stroke="var(--m8)" stroke-width="2.5"/>${[11,20,29].map(x=>[0,1,2,3].map(i=>`<rect x="${x}" y="${15.5+i*3.6}" width="6" height="2.4" rx="1" fill="var(--m8)"/>`).join("")).join("")}</svg>`,
+ m9:`<svg width="44" height="44" viewBox="0 0 44 44"><rect x="2" y="24" width="40" height="9" rx="2" fill="#e3ebf6" stroke="var(--m9)" stroke-width="1.4"/><path d="M18 36 v-16 l-6 -8 M26 36 v-16 l6 -8" stroke="var(--m9)" stroke-width="3" fill="none" stroke-linecap="round"/><circle cx="22" cy="9" r="4" fill="var(--m9)"/></svg>`,
+ m10:`<svg width="44" height="44" viewBox="0 0 44 44"><rect x="4" y="7" width="36" height="9" rx="4.5" fill="#f8e9df" stroke="var(--m10)" stroke-width="2"/><path d="M4 26 q4.5 -4 9 0 t9 0 t9 0 t9 0" fill="none" stroke="var(--m10)" stroke-width="2.4"/><path d="M4 36 C14 32 30 40 40 35" stroke="var(--m10)" stroke-width="2.4" fill="none" opacity=".6"/></svg>`,
+ m11:`<svg width="44" height="44" viewBox="0 0 44 44"><path d="M13 6 C20 16 20 28 13 38 M31 6 C24 16 24 28 31 38" stroke="var(--m11)" stroke-width="6" fill="none" stroke-linecap="round"/><circle cx="22" cy="22" r="3.5" fill="#fff" stroke="var(--m11)" stroke-width="1.5"/></svg>`,
  mid:`<svg width="44" height="44" viewBox="0 0 44 44"><rect x="8" y="5" width="28" height="34" rx="4" fill="#fff" stroke="var(--mid)" stroke-width="2.5"/><path d="M14 15 l3 3 6 -7 M14 25 l3 3 6 -7" stroke="var(--mid)" stroke-width="2.5" fill="none" stroke-linecap="round"/><path d="M26 16 h5 M26 26 h5 M14 33 h17" stroke="var(--mid)" stroke-width="2" opacity=".6"/></svg>`
 };
 /* progress */
@@ -229,7 +266,7 @@ const box=$("#mods");
 S.modules.forEach(m=>{
   const c=`var(--${m.id})`;
   if(!m.ready){
-    box.insertAdjacentHTML("beforeend",`<div class="mod soon" style="--c:${c}"><div class="top"><span class="icon">${ICON[m.id]||""}</span><div><div class="num">Module ${m.n}</div><h3>${esc(m.title)}</h3></div></div><p style="margin:0;color:var(--ink2)">${esc(m.blurb)}</p><div class="prog"><span class="pill">Coming soon</span><span>Kip already knows the prof's review questions for this one. Find them in Midterm prep.</span></div></div>`);
+    box.insertAdjacentHTML("beforeend",`<div class="mod soon" style="--c:${c}"><div class="top"><span class="icon">${ICON[m.id]||""}</span><div><div class="num">Module ${m.n}</div><h3>${esc(m.title)}</h3></div></div><p style="margin:0;color:var(--ink2)">${esc(m.blurb)}</p><div class="prog"><span class="pill">Coming soon</span><span>Being built.</span></div></div>`);
     return; }
   totalCh+=m.chapters.length; totalQ+=(S.exam[m.id]||[]).length;
   const pr=prog(m), pct=Math.round(pr.done/pr.total*100), e=ex[m.id];
@@ -239,12 +276,45 @@ S.modules.forEach(m=>{
     <div class="prog"><span class="ring" style="--p:${pct}"><span>${pr.done}/${pr.total}</span></span><span>chapters done${e?`<br>mini exam best: <b>${e.best}%</b>`:""}</span><span class="go">Open</span></div></a>`);
 });
 const me=ex.midterm;
-box.insertAdjacentHTML("beforeend",`<a class="mod mid" href="midterm.html" style="--c:var(--mid)"><div class="top"><span class="icon">${ICON.mid}</span><div><div class="num">Modules 1 to 5</div><h3>Midterm prep</h3></div></div>
-  <p style="margin:0">A practice midterm across every module, all of the prof's review questions with answers you can check yourself against, and a study plan built from your results.</p>
+box.insertAdjacentHTML("beforeend",`<a class="mod mid" href="midterm.html" style="--c:var(--mid)"><div class="top"><span class="icon">${ICON.mid}</span><div><div class="num">Every module</div><h3>Exam prep</h3></div></div>
+  <p style="margin:0">A practice exam across the modules you pick, every review question with an answer to check yourself against, and a study plan built from your results.</p>
   <div class="prog"><span class="pill">${S.review.length} review questions</span>${me?`<span>practice midterm best: <b>${me.best}%</b></span>`:""}<span class="go">Open</span></div></a>`);
 const ready=S.modules.filter(m=>m.ready).length;
-$("#counts").innerHTML=`<span><b>${ready}</b>modules</span><span><b>${totalCh}</b>chapters</span><span><b>${totalQ}</b>exam questions</span><span><b>${S.review.length}</b>prof review questions</span>`;
+$("#counts").innerHTML=`<span><b>${ready}</b>modules</span><span><b>${totalCh}</b>chapters</span><span><b>${totalQ}</b>exam questions</span><span><b>${S.review.length}</b>review questions</span>`;
+today();
 if(nextMod && Object.keys(lsGet(nextMod.progressKey,{ch:{}}).ch||{}).length){ $("#continueBtn").textContent=`Continue Module ${nextMod.n}`; $("#continueBtn").href=nextMod.file; }
+/* today panel */
+function today(){
+  const el=$("#today"); if(!el||!window.SRS) return;
+  const dueN=SRS.due().length, st=SRS.streak(), done=SRS.reviewedToday();
+  $("#reviewBtn").textContent=dueN?`Daily review · ${dueN} due`:"Daily review";
+  const ready=S.modules.filter(m=>m.ready);
+  // default: the module you touched most recently, else the first unfinished one
+  let best=null, bestDate="";
+  ready.forEach(m=>["read","prep","check"].forEach(k=>Object.values(SRS.marks(k,m.id)).forEach(v=>{ if(v.date>=bestDate){ bestDate=v.date; best=m; } })));
+  const mod=best||nextMod||ready[0];
+  el.innerHTML=`<div class="tcard"><span class="lbl">Every day</span><h3>Daily review</h3>
+      <div class="row" style="gap:22px;margin:4px 0"><div><div class="big">${dueN}</div><span class="muted" style="font-size:.85rem">due now</span></div><div><div class="big">${st}</div><span class="muted" style="font-size:.85rem">day streak</span></div></div>
+      <p class="muted" style="margin:0;font-size:.93rem">${done?`${done} reviewed today. `:""}Mixed questions, terms and diagrams from what you've covered.</p>
+      <div class="row" style="margin-top:auto"><a class="btn" href="review.html">${dueN?"Start review":"Open review"}</a></div></div>
+    <div class="tcard"><span class="lbl">Your next lecture</span><h3>Before and after class</h3>
+      <div class="row"><select id="tMod" aria-label="Module">${ready.map(m=>`<option value="${m.id}" ${m===mod?"selected":""}>Module ${m.n}: ${esc(m.short)}</option>`).join("")}</select></div>
+      <div class="row"><select id="tCh" aria-label="Chapter"></select></div>
+      <div class="row"><span class="lbl" style="width:100%">Before</span><a class="btn ghost" id="tRead">Read</a><a class="btn" id="tPrep">Prep (5 min)</a><a class="btn ghost" id="tLearn">Learn</a></div>
+      <div class="row"><span class="lbl" style="width:100%">After</span><a class="btn" id="tCheck">Check yourself</a><span class="muted" id="tStat" style="font-size:.85rem"></span></div></div>
+    <div class="tcard"><span class="lbl">See it</span><h3>Visual tools</h3>
+      <div class="links"><a href="diagrams.html">Diagram library<span>${(window.FIGS||[]).length||"every"} figures, labels you can cover</span></a><a href="lab3d.html">3D lab<span>rotate cells, DNA, mitochondria</span></a><a href="midterm.html">Exam prep<span>practice exam and study plan</span></a></div></div>`;
+  const tMod=$("#tMod"), tCh=$("#tCh");
+  const fill=()=>{ const m=ready.find(x=>x.id===tMod.value); const chk=SRS.marks("check",m.id);
+    let def=(m.chapters||[]).findIndex(c=>!chk[c.id]); if(def<0) def=0;
+    tCh.innerHTML=(m.chapters||[]).map((c,i)=>`<option value="${i}" ${i===def?"selected":""}>${m.n}.${i+1} ${esc(c.title)}${chk[c.id]?" (checked)":""}</option>`).join("");
+    links(); };
+  const links=()=>{ const m=ready.find(x=>x.id===tMod.value); const i=+tCh.value; const c=m.chapters[i];
+    $("#tRead").href=`${m.file}#read=${i+1}`; $("#tPrep").href=`${m.file}#prep=${i+1}`; $("#tLearn").href=`${m.file}#ch=${i+1}`; $("#tCheck").href=`${m.file}#check=${i+1}`;
+    const bits=[]; if(SRS.marks("read",m.id)[c.id]) bits.push("read"); if(SRS.marks("prep",m.id)[c.id]) bits.push("prepped"); const k=SRS.marks("check",m.id)[c.id]; if(k) bits.push(`checked ${Math.round(k.score*100)}%`);
+    $("#tStat").textContent=bits.join(" · "); };
+  tMod.onchange=fill; tCh.onchange=links; fill();
+}
 /* question of the day */
 const pool=[]; Object.keys(S.exam).forEach(k=>S.exam[k].forEach(q=>pool.push({...q,mod:k})));
 const day=Math.floor(Date.now()/864e5); const q=pool[(day*7919)%pool.length];

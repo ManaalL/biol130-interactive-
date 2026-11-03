@@ -141,6 +141,7 @@ function mount(root,cfg){
     const all=lsGet(KEY,{}); const prev=all[cfg.key]||{best:0,attempts:0};
     all[cfg.key]={last:pct,best:Math.max(prev.best||0,pct),attempts:(prev.attempts||0)+1,topics,when:Date.now(),n:qs.length};
     lsSet(KEY,all);
+    if(window.SRS) qs.forEach((q,i)=>{ if(q.mod==null) return; const ok= ans[i]!=null && q.opts[ans[i]][1]; SRS.grade(SRS.id.exam(q.mod,q),{mod:q.mod,kind:"x",ch:q.ch},ok?2:0); });
     results(right,pct,topics,prev);
   }
   function breakdownCard(topics,withActions){

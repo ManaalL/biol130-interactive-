@@ -3,14 +3,14 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
-<title>Midterm Prep | BIOL 130 Interactive</title>
+<title>Exam Prep | BIOL 130 Interactive</title>
 <link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:wght@400;500&family=Source+Sans+3:ital,wght@0,400;0,600;0,700;1,400&family=Source+Serif+4:opsz,wght@8..60,500;8..60,650&display=swap" rel="stylesheet">
 <style>
 :root{
   --page:#f1eff7; --paper:#ffffff; --ink:#1f2230; --ink2:#5d6072; --rule:#dcd8e8; --head:#2c2147;
   --accent:#5b3f8f; --accentInk:#fff; --accentSoft:#ece6f7; --ok:#2a7648; --bad:#a53838;
-  --m1:#3f8a4c; --m2:#5a5fc4; --m3:#11707b; --m4:#b0342c; --m5:#c98a16;
+  --m1:#3f8a4c; --m2:#5a5fc4; --m3:#11707b; --m4:#b0342c; --m5:#c98a16; --m6:#1f7a8c; --m7:#a3365a; --m8:#5f7f1f; --m9:#2b62a8; --m10:#c0612b; --m11:#7a3f8f;
   --display:"Source Serif 4",Georgia,serif; --serif:"Source Serif 4",Georgia,serif; --sans:"Source Sans 3",system-ui,-apple-system,"Segoe UI",Arial,sans-serif;
   box-sizing:border-box; padding-top:env(safe-area-inset-top,0px); padding-bottom:env(safe-area-inset-bottom,0px);
 }
@@ -73,30 +73,31 @@ h1,h2,h3{font-family:var(--display);color:var(--head);font-weight:700;line-heigh
 <body data-page="midterm">
 <header class="nav"><div class="wrap">
   <a class="logo" href="index.html"><svg width="28" height="28" viewBox="0 0 30 30" aria-hidden="true"><circle cx="15" cy="15" r="13" fill="none" stroke="#2f8f7a" stroke-width="1.6"/><circle cx="15" cy="15" r="10.2" fill="none" stroke="#2f8f7a" stroke-width=".7" stroke-dasharray="1.6 1.4"/><circle cx="17" cy="13" r="4.4" fill="#2f8f7a" opacity=".85"/></svg><span>BIOL 130 Interactive</span></a>
-  <nav aria-label="Site"><a href="index.html#modules">Modules</a><a href="midterm.html" aria-current="page">Midterm prep</a><button type="button" onclick="window.KIP&&KIP.open()">Ask Kip</button></nav>
+  <nav aria-label="Site"><a href="index.html#modules">Modules</a><a href="review.html">Daily review</a><a href="diagrams.html">Diagrams</a><a href="lab3d.html">3D lab</a><a href="midterm.html" aria-current="page">Exam prep</a><button type="button" onclick="window.KIP&&KIP.open()">Ask Kip</button></nav>
 </div></header>
 
 <section class="hero"><div class="wrap">
   <div>
-    <h1>Midterm prep: Modules 1 to 5</h1>
-    <p>Three ways in. Take a practice midterm and get a breakdown by chapter. Work through every review question your prof gave, check your answer, and rate how well you knew it. Then follow the study plan your results build.</p>
+    <h1>Exam prep: every module</h1>
+    <p>Three ways in. Take a practice exam on the modules you pick and get a breakdown by chapter. Work through every review question, check your answer, and rate how well you knew it. Then follow the study plan your results build.</p>
   </div>
   <div class="count" id="count"></div>
 </div></section>
 
 <div class="wrap">
   <div class="tabs" role="tablist">
-    <button role="tab" data-t="exam" aria-selected="true">Practice midterm</button>
-    <button role="tab" data-t="review" aria-selected="false">Prof's review questions</button>
+    <button role="tab" data-t="exam" aria-selected="true">Practice exam</button>
+    <button role="tab" data-t="review" aria-selected="false">Review questions</button>
     <button role="tab" data-t="plan" aria-selected="false">My study plan</button>
   </div>
   <section class="panel" id="p-exam"></section>
   <section class="panel" id="p-review" hidden></section>
   <section class="panel" id="p-plan" hidden></section>
 </div>
-<footer class="wrap foot">Review questions are the BIOL 130 Modules 1 to 5 review list. Answers follow your course notes, with page numbers. An independent study aid, not an official University of Waterloo resource.</footer>
+<footer class="wrap foot">Review questions: your prof's list for Modules 1 to 5, and each module's important-concepts list from the course notes for Modules 6 to 11. Answers follow your course notes, with page numbers. An independent study aid, not an official University of Waterloo resource.</footer>
 
 <script src="studydata.js"></script>
+<script src="srs.js"></script>
 <script src="exam.js"></script>
 <script src="kip.js"></script>
 <script>
@@ -107,12 +108,12 @@ const lsSet=(k,v)=>{ try{ localStorage.setItem(k,JSON.stringify(v)); }catch(e){}
 const esc=s=>String(s).replace(/[&<>"]/g,c=>({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;"}[c]));
 const modBy=id=>S.modules.find(m=>m.id===id);
 /* countdown */
-function count(){ const d=lsGet("biol130-midterm-date",""); const box=$("#count");
+function count(){ const d=lsGet("biol130-exam-date",""); const box=$("#count");
   if(d){ const days=Math.ceil((new Date(d+"T09:00")-new Date())/864e5);
-    box.innerHTML=`<div class="big">${days>0?days:days===0?"Today":"Done"}</div><div class="muted">${days>0?`day${days===1?"":"s"} until your midterm`:days===0?"Good luck!":"Your midterm date has passed"}</div><button class="sbtn" style="margin-top:8px" id="chg">Change date</button>`;
-    $("#chg").onclick=()=>{ lsSet("biol130-midterm-date",""); count(); }; }
-  else { box.innerHTML=`<b>When's your midterm?</b><br><input type="date" id="dt" aria-label="Midterm date"><br><button class="sbtn" style="margin-top:8px" id="sv">Start the countdown</button>`;
-    $("#sv").onclick=()=>{ const v=$("#dt").value; if(v){ lsSet("biol130-midterm-date",v); count(); } }; } }
+    box.innerHTML=`<div class="big">${days>0?days:days===0?"Today":"Done"}</div><div class="muted">${days>0?`day${days===1?"":"s"} until your exam`:days===0?"Good luck!":"Your midterm date has passed"}</div><button class="sbtn" style="margin-top:8px" id="chg">Change date</button>`;
+    $("#chg").onclick=()=>{ lsSet("biol130-exam-date",""); count(); }; }
+  else { box.innerHTML=`<b>When's your next exam?</b><br><input type="date" id="dt" aria-label="Exam date"><br><button class="sbtn" style="margin-top:8px" id="sv">Start the countdown</button>`;
+    $("#sv").onclick=()=>{ const v=$("#dt").value; if(v){ lsSet("biol130-exam-date",v); count(); } }; } }
 count();
 /* tabs */
 const tabs=[...document.querySelectorAll('[role="tab"]')];
@@ -120,14 +121,14 @@ function show(t){ tabs.forEach(b=>b.setAttribute("aria-selected",String(b.datase
 tabs.forEach(b=>b.addEventListener("click",()=>show(b.dataset.t)));
 /* practice midterm */
 const items=[]; Object.keys(S.exam).forEach(k=>S.exam[k].forEach((q,i)=>items.push({...q,mod:k,id:k+"-"+i})));
-EXAM.mount($("#p-exam"),{key:"midterm",title:"Practice midterm",intro:`Questions drawn from every module's mini exam (${items.length} in the bank). Pick which modules to include and how long you want it.`,items,sizes:[20,40],modulePicker:true});
+EXAM.mount($("#p-exam"),{key:"midterm",title:"Practice exam",intro:`Questions drawn from every module's mini exam (${items.length} in the bank). Pick which modules to include and how long you want it.`,items,sizes:[20,40],modulePicker:true});
 /* review questions */
 const RV="biol130-review-v1"; let rate=lsGet(RV,{}); let curMod=(S.modules.find(m=>S.review.some(r=>r.mod===m.id))||S.modules[0]).id, showAll=false;
 function review(){
   const box=$("#p-review"); box.innerHTML="";
   const intro=document.createElement("div"); intro.className="card";
   const tot=S.review.length, got=Object.values(rate).filter(v=>v==="got").length, sh=Object.values(rate).filter(v=>v==="shaky").length, no=Object.values(rate).filter(v=>v==="no").length;
-  intro.innerHTML=`<h2>Your prof's review questions</h2><p class="muted" style="margin:0 0 6px">Try to answer each one out loud or on paper first. Then open the answer and rate yourself honestly. Anything marked shaky or no idea goes into your study plan.</p>
+  intro.innerHTML=`<h2>Review questions</h2><p class="muted" style="margin:0 0 6px">Try to answer each one out loud or on paper first. Then open the answer and rate yourself honestly. Anything marked shaky or no idea goes into your study plan.</p>
    <div class="bar"><i style="width:${got/tot*100}%;background:#2a7648"></i><i style="width:${sh/tot*100}%;background:#d9a12b"></i><i style="width:${no/tot*100}%;background:#b0342c"></i></div>
    <div class="stat3"><span><b>${got}</b> got it</span><span><b>${sh}</b> shaky</span><span><b>${no}</b> no idea</span><span><b>${tot-got-sh-no}</b> not rated yet</span></div>`;
   const mb=document.createElement("div"); mb.className="modbar";
@@ -155,9 +156,9 @@ function plan(){
   const w=KIP.weakTopics();
   const ex=lsGet("biol130-exam-v1",{});
   const done=S.modules.filter(m=>m.ready).map(m=>({m,e:ex[m.id]}));
-  c.innerHTML=`<h2>My study plan</h2><p class="muted">Built from your mini exams, the practice midterm and your review-question ratings. It updates every time you do one.</p>
-    <div class="stat3">${done.map(({m,e})=>`<span>Module ${m.n} mini exam: <b>${e?e.best+"%":"not taken"}</b></span>`).join("")}<span>Practice midterm: <b>${ex.midterm?ex.midterm.best+"%":"not taken"}</b></span></div>`;
-  if(!w.length){ c.insertAdjacentHTML("beforeend",`<p><b>Nothing to show yet.</b> Take the practice midterm, a module's mini exam, or rate yourself on some review questions, and your plan will appear here.</p>`); box.append(c); return; }
+  c.innerHTML=`<h2>My study plan</h2><p class="muted">Built from your mini exams, the practice exam and your review-question ratings. It updates every time you do one.</p>
+    <div class="stat3">${done.map(({m,e})=>`<span>Module ${m.n} mini exam: <b>${e?e.best+"%":"not taken"}</b></span>`).join("")}<span>Practice exam: <b>${ex.midterm?ex.midterm.best+"%":"not taken"}</b></span></div>`;
+  if(!w.length){ c.insertAdjacentHTML("beforeend",`<p><b>Nothing to show yet.</b> Take the practice exam, a module's mini exam, or rate yourself on some review questions, and your plan will appear here.</p>`); box.append(c); return; }
   const ol=document.createElement("ol"); ol.className="plan";
   w.slice(0,10).forEach(t=>{ const m=modBy(t.mod), ch=m.chapters[t.ch]; const li=document.createElement("li");
     const why=[t.total?`${t.right} of ${t.total} right on exams`:"", t.shaky?`${t.shaky>1?"marked shaky or no idea":"marked shaky"} on review questions`:""].filter(Boolean).join("; ");

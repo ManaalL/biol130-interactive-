@@ -1,0 +1,121 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>Diagram Library | BIOL 130</title>
+<meta name="description" content="Every key diagram from the BIOL 130 modules in one place, with a cover-the-labels quiz mode.">
+<link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:wght@400;500&family=Source+Sans+3:ital,wght@0,400;0,600;0,700;1,400&family=Source+Serif+4:opsz,wght@8..60,400;8..60,600;8..60,700&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="hub.css">
+<style>
+.tools{position:sticky;top:56px;z-index:20;background:color-mix(in srgb,var(--page) 94%,transparent);backdrop-filter:blur(6px);border-bottom:1px solid var(--rule);padding:10px 0}
+.tools .wrap{display:flex;gap:8px;flex-wrap:wrap;align-items:center}
+.tools input[type=search]{flex:1;min-width:180px;padding:8px 12px;border:1px solid var(--rule);border-radius:8px;font:inherit;background:var(--paper);color:var(--ink)}
+.tg{display:inline-flex;gap:8px;align-items:center;font-weight:600;font-size:.93rem;cursor:pointer;padding:6px 10px;border:1px solid var(--rule);border-radius:8px;background:var(--paper)}
+.modsec{padding:22px 0 8px;scroll-margin-top:120px}
+.modsec>h2{display:flex;align-items:baseline;gap:12px}
+.modsec>h2 .n{font:500 .8rem var(--mono);color:var(--c);letter-spacing:.06em;text-transform:uppercase}
+.chh{font:600 1.02rem var(--display);color:var(--head);margin:18px 0 8px;padding-top:10px;border-top:1px dashed var(--rule)}
+.chh span{font:500 .74rem var(--mono);color:var(--ink2);margin-left:8px}
+.grid{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:16px}
+.fig{display:flex;flex-direction:column;gap:6px}
+.fig.big{grid-column:1/-1}
+.fig .plate{cursor:zoom-in;min-height:120px}
+.fig.big .plate{cursor:zoom-out}
+.fig .plate svg{max-height:none}
+.fig.big .plate svg{max-height:78vh}
+.fig .meta{display:flex;gap:10px;align-items:baseline;flex-wrap:wrap;font-size:.9rem}
+.fig .meta b{font-family:var(--display);color:var(--head);font-size:1rem}
+.fig .meta a{margin-left:auto;font-weight:600;white-space:nowrap}
+.cov{fill:#dfe7e3;stroke:#9fb2aa;stroke-width:.6;cursor:pointer}
+.cov:hover{fill:#cfe2da}
+.none{padding:30px 0;color:var(--ink2)}
+.soon{border:1px dashed var(--rule);border-radius:10px;padding:14px 16px;color:var(--ink2)}
+@media (max-width:760px){ .grid{grid-template-columns:minmax(0,1fr)} .tools{top:56px} }
+</style>
+</head>
+<body>
+<header class="nav"><div class="wrap">
+  <a class="logo" href="index.html"><svg width="30" height="30" viewBox="0 0 30 30" aria-hidden="true"><circle cx="15" cy="15" r="13" fill="none" stroke="var(--accent)" stroke-width="1.6"/><circle cx="15" cy="15" r="10.2" fill="none" stroke="var(--accent)" stroke-width=".7" stroke-dasharray="1.6 1.4"/><circle cx="17" cy="13" r="4.4" fill="var(--accent)" opacity=".85"/></svg><span>BIOL 130 Interactive</span></a>
+  <nav aria-label="Site">
+    <a href="index.html#modules">Modules</a>
+    <a href="review.html">Daily review</a>
+    <a href="diagrams.html" aria-current="page">Diagrams</a>
+    <a href="lab3d.html">3D lab</a>
+    <a href="midterm.html">Exam prep</a>
+  </nav>
+</div></header>
+<section class="hero"><div class="wrap">
+  <p class="mono" style="margin:0 0 8px">Every key figure, one page</p>
+  <h1>Diagram <em>library</em></h1>
+  <p class="lede">Every figure from every module, in course order. Turn on <b>Cover labels</b> to quiz yourself: name each part, then tap the grey box to check. Tap a figure to enlarge it.</p>
+  <div class="counts" id="counts"></div>
+</div></section>
+<div class="tools"><div class="wrap" id="tools"></div></div>
+<main class="wrap" id="lib"></main>
+<footer class="wrap foot">Figures are redrawn for study from the BIOL 130 course notes. Check details against your notes and LEARN.</footer>
+<script src="studydata.js"></script>
+<script src="diagrams/index.js"></script>
+<script src="kip.js"></script>
+<script>
+(function(){
+const S=window.STUDY, FIGS=window.FIGS||[];
+const $=s=>document.querySelector(s);
+const esc=s=>String(s==null?"":s).replace(/[&<>"]/g,c=>({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;"}[c]));
+const mods=S.modules;
+let cover=false, q="", only=null;
+$("#counts").innerHTML=`<span><b>${FIGS.length}</b>figures</span><span><b>${new Set(FIGS.map(f=>f.mod)).size}</b>modules</span>`;
+const tools=$("#tools");
+tools.innerHTML=`<input type="search" id="q" placeholder="Search figures, e.g. ATP synthase, helix, Golgi" aria-label="Search figures"><label class="tg"><input type="checkbox" id="cv"> Cover labels</label><span id="mchips" style="display:flex;gap:6px;flex-wrap:wrap"></span>`;
+const mc=$("#mchips");
+mods.filter(m=>FIGS.some(f=>f.mod===m.id)).forEach(m=>{ const b=document.createElement("button"); b.className="chip"; b.style.setProperty("--c",`var(--${m.id})`); b.innerHTML=`<i></i>${m.n}`; b.title=m.title; b.setAttribute("aria-pressed","false");
+  b.onclick=()=>{ only=only===m.id?null:m.id; mc.querySelectorAll(".chip").forEach(x=>x.setAttribute("aria-pressed",String(x===b&&only===m.id))); draw(); }; mc.append(b); });
+$("#q").addEventListener("input",e=>{ q=e.target.value.trim().toLowerCase(); draw(); });
+$("#cv").addEventListener("change",e=>{ cover=e.target.checked; document.querySelectorAll(".fig svg").forEach(s=>cover?coverLabels(s):uncover(s)); });
+const io="IntersectionObserver" in window ? new IntersectionObserver(es=>es.forEach(e=>{ if(e.isIntersecting){ load(e.target); io.unobserve(e.target); } }),{rootMargin:"400px"}) : null;
+function load(host){
+  if(host.dataset.done) return; host.dataset.done="1";
+  fetch(host.dataset.src).then(r=>r.text()).then(t=>{ host.innerHTML=t; const s=host.querySelector("svg"); if(s&&cover) coverLabels(s); }).catch(()=>{ host.textContent="Couldn't load this figure."; });
+}
+function draw(){
+  const lib=$("#lib"); lib.innerHTML="";
+  let shown=0;
+  mods.forEach(m=>{
+    if(only&&m.id!==only) return;
+    const fs=FIGS.filter(f=>f.mod===m.id&&(!q||(f.title+" "+f.cap+" "+f.chTitle).toLowerCase().includes(q)));
+    if(!m.ready&&!q&&!only){ lib.insertAdjacentHTML("beforeend",`<section class="modsec" style="--c:var(--${m.id})"><h2><span class="n">Module ${m.n}</span>${esc(m.title)}</h2><p class="soon">Coming soon.</p></section>`); return; }
+    if(!fs.length) return;
+    const sec=document.createElement("section"); sec.className="modsec"; sec.id=m.id; sec.style.setProperty("--c",`var(--${m.id})`);
+    sec.innerHTML=`<h2><span class="n">Module ${m.n}</span>${esc(m.title)}</h2>`;
+    let lastCh=-1, grid=null;
+    fs.forEach(f=>{
+      if(f.ch!==lastCh){ lastCh=f.ch; sec.insertAdjacentHTML("beforeend",`<div class="chh">${m.n}.${f.ch+1} ${esc(f.chTitle)}<span>${esc(f.pages)}</span></div>`); grid=document.createElement("div"); grid.className="grid"; sec.append(grid); }
+      const card=document.createElement("div"); card.className="fig";
+      card.innerHTML=`<figure class="plate"><div class="svghost" data-src="${f.file}"></div></figure><div class="meta"><b>${esc(f.title)}</b><span class="muted">${esc(f.cap)}</span><a href="${m.file}#ch=${f.ch+1}">Open chapter</a></div>`;
+      card.querySelector(".plate").addEventListener("click",e=>{ if(e.target.closest(".cov")) return; card.classList.toggle("big"); if(card.classList.contains("big")) card.scrollIntoView({block:"nearest"}); });
+      grid.append(card); shown++;
+      const host=card.querySelector(".svghost"); if(io) io.observe(host); else load(host);
+    });
+    lib.append(sec);
+  });
+  if(!shown) lib.insertAdjacentHTML("beforeend",`<p class="none">No figures match that search.</p>`);
+}
+function coverLabels(svg){
+  svg.querySelectorAll("text").forEach(t=>{
+    if(!t.textContent.trim()||t.nextSibling&&t.nextSibling.classList&&t.nextSibling.classList.contains("cov")) return;
+    let bb; try{ bb=t.getBBox(); }catch(e){ return; } if(!bb.width) return;
+    const r=document.createElementNS("http://www.w3.org/2000/svg","rect");
+    r.setAttribute("x",bb.x-2); r.setAttribute("y",bb.y-1); r.setAttribute("width",bb.width+4); r.setAttribute("height",bb.height+2); r.setAttribute("rx",2); r.setAttribute("class","cov");
+    const tr=t.getAttribute("transform"); if(tr) r.setAttribute("transform",tr);
+    t.style.visibility="hidden"; t.parentNode.insertBefore(r,t.nextSibling);
+    r.addEventListener("click",e=>{ e.stopPropagation(); t.style.visibility=""; r.remove(); });
+  });
+}
+function uncover(svg){ svg.querySelectorAll("rect.cov").forEach(r=>r.remove()); svg.querySelectorAll("text").forEach(t=>t.style.visibility=""); }
+draw();
+if(location.hash){ const el=document.getElementById(location.hash.slice(1)); if(el) setTimeout(()=>el.scrollIntoView(),50); }
+})();
+</script>
+</body>
+</html>

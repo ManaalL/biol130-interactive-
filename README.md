@@ -1,6 +1,6 @@
 # BIOL 130 Interactive
 
-Interactive study modules for BIOL 130: Introductory Cell Biology at the University of Waterloo. Each module turns one unit of the course notes into figures you can click, experiments you can run and simulations you control. A mini exam at the end of each module shows you what to relearn, and a midterm prep page pulls everything together.
+Interactive study modules for BIOL 130: Introductory Cell Biology at the University of Waterloo. All eleven modules of the course notes, each turned into readable notes, figures you can click and simulations you control. A review loop brings back whatever you're about to forget.
 
 **Live site:** https://manaall.github.io/biol130-interactive-/
 
@@ -8,28 +8,38 @@ Interactive study modules for BIOL 130: Introductory Cell Biology at the Univers
 
 | Page | What it covers |
 |---|---|
-| `index.html` | Landing page: all modules, your progress, a question of the day |
-| `module-1.html` | Introduction to Cell Biology and the Cell Theory |
-| `module-2.html` | Molecules of Life |
-| `module-3.html` | Cell Border Control: Cells and Membranes |
-| `module-4.html` | Nucleic Acids and Information Flow |
-| `module-5.html` | Protein Structure, Function and Synthesis |
-| `midterm.html` | Midterm prep for Modules 1 to 5 |
+| `index.html` | Home: today's review, before/after class shortcuts, all modules, question of the day |
+| `module-1.html` to `module-11.html` | One page per module (see below) |
+| `review.html` | Daily review: spaced, mixed review across every module you've covered |
+| `diagrams.html` | Diagram library: every figure in course order, with a cover-the-labels quiz mode |
+| `lab3d.html` | 3D lab: rotatable 3D models (cell, membrane, DNA, protein levels, mitochondrion, chloroplast, GPCR, cytoskeleton, replication fork, mitosis) |
+| `midterm.html` | Exam prep: practice exam, review questions with answers, study plan |
 
-## Inside each module
+Modules:
+1. Introduction to Cell Biology and the Cell Theory
+2. Molecules of Life
+3. Cells and Membranes
+4. Nucleic Acids and Information Flow
+5. Protein Structure, Function and Synthesis
+6. Making Life Work: Energy and Metabolism
+7. Cellular Respiration
+8. Photosynthesis
+9. Cell Signalling
+10. Cell and Tissue Form
+11. DNA Replication and Cell Division
 
-- **Chapters** that follow the course notes, with page references. Each opens with a figure, experiment or simulation, then tests you. Your score is the share you get right on the first try, and your best is saved so you can replay and beat it.
-- **A free-explore view** (cell atlas, molecule lab or viewer) where you can click through every structure.
-- **Endless practice** with randomized questions.
-- **A mini exam** that works like a real test: no feedback until you submit. Then you get a breakdown by chapter, a list of what to relearn with links back to those chapters, and an explanation for every question.
-- **A glossary** of every term, marked not yet seen, seen or tested, with the notes page.
+## The study cycle
 
-## Midterm prep
+Every module page has four modes. They follow what the research on learning supports: pre-exposure, pretesting, retrieval practice, and spaced, interleaved review.
 
-- **Practice midterm** drawn from every module's mini exam. Pick which modules to include and how long it is.
-- **All of the prof's review questions** for Modules 1 to 5, each with an answer you can check yourself against and a self-rating (got it, shaky, no idea).
-- **My study plan**, built from your exam results and ratings, pointing to the exact chapters to go back to.
-- A countdown to your exam date.
+- **Read** (before class): the course notes for each chapter, cleaned up, with the blanks filled in and the figures alongside. Terms are clickable.
+- **Prep** (5 minutes before class): guess at three questions before the lecture. Trying first makes the answer stick better, even when the guess is wrong. Then the big picture, the key terms, and a few questions to listen for in class.
+- **Learn**: the interactive chapters, with figures, simulations and questions. Your first-try score is saved.
+- **Check** (after class): write down everything you remember, compare it with the notes, then a short quiz where you say how sure you were. Anything missed or guessed is scheduled for review.
+
+**Daily review** pulls it together. Every question, term, figure and explain-it prompt you've met has a schedule: missed means tomorrow, known means 2, 4, 8, 16 days and more. Sessions mix modules so you practise telling topics apart. Exam mode pulls from everything in the modules you choose.
+
+Each module also has a free-explore viewer, an endless practice desk, a mini exam that feeds the review, and a glossary.
 
 ## Kip
 
@@ -45,13 +55,19 @@ Kip works offline by searching the course material in `studydata.js`. Optionally
 ## Files
 
 ```
-index.html       landing page
-module-1.html    to module-5.html, one page per module
-midterm.html     midterm prep
-studydata.js     shared data: glossary, mini exam questions, review questions and answers
-exam.js          the mini exam and practice midterm engine
-kip.js           Kip, the study guide
-README.md        this file
+index.html          home page
+module-1..11.html   one page per module
+review.html         daily review
+diagrams.html       diagram library (figures in diagrams/)
+lab3d.html          3D lab (scripts in lab3d/, three.js vendored in lab3d/vendor/)
+midterm.html        exam prep
+studydata.js        shared data: modules, glossary, exam questions, review questions
+srs.js              the review schedule and study-mode history (stored in your browser)
+modes.js            Read / Prep / Check modes on every module page
+read/               the Read-mode notes for each module
+exam.js             the mini exam and practice exam engine
+kip.js              Kip, the study guide
+hub.css             shared styles for the hub pages
 ```
 
 Plain HTML, CSS and JavaScript with no build step. Every page works in any modern browser, laptop first, phone second.

@@ -1,0 +1,1463 @@
+<!DOCTYPE html>
+<html lang="en" data-module="m8">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>Photosynthesis | BIOL 130 Module 8</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Source+Sans+3:ital,wght@0,400;0,600;0,700;1,400&family=Source+Serif+4:ital,opsz,wght@0,8..60,500;0,8..60,650;1,8..60,400&display=swap" rel="stylesheet">
+<style>
+:root{
+  --page:#ebeee6; --paper:#ffffff; --ink:#1c2830; --ink2:#4b5b64; --rule:#cbd5d7;
+  --head:#23282e; --accent:#5f7f1f; --accentInk:#ffffff; --accentSoft:#e9ede0;
+  --ok:#2a7648; --okSoft:#e2f2e7; --bad:#a53838; --badSoft:#f7e4e2;
+  --plate:#ffffff; --plateRule:#c3cdd0; --cap:#3b4a52; --chip:#f1f5f5;
+  --serif:"Source Serif 4", Georgia, "Times New Roman", serif;
+  --sans:"Source Sans 3", "Segoe UI", system-ui, -apple-system, Roboto, Arial, sans-serif;
+  box-sizing:border-box;
+  padding-top:env(safe-area-inset-top,0px); padding-bottom:env(safe-area-inset-bottom,0px);
+}
+@media (prefers-color-scheme: dark){
+  :root:not([data-theme="light"]){
+    --page:#0f171b; --paper:#162228; --ink:#e2eaec; --ink2:#a5b5bb; --rule:#2b3b42;
+    --head:#e8eeea; --accent:#a7b984; --accentInk:#0e1305; --accentSoft:#212c1a;
+    --ok:#6cc394; --okSoft:#17311f; --bad:#e8908b; --badSoft:#3a1e1e;
+    --plate:#f4f7f7; --plateRule:#3a4a51; --cap:#b9c7cc; --chip:#1d2b31;
+  }
+}
+:root[data-theme="dark"]{
+  --page:#0f171b; --paper:#162228; --ink:#e2eaec; --ink2:#a5b5bb; --rule:#2b3b42;
+  --head:#e8eeea; --accent:#a7b984; --accentInk:#0e1305; --accentSoft:#212c1a;
+  --ok:#6cc394; --okSoft:#17311f; --bad:#e8908b; --badSoft:#3a1e1e;
+  --plate:#f4f7f7; --plateRule:#3a4a51; --cap:#b9c7cc; --chip:#1d2b31;
+}
+*,*::before,*::after{box-sizing:inherit}
+html{scroll-padding-top:env(safe-area-inset-top,0px)}
+body{margin:0;background:var(--page);color:var(--ink);font-family:var(--sans);font-size:17px;line-height:1.5;-webkit-text-size-adjust:100%}
+button{font:inherit;color:inherit}
+:focus-visible{outline:3px solid var(--accent);outline-offset:2px}
+h1,h2,h3{font-family:var(--serif);color:var(--head);font-weight:650;line-height:1.2;margin:0}
+p{margin:0 0 .8em}
+sup{font-size:.7em;line-height:0}
+
+/* top bar */
+.top{position:sticky;top:0;z-index:20;background:var(--paper);border-bottom:1px solid var(--rule);padding-top:env(safe-area-inset-top,0px)}
+.topin{max-width:1240px;margin:0 auto;display:flex;align-items:center;gap:20px;padding:10px 20px;flex-wrap:wrap}
+.brand{display:flex;align-items:baseline;gap:12px;cursor:pointer;background:none;border:0;padding:0;text-align:left}
+.brand b{font-family:var(--serif);font-size:1.45rem;color:var(--head);font-weight:650;letter-spacing:-.01em}
+.brand span{color:var(--ink2);font-size:.9rem}
+.tabs{display:flex;gap:4px;margin-left:auto;flex-wrap:wrap}
+.tab{background:none;border:1px solid transparent;border-radius:6px;padding:6px 12px;cursor:pointer;color:var(--ink2);font-weight:600}
+.tab:hover{color:var(--ink);background:var(--chip)}
+.tab[aria-current="true"]{color:var(--accent);border-color:var(--rule);background:var(--paper)}
+.wrap{max-width:1240px;margin:0 auto;padding:22px 20px 60px}
+
+/* figure plates */
+.plate{background:var(--plate);border:1px solid var(--plateRule);border-radius:4px;padding:10px 10px 8px;margin:0;position:relative}
+.plate svg,.plate canvas{display:block;width:100%;height:auto}
+.plate figcaption{font-family:var(--serif);font-size:.93rem;color:#3b4a52;padding:8px 4px 2px;line-height:1.4}
+.plate figcaption b{font-weight:650;color:#5f7f1f}
+.plate .tools{position:absolute;top:8px;right:8px;display:flex;gap:6px;z-index:2}
+.mini{font-size:.82rem;padding:4px 9px;border-radius:5px;border:1px solid #c3cdd0;background:#fff;color:#1c2830;cursor:pointer}
+.mini:hover{background:#eef4f4}
+.mini[aria-pressed="true"]{background:#5f7f1f;color:#fff;border-color:#5f7f1f}
+
+/* buttons */
+.btn{display:inline-flex;align-items:center;gap:8px;padding:10px 18px;border-radius:6px;border:1px solid var(--accent);background:var(--accent);color:var(--accentInk);font-weight:600;cursor:pointer}
+.btn:hover{filter:brightness(1.07)}
+.btn[disabled]{opacity:.45;cursor:not-allowed;filter:none}
+.btn.ghost{background:transparent;color:var(--accent)}
+.row{display:flex;gap:10px;flex-wrap:wrap;align-items:center}
+
+/* home */
+.hero{display:grid;grid-template-columns:minmax(0,1.55fr) minmax(0,1fr);gap:28px;align-items:start}
+.hero h1{font-size:2.3rem;letter-spacing:-.015em;margin-bottom:12px}
+.lede{font-size:1.08rem;color:var(--ink);max-width:36em}
+.muted{color:var(--ink2)}
+.small{font-size:.9rem}
+.chlist{list-style:none;margin:30px 0 0;padding:0;display:grid;grid-template-columns:repeat(auto-fill,minmax(270px,1fr));gap:12px}
+.chitem{background:var(--paper);border:1px solid var(--rule);border-radius:6px;padding:14px 16px;cursor:pointer;text-align:left;width:100%;display:grid;grid-template-columns:auto 1fr;gap:4px 12px;align-items:baseline}
+.chitem:hover{border-color:var(--accent)}
+.chnum{font-family:var(--serif);font-size:1.6rem;color:var(--accent);grid-row:span 2;line-height:1}
+.chitem h3{font-size:1.1rem}
+.chitem .meta{grid-column:2;color:var(--ink2);font-size:.88rem}
+.done-tag{color:var(--ok);font-weight:600}
+.sect{margin-top:34px}
+.sect h2{font-size:1.35rem;margin-bottom:6px}
+
+/* chapter */
+.crumb{display:flex;align-items:center;gap:14px;flex-wrap:wrap;margin-bottom:14px}
+.crumb h1{font-size:1.6rem}
+.crumb .back{background:none;border:0;color:var(--accent);cursor:pointer;font-weight:600;padding:0}
+.steps{display:flex;gap:4px;flex:1;min-width:160px;max-width:420px;margin-left:auto}
+.steps i{flex:1;height:6px;border-radius:3px;background:var(--rule)}
+.steps i.on{background:var(--accent)}
+.steps i.cur{background:var(--head)}
+.stage{display:grid;grid-template-columns:minmax(0,1.5fr) minmax(300px,1fr);gap:24px;align-items:start}
+.stage.wide{grid-template-columns:minmax(0,1fr)}
+.stage.wide>.panel{max-width:860px}
+.stage.wide>.panel:has(.pad){max-width:none}
+.panel{background:var(--paper);border:1px solid var(--rule);border-radius:6px;padding:18px 20px}
+.panel h2{font-size:1.3rem;margin-bottom:10px}
+.kicker{color:var(--accent);font-weight:600;font-size:.92rem;margin-bottom:4px}
+.opts{display:grid;gap:8px;margin:12px 0}
+.opt{text-align:left;padding:10px 14px;border:1px solid var(--rule);border-radius:6px;background:var(--paper);cursor:pointer;line-height:1.35}
+.opt:hover:not([disabled]){border-color:var(--accent)}
+.opt.right{border-color:var(--ok);background:var(--okSoft)}
+.opt.wrong{border-color:var(--bad);background:var(--badSoft)}
+.opt[disabled]{cursor:default}
+.fb{border-left:4px solid var(--accent);background:var(--accentSoft);padding:10px 14px;border-radius:0 6px 6px 0;margin:10px 0}
+.fb.ok{border-color:var(--ok);background:var(--okSoft)}
+.fb.bad{border-color:var(--bad);background:var(--badSoft)}
+.fb > b:first-child{display:block;margin-bottom:2px}
+.nav{display:flex;justify-content:space-between;gap:10px;margin-top:16px;flex-wrap:wrap}
+.explored{font-size:.9rem;color:var(--ink2);margin-top:6px}
+.termlinks{display:flex;flex-wrap:wrap;gap:6px;margin:8px 0}
+.tl{border:1px solid var(--rule);background:var(--chip);border-radius:14px;padding:3px 10px;font-size:.86rem;cursor:pointer}
+.tl:hover{border-color:var(--accent)}
+.tl.inl{background:none;border:0;border-bottom:1.5px dotted var(--accent);border-radius:0;color:var(--accent);padding:0 1px!important;font-weight:600}
+.tl.inl:hover{background:var(--accentSoft)}
+.tl.seen{border-color:var(--accent);color:var(--accent)}
+
+/* order + sort */
+.order{display:grid;gap:8px;margin:10px 0}
+.pool .card,.slot{border:1px dashed var(--rule);border-radius:6px;padding:9px 12px;min-height:44px;background:var(--paper);line-height:1.35}
+.pool{display:grid;gap:8px;margin:10px 0}
+.pool .card{border-style:solid;cursor:pointer;text-align:left}
+.pool .card:hover{border-color:var(--accent)}
+.pool .card.sel{border-color:var(--accent);box-shadow:0 0 0 2px var(--accent) inset}
+.slot{display:flex;gap:10px;align-items:flex-start}
+.slot .n{font-family:var(--serif);color:var(--accent);font-weight:650;min-width:1.2em}
+.slot.filled{border-style:solid;cursor:pointer}
+.slot.right{border-color:var(--ok);background:var(--okSoft)}
+.slot.wrong{border-color:var(--bad);background:var(--badSoft)}
+.bins{display:grid;grid-template-columns:repeat(auto-fit,minmax(150px,1fr));gap:8px;margin:10px 0}
+.bin{border:1px solid var(--rule);border-radius:6px;padding:8px;min-height:90px;background:var(--chip);cursor:pointer}
+.bin h4{margin:0 0 6px;font-size:.92rem;font-family:var(--sans);color:var(--head)}
+.bin .card{display:block;width:100%;font-size:.88rem;padding:5px 8px;margin-bottom:5px;border:1px solid var(--rule);border-radius:5px;background:var(--paper);text-align:left;cursor:pointer}
+.bin .card.right{border-color:var(--ok);background:var(--okSoft)}
+.bin .card.wrong{border-color:var(--bad);background:var(--badSoft)}
+.bin:hover{border-color:var(--accent)}
+
+/* controls in sims */
+.ctl{display:grid;gap:10px;margin:10px 0}
+.ctl label{font-weight:600;font-size:.92rem;display:block;margin-bottom:3px}
+.seg{display:flex;flex-wrap:wrap;border:1px solid var(--rule);border-radius:6px;overflow:hidden}
+.seg button{flex:1;padding:7px 10px;background:var(--paper);border:0;border-right:1px solid var(--rule);cursor:pointer;font-size:.9rem;min-width:70px}
+.seg button:last-child{border-right:0}
+.seg button[aria-pressed="true"]{background:var(--accent);color:var(--accentInk)}
+input[type=range]{width:100%;accent-color:var(--accent)}
+.readout{font-variant-numeric:tabular-nums;font-size:.92rem;color:var(--ink2)}
+.meter{height:10px;background:var(--rule);border-radius:5px;overflow:hidden}
+.meter i{display:block;height:100%;background:var(--accent);transition:width .5s}
+.stat{display:grid;grid-template-columns:130px 1fr;gap:8px;align-items:center;font-size:.9rem;margin:6px 0}
+
+/* tray */
+.tray{display:flex;flex-wrap:wrap;gap:8px;margin:10px 0}
+.tok{border:1px solid var(--rule);background:var(--paper);border-radius:6px;padding:7px 11px;cursor:pointer;font-size:.9rem;display:flex;align-items:center;gap:8px}
+.tok.sel{border-color:var(--accent);box-shadow:0 0 0 2px var(--accent) inset}
+.tok.used{opacity:.4}
+.sw{width:14px;height:14px;border-radius:3px;display:inline-block;border:1px solid rgba(0,0,0,.25)}
+
+/* term card */
+.termcard{position:fixed;right:18px;bottom:calc(18px + env(safe-area-inset-bottom,0px));width:min(380px,calc(100vw - 36px));background:var(--paper);border:1px solid var(--rule);border-radius:8px;box-shadow:0 10px 30px rgba(10,30,40,.18);padding:16px 18px;z-index:50;display:none;max-height:70vh;overflow:auto}
+.termcard.show{display:block}
+.termcard h3{font-size:1.2rem;margin-bottom:6px;padding-right:28px}
+.termcard .x{position:absolute;top:10px;right:10px;background:none;border:0;font-size:1.3rem;cursor:pointer;color:var(--ink2);line-height:1;padding:4px 8px}
+.termcard .rel{font-size:.86rem;color:var(--ink2);margin-top:8px}
+.tip{position:fixed;pointer-events:none;background:#2a2e35;color:#fff;font-size:.82rem;padding:4px 8px;border-radius:4px;z-index:60;display:none;white-space:nowrap}
+
+/* svg hotspots */
+[data-term]{cursor:pointer}
+[data-term]:hover > .hl, [data-term]:focus > .hl{stroke:#5f7f1f;stroke-width:3}
+[data-term]:focus{outline:none}
+[data-term].hit > .hl{stroke:#5f7f1f}
+[data-term]:hover{filter:brightness(1.06)}
+.lbl{font-family:"Source Sans 3",Arial,sans-serif;font-size:13px;fill:#1c2830}
+.lbl.sm{font-size:11.5px}
+.lbl.it{font-style:italic;fill:#3b4a52}
+.lead{stroke:#5b6b73;stroke-width:1;fill:none}
+.labels-off .lbls{display:none}
+
+/* checkpoint */
+.idcard{border:1px solid var(--rule);border-radius:8px;overflow:hidden;background:var(--paper)}
+.idcard .hd{background:var(--head);color:#fff;padding:10px 14px;display:flex;justify-content:space-between;align-items:baseline;gap:10px}
+:root[data-theme="dark"] .idcard .hd{color:#0f171b}
+@media (prefers-color-scheme: dark){:root:not([data-theme="light"]) .idcard .hd{color:#0f171b}}
+.idcard .hd b{font-family:var(--serif);font-size:1.25rem}
+.idcard dl{display:grid;grid-template-columns:auto 1fr;gap:4px 14px;margin:0;padding:12px 14px}
+.idcard dt{color:var(--ink2);font-size:.9rem}
+.idcard dd{margin:0;font-weight:600}
+.gates{display:grid;grid-template-columns:repeat(auto-fit,minmax(140px,1fr));gap:8px;margin:12px 0}
+.gate{border:1px solid var(--rule);border-radius:6px;padding:9px 10px;background:var(--paper);cursor:pointer;text-align:left;font-size:.92rem;line-height:1.3}
+.gate:hover:not([disabled]){border-color:var(--accent)}
+.gate small{display:block;color:var(--ink2);font-size:.8rem;margin-top:2px}
+.gate.right{border-color:var(--ok);background:var(--okSoft)}
+.gate.wrong{border-color:var(--bad);background:var(--badSoft)}
+.score{display:flex;gap:18px;flex-wrap:wrap;font-size:.92rem;color:var(--ink2);margin-bottom:10px}
+.score b{color:var(--ink);font-variant-numeric:tabular-nums}
+
+/* glossary */
+.gl{columns:2 360px;column-gap:28px}
+.gl section{break-inside:avoid;margin-bottom:22px}
+.gl h2{font-size:1.2rem;margin-bottom:8px;border-bottom:1px solid var(--rule);padding-bottom:4px}
+.gi{display:grid;grid-template-columns:1fr auto;gap:2px 10px;padding:8px 0;border-bottom:1px solid var(--rule)}
+.gi b{font-weight:700}
+.gi p{grid-column:1 / -1;margin:0;color:var(--ink2);font-size:.94rem}
+.st{font-size:.78rem;border-radius:10px;padding:1px 8px;border:1px solid var(--rule);color:var(--ink2);white-space:nowrap}
+.st.tested{border-color:var(--ok);color:var(--ok)}
+.st.seen{border-color:var(--accent);color:var(--accent)}
+
+/* atlas */
+.atlas{display:grid;grid-template-columns:minmax(0,1.6fr) minmax(290px,1fr);gap:24px;align-items:start}
+.atlas svg{touch-action:manipulation}
+.quizbar{display:flex;align-items:center;gap:10px;flex-wrap:wrap;background:var(--accentSoft);border-radius:6px;padding:10px 14px;margin-bottom:12px}
+
+.summary{max-width:720px}
+.big{font-family:var(--serif);font-size:3rem;color:var(--accent);line-height:1}
+.foot{margin-top:40px;color:var(--ink2);font-size:.85rem;border-top:1px solid var(--rule);padding-top:12px}
+
+
+/* course-notes styling */
+.banner{display:flex;align-items:stretch;margin:0 0 16px;min-height:44px}
+.banner .num{background:#475f17;color:#fff;font-family:var(--serif);font-weight:650;font-size:1.25rem;padding:8px 16px;display:flex;align-items:center;box-shadow:2px 2px 0 rgba(0,0,0,.18);position:relative;z-index:1}
+.banner .ttl{flex:1;background:#728e3a;color:#fff;display:flex;align-items:center;padding:6px 18px;font-variant:small-caps;letter-spacing:.04em;font-weight:700;font-size:1.15rem;margin-left:-2px}
+.banner .pg{background:#728e3a;color:#ffffff;display:flex;align-items:center;padding:0 14px;font-size:.85rem;white-space:nowrap}
+.remember{display:flex;gap:12px;align-items:flex-start;background:#e4ebf2;border-radius:4px;padding:10px 14px;margin:10px 0;color:#1c2830;box-shadow:1px 1px 0 rgba(0,0,0,.08)}
+.remember .key{flex:none;width:28px;height:28px}
+.remember b{display:block;font-family:var(--serif)}
+.dyk{background:#eff2e9;border-left:4px solid #5f7f1f;border-radius:0 4px 4px 0;padding:10px 14px;margin:10px 0;font-style:italic;color:#2a1c18}
+.dyk b{font-style:normal}
+.notes-ref{font-size:.85rem;color:var(--ink2);margin:4px 0 10px}
+.notes-ref b{color:var(--accent)}
+.homelink{color:var(--ink2);font-size:.88rem;text-decoration:none;border:1px solid var(--rule);border-radius:6px;padding:5px 10px;margin-right:4px}
+.homelink:hover{color:var(--accent);border-color:var(--accent)}
+.seqrow{display:flex;gap:3px;flex-wrap:wrap;align-items:center;font-family:ui-monospace,Menlo,Consolas,monospace;margin:6px 0}
+.seqrow .end{font-weight:700;color:var(--ink2);min-width:26px;text-align:center}
+.nt{width:30px;height:34px;border:1px solid var(--rule);border-radius:4px;display:inline-flex;align-items:center;justify-content:center;font-weight:700;font-size:1rem;background:var(--paper);color:var(--ink)}
+.nt.A{background:#8e6cc4;color:#fff;border-color:#6a4e9b}.nt.G{background:#dd5f45;color:#fff;border-color:#b0452f}
+.nt.T{background:#3a9a9a;color:#fff;border-color:#2a7676}.nt.C{background:#f0cf4f;color:#3a2e00;border-color:#c9a92c}
+.nt.U{background:#86b851;color:#fff;border-color:#618f33}
+.nt.slot{border-style:dashed;cursor:pointer}.nt.slot.cur{box-shadow:0 0 0 2px var(--accent)}
+.nt.ok{outline:2px solid var(--ok)}.nt.no{outline:2px solid var(--bad)}
+.pad{display:flex;gap:6px;flex-wrap:wrap;margin:8px 0}
+.pad button{width:46px;height:42px;border-radius:6px;border:1px solid var(--rule);font-weight:700;font-size:1.05rem;cursor:pointer}
+.pad button.A{background:#8e6cc4;color:#fff}.pad button.G{background:#dd5f45;color:#fff}.pad button.T{background:#3a9a9a;color:#fff}.pad button.C{background:#f0cf4f;color:#3a2e00}.pad button.U{background:#86b851;color:#fff}
+.pad button.del{width:auto;padding:0 12px;background:var(--paper);font-size:.9rem}
+
+@media (max-width: 880px){
+  body{font-size:16px}
+  .hero,.stage,.atlas{grid-template-columns:minmax(0,1fr)}
+  .hero h1{font-size:1.8rem}
+  .topin{padding:8px 14px;gap:8px}
+  .tabs{margin-left:0;width:100%}
+  .tab{padding:5px 9px;font-size:.92rem}
+  .brand span{display:none}
+  .wrap{padding:16px 12px 60px}
+  .steps{max-width:none;min-width:100%;order:3}
+  .termcard{right:0;left:0;bottom:0;width:100%;border-radius:12px 12px 0 0;padding-bottom:calc(16px + env(safe-area-inset-bottom,0px))}
+}
+@media (prefers-reduced-motion: reduce){
+  *{transition:none!important;animation:none!important}
+}
+@media (max-width:640px){.banner{flex-wrap:wrap}.banner .pg{flex-basis:100%;padding:4px 14px 6px;white-space:normal}}
+</style>
+</head>
+<body>
+<header class="top"><div class="topin">
+  <button class="brand" id="home" aria-label="Module 8 home"><b>Photosynthesis</b><span>BIOL 130, Module 8</span></button>
+  <nav class="tabs" aria-label="Sections">
+    <a class="homelink" id="hubLink" href="index.html" target="_top">All modules</a>
+    <button class="tab" data-go="story">Chapters</button>
+    <button class="tab" data-go="atlas">Chloroplast viewer</button>
+    <button class="tab" data-go="checkpoint">Light desk</button>
+    <button class="tab" data-go="exam">Mini exam</button>
+    <button class="tab" data-go="glossary">Glossary</button>
+  </nav>
+</div></header>
+<main class="wrap" id="app"></main>
+<aside class="termcard" id="termcard" role="dialog" aria-live="polite"><button class="x" aria-label="Close">×</button><div id="tcbody"></div></aside>
+<div class="tip" id="tip"></div>
+<script src="studydata.js"></script>
+<script src="srs.js"></script>
+<script src="exam.js"></script>
+<script src="kip.js"></script>
+<script>
+"use strict";
+/* ============ storage ============ */
+const KEY = "biol130-m8-progress-v1";
+let P = { ch:{}, terms:{}, cp:{best:0} };
+try { const s = localStorage.getItem(KEY); if (s) P = Object.assign(P, JSON.parse(s)); } catch(e) {}
+function save(){ try { localStorage.setItem(KEY, JSON.stringify(P)); } catch(e) {} }
+function markTerm(k, level){
+  const order = {seen:1, tested:2};
+  const cur = P.terms[k];
+  if (!cur || order[level] > order[cur]) { P.terms[k] = level; save(); }
+}
+/* ============ glossary data (p = course notes page) ============ */
+const T = {
+ "photosynthesis":{n:"Photosynthesis",g:"Overview",p:"117",d:"The conversion of light energy to chemical energy. Photosynthetic organisms build carbohydrates using sunlight and CO₂ from the air. It is a major entry point of energy into biological systems, and the biomass it makes supports food webs."},
+ "oxidation":{n:"Oxidation",g:"Overview",p:"117",d:"Loss of electrons. In photosynthesis water is oxidized: it gives up electrons, protons (H⁺) and O₂, which is released as a by-product. Water is the electron donor."},
+ "reduction":{n:"Reduction",g:"Overview",p:"117",d:"Gain of electrons. In photosynthesis CO₂ is reduced to form high-energy carbohydrate molecules. Overall, photosynthesis is a redox reaction: water is oxidized and CO₂ is reduced."},
+ "carbohydrate":{n:"Carbohydrate",g:"Overview",p:"117–118",d:"The high-energy product of photosynthesis, made by reducing CO₂. The Calvin cycle releases it as a 3-carbon sugar, triose phosphate; the overall equation shows glucose, C₆H₁₂O₆."},
+ "two-stages":{n:"Two stages of photosynthesis",g:"Overview",p:"117–118",d:"Light capture (the light-dependent reactions, in the thylakoid membranes) converts light energy into ATP and NADPH and releases O₂. Carbon fixation (the light-independent reactions, the Calvin cycle, in the stroma) uses that ATP and NADPH to reduce CO₂ to carbohydrate."},
+ "light-reactions":{n:"Light-dependent reactions",g:"Overview",p:"118",d:"Stage 1: sunlight energy is converted into chemical energy in the thylakoid membranes. Products: ATP, NADPH and O₂."},
+ "carbon-fixation":{n:"Light-independent reactions (carbon fixation)",g:"Overview",p:"117–118",d:"Stage 2: ATP and NADPH are used to synthesize carbohydrates from CO₂. This is the Calvin cycle, and it occurs in the stroma."},
+ "efficiency":{n:"Efficiency of photosynthesis",g:"Overview",p:"117",d:"Of the sun's output, 60% is outside the visible range and unavailable, 8% is reflected or transmitted, 8% is converted into heat and 20% is lost during carbohydrate synthesis (including photorespiration). The maximum yield is about 4%, as carbohydrate."},
+ "atp":{n:"Adenosine triphosphate (ATP)",g:"Overview",p:"117, 122",d:"The energy carrier made in the light-dependent reactions by ATP synthase in the thylakoid membrane. ATP made in the chloroplast stays in the chloroplast and is used in carbon fixation."},
+ "nadph":{n:"Nicotinamide adenine dinucleotide phosphate (NADPH)",g:"Overview",p:"117, 121",d:"The electron carrier made when electrons from photosystem I reduce NADP⁺ (NADP⁺ + 2e⁻ + H⁺ → NADPH). It supplies the electrons that reduce PGA in the Calvin cycle."},
+ "chloroplast":{n:"Chloroplast",g:"The chloroplast",p:"118",d:"The organelle where both stages of photosynthesis take place in eukaryotes. Semi-autonomous and self-replicating, bound by 2 membranes (outer and inner) separated by a narrow space. Descended from an engulfed cyanobacterium."},
+ "chloro-membranes":{n:"Outer and inner membranes",g:"The chloroplast",p:"118",d:"The two membranes that bound the chloroplast, separated by a narrow space. The thylakoids inside are a separate, third membrane system."},
+ "thylakoid":{n:"Thylakoid",g:"The chloroplast",p:"118",d:"The highly folded, flattened membrane sacs in the centre of the chloroplast. The thylakoid membrane holds the photosystems, the electron transport chain and ATP synthase, so the light-dependent reactions happen here."},
+ "lumen":{n:"Lumen (thylakoid lumen)",g:"The chloroplast",p:"118, 122",d:"The fluid-filled space inside the thylakoid membrane. H⁺ is pumped into it during electron transport, so its proton concentration rises; plastocyanin diffuses through it."},
+ "grana":{n:"Grana (singular: granum)",g:"The chloroplast",p:"118",d:"Orderly stacks of thylakoids."},
+ "stroma":{n:"Stroma",g:"The chloroplast",p:"118",d:"The fluid space surrounding the thylakoids, inside the inner membrane. Carbon fixation (the Calvin cycle) occurs here, and ATP and NADPH are released into it."},
+ "photon":{n:"Photon",g:"Light and pigments",p:"118",d:"A packet of light energy. Energy from the sun is a form of electromagnetic radiation and travels in photons. Shorter wavelengths carry more energy."},
+ "em-spectrum":{n:"Electromagnetic spectrum and visible light",g:"Light and pigments",p:"119",d:"From high energy (gamma rays, X-rays, ultraviolet) to low energy (infrared, microwaves, radio waves). Visible light, about 400 to 700 nm, is only one part of it, and it is the part used in photosynthesis."},
+ "excited-state":{n:"Excited state",g:"Light and pigments",p:"118",d:"When a photon is absorbed, the compound is converted to a higher-energy state. It returns to the ground state in one of three ways: dissipate the energy as heat, re-emit it at a longer wavelength (fluorescence), or transfer it to another molecule, which is what photosynthetic pigments do."},
+ "fluorescence":{n:"Fluorescence",g:"Light and pigments",p:"118",d:"Re-emitting absorbed energy as light of a longer wavelength. One of the three ways an excited molecule returns to its ground state."},
+ "pigment":{n:"Pigment and chromophore",g:"Light and pigments",p:"119",d:"Pigments are molecules that contain a chromophore, a chemical group capable of absorbing light of specific wavelengths (λ)."},
+ "chlorophyll":{n:"Chlorophyll",g:"Light and pigments",p:"119",d:"The major light-capturing molecule. It absorbs blue and red light and is poor at absorbing green, so green light is reflected and leaves look green. Two parts: a porphyrin ring that absorbs light, and a phytol side chain."},
+ "porphyrin":{n:"Porphyrin ring",g:"Light and pigments",p:"119",d:"The light-absorbing part of chlorophyll, with a magnesium atom (Mg) in its centre. Different side groups on the ring give the different types of chlorophyll (for example a and b)."},
+ "phytol":{n:"Phytol side chain",g:"Light and pigments",p:"119",d:"The long hydrocarbon tail of chlorophyll. It inserts chlorophyll into the lipid bilayer of the thylakoid membrane."},
+ "accessory":{n:"Accessory pigments (carotenoids)",g:"Light and pigments",p:"119",d:"Pigments in the thylakoid membrane, such as carotenoids, that absorb light from regions of the visible spectrum that chlorophyll absorbs poorly. They increase the efficiency of light absorption and protect photosynthetic components from damage."},
+ "antenna":{n:"Antenna chlorophyll",g:"Photosystems",p:"120",d:"Chlorophylls that absorb light and pass the energy from chlorophyll to chlorophyll until it reaches the reaction centre. Antenna chlorophylls transfer energy, not electrons."},
+ "reaction-center":{n:"Reaction center",g:"Photosystems",p:"120",d:"A specific pair of chlorophyll molecules that can transfer an excited electron to an electron acceptor. Having lost an electron, it must get one back from an electron donor before it can use more light energy. In photosystem II, that electron comes from water."},
+ "photosystem":{n:"Photosystem (PSI and PSII)",g:"Photosystems",p:"121",d:"A protein-pigment complex that absorbs light and uses it to drive redox reactions. Each has antenna chlorophylls and a reaction-center chlorophyll. Two act in series: photosystem II then photosystem I, linked by the electron transport chain."},
+ "psii":{n:"Photosystem II (PSII)",g:"Photosystems",p:"121",d:"The first photosystem in the chain. Light absorbed by PSII lets electrons pulled from water enter the photosynthetic electron transport chain at a high energy level. Water is split here, releasing O₂ and H⁺ into the lumen."},
+ "psi":{n:"Photosystem I (PSI)",g:"Photosystems",p:"121",d:"The second photosystem. A second input of light energy raises the electron energy high enough to reduce NADP⁺ to NADPH."},
+ "water-split":{n:"Oxidation of water",g:"Photosystems",p:"117, 120",d:"Water is the electron donor. Its oxidation at photosystem II produces electrons (which refill the reaction center), protons and O₂. 2 H₂O → 4 e⁻ + 4 H⁺ + O₂."},
+ "z-scheme":{n:"Z scheme",g:"Photosystems",p:"121",d:"The energy path of electrons through photosynthesis. Light at PSII raises electrons from water to a high energy level, the energy drops along the electron transport chain, then light at PSI raises it again, high enough to reduce NADP⁺. Drawn on an energy axis it looks like a Z."},
+ "ps-etc":{n:"Photosynthetic electron transport chain",g:"Electron transport and ATP",p:"117, 121–122",d:"The chain that connects the two photosystems and links the oxidation of water to the reduction of NADP⁺: H₂O → PSII → plastoquinone → cytochrome b6f complex → plastocyanin → PSI → ferredoxin → NADP⁺ reductase. It drives the formation of ATP and NADPH."},
+ "plastoquinone":{n:"Plastoquinone (Pq)",g:"Electron transport and ATP",p:"122",d:"A mobile carrier in the thylakoid membrane that carries electrons from PSII to the cytochrome b6f complex. It also picks up H⁺ from the stroma."},
+ "b6f":{n:"Cytochrome b6f complex",g:"Electron transport and ATP",p:"122",d:"The complex that electrons pass through between PSII and PSI. As electrons pass, H⁺ is moved from the stroma into the thylakoid lumen."},
+ "plastocyanin":{n:"Plastocyanin (Pc)",g:"Electron transport and ATP",p:"122",d:"A small protein that carries electrons from the cytochrome b6f complex to PSI by diffusing through the thylakoid lumen."},
+ "ferredoxin":{n:"Ferredoxin (Fd) and NADP⁺ reductase",g:"Electron transport and ATP",p:"122",d:"On the stroma side of PSI, ferredoxin takes the electrons and NADP⁺ reductase uses them to reduce NADP⁺ + H⁺ to NADPH (Fig 8.8)."},
+ "proton-gradient":{n:"Proton gradient",g:"Electron transport and ATP",p:"122",d:"As electrons flow along the Z pathway, H⁺ ions are moved from the stroma into the thylakoid lumen (and water splitting adds H⁺ there), so the proton concentration is higher in the lumen than in the stroma. This gradient drives ATP formation."},
+ "atp-synthase":{n:"ATP synthase",g:"Electron transport and ATP",p:"122",d:"An enzyme embedded in the thylakoid membrane. Protons pass through it from the lumen back to the stroma, and ATP is generated from ADP and Pᵢ on the stroma side."},
+ "photophosphorylation":{n:"Photophosphorylation",g:"Electron transport and ATP",p:"122",d:"Making ATP using light energy: electrons moving through PSII and PSI build a proton gradient, and protons flowing back through ATP synthase drive ATP formation."},
+ "cyclic":{n:"Cyclic electron transport",g:"Electron transport and ATP",p:"125",d:"Listed in your important terms but not described in the notes. Electrons from PSI are passed back to the cytochrome b6f complex instead of to NADP⁺. More H⁺ is pumped, so ATP is made, but no NADPH is made and no water is split (no O₂). It tops up the extra ATP the Calvin cycle needs."},
+ "calvin-cycle":{n:"Calvin cycle",g:"Calvin cycle",p:"123",d:"The light-independent reactions in the stroma. It takes a low potential energy carbon compound (CO₂) and converts it into a higher-energy carbon compound, using NADPH and ATP: 15 chemical reactions grouped into three steps, carboxylation, reduction and regeneration."},
+ "carboxylation":{n:"Carboxylation",g:"Calvin cycle",p:"123",d:"Step 1 of the Calvin cycle. CO₂ from the air is combined with RuBP (5 carbons) to form an unstable 6-carbon molecule, catalyzed by rubisco. It breaks down into two 3-carbon molecules of PGA."},
+ "rubisco":{n:"Rubisco",g:"Calvin cycle",p:"123",d:"The enzyme that catalyzes carboxylation: adding CO₂ to the 5-carbon compound RuBP."},
+ "rubp":{n:"RuBP (ribulose 1,5-bisphosphate)",g:"Calvin cycle",p:"123",d:"The 5-carbon molecule that accepts CO₂ in carboxylation. It must be regenerated so the cycle can continue."},
+ "pga":{n:"PGA (3-phosphoglycerate)",g:"Calvin cycle",p:"123",d:"The 3-carbon molecule made when the 6-carbon product of carboxylation breaks in two. Its potential energy is low, so it must be reduced."},
+ "calvin-reduction":{n:"Reduction (Calvin cycle step 2)",g:"Calvin cycle",p:"123",d:"Step 2 of the Calvin cycle, which raises the potential energy of PGA in two steps: PGA is phosphorylated by ATP (to 1,3-bisphosphoglycerate), then reduced by NADPH to triose phosphate."},
+ "triose-phosphate":{n:"Triose phosphate",g:"Calvin cycle",p:"123",d:"The 3-carbon sugar phosphate (G3P) made in the reduction step. For every six made, only one can be withdrawn from the cycle and exported out of the chloroplast; the other five regenerate RuBP."},
+ "regeneration":{n:"Regeneration",g:"Calvin cycle",p:"123",d:"Step 3 of the Calvin cycle. The other five triose phosphates are rearranged into three 5-carbon RuBP molecules for carboxylation. This requires energy in the form of ATP."},
+ "starch":{n:"Starch",g:"Calvin cycle",p:"124",d:"Excess carbohydrates from the Calvin cycle are converted into storage as starch granules during the day. They are a source of carbohydrate used during the night, when there is no sunlight."},
+ "single-ps":{n:"Single photosystem",g:"Evolution",p:"124",d:"Early photosynthetic bacteria had only a single photosystem, which cannot capture enough energy. Two photosystems in series came later."},
+ "hgt":{n:"Horizontal gene transfer",g:"Evolution",p:"124",d:"Hypothesis 1 for the evolution of two photosystems: a bacterium with one type of photosystem received the genes for the other type from a different bacterium."},
+ "duplication":{n:"Gene duplication and divergence",g:"Evolution",p:"124",d:"Hypothesis 2 for the evolution of two photosystems: the photosystem gene was duplicated and one of the two copies diverged into the second photosystem."},
+ "cyanobacteria":{n:"Cyanobacteria",g:"Evolution",p:"124",d:"The first organisms to use water as the electron donor, with both PSI and PSII."},
+ "endosymbiosis":{n:"Endosymbiotic theory",g:"Evolution",p:"124",d:"Proposes that a cyanobacterium was engulfed by a eukaryotic cell. Over time it lost the ability to live outside the host and became the organelle we know as the chloroplast."}
+};
+const TERM_ORDER_GROUPS = ["Overview","The chloroplast","Light and pigments","Photosystems","Electron transport and ATP","Calvin cycle","Evolution"];
+const REL = {
+ "photosynthesis":["two-stages","oxidation","reduction","chloroplast"], "two-stages":["light-reactions","carbon-fixation"], "oxidation":["reduction","water-split"], "reduction":["oxidation","carbohydrate"],
+ "light-reactions":["thylakoid","atp","nadph"], "carbon-fixation":["calvin-cycle","stroma"], "atp":["atp-synthase","photophosphorylation"], "nadph":["psi","ferredoxin"],
+ "chloroplast":["chloro-membranes","thylakoid","stroma","endosymbiosis"], "thylakoid":["lumen","grana","stroma"], "lumen":["thylakoid","proton-gradient"], "grana":["thylakoid"], "stroma":["calvin-cycle","thylakoid"],
+ "photon":["excited-state","em-spectrum"], "excited-state":["fluorescence","antenna"], "pigment":["chlorophyll","accessory"], "chlorophyll":["porphyrin","phytol","accessory","antenna"], "porphyrin":["chlorophyll"], "phytol":["thylakoid"], "accessory":["chlorophyll"],
+ "antenna":["reaction-center","photosystem"], "reaction-center":["antenna","water-split","psii"], "photosystem":["psii","psi","z-scheme"], "psii":["water-split","plastoquinone"], "psi":["plastocyanin","ferredoxin","nadph"], "z-scheme":["psii","psi","ps-etc"],
+ "ps-etc":["plastoquinone","b6f","plastocyanin","ferredoxin"], "b6f":["proton-gradient"], "proton-gradient":["atp-synthase","lumen"], "atp-synthase":["photophosphorylation"], "photophosphorylation":["proton-gradient","cyclic"], "cyclic":["psi","b6f","atp"],
+ "calvin-cycle":["carboxylation","calvin-reduction","regeneration"], "carboxylation":["rubisco","rubp","pga"], "calvin-reduction":["pga","triose-phosphate","nadph"], "regeneration":["rubp","triose-phosphate"], "triose-phosphate":["starch"],
+ "single-ps":["hgt","duplication"], "cyanobacteria":["endosymbiosis","water-split"], "endosymbiosis":["chloroplast","cyanobacteria"]
+};
+
+/* ============ utilities ============ */
+const $ = (s, r=document) => r.querySelector(s);
+const $$ = (s, r=document) => Array.from(r.querySelectorAll(s));
+function h(tag, attrs={}, ...kids){
+  const e = document.createElement(tag);
+  for (const k in attrs){
+    const v = attrs[k];
+    if (k === "class") e.className = v;
+    else if (k === "html") e.innerHTML = v;
+    else if (k.startsWith("on")) e.addEventListener(k.slice(2), v);
+    else if (v !== false && v != null) e.setAttribute(k, v);
+  }
+  for (const c of kids.flat()){ if (c == null) continue; e.append(c.nodeType ? c : document.createTextNode(c)); }
+  return e;
+}
+function shuffle(a){ a = a.slice(); for (let i=a.length-1;i>0;i--){ const j=Math.floor(Math.random()*(i+1)); [a[i],a[j]]=[a[j],a[i]]; } return a; }
+const reduceMotion = window.matchMedia && window.matchMedia("(prefers-reduced-motion: reduce)").matches;
+let activeLoops = [];
+function loop(fn){ let on = true, last = performance.now(); const tick = t => { if(!on) return; const dt = Math.min(0.05,(t-last)/1000); last = t; fn(dt,t); requestAnimationFrame(tick); }; requestAnimationFrame(tick); const s = {stop(){on=false;}}; activeLoops.push(s); return s; }
+function stopLoops(){ activeLoops.forEach(l=>l.stop()); activeLoops = []; }
+function plate(svgOrEl, caption){
+  const f = h("figure",{class:"plate"});
+  if (typeof svgOrEl === "string") f.insertAdjacentHTML("beforeend", svgOrEl); else f.append(svgOrEl);
+  if (caption) f.append(h("figcaption",{html:caption}));
+  return f;
+}
+
+/* ============ term card and tooltip ============ */
+const tc = $("#termcard"), tip = $("#tip");
+let exploreHook = null;
+function openTerm(k){
+  const t = T[k]; if (!t) return;
+  markTerm(k,"seen");
+  $("#tcbody").innerHTML = "";
+  $("#tcbody").append(h("h3",{},t.n), h("p",{},t.d), h("p",{class:"notes-ref"},h("b",{},"Course notes: "),`p. ${t.p}`));
+  const rel = related(k);
+  if (rel.length){
+    const box = h("div",{class:"rel"},"Related: ");
+    rel.forEach((r,i)=>{ box.append(h("button",{class:"tl",style:"margin:2px",onclick:()=>openTerm(r)},T[r].n)); });
+    $("#tcbody").append(box);
+  }
+  tc.classList.add("show");
+  if (exploreHook) exploreHook(k);
+}
+$(".x", tc).addEventListener("click", ()=>tc.classList.remove("show"));
+document.addEventListener("keydown", e=>{ if(e.key==="Escape") tc.classList.remove("show"); });
+const REL_OLD = {
+  "integral-protein":["transmembrane-protein","peripheral-protein"], "transmembrane-protein":["integral-protein","channel","carrier"],
+  "peripheral-protein":["integral-protein","cytoskeleton"], "cytoplasm":["cytosol"], "cytosol":["cytoplasm"],
+  "endomembrane":["er","golgi","lysosome","vesicle","nucleus"], "er":["ribosome","golgi","endomembrane"], "golgi":["er","vesicle","endomembrane"],
+  "nucleus":["nucleolus","nuclear-pores"], "chloroplast":["plastid"], "plastid":["chloroplast"],
+  "channel":["carrier","aquaporin","facilitated-diffusion"], "carrier":["channel","uniporter","facilitated-diffusion"],
+  "osmosis":["osmotic-pressure","hypotonic","hypertonic","isotonic"], "secondary-active":["primary-active","symporter","antiporter","nak-pump"],
+  "nak-pump":["primary-active","electrochemical-gradient","importer","exporter"], "electrochemical-gradient":["membrane-potential","concentration-gradient"],
+  "endocytosis":["phagocytosis","pinocytosis","rme"], "bulk-transport":["exocytosis","endocytosis"],
+  "apical":["basolateral","microvilli","tight-junction"], "basolateral":["apical","interstitial-fluid"],
+  "phospholipid":["hydrophilic-head","fatty-acid-tails","bilayer"], "fatty-acid-tails":["phospholipid","selective-permeability"]
+};
+function related(k){ return (REL[k]||[]).filter(r=>T[r]); }
+function bindTerms(root, onPick){
+  $$("[data-term]", root).forEach(g=>{
+    const k = g.getAttribute("data-term");
+    if (!T[k]) return;
+    g.setAttribute("tabindex","0"); g.setAttribute("role","button"); g.setAttribute("aria-label", T[k].n);
+    const pick = ()=>{ (onPick||openTerm)(k, g); g.classList.add("hit"); };
+    g.addEventListener("click", e=>{ e.stopPropagation(); pick(); });
+    g.addEventListener("keydown", e=>{ if(e.key==="Enter"||e.key===" "){ e.preventDefault(); e.stopPropagation(); pick(); }});
+    g.addEventListener("mousemove", e=>{ tip.textContent = T[k].n; tip.style.display="block"; tip.style.left=(e.clientX+14)+"px"; tip.style.top=(e.clientY+12)+"px"; });
+    g.addEventListener("mouseleave", ()=>{ tip.style.display="none"; });
+  });
+}
+function termChips(keys){
+  const box = h("div",{class:"termlinks"});
+  keys.forEach(k=>{ if(!T[k]) return; box.append(h("button",{class:"tl"+(P.terms[k]?" seen":""),onclick:(e)=>{openTerm(k); e.currentTarget.classList.add("seen");}},T[k].n)); });
+  return box;
+}
+// inline term text in copy: [[key|text]]
+function rich(s){
+  return s.replace(/\[\[([a-z0-9-]+)\|([^\]]+)\]\]/g, (m,k,txt)=>`<button class="tl inl" data-open="${k}" style="font-size:inherit">${txt}</button>`);
+}
+function bindRich(root){ $$("[data-open]",root).forEach(b=>b.addEventListener("click",()=>openTerm(b.dataset.open))); }
+/* ============ shared drawing helpers ============ */
+function lab(text, term, tx, ty, px, py, anchor="start", cls="lbl"){
+  const lines = text.split("\n");
+  const t = lines.map((l,i)=>`<tspan x="${tx}" dy="${i?14:0}">${l}</tspan>`).join("");
+  const cw = cls.includes("sm")?5.7:6.4, wdt = Math.max(...lines.map(l=>l.length))*cw, hgt=(lines.length-1)*14;
+  const x0 = anchor==="end"?tx-wdt: anchor==="middle"?tx-wdt/2 : tx, x1 = x0+wdt;
+  let lx, ly=ty-4;
+  if (px!=null && px>=x0-6 && px<=x1+6){ lx=Math.max(x0,Math.min(x1,px)); ly = py>ty ? ty+hgt+5 : ty-15; }
+  else if (px!=null && px<x0) lx=x0-4; else lx=x1+4;
+  const lead = (px!=null) ? `<line class="lead" x1="${lx}" y1="${ly}" x2="${px}" y2="${py}"/><circle cx="${px}" cy="${py}" r="2" fill="#5b6b73"/>` : "";
+  return `<g ${term?`data-term="${term}"`:""}>${lead}<text class="${cls}" x="${tx}" y="${ty}" text-anchor="${anchor}">${t}</text></g>`;
+}
+
+function arrow(x1,y1,x2,y2,col="#34454e",w=2.2,dash=""){
+  const a=Math.atan2(y2-y1,x2-x1), L=10;
+  const p1=[x2-L*Math.cos(a-0.4),y2-L*Math.sin(a-0.4)], p2=[x2-L*Math.cos(a+0.4),y2-L*Math.sin(a+0.4)];
+  return `<line x1="${x1}" y1="${y1}" x2="${(x2-6*Math.cos(a)).toFixed(1)}" y2="${(y2-6*Math.sin(a)).toFixed(1)}" stroke="${col}" stroke-width="${w}" ${dash?`stroke-dasharray="${dash}"`:""}/><polygon points="${x2},${y2} ${p1[0].toFixed(1)},${p1[1].toFixed(1)} ${p2[0].toFixed(1)},${p2[1].toFixed(1)}" fill="${col}"/>`;
+}
+
+/* ============ Module 8 figures (all original drawings) ============ */
+const PC={ink:"#23282e",mem:"#4f7a22",memL:"#7da540",str:"#f3f8e8",thy:"#8fbf5a",lum:"#dcedc4",e:"#e07b28",h:"#3f86c6",hS:"#2b6aa3",atp:"#f0bf4a",atpS:"#a8740c",nadph:"#b9a3e3",nadphS:"#5d4291",o2:"#d8463c",co2:"#55606a",psii:"#d9a65e",psiiS:"#9a6a24",psi:"#e58d7c",psiS:"#a8473a",b6f:"#86acd6",b6fS:"#3f6a9a",syn:"#a9a4e0",synS:"#5a54a8",sun:"#f2c94c",sunS:"#c9971c"};
+const chem=(x,y,t,c=PC.ink,sz=14,w=700,a="middle")=>`<text x="${x}" y="${y}" text-anchor="${a}" font-family="Source Sans 3,Arial" font-size="${sz}" font-weight="${w}" fill="${c}">${t}</text>`;
+const pill=(x,y,w,hh,fill,stroke,t,tc=PC.ink,sz=13)=>`<rect x="${x-w/2}" y="${y-hh/2}" width="${w}" height="${hh}" rx="${hh/2}" fill="${fill}" stroke="${stroke}" stroke-width="1.5"/>${chem(x,y+sz*0.36,t,tc,sz)}`;
+const atpP=(x,y,t="ATP")=>pill(x,y,t.length>4?74:52,24,PC.atp,PC.atpS,t,"#3a2a00",13);
+const nadphP=(x,y,t="NADPH")=>pill(x,y,t.length>6?78:62,24,PC.nadph,PC.nadphS,t,"#2a1a4a",13);
+function wavy(x1,y1,x2,y2,col="#d99a12",amp=5,n=5,w=2.2){
+  const L=Math.hypot(x2-x1,y2-y1), ux=(x2-x1)/L, uy=(y2-y1)/L, px=-uy, py=ux, end=L-10; let d="";
+  for(let i=0;i<=40;i++){ const t=i/40*end, o=amp*Math.sin(t/end*n*2*Math.PI); d+=(i?"L":"M")+(x1+ux*t+px*o).toFixed(1)+" "+(y1+uy*t+py*o).toFixed(1); }
+  const a=Math.atan2(y2-y1,x2-x1), L2=10, p1=[x2-L2*Math.cos(a-0.45),y2-L2*Math.sin(a-0.45)], p2=[x2-L2*Math.cos(a+0.45),y2-L2*Math.sin(a+0.45)];
+  return `<path d="${d}" stroke="${col}" stroke-width="${w}" fill="none"/><polygon points="${x2},${y2} ${p1[0].toFixed(1)},${p1[1].toFixed(1)} ${p2[0].toFixed(1)},${p2[1].toFixed(1)}" fill="${col}"/>`;
+}
+function sunIcon(x,y,r=16){ let s=""; for(let i=0;i<12;i++){ const a=i*Math.PI/6; s+=`<line x1="${(x+Math.cos(a)*(r+3)).toFixed(1)}" y1="${(y+Math.sin(a)*(r+3)).toFixed(1)}" x2="${(x+Math.cos(a)*(r+9)).toFixed(1)}" y2="${(y+Math.sin(a)*(r+9)).toFixed(1)}" stroke="${PC.sunS}" stroke-width="2"/>`; } return s+`<circle cx="${x}" cy="${y}" r="${r}" fill="${PC.sun}" stroke="${PC.sunS}" stroke-width="1.5"/>`; }
+const eDot=(x,y,r=8)=>`<circle cx="${x}" cy="${y}" r="${r}" fill="${PC.e}" stroke="#a5501a"/><text x="${x}" y="${y+3.5}" text-anchor="middle" font-family="Source Sans 3,Arial" font-size="${r+2}" font-weight="700" fill="#fff">e⁻</text>`;
+const hDot=(x,y,r=7)=>`<circle cx="${x}" cy="${y}" r="${r}" fill="${PC.h}" stroke="${PC.hS}"/><text x="${x}" y="${y+3.5}" text-anchor="middle" font-family="Source Sans 3,Arial" font-size="${r+1}" font-weight="700" fill="#fff">H⁺</text>`;
+function thyStack(x,y,w,n,gap=4,hh=12){ let s=""; for(let i=0;i<n;i++){ const yy=y+i*(hh+gap); s+=`<rect x="${x-w/2}" y="${yy}" width="${w}" height="${hh}" rx="${hh/2}" fill="${PC.thy}" stroke="${PC.mem}" stroke-width="1.4"/><rect x="${x-w/2+4}" y="${yy+3.2}" width="${w-8}" height="${hh-6.4}" rx="${(hh-6.4)/2}" fill="${PC.lum}"/>`; } return s; }
+
+/* ---- Fig 8.1: efficiency of photosynthesis (notes p. 117) ---- */
+function figEfficiency(){
+  const W=760,H=320; let s=`<svg viewBox="0 0 ${W} ${H}" role="img" aria-label="Of 100 units of sunlight, at most 4 end up as carbohydrate"><rect width="${W}" height="${H}" fill="#fff"/>`;
+  s+=`<g data-term="photon">${sunIcon(44,46,16)}${chem(74,52,"Sunlight reaching a leaf: 100%",PC.ink,15,700,"start")}</g>`;
+  const x0=40, u=6.8, y=120, hh=56; let cum=0;
+  const SEG=[[60,"#d3d8dc","em-spectrum","60%: outside the visible range, unavailable"],[8,"#bfe09a","efficiency","8%"],[8,"#f3a782","efficiency","8%"],[20,"#ecd9a3","efficiency","20%"],[4,"#3f7a1f","carbohydrate","4%"]];
+  SEG.forEach(([v,col,term,t],i)=>{ const x=x0+cum*u, w=v*u; cum+=v;
+    s+=`<g data-term="${term}"><rect class="hl" x="${x}" y="${y}" width="${w}" height="${hh}" fill="${col}" stroke="#fff" stroke-width="1.5"/>${chem(x+w/2,y+hh/2+5,t,i===4?"#fff":PC.ink,i===0?14:13,700)}</g>`; });
+  s+=`<g class="lbls">${lab("8% reflected or transmitted","efficiency",470,84,475,y,"end")}${lab("20% lost during carbohydrate synthesis,\nincluding photorespiration","efficiency",740,58,624,y,"end")}${lab("8% converted into heat","efficiency",520,222,529,y+hh,"end")}${lab("4%: the maximum yield,\nstored as carbohydrate","carbohydrate",740,222,706,y+hh,"end")}</g>`;
+  s+=`<text class="lbl it" x="40" y="292">Only visible light can be used. At most about 4% of the sun's energy ends up in carbohydrate.</text>`;
+  s+=`</svg>`; return s;
+}
+
+/* ---- Fig 8.2: two stages of photosynthesis (notes p. 117) ---- */
+function figTwoStages(){
+  const W=760,H=400; let s=`<svg viewBox="0 0 ${W} ${H}" role="img" aria-label="Light capture in the thylakoids makes ATP and NADPH from water and light; the Calvin cycle uses them to reduce CO2 to carbohydrate"><rect width="${W}" height="${H}" fill="#fff"/>`;
+  s+=`<rect x="20" y="14" width="560" height="222" rx="10" fill="#f6faee" stroke="#cfe0b4"/><rect x="20" y="252" width="560" height="134" rx="10" fill="#f8f6ee" stroke="#e2d9b8"/>`;
+  s+=`<g data-term="photon">${sunIcon(320,44,15)}${wavy(320,66,320,98,"#d99a12",4,4)}</g>`;
+  s+=`<g data-term="light-reactions"><g class="hl">${thyStack(320,102,170,4,4,13)}</g>${chem(320,184,"Photosynthetic electron transport chain",PC.mem,13,700)}</g>`;
+  s+=`<g data-term="water-split">${chem(110,98,"H₂O",PC.h,18)}${arrow(140,104,230,118,"#3f6a9a",2)}</g>`;
+  s+=`<g data-term="oxidation">${arrow(412,118,500,96,"#a33a2f",2)}${chem(530,96,"O₂",PC.o2,18)}</g>`;
+  s+=`<g data-term="atp">${arrow(290,190,290,206,PC.atpS,2)}${atpP(290,220)}</g><g data-term="nadph">${arrow(354,190,354,206,PC.nadphS,2)}${nadphP(360,220)}</g>`;
+  s+=arrow(290,233,300,276,PC.atpS,2)+arrow(360,233,346,276,PC.nadphS,2);
+  s+=`<g data-term="calvin-cycle"><circle class="hl" cx="322" cy="318" r="40" fill="#fff" stroke="#8a7a3a" stroke-width="2"/><path d="M296 296 A34 34 0 1 1 290 330" fill="none" stroke="#8a7a3a" stroke-width="3"/><polygon points="290,338 284,324 297,326" fill="#8a7a3a"/>${chem(322,316,"Calvin",PC.ink,13)}${chem(322,331,"cycle",PC.ink,13)}</g>`;
+  s+=`<g data-term="reduction">${chem(118,324,"CO₂",PC.co2,18)}${arrow(146,318,276,318,PC.co2,2)}</g>`;
+  s+=`<g data-term="carbohydrate">${arrow(366,318,452,318,"#3f7a1f",2)}<polygon points="470,304 490,304 500,318 490,332 470,332 460,318" fill="#cfe6b0" stroke="#3f7a1f" stroke-width="1.5"/>${chem(480,352,"Carbohydrate",PC.ink,13,700)}</g>`;
+  s+=`<g data-term="two-stages">${arrow(420,290,452,206,"#9aa3ab",1.6,"4 3")}<text class="lbl sm" x="456" y="250">ADP + Pᵢ, NADP⁺</text><text class="lbl sm" x="456" y="264">go back</text></g>`;
+  s+=`<g data-term="light-reactions"><path d="M592 22 h10 v206 h-10" fill="none" stroke="#7da540" stroke-width="1.5"/><text class="lbl" x="612" y="96" font-weight="700">Stage 1:</text><text class="lbl" x="612" y="112" font-weight="700">light capture</text><text class="lbl sm" x="612" y="130">light-dependent</text><text class="lbl sm" x="612" y="144">reactions, in the</text><text class="lbl sm" x="612" y="158">thylakoid membranes</text></g>`;
+  s+=`<g data-term="carbon-fixation"><path d="M592 258 h10 v122 h-10" fill="none" stroke="#b39a4a" stroke-width="1.5"/><text class="lbl" x="612" y="300" font-weight="700">Stage 2:</text><text class="lbl" x="612" y="316" font-weight="700">carbon fixation</text><text class="lbl sm" x="612" y="334">Calvin cycle,</text><text class="lbl sm" x="612" y="348">in the stroma</text></g>`;
+  s+=`<g class="lbls">${lab("Oxidation of water:\ne⁻, H⁺ and O₂","water-split",40,150,110,108)}${lab("O₂: a by-product","oxidation",470,60,528,82)}${lab("Reduction of CO₂","reduction",40,368,118,332)}</g>`;
+  s+=`</svg>`; return s;
+}
+
+/* ---- Fig 8.3: chloroplast structure (notes p. 118) ---- */
+const CHL_PARTS=[
+ {k:"outer",term:"chloro-membranes",name:"Outer membrane",tx:572,ty:98,px:457,py:95},
+ {k:"inner",term:"chloro-membranes",name:"Inner membrane",tx:572,ty:142,px:486,py:136},
+ {k:"granum",term:"grana",name:"Granum (stack)",tx:572,ty:186,px:382,py:157},
+ {k:"thylakoid",term:"thylakoid",name:"Thylakoid",tx:572,ty:232,px:466,py:217},
+ {k:"stroma",term:"stroma",name:"Stroma",tx:572,ty:322,px:420,py:318},
+ {k:"lumen",term:"lumen",name:"Lumen",tx:660,ty:436,px:660,py:392}];
+function figChloroplast(o={}){
+  const W=760,H=450; let s=`<svg viewBox="0 0 ${W} ${H}" role="img" aria-label="Chloroplast: outer and inner membranes, stroma, thylakoids stacked into grana, and the thylakoid lumen"><rect width="${W}" height="${H}" fill="#fff"/>`;
+  const cx=280, cy=215;
+  s+=`<g data-term="chloro-membranes"><ellipse class="hl" cx="${cx}" cy="${cy}" rx="250" ry="170" fill="#e6f0d2" stroke="${PC.mem}" stroke-width="3"/></g>`;
+  s+=`<g data-term="stroma"><ellipse cx="${cx}" cy="${cy}" rx="238" ry="158" fill="${PC.str}" stroke="${PC.memL}" stroke-width="2.5"/>`;
+  [[150,96],[236,330],[410,330],[118,268],[460,130],[300,190],[200,200]].forEach(([x,y])=>s+=`<ellipse cx="${x}" cy="${y}" rx="9" ry="5" fill="#e9e1c4" stroke="#c9b98a" stroke-width=".8"/>`);
+  s+=`</g>`;
+  const ST=[[130,150,6],[250,225,7],[340,115,6],[430,200,6],[175,270,4]];
+  const lam=[[165,190,305,150],[155,232,215,265],[215,282,235,300],[285,262,395,240],[340,199,330,227],[375,165,412,205]];
+  s+=`<g data-term="thylakoid">${lam.map(([a,b,c,d])=>`<line x1="${a}" y1="${b}" x2="${c}" y2="${d}" stroke="${PC.mem}" stroke-width="7" stroke-linecap="round"/><line x1="${a}" y1="${b}" x2="${c}" y2="${d}" stroke="${PC.lum}" stroke-width="3.5" stroke-linecap="round"/>`).join("")}</g>`;
+  ST.forEach(([x,y,n])=>s+=`<g data-term="grana">${thyStack(x,y,70,n,2,12)}</g>`);
+  s+=`<g data-term="grana"><path d="M378 117 h5 v80 h-5" fill="none" stroke="#23282e" stroke-width="1.2"/></g>`;
+  // inset: one thylakoid cut open
+  s+=`<line x1="465" y1="284" x2="600" y2="368" stroke="#9aa3ab" stroke-dasharray="4 3"/><text class="lbl sm" x="662" y="356" text-anchor="middle" font-style="italic">One thylakoid, cut open</text>`;
+  s+=`<g data-term="thylakoid"><rect x="580" y="368" width="164" height="48" rx="24" fill="${PC.thy}" stroke="${PC.mem}" stroke-width="2"/></g><g data-term="lumen"><rect x="588" y="376" width="148" height="32" rx="16" fill="${PC.lum}"/></g>`;
+  const marks=o.marks;
+  if(marks){ CHL_PARTS.forEach((p,i)=>{ const done=marks[i]; const t=done?p.name:String(i+1), w=done?p.name.length*7.4+18:30;
+      s+=`<line class="lead" x1="${p.tx-4}" y1="${p.ty-4}" x2="${p.px}" y2="${p.py}"/><circle cx="${p.px}" cy="${p.py}" r="2.5" fill="#5b6b73"/>`;
+      s+=`<g data-mark="${i}" style="cursor:pointer"><rect x="${p.tx-4}" y="${p.ty-17}" width="${w}" height="24" rx="5" fill="${done?"#e2f2e7":"#fff"}" stroke="${done?"#2a7648":"#5f7f1f"}" stroke-width="1.6"/><text x="${p.tx-4+w/2}" y="${p.ty}" text-anchor="middle" font-family="Source Sans 3,Arial" font-size="14" font-weight="700" fill="${done?"#1d5a35":"#475f17"}">${t}</text></g>`; }); }
+  else s+=`<g class="lbls">${CHL_PARTS.map(p=>lab(p.name,p.term,p.tx,p.ty,p.px,p.py,p.k==="lumen"?"middle":"start")).join("")}</g>`;
+  s+=`</svg>`; return s;
+}
+
+/* ---- excited state: three ways back to ground (notes p. 118) ---- */
+function figGround(){
+  const W=760,H=330; let s=`<svg viewBox="0 0 ${W} ${H}" role="img" aria-label="An absorbed photon raises a molecule to an excited state; it returns by heat, fluorescence or energy transfer"><rect width="${W}" height="${H}" fill="#fff"/>`;
+  s+=`<g data-term="excited-state"><line x1="90" y1="96" x2="260" y2="96" stroke="${PC.ink}" stroke-width="2.5"/><line x1="90" y1="262" x2="260" y2="262" stroke="${PC.ink}" stroke-width="2.5"/><text class="lbl" x="90" y="86" font-weight="700">Excited state</text><text class="lbl" x="90" y="284" font-weight="700">Ground state</text>${arrow(150,256,150,104,PC.e,2.5)}${eDot(150,96,9)}<circle cx="150" cy="262" r="9" fill="none" stroke="${PC.e}" stroke-dasharray="3 2"/></g>`;
+  s+=`<g data-term="photon">${wavy(36,170,138,170,"#3a62c9",5,4,2.4)}<text class="lbl" x="22" y="152">photon</text><text class="lbl sm" x="22" y="200">(absorbed)</text></g>`;
+  s+=`<text class="lbl" x="34" y="26" font-weight="700" font-size="15">Absorbing a photon, then three ways back to the ground state</text>`;
+  const row=(y,n,t1,t2,icon,term)=>`<g data-term="${term}"><rect x="360" y="${y-34}" width="380" height="68" rx="8" fill="#f6f8f4" stroke="#cfd8c6"/><text class="lbl" x="440" y="${y-6}" font-weight="700">${n}. ${t1}</text><text class="lbl sm" x="440" y="${y+12}">${t2}</text>${icon}</g>`;
+  s+=arrow(262,96,356,74,"#7a8a96",1.6)+arrow(262,100,356,170,"#7a8a96",1.6)+arrow(262,104,356,262,"#7a8a96",1.6);
+  s+=row(74,1,"Dissipate the energy as heat","The molecule warms its surroundings.",`<path d="M384 60 q6 8 0 16 t0 16 M398 60 q6 8 0 16 t0 16 M412 60 q6 8 0 16 t0 16" stroke="#d8463c" stroke-width="2.2" fill="none"/>`,"excited-state");
+  s+=row(170,2,"Re-emit it at a longer wavelength","Fluorescence: less energy, so a longer λ.",wavy(372,170,428,170,"#c0392b",4,3,2.2),"fluorescence");
+  s+=row(266,3,"Transfer it to another molecule","This is what photosynthetic pigments do.",`<circle cx="384" cy="266" r="12" fill="#cfe6a8" stroke="#6d9b3a"/>${arrow(398,266,412,266,"#d99a12",2)}<circle cx="424" cy="266" r="12" fill="#9ccc5e" stroke="#4f7a22"/>`,"antenna");
+  s+=`</svg>`; return s;
+}
+
+/* ---- Fig 8.4: spectrum and absorption (notes p. 119) ---- */
+const GAU=(x,m,sd)=>Math.exp(-((x-m)*(x-m))/(2*sd*sd));
+const ABS={
+ a:w=>0.95*GAU(w,430,13)+0.45*GAU(w,412,12)+0.1*GAU(w,580,22)+0.16*GAU(w,618,11)+0.74*GAU(w,662,10),
+ b:w=>1.0*GAU(w,455,13)+0.3*GAU(w,432,13)+0.1*GAU(w,595,15)+0.5*GAU(w,643,10),
+ c:w=>0.55*GAU(w,425,11)+0.82*GAU(w,450,12)+0.78*GAU(w,478,11)};
+const ABSMAX={}; ["a","b","c"].forEach(k=>{ let m=0; for(let w=400;w<=700;w+=2) m=Math.max(m,ABS[k](w)); ABSMAX[k]=m; });
+const absN=(k,w)=>ABS[k](w)/ABSMAX[k];
+function nmRGB(w){ let r=0,g=0,b=0; if(w<440){ r=(440-w)/60; b=1; } else if(w<490){ g=(w-440)/50; b=1; } else if(w<510){ g=1; b=(510-w)/20; } else if(w<580){ r=(w-510)/70; g=1; } else if(w<645){ r=1; g=(645-w)/65; } else r=1;
+  const f=w<420?0.35+0.65*(w-380)/40:w>680?0.35+0.65*(720-w)/40:1; const c=v=>Math.round(255*Math.pow(Math.max(0,v*f),0.8)); return `rgb(${c(r)},${c(g)},${c(b)})`; }
+function nmName(w){ return w<450?"violet-blue":w<495?"blue":w<570?"green":w<590?"yellow":w<620?"orange":"red"; }
+const PIGS=[["a","Chlorophyll a","#2e6b1f","chlorophyll",""],["b","Chlorophyll b","#7fb24a","chlorophyll","6 4"],["c","Carotenoids","#e08a1e","accessory",""]];
+function figSpectrum(o={}){
+  const show=o.show||{a:1,b:1,c:1}, W=760,H=430; let s=`<svg viewBox="0 0 ${W} ${H}" role="img" aria-label="The electromagnetic spectrum, visible light from 400 to 700 nm, and absorption by chlorophyll a, chlorophyll b and carotenoids"><rect width="${W}" height="${H}" fill="#fff"/>`;
+  let gr=`<linearGradient id="vis8" x1="0" x2="1" y1="0" y2="0">`; for(let w=400;w<=700;w+=20) gr+=`<stop offset="${(w-400)/300}" stop-color="${nmRGB(w)}"/>`; s+=`<defs>${gr}</linearGradient></defs>`;
+  const EM=["Gamma rays","X-rays","Ultraviolet","Visible","Infrared","Microwaves","Radio waves"], ex=60, ew=92;
+  s+=`<g data-term="em-spectrum">${arrow(330,22,60,22,"#7a8a96",1.5)}${arrow(430,22,704,22,"#7a8a96",1.5)}<text class="lbl sm" x="380" y="26" text-anchor="middle">Electromagnetic spectrum</text><text class="lbl sm" x="60" y="40">High energy, short λ</text><text class="lbl sm" x="704" y="40" text-anchor="end">Low energy, long λ</text>`;
+  EM.forEach((t,i)=>s+=`<rect x="${ex+i*ew}" y="48" width="${ew-2}" height="28" fill="${i===3?"url(#vis8)":"#dfe3e6"}" stroke="#fff"/><text class="lbl sm" x="${ex+i*ew+ew/2-1}" y="66" text-anchor="middle" font-weight="${i===3?700:400}">${t}</text>`); s+=`</g>`;
+  const X=w=>120+(w-400)*580/300, Y=v=>356-v*170;
+  s+=`<path d="M${ex+3*ew} 76 L120 112 M${ex+4*ew-2} 76 L700 112" stroke="#b9c2c8" fill="none"/>`;
+  s+=`<g data-term="em-spectrum"><rect x="120" y="112" width="580" height="22" fill="url(#vis8)"/>${[400,500,600,700].map(w=>`<line x1="${X(w)}" y1="134" x2="${X(w)}" y2="140" stroke="#555"/><text class="lbl sm" x="${X(w)}" y="152" text-anchor="middle">${w} nm</text>`).join("")}</g>`;
+  s+=`<line x1="120" y1="${Y(0)}" x2="704" y2="${Y(0)}" stroke="#55606a"/><line x1="120" y1="${Y(0)}" x2="120" y2="${Y(1.05)}" stroke="#55606a"/>`;
+  s+=`<text class="lbl" x="80" y="${Y(0.5)}" transform="rotate(-90 80 ${Y(0.5)})" text-anchor="middle">Absorption</text><text class="lbl" x="410" y="${H-6}" text-anchor="middle">Wavelength (nm)</text>`;
+  [400,450,500,550,600,650,700].forEach(w=>s+=`<line x1="${X(w)}" y1="${Y(0)}" x2="${X(w)}" y2="${Y(0)+5}" stroke="#55606a"/><text class="lbl sm" x="${X(w)}" y="${Y(0)+18}" text-anchor="middle">${w}</text>`);
+  PIGS.forEach(([k,n,col,term,dash])=>{ if(!show[k]) return; let d=""; for(let w=400;w<=700;w+=3) d+=(w===400?"M":"L")+X(w).toFixed(1)+" "+Y(absN(k,w)).toFixed(1);
+    s+=`<g data-term="${term}"><path d="${d}" stroke="${col}" stroke-width="2.6" fill="none" ${dash?`stroke-dasharray="${dash}"`:""}/></g>`; });
+  s+=`<g data-term="chlorophyll"><rect x="${X(505)}" y="${Y(1.02)}" width="${X(575)-X(505)}" height="${Y(0)-Y(1.02)}" fill="#7fb24a" opacity=".08"/><text class="lbl sm" x="${X(540)}" y="${Y(0.9)}" text-anchor="middle" font-style="italic">green: poorly</text><text class="lbl sm" x="${X(540)}" y="${Y(0.9)+13}" text-anchor="middle" font-style="italic">absorbed</text></g>`;
+  PIGS.forEach(([k,n,col,term,dash],i)=>{ const lx=560, ly=180+i*20; s+=`<g data-term="${term}" opacity="${show[k]?1:.35}"><line x1="${lx}" y1="${ly-4}" x2="${lx+26}" y2="${ly-4}" stroke="${col}" stroke-width="2.6" ${dash?`stroke-dasharray="${dash}"`:""}/><text class="lbl sm" x="${lx+32}" y="${ly}">${n}</text></g>`; });
+  if(o.nm){ const x=X(o.nm); s+=`<line x1="${x}" y1="108" x2="${x}" y2="${Y(0)}" stroke="#23282e" stroke-width="1.5" stroke-dasharray="4 3"/><circle cx="${x}" cy="123" r="7" fill="none" stroke="#23282e" stroke-width="2"/>`;
+    PIGS.forEach(([k,n,col])=>{ if(show[k]) s+=`<circle cx="${x}" cy="${Y(absN(k,o.nm))}" r="5" fill="${col}" stroke="#fff"/>`; }); }
+  s+=`</svg>`; return s;
+}
+
+/* ---- Fig 8.5: chlorophyll (notes p. 119) ---- */
+function figChlorophyll(){
+  const W=760,H=380; let s=`<svg viewBox="0 0 ${W} ${H}" role="img" aria-label="Chlorophyll: a porphyrin ring with magnesium at its centre and a phytol tail anchored in the thylakoid membrane"><rect width="${W}" height="${H}" fill="#fff"/>`;
+  const cx=250, cy=124;
+  s+=`<g data-term="thylakoid"><rect x="110" y="250" width="300" height="104" fill="#f5f0dc"/>`; for(let x=118;x<410;x+=16){ s+=`<circle cx="${x}" cy="256" r="6" fill="#e8c96a" stroke="#b8901c" stroke-width=".8"/><circle cx="${x}" cy="348" r="6" fill="#e8c96a" stroke="#b8901c" stroke-width=".8"/><path d="M${x-2} 262 v34 M${x+2} 262 v34 M${x-2} 308 v34 M${x+2} 308 v34" stroke="#c9b27a" stroke-width=".9"/>`; } s+=`</g>`;
+  s+=`<g data-term="porphyrin"><rect class="hl" x="${cx-76}" y="${cy-76}" width="152" height="152" rx="44" fill="#e3f2cf" stroke="#3f7a1f" stroke-width="2.5"/>`;
+  const pent=(x,y,r,rot)=>{ let p=""; for(let i=0;i<5;i++){ const a=rot+i*2*Math.PI/5; p+=(i?"L":"M")+(x+r*Math.cos(a)).toFixed(1)+" "+(y+r*Math.sin(a)).toFixed(1); } return `<path d="${p}Z" fill="#c3e29e" stroke="#3f7a1f" stroke-width="1.6"/>`; };
+  [[0,-48],[48,0],[0,48],[-48,0]].forEach(([dx,dy])=>{ const a=Math.atan2(dy,dx); s+=pent(cx+dx,cy+dy,20,a+Math.PI); s+=`<line x1="${cx+dx*0.62}" y1="${cy+dy*0.62}" x2="${cx+dx*0.3}" y2="${cy+dy*0.3}" stroke="#3f7a1f" stroke-width="1.6" stroke-dasharray="3 2"/>`+chem(cx+dx*0.6,cy+dy*0.6+4,"N",MC_N8,12); });
+  s+=`</g>`;
+  s+=`<g data-term="porphyrin"><circle cx="${cx}" cy="${cy}" r="14" fill="#9ad06b" stroke="#2e6b1f" stroke-width="1.8"/>${chem(cx,cy+5,"Mg","#1d4a12",13)}</g>`;
+  s+=`<g data-term="chlorophyll"><line x1="${cx+52}" y1="${cy-52}" x2="${cx+74}" y2="${cy-74}" stroke="#7a1d14" stroke-width="2"/>${chem(cx+92,cy-78,"–CH₃ (a) or –CHO (b)","#7a1d14",12,700,"start")}<line x1="${cx-52}" y1="${cy-52}" x2="${cx-70}" y2="${cy-70}" stroke="#55606a" stroke-width="2"/>${chem(cx-76,cy-76,"CH=CH₂","#55606a",11,600,"end")}<line x1="${cx-56}" y1="${cy+50}" x2="${cx-74}" y2="${cy+66}" stroke="#55606a" stroke-width="2"/>${chem(cx-80,cy+76,"CH₃","#55606a",11,600,"end")}</g>`;
+  let d=`M${cx+20} ${cy+76}`; for(let i=1;i<=14;i++) d+=` L${cx+(i%2?34:20)} ${cy+76+i*15.5}`;
+  s+=`<g data-term="phytol"><path class="hl" d="${d}" stroke="#55606a" stroke-width="3" fill="none" stroke-linejoin="round"/></g>`;
+  s+=`<g class="lbls">${lab("Porphyrin ring: absorbs light","porphyrin",470,70,cx+72,cy-20)}${lab("Magnesium (Mg) atom\nin the centre of the ring","porphyrin",470,124,cx+14,cy)}${lab("Side groups differ: this one\ngives chlorophyll a or b","chlorophyll",470,26,cx+86,cy-82)}${lab("Phytol side chain\n(hydrocarbon tail)","phytol",470,228,cx+32,cy+126)}${lab("Inserts chlorophyll into the\nlipid bilayer of the thylakoid membrane","thylakoid",470,300,410,300)}</g>`;
+  s+=`</svg>`; return s;
+}
+const MC_N8="#4a7fd0";
+
+/* ---- Fig 8.6: antenna chlorophylls and reaction center (notes p. 120) ---- */
+const ANT=[[232,92],[302,74],[372,92],[200,140],[270,128],[340,128],[408,140],[236,186],[306,180],[376,186]];
+const ANT_PATH={0:[0,4,8],1:[1,4,8],2:[2,5,8],3:[3,7,8],4:[4,8],5:[5,8],6:[6,9,8],7:[7,8],8:[8],9:[9,8]};
+function antennaSVG(st={}){
+  const W=760,H=380; let s=`<svg viewBox="0 0 ${W} ${H}" role="img" aria-label="Antenna chlorophylls pass energy to the reaction center, which gives an electron to an acceptor and takes one from water"><rect width="${W}" height="${H}" fill="#fff"/>`;
+  const lit=st.lit||[];
+  s+=`<g data-term="antenna">`; ANT.forEach(([x,y],i)=>{ const on=lit.includes(i); s+=`<ellipse cx="${x}" cy="${y}" rx="34" ry="19" fill="${on?"#f6e27a":"#d2e9ad"}" stroke="${on?"#c99a12":"#6d9b3a"}" stroke-width="${on?2.4:1.4}"/>`; }); s+=`</g>`;
+  if(st.path && st.path.length>1){ const pts=st.path.map(i=>ANT[i]).concat([[306,236]]); s+=`<polyline points="${pts.map(p=>p.join(",")).join(" ")}" fill="none" stroke="#e0a21b" stroke-width="3" stroke-dasharray="6 4"/>`; }
+  const rcCol=st.rc==="ox"?"#f1f3ee":st.rc==="ex"?"#f6e27a":"#8cc152";
+  s+=`<g data-term="reaction-center"><ellipse cx="306" cy="262" rx="84" ry="22" fill="#6f9f37" stroke="#3f6a1a" stroke-width="1.6"/><ellipse class="hl" cx="306" cy="246" rx="84" ry="22" fill="${rcCol}" stroke="#3f6a1a" stroke-width="2"/>`;
+  s+=st.rc==="ox"?`<circle cx="306" cy="246" r="9" fill="none" stroke="#a5501a" stroke-width="2" stroke-dasharray="3 2"/><text class="lbl sm" x="306" y="282" text-anchor="middle" font-weight="700" fill="#a33a2f">missing an electron</text>`:eDot(306,246,9);
+  s+=`</g>`;
+  s+=`<g data-term="reaction-center"><rect x="520" y="226" width="130" height="40" rx="6" fill="#fbe3cc" stroke="#d07a3a"/>${chem(585,251,"Electron acceptor","#7a3a10",13)}</g>`;
+  s+=`<g data-term="water-split"><rect x="32" y="226" width="150" height="40" rx="6" fill="#dfeaf6" stroke="#3f6a9a"/>${chem(107,251,"Electron donor: H₂O","#1f4a7a",13)}</g>`;
+  if(st.out) s+=arrow(392,246,516,246,PC.e,2.5)+eDot(470,232,8);
+  if(st.in) s+=arrow(186,246,220,246,PC.e,2.5)+eDot(204,232,8);
+  if(st.light!==false){ const t=st.lightAt!=null?ANT[st.lightAt]:[302,74]; s+=`<g data-term="photon">${wavy(t[0]-120,t[1]-64,t[0]-28,t[1]-12,"#d99a12",5,4,2.4)}<text class="lbl" x="${t[0]-128}" y="${t[1]-70}">light</text></g>`; }
+  if(st.o2!=null) s+=`<text class="lbl" x="32" y="300">Electrons from water: <tspan font-weight="700">${st.o2e||0}</tspan>   O₂ released: <tspan font-weight="700">${st.o2}</tspan></text>`;
+  if(st.title) s+=`<text class="lbl" x="16" y="${H-14}" font-weight="700" font-size="15">${st.title}</text>`;
+  if(st.labels!==false) s+=`<g class="lbls">${lab("Antenna chlorophylls:\npass energy, not electrons","antenna",470,90,408,120)}${lab("Reaction center: a pair of chlorophylls\nthat gives its excited electron away","reaction-center",430,330,350,264)}</g>`;
+  s+=`</svg>`; return s;
+}
+function figAntenna(){ return antennaSVG({lit:[1,4,8],path:[1,4,8],rc:"ex",out:true,in:true,lightAt:1}); }
+
+/* ---- Fig 8.7: two photosystems and the Z scheme (notes p. 121) ---- */
+const ZN=[ // [x,y,label,term]
+ [92,352,"H₂O","water-split"],[184,332,"PSII","psii"],[184,112,"PSII (excited)","psii"],[268,168,"Pq","plastoquinone"],[350,212,"b6f","b6f"],[430,246,"Pc","plastocyanin"],[500,268,"PSI","psi"],[500,62,"PSI (excited)","psi"],[580,100,"Fd","ferredoxin"],[650,132,"NADP⁺ reductase","ferredoxin"],[718,160,"NADPH","nadph"]];
+function figZ(o={}){
+  const W=760,H=420; let s=`<svg viewBox="0 0 ${W} ${H}" role="img" aria-label="Z scheme: electrons from water are raised by light at photosystem II, lose energy along the chain, are raised again at photosystem I and reduce NADP+"><rect width="${W}" height="${H}" fill="#fff"/>`;
+  s+=`${arrow(36,392,36,40,"#55606a",1.6)}<text class="lbl" x="26" y="220" transform="rotate(-90 26 220)" text-anchor="middle">Energy of the electron</text>`;
+  s+=`<g data-term="psii"><rect class="hl" x="166" y="104" width="36" height="236" rx="8" fill="${PC.psii}" fill-opacity=".35" stroke="${PC.psiiS}" stroke-width="1.6"/><text class="lbl" x="184" y="372" text-anchor="middle" font-weight="700">Photosystem II</text></g>`;
+  s+=`<g data-term="psi"><rect class="hl" x="482" y="54" width="36" height="222" rx="8" fill="${PC.psi}" fill-opacity=".35" stroke="${PC.psiS}" stroke-width="1.6"/><text class="lbl" x="500" y="300" text-anchor="middle" font-weight="700">Photosystem I</text></g>`;
+  s+=`<g data-term="photon">${wavy(110,250,162,214,"#d99a12",4,3,2.2)}<text class="lbl sm" x="96" y="244">light</text>${wavy(424,140,478,110,"#d99a12",4,3,2.2)}<text class="lbl sm" x="410" y="136">light</text></g>`;
+  const P=ZN.map(n=>[n[0],n[1]]);
+  s+=`<g data-term="z-scheme"><polyline class="hl" points="${P.map(p=>p.join(",")).join(" ")}" fill="none" stroke="${PC.e}" stroke-width="3" stroke-linejoin="round" opacity=".85"/></g>`;
+  ZN.forEach(([x,y,t,term],i)=>{ if(i===1||i===2||i===6||i===7) return; s+=`<g data-term="${term}"><circle cx="${x}" cy="${y}" r="${i===0||i===10?0:7}" fill="#fff" stroke="${PC.e}" stroke-width="2"/>${i===0?chem(x-10,y+6,t,PC.h,17):i===10?"":chem(x+(i===9?0:12),y-12,t,PC.ink,13,700,i===9?"middle":"start")}</g>`; });
+  s+=`<g data-term="nadph">${nadphP(712,172)}<text class="lbl sm" x="712" y="200" text-anchor="middle">NADP⁺ + H⁺</text><text class="lbl sm" x="712" y="213" text-anchor="middle">→ NADPH</text></g>`;
+  s+=`<g data-term="water-split"><text class="lbl sm" x="56" y="384">2 H₂O → O₂ + 4 H⁺ + 4 e⁻</text></g>`;
+  s+=`<g data-term="proton-gradient">${hDot(350,250,8)}<text class="lbl sm" x="364" y="254">H⁺ pumped</text><text class="lbl sm" x="364" y="267">into lumen</text></g>`;
+  s+=`<g data-term="ps-etc"><text class="lbl it" x="250" y="300">electron transport chain:</text><text class="lbl it" x="250" y="314">energy drops step by step</text></g>`;
+  if(o.dot) s+=`<g id="zdot">${eDot(P[0][0],P[0][1],9)}</g>`;
+  s+=`</svg>`; return s;
+}
+
+/* ---- Fig 8.8: the photosynthetic electron transport chain in the thylakoid membrane (notes p. 122) ---- */
+const TH={top:150,bot:222};
+function figThylakoid(o={}){
+  const W=780,H=420; let s=`<svg viewBox="0 0 ${W} ${H}" role="img" aria-label="Thylakoid membrane with photosystem II, plastoquinone, cytochrome b6f, plastocyanin, photosystem I, ferredoxin, NADP+ reductase and ATP synthase"><rect width="${W}" height="${H}" fill="#fff"/>`;
+  s+=`<g data-term="stroma"><rect x="0" y="0" width="${W}" height="${TH.top}" fill="${PC.str}"/><text class="lbl" x="12" y="22" font-weight="700" font-style="italic">Stroma</text></g>`;
+  s+=`<g data-term="lumen"><rect x="0" y="${TH.bot}" width="${W}" height="${H-TH.bot}" fill="${PC.lum}"/><text class="lbl" x="12" y="${H-12}" font-weight="700" font-style="italic">Thylakoid lumen</text></g>`;
+  s+=`<g data-term="thylakoid"><rect x="0" y="${TH.top}" width="${W}" height="${TH.bot-TH.top}" fill="#f5edd2"/>`; for(let x=6;x<W;x+=12) s+=`<circle cx="${x}" cy="${TH.top+5}" r="5" fill="#e8c96a" stroke="#b8901c" stroke-width=".6"/><circle cx="${x}" cy="${TH.bot-5}" r="5" fill="#e8c96a" stroke="#b8901c" stroke-width=".6"/>`; s+=`</g>`;
+  const blob=(x,y,w,hh,f,st)=>`<rect class="hl" x="${x-w/2}" y="${y-hh/2}" width="${w}" height="${hh}" rx="${Math.min(w,hh)/2.6}" fill="${f}" stroke="${st}" stroke-width="1.8"/>`;
+  s+=`<g data-term="psii">${blob(120,186,98,110,PC.psii,PC.psiiS)}${chem(120,182,"Photosystem",PC.ink,12)}${chem(120,197,"II",PC.ink,13)}</g>`;
+  s+=`<g data-term="plastoquinone"><polygon class="hl" points="212,174 228,174 236,186 228,198 212,198 204,186" fill="#b58ad0" stroke="#6f4a90" stroke-width="1.6"/>${chem(220,190,"Pq","#fff",11)}</g>`;
+  s+=`<g data-term="b6f">${blob(300,186,84,104,PC.b6f,PC.b6fS)}${chem(300,180,"Cytochrome",PC.ink,12)}${chem(300,195,"b6f complex",PC.ink,12)}</g>`;
+  s+=`<g data-term="plastocyanin"><circle class="hl" cx="384" cy="258" r="15" fill="#9cc6ea" stroke="#3f6a9a" stroke-width="1.6"/>${chem(384,262,"Pc",PC.ink,11)}</g>`;
+  s+=`<g data-term="psi">${blob(462,186,98,110,PC.psi,PC.psiS)}${chem(462,182,"Photosystem",PC.ink,12)}${chem(462,197,"I",PC.ink,13)}</g>`;
+  s+=`<g data-term="ferredoxin"><circle class="hl" cx="534" cy="112" r="14" fill="#e3b0a8" stroke="#a8473a" stroke-width="1.6"/>${chem(534,116,"Fd",PC.ink,11)}<rect class="hl" x="566" y="92" width="76" height="44" rx="14" fill="#a8d699" stroke="#4f8a3a" stroke-width="1.6"/>${chem(604,110,"NADP⁺",PC.ink,11)}${chem(604,124,"reductase",PC.ink,11)}</g>`;
+  s+=`<g data-term="atp-synthase"><rect class="hl" x="692" y="${TH.top-6}" width="40" height="${TH.bot-TH.top+12}" rx="8" fill="${PC.syn}" stroke="${PC.synS}" stroke-width="1.8"/><rect x="706" y="104" width="12" height="40" fill="${PC.syn}" stroke="${PC.synS}"/><circle cx="712" cy="88" r="26" fill="${PC.syn}" stroke="${PC.synS}" stroke-width="1.8"/>${chem(712,84,"ATP",PC.ink,11)}${chem(712,97,"synthase",PC.ink,10)}</g>`;
+  if(!o.bare){
+    s+=`<g data-term="photon">${wavy(70,26,108,122,"#d99a12",4,4,2.2)}<text class="lbl sm" x="58" y="20">light</text>${wavy(412,26,450,122,"#d99a12",4,4,2.2)}<text class="lbl sm" x="400" y="20">light</text></g>`;
+    s+=`<g data-term="ps-etc" opacity=".95"><path d="M120 222 L120 200 M150 186 L202 186 M238 186 L258 186 M318 226 Q330 258 368 258 M398 252 Q430 240 440 214 M488 138 Q500 112 518 112 M548 112 L564 112" stroke="${PC.e}" stroke-width="2.4" fill="none"/>${arrow(248,186,258,186,PC.e,2.4)}${arrow(360,258,368,258,PC.e,2.4)}${arrow(438,222,442,212,PC.e,2.4)}${arrow(556,112,564,112,PC.e,2.4)}</g>`;
+    s+=`<g data-term="water-split">${chem(78,300,"H₂O",PC.h,16)}${arrow(94,292,112,236,PC.h,2)}${arrow(126,236,150,300,"#a33a2f",1.6)}${chem(166,316,"O₂",PC.o2,15)}${hDot(186,300,8)}</g>`;
+    s+=`<g data-term="proton-gradient">${hDot(220,70,8)}${arrow(220,80,220,170,PC.hS,1.8)}${arrow(300,236,300,296,PC.hS,1.8)}${hDot(300,306,8)}${[[340,340],[420,320],[520,350],[600,316],[250,360],[640,370],[470,380],[560,290]].map(p=>hDot(p[0],p[1],7)).join("")}</g>`;
+    s+=`<g data-term="nadph">${arrow(604,90,604,64,PC.nadphS,1.8)}${nadphP(604,50)}<text class="lbl sm" x="560" y="80" text-anchor="end">NADP⁺ + H⁺</text></g>`;
+    s+=`<g data-term="atp">${arrow(712,300,712,240,PC.hS,2)}${hDot(712,312,8)}${arrow(712,60,712,40,PC.atpS,1.8)}${atpP(712,28)}<text class="lbl sm" x="680" y="40" text-anchor="end">ADP + Pᵢ</text></g>`;
+    s+=`<g class="lbls">${lab("Plastoquinone carries e⁻\nfrom PSII to b6f","plastoquinone",160,108,214,174,"middle","lbl sm")}${lab("Plastocyanin diffuses\nthrough the lumen to PSI","plastocyanin",384,300,384,272,"middle","lbl sm")}${lab("H⁺ builds up in the lumen","proton-gradient",500,410,470,380,"start","lbl sm")}</g>`;
+  }
+  s+=`</svg>`; return s;
+}
+
+/* ---- Fig 8.9: the Calvin cycle (notes p. 123) ---- */
+function figCalvin(o={}){
+  const W=760,H=430, hl=o.hl, c=o.counts; let s=`<svg viewBox="0 0 ${W} ${H}" role="img" aria-label="Calvin cycle: carboxylation of RuBP by rubisco gives PGA, reduction gives triose phosphate, regeneration rebuilds RuBP"><rect width="${W}" height="${H}" fill="#fff"/>`;
+  const op=k=>hl&&hl!==k?' opacity=".35"':'';
+  s+=`<g data-term="carboxylation"${op("carb")}><path class="hl" d="M150 214 C150 110 220 84 300 84" fill="none" stroke="#4f9a6a" stroke-width="7"/><polygon points="314,84 296,74 296,94" fill="#4f9a6a"/><text class="lbl" x="172" y="136" font-weight="700" fill="#2e6b45">1. Carboxylation</text></g>`;
+  s+=`<g data-term="calvin-reduction"${op("red")}><path class="hl" d="M462 84 C560 84 604 130 604 206" fill="none" stroke="#3f7fc0" stroke-width="7"/><polygon points="604,222 594,204 614,204" fill="#3f7fc0"/><text class="lbl" x="616" y="136" font-weight="700" fill="#2b5a8f">2. Reduction</text></g>`;
+  s+=`<g data-term="regeneration"${op("regen")}><path class="hl" d="M590 286 C560 400 200 400 162 290" fill="none" stroke="#d08a3a" stroke-width="7"/><polygon points="156,272 152,294 170,288" fill="#d08a3a"/><text class="lbl" x="376" y="392" text-anchor="middle" font-weight="700" fill="#9a5a1a">3. Regeneration of RuBP</text></g>`;
+  s+=`<g data-term="rubp">${pill(150,248,c?118:96,34,"#f6e3c4","#b07a2a",c?`${c.rubp} RuBP (5C)`:"RuBP (5C)",PC.ink,14)}</g>`;
+  s+=`<g data-term="pga">${pill(384,84,c?124:104,34,"#d8eedf","#3f8a5a",c?`${c.pga} PGA (3C)`:"PGA (3C)",PC.ink,14)}</g>`;
+  s+=`<g data-term="triose-phosphate">${pill(604,252,c?184:164,34,"#dbe8f7","#3f6a9a",c?`${c.g3p} triose phosphate`:"Triose phosphate (3C)",PC.ink,14)}</g>`;
+  s+=`<g data-term="reduction"${op("carb")}>${chem(54,96,c?`${c.co2} CO₂`:"CO₂ (1C)",PC.co2,16)}${arrow(70,104,150,170,PC.co2,2)}<text class="lbl sm" x="20" y="120">from the air</text></g>`;
+  s+=`<g data-term="rubisco"${op("carb")}><rect x="196" y="150" width="70" height="24" rx="12" fill="#fff" stroke="#2e6b45" stroke-dasharray="3 2"/>${chem(231,167,"rubisco","#2e6b45",13,700)}</g>`;
+  s+=`<g data-term="atp"${op("red")}>${atpP(500,36,c?`${c.atpR} ATP`:"ATP")}${arrow(500,50,520,82,PC.atpS,1.6)}</g><g data-term="nadph"${op("red")}>${nadphP(600,36,c?`${c.nadph} NADPH`:"NADPH")}${arrow(590,50,576,92,PC.nadphS,1.6)}</g>`;
+  s+=`<text class="lbl sm" x="666" y="60"${op("red")}>→ ADP, NADP⁺</text>`;
+  s+=`<g data-term="atp"${op("regen")}>${atpP(376,326,c?`${c.atpG} ATP`:"ATP")}${arrow(376,340,376,358,PC.atpS,1.6)}</g>`;
+  s+=`<g data-term="carbohydrate"${op("out")}>${arrow(604,270,604,300,"#3f7a1f",2)}<polygon points="590,306 618,306 626,320 618,334 590,334 582,320" fill="#cfe6b0" stroke="#3f7a1f" stroke-width="1.5"/>${chem(604,324,c?String(c.out):"G3P","#1d4a12",12)}<text class="lbl" x="638" y="316" font-weight="700">Carbohydrate out</text><text class="lbl sm" x="638" y="331">exported as 3-carbon</text><text class="lbl sm" x="638" y="344">triose phosphate</text></g>`;
+  s+=`<g data-term="calvin-cycle"><text class="lbl it" x="376" y="216" text-anchor="middle">Calvin cycle, in the stroma</text><text class="lbl it" x="376" y="232" text-anchor="middle">15 reactions in 3 steps</text></g>`;
+  if(c && c.note) s+=`<text class="lbl" x="16" y="${H-8}" font-weight="700">${c.note}</text>`;
+  s+=`</svg>`; return s;
+}
+
+/* ---- Fig 8.10: evolution of photosynthesis (notes p. 124) ---- */
+function cell8(x,y,rx,ry,ps,lab2){ let s=`<ellipse cx="${x}" cy="${y}" rx="${rx}" ry="${ry}" fill="#d8eef0" stroke="#2f8f8a" stroke-width="3"/><ellipse cx="${x}" cy="${y}" rx="${rx-6}" ry="${ry-6}" fill="#eef8f6" stroke="#8cc4bf"/>`;
+  (ps||[]).forEach((p,i)=>{ const a=-0.9+i*0.75, px=x+(rx-5)*Math.cos(a), py=y+(ry-5)*Math.sin(a); s+=`<circle cx="${px.toFixed(1)}" cy="${py.toFixed(1)}" r="6.5" fill="${p==="I"?"#d8463c":p==="II"?"#e8912f":"#c9a400"}" stroke="#fff" stroke-width="1.2"/><text class="lbl sm" x="${(px+12).toFixed(1)}" y="${(py+4).toFixed(1)}" font-weight="700">PS ${p}</text>`; });
+  if(lab2) s+=`<text class="lbl sm" x="${x}" y="${y+ry+16}" text-anchor="middle">${lab2}</text>`; return s; }
+function figEvo(part){
+  const W=760,H=part==="endo"?360:380; let s=`<svg viewBox="0 0 ${W} ${H}" role="img" aria-label="${part==="endo"?"Endosymbiosis: a eukaryotic cell engulfs a cyanobacterium, which becomes the chloroplast":"Two hypotheses for the evolution of two photosystems"}"><rect width="${W}" height="${H}" fill="#fff"/>`;
+  if(part!=="endo"){
+    if(part!=="dup"){ s+=`<g data-term="hgt"><text class="lbl" x="16" y="26" font-weight="700">Hypothesis 1: horizontal gene transfer</text>${cell8(90,100,46,34,["II"],"has PS II")}${cell8(250,100,46,34,["I"],"has PS I")}<path d="M216 72 C200 34 132 34 116 62" fill="none" stroke="#5a54a8" stroke-width="2"/><polygon points="112,70 110,56 124,62" fill="#5a54a8"/><path d="M160 42 q5 -8 10 0 t10 0 t10 0" stroke="#5a54a8" stroke-width="2.4" fill="none"/><text class="lbl sm" x="166" y="30" text-anchor="middle">genes transferred</text></g>`;
+      s+=`${arrow(312,100,420,100,"#5a6fb0",2.4)}<g data-term="cyanobacteria">${cell8(500,100,48,36,["I","II"],"cyanobacterium: PS I and PS II")}</g>`; }
+    if(part!=="hgt"){ const y0=part==="dup"?70:250; s+=`<g data-term="duplication"><text class="lbl" x="16" y="${y0-74}" font-weight="700">Hypothesis 2: gene duplication and divergence</text>${cell8(90,y0,46,34,["II"],"one photosystem")}${arrow(140,y0,236,y0,"#5a6fb0",2.4)}<text class="lbl sm" x="188" y="${y0-10}" text-anchor="middle">gene duplication</text>${cell8(300,y0,46,34,["II","II"],"two copies")}${arrow(350,y0,446,y0,"#5a6fb0",2.4)}<text class="lbl sm" x="398" y="${y0-10}" text-anchor="middle">genetic divergence</text></g><g data-term="cyanobacteria">${cell8(510,y0,48,36,["I","II"],"cyanobacterium: PS I and PS II")}</g>`; }
+    s+=`<g data-term="single-ps"><rect x="590" y="${part==="dup"?20:60}" width="156" height="${part==="dup"?100:180}" rx="8" fill="#f6f8f4" stroke="#cfd8c6"/><text class="lbl sm" x="600" y="${part==="dup"?42:84}" font-weight="700">Start: one photosystem</text><text class="lbl sm" x="600" y="${part==="dup"?58:100}">Early photosynthetic</text><text class="lbl sm" x="600" y="${part==="dup"?72:114}">bacteria had only one.</text><text class="lbl sm" x="600" y="${part==="dup"?86:128}">It can't capture</text><text class="lbl sm" x="600" y="${part==="dup"?100:142}">enough energy.</text></g>`;
+  } else {
+    s+=`<g data-term="cyanobacteria">${cell8(80,190,40,30,["I","II"],"cyanobacterium")}</g>${arrow(126,190,176,190,"#5a6fb0",2.6)}<text class="lbl sm" x="150" y="176" text-anchor="middle">engulfment</text>`;
+    s+=`<g data-term="endosymbiosis"><path d="M200 140 C200 70 330 50 390 90 C450 130 440 250 380 290 C320 330 220 320 196 260 C180 220 200 190 200 140Z" fill="#d6ecef" stroke="#c9a400" stroke-width="3"/><circle cx="280" cy="140" r="30" fill="#c8b6e6" stroke="#7a5aa8"/><text class="lbl sm" x="280" y="144" text-anchor="middle">nucleus</text><ellipse cx="370" cy="200" rx="30" ry="16" fill="#f6b48c" stroke="#c0703f"/><text class="lbl sm" x="370" y="232" text-anchor="middle">mitochondrion</text><ellipse cx="270" cy="250" rx="52" ry="40" fill="none" stroke="#9aa3ab" stroke-dasharray="4 3"/>${cell8(270,250,36,27,["I","II"])}</g>`;
+    s+=`${arrow(452,190,512,190,"#5a6fb0",2.6)}<text class="lbl sm" x="482" y="176" text-anchor="middle">endosymbiosis</text><text class="lbl sm" x="482" y="210" text-anchor="middle">(over time)</text>`;
+    s+=`<g data-term="chloroplast"><path d="M528 130 C528 60 660 50 714 90 C760 130 754 250 700 290 C640 330 546 320 528 260 C516 220 528 190 528 130Z" fill="#d6ecef" stroke="#c9a400" stroke-width="3"/><circle cx="586" cy="268" r="24" fill="#c8b6e6" stroke="#7a5aa8"/><ellipse cx="690" cy="262" rx="22" ry="12" fill="#f6b48c" stroke="#c0703f"/><ellipse cx="640" cy="168" rx="86" ry="52" fill="#e6f0d2" stroke="${PC.mem}" stroke-width="2.5"/>${thyStack(606,142,44,4,2,10)}${thyStack(668,150,44,4,2,10)}<circle cx="584" cy="146" r="5" fill="#d8463c"/><circle cx="584" cy="158" r="5" fill="#e8912f"/><text class="lbl sm" x="640" y="236" text-anchor="middle" font-weight="700">chloroplast</text><text class="lbl sm" x="640" y="104" text-anchor="middle">PS I and PS II in the thylakoids</text></g>`;
+    s+=`<text class="lbl" x="16" y="26" font-weight="700">Endosymbiosis: the cyanobacterium becomes the chloroplast</text><text class="lbl sm" x="16" y="${H-14}">The cyanobacterium lost the ability to live outside the host.</text>`;
+  }
+  s+=`</svg>`; return s;
+}
+
+/* ============ story engine ============ */
+let RUN = null; // {id, first:{}}
+function chState(id){ return P.ch[id] || (P.ch[id] = {done:false, best:null, last:null}); }
+function recordFirst(stepIdx, correct, terms){
+  if (!RUN) return;
+  if (!(stepIdx in RUN.first)) RUN.first[stepIdx] = !!correct;
+  (terms||[]).forEach(k=>markTerm(k,"tested"));
+}
+function runScore(){ const v=Object.values(RUN.first); return {right:v.filter(Boolean).length, total:v.length}; }
+
+function renderChapter(ci, si=0){
+  stopLoops(); exploreHook=null; window.scrollTo(0,0);
+  $$(".tab").forEach(t=>t.setAttribute("aria-current",String(t.dataset.go==="story")));
+  const ch = CHAPTERS[ci];
+  if (!RUN || RUN.id !== ch.id) RUN = {id:ch.id, first:{}};
+  const app = $("#app"); app.innerHTML = "";
+  const bar = h("div",{class:"steps","aria-hidden":"true"});
+  ch.steps.forEach((_,i)=>bar.append(h("i",{class:i<si?"on":i===si?"cur":""})));
+  app.append(h("div",{class:"banner"}, h("span",{class:"num"},`8.${ci+1}`), h("span",{class:"ttl"},ch.title), h("span",{class:"pg"},`Course notes ${ch.pages}`)));
+  app.append(h("div",{class:"crumb"}, h("button",{class:"back",onclick:()=>go("story")},"All chapters"), h("span",{class:"muted small"},`Step ${si+1} of ${ch.steps.length}`), bar));
+  const step = ch.steps[si];
+  const stage = h("div",{class:"stage"+(step.wide?" wide":"")});
+  const plateHost = h("div"), panel = h("div",{class:"panel"});
+  stage.append(plateHost, panel); app.append(stage);
+  const next = h("button",{class:"btn",onclick:()=>{ if(si+1<ch.steps.length) renderChapter(ci,si+1); else finishChapter(ci); }}, si+1<ch.steps.length?"Continue":"Finish chapter");
+  const back = h("button",{class:"btn ghost",onclick:()=>{ if(si>0) renderChapter(ci,si-1); else go("story"); }}, si>0?"Back":"All chapters");
+  const api = {
+    ci, si, panel, plateHost, next,
+    lock(){ next.disabled = true; }, unlock(){ next.disabled = false; },
+    grade(ok, terms){ recordFirst(si, ok, terms||step.terms); },
+    gradeKey(key, ok, terms){ recordFirst(si+'.'+key, ok, terms); },
+  };
+  (STEP_TYPES[step.type])(step, api);
+  panel.append(h("div",{class:"nav"}, back, next));
+  bindTerms(app); bindRich(app);
+  tc.classList.remove("show");
+}
+function finishChapter(ci){
+  stopLoops(); window.scrollTo(0,0);
+  const ch = CHAPTERS[ci], sc = runScore(), st = chState(ch.id);
+  const frac = sc.total ? sc.right/sc.total : 1;
+  const prevBest = st.best;
+  st.done = true; st.last = frac; if (st.best==null || frac>st.best) st.best = frac; save();
+  const app=$("#app"); app.innerHTML="";
+  const box = h("div",{class:"summary"});
+  box.append(h("div",{class:"banner"}, h("span",{class:"num"},`8.${ci+1}`), h("span",{class:"ttl"},ch.title+": complete")));
+  box.append(h("div",{class:"row",style:"gap:26px;margin:10px 0 18px"},
+     h("div",{}, h("div",{class:"big"},`${sc.right}/${sc.total}`), h("div",{class:"muted small"},"right on the first try")),
+     h("div",{}, h("div",{class:"big",style:"color:var(--head)"},Math.round((st.best||0)*100)+"%"), h("div",{class:"muted small"}, prevBest==null?"your best so far": (frac>prevBest?"new personal best":"your best"))) ));
+  box.append(h("p",{},ch.wrap));
+  box.append(h("p",{class:"muted small"},"Terms from this chapter. Click one to review it."), termChips(ch.terms));
+  const nextBtn = ci+1<CHAPTERS.length ? h("button",{class:"btn",onclick:()=>{RUN=null; renderChapter(ci+1,0);}},`Start chapter ${ci+2}: ${CHAPTERS[ci+1].title}`) : h("button",{class:"btn",onclick:()=>go("checkpoint")},"Go to the light desk");
+  box.append(h("div",{class:"row",style:"margin-top:16px"}, nextBtn, h("button",{class:"btn ghost",onclick:()=>{RUN=null; renderChapter(ci,0);}},"Replay chapter"), h("button",{class:"btn ghost",onclick:()=>go("story")},"All chapters")));
+  app.append(box);
+  RUN = null;
+}
+
+/* ---- step types ---- */
+function figHost(step, api, svg){
+  if (!svg) return;
+  const f = plate(svg, step.cap);
+  if (step.labelsToggle){
+    const b = h("button",{class:"mini","aria-pressed":"true"},"Labels");
+    b.addEventListener("click",()=>{ const on=b.getAttribute("aria-pressed")==="true"; b.setAttribute("aria-pressed",on?"false":"true"); f.classList.toggle("labels-off",on); });
+    f.prepend(h("div",{class:"tools"},b));
+  }
+  api.plateHost.innerHTML=""; api.plateHost.append(f);
+  if (step.onFig) step.onFig(f.querySelector("svg"));
+  return f;
+}
+const STEP_TYPES = {
+  brief(step, api){
+    figHost(step, api, step.fig && step.fig());
+    api.panel.append(h("h2",{},step.title), h("div",{html:rich(step.text)}));
+    if (step.terms) api.panel.append(termChips(step.terms));
+  },
+  review(step, api){
+    figHost(step, api, step.fig());
+    api.panel.append(h("h2",{},step.title), h("div",{html:rich(step.text)}));
+    const counter = h("p",{class:"explored"});
+    const seen = new Set();
+    const upd = ()=>{ counter.textContent = `Parts explored: ${seen.size} of ${step.terms.length}`; };
+    exploreHook = k=>{ if(step.terms.includes(k)){ seen.add(k); upd(); } };
+    upd(); api.panel.append(counter, termChips(step.terms));
+  },
+  mcq(step, api){
+    const f = figHost(step, api, step.fig && step.fig());
+    if (!step.fig) api.plateHost.remove(), api.panel.parentElement.classList.add("wide");
+    api.panel.append(h("p",{class:"kicker"},step.kicker||"Your call"), h("h2",{},step.title));
+    if (step.q) api.panel.append(h("div",{html:rich(step.q)}));
+    const box = h("div",{class:"opts"}), fb = h("div");
+    let solved=false, first=true;
+    const opts = step.keep ? step.opts : shuffle(step.opts);
+    opts.forEach(o=>{
+      const b = h("button",{class:"opt"},o[0]);
+      b.addEventListener("click",()=>{
+        if (solved) return;
+        if (first){ api.grade(o[1], step.terms); first=false; }
+        fb.innerHTML="";
+        if (o[1]){
+          solved=true; b.classList.add("right");
+          $$(".opt",box).forEach(x=>x.disabled=true);
+          fb.append(h("div",{class:"fb ok",html:`<b>Correct.</b>${rich(o[2]||"")}`}));
+          if (step.after) fb.append(h("div",{class:"fb",html:rich(step.after)}));
+          if (step.afterFig && f){ const nf = plate(step.afterFig(), step.afterCap||step.cap); api.plateHost.innerHTML=""; api.plateHost.append(nf); bindTerms(nf); }
+          api.unlock();
+        } else {
+          b.classList.add("wrong"); b.disabled=true;
+          fb.append(h("div",{class:"fb bad",html:`<b>Not quite.</b>${rich(o[2]||"")} Try another answer.`}));
+        }
+        bindRich(fb);
+      });
+      box.append(b);
+    });
+    api.panel.append(box, fb); api.lock();
+  },
+  order(step, api){
+    const f = figHost(step, api, step.fig && step.fig());
+    if (!step.fig) api.plateHost.remove(), api.panel.parentElement.classList.add("wide");
+    api.panel.append(h("p",{class:"kicker"},"Put these in order"), h("h2",{},step.title), h("div",{html:rich(step.q)}));
+    const n = step.items.length, slots = new Array(n).fill(null);
+    let pool = shuffle(step.items.map((t,i)=>({t,i})));
+    let first = true;
+    const slotBox = h("div",{class:"order"}), poolBox = h("div",{class:"pool"}), fb = h("div");
+    const check = h("button",{class:"btn",disabled:true},"Check order");
+    function draw(){
+      slotBox.innerHTML=""; poolBox.innerHTML="";
+      slots.forEach((s,i)=>{
+        const el = h("div",{class:"slot"+(s?" filled":"")+(s&&s.mark?" "+s.mark:""),tabindex:s?"0":null,role:s?"button":null}, h("span",{class:"n"},String(i+1)), h("span",{}, s?s.t:"Click a step below to place it here"));
+        if (s && !s.locked) el.addEventListener("click",()=>{ pool.push(s); slots[i]=null; delete s.mark; draw(); });
+        slotBox.append(el);
+      });
+      pool.forEach(p=>{ const b=h("button",{class:"card"},p.t); b.addEventListener("click",()=>{ const k=slots.indexOf(null); if(k<0) return; slots[k]=p; pool=pool.filter(x=>x!==p); draw(); }); poolBox.append(b); });
+      check.disabled = slots.includes(null);
+    }
+    check.addEventListener("click",()=>{
+      let all=true;
+      slots.forEach((s,i)=>{ s.mark = s.i===i?"right":"wrong"; if(s.i!==i) all=false; else s.locked=true; });
+      if (first){ api.grade(all, step.terms); first=false; }
+      fb.innerHTML="";
+      if (all){ fb.append(h("div",{class:"fb ok",html:"<b>That's the right order.</b>"+rich(step.after||"")})); check.remove(); api.unlock(); draw(); bindRich(fb); return; }
+      draw();
+      fb.append(h("div",{class:"fb bad",html:"<b>Some steps are out of place.</b> The green ones are right and locked in. Click a red one to send it back, then try again."}));
+    });
+    draw();
+    api.panel.append(slotBox, poolBox, h("div",{class:"row"},check), fb); api.lock();
+  },
+  sort(step, api){
+    figHost(step, api, step.fig && step.fig());
+    if (!step.fig) api.plateHost.remove(), api.panel.parentElement.classList.add("wide");
+    api.panel.append(h("p",{class:"kicker"},"Sort them"), h("h2",{},step.title), h("div",{html:rich(step.q)}));
+    let items = shuffle(step.items.map((it,i)=>({t:it[0],bin:it[1],why:it[2],i,at:null})));
+    let sel = null, first = true;
+    const poolBox = h("div",{class:"pool"}), binBox = h("div",{class:"bins"}), fb = h("div");
+    const check = h("button",{class:"btn",disabled:true},"Check");
+    function draw(){
+      poolBox.innerHTML=""; binBox.innerHTML="";
+      items.filter(x=>x.at===null).forEach(x=>{ const b=h("button",{class:"card"+(sel===x?" sel":"")},x.t); b.addEventListener("click",()=>{ sel = sel===x?null:x; draw(); }); poolBox.append(b); });
+      step.bins.forEach((name,bi)=>{
+        const bin = h("div",{class:"bin",tabindex:"0",role:"button","aria-label":"Place in "+name}, h("h4",{},name));
+        const place = ()=>{ if(sel){ sel.at=bi; delete sel.mark; sel=null; draw(); } };
+        bin.addEventListener("click",place); bin.addEventListener("keydown",e=>{ if(e.key==="Enter") place(); });
+        items.filter(x=>x.at===bi).forEach(x=>{ const c=h("button",{class:"card"+(x.mark?" "+x.mark:"")},x.t); c.addEventListener("click",e=>{ e.stopPropagation(); if(sel){ place(); return; } if(x.locked) return; x.at=null; delete x.mark; draw(); }); bin.append(c); });
+        binBox.append(bin);
+      });
+      if (!items.some(x=>x.at===null)) poolBox.append(h("p",{class:"muted small"},"All placed. Check your sort, or click a card in a box to take it back out."));
+      else if (!sel) poolBox.prepend(h("p",{class:"muted small",style:"margin:0"},"Click a card, then click the box it belongs in."));
+      check.disabled = items.some(x=>x.at===null);
+    }
+    check.addEventListener("click",()=>{
+      let all=true; const misses=[];
+      items.forEach(x=>{ if(x.at===x.bin){ x.mark="right"; x.locked=true; } else { x.mark="wrong"; all=false; misses.push(x); } });
+      if (first){ api.grade(all, step.terms); first=false; }
+      fb.innerHTML="";
+      if (all){
+        fb.append(h("div",{class:"fb ok",html:"<b>All sorted correctly.</b>"+rich(step.after||"")}));
+        check.remove(); api.unlock(); draw(); bindRich(fb);
+        if (step.onSolved) step.onSolved(api);
+        return;
+      }
+      draw();
+      const why = misses.filter(m=>m.why).map(m=>`<li>${m.t}: ${m.why}</li>`).join("");
+      fb.append(h("div",{class:"fb bad",html:`<b>${misses.length} in the wrong box.</b>${why?`<ul style="margin:6px 0 0;padding-left:18px">${why}</ul>`:""} Move the red ones and check again.`}));
+    });
+    draw();
+    api.panel.append(poolBox, binBox, h("div",{class:"row"},check), fb); api.lock();
+  },
+  custom(step, api){ step.render(api, step); }
+};
+
+const KEYICON = `<svg class="key" viewBox="0 0 32 32" aria-hidden="true"><circle cx="9" cy="10" r="6" fill="#e9b52f" stroke="#a57a0c" stroke-width="1.5"/><circle cx="9" cy="10" r="2.2" fill="#fff"/><path d="M13 14 L26 27 M20 21 l3 -3 M23 24 l3 -3" stroke="#a57a0c" stroke-width="3" stroke-linecap="round"/></svg>`;
+function remember(title, body){ return `<div class="remember">${KEYICON}<div><b>${title}</b>${body}</div></div>`; }
+function dyk(body){ return `<div class="dyk"><b>Did you know…</b> ${body}</div>`; }
+
+/* ============ chapters ============ */
+const CHAPTERS = [
+{ id:"overview", title:"What photosynthesis is", pages:"p. 117", blurb:"Light energy to chemical energy, how little sunlight ends up as sugar, and the two linked stages.",
+  terms:["photosynthesis","efficiency","two-stages","light-reactions","carbon-fixation","oxidation","reduction","water-split","carbohydrate"],
+  wrap:"Photosynthesis is a redox reaction: water is oxidized, CO₂ is reduced, and light supplies the energy. Light capture makes ATP and NADPH; carbon fixation spends them. Next: where it all happens.",
+  steps:[
+  {type:"review", title:"Light energy to chemical energy", fig:figEfficiency, cap:"<b>Figure 1.1</b> Efficiency of photosynthesis: where 100 units of sunlight go. (Notes p. 117, Fig 8.1)",
+   text:`<p><b>Question:</b> What is photosynthesis? <b>Answer:</b> the conversion of light energy to chemical energy.</p><p>[[photosynthesis|Photosynthetic]] organisms build carbohydrates using sunlight and CO₂ from the air. It is a major entry point of energy into biological systems, and food webs are supported by the biomass of photosynthetic organisms.</p><p>Photosynthesis happens in diverse environments wherever sunlight is available. In the ocean it occurs in the surface layer, about 100 m deep, where light reaches.</p><p>Most sunlight is never captured: 60% is outside the visible range, and more is reflected, lost as heat, or lost during carbohydrate synthesis. The [[efficiency|maximum yield]] is about 4%.</p>`,
+   terms:["photosynthesis","efficiency","em-spectrum","carbohydrate"]},
+  {type:"mcq", title:"Your notes' question", q:"<p>What is photosynthesis? (The question your notes open with, p. 117.)</p>",
+   opts:[["The conversion of light energy to chemical energy",true," Light energy ends up stored in carbohydrates."],["The conversion of chemical energy to light energy",false," Reversed."],["The breakdown of glucose to release ATP",false," That's cellular respiration (Module 7)."],["The absorption of CO₂ with no energy input",false," Reducing CO₂ needs energy, supplied by sunlight."]], terms:["photosynthesis"]},
+  {type:"mcq", title:"How much gets stored?", fig:figEfficiency, cap:"<b>Figure 1.1</b> Where sunlight goes.", q:"<p>Of all the sun's energy that reaches a leaf, about how much at most ends up stored as carbohydrate?</p>",
+   opts:[["About 4%",true," 60% is outside the visible range, 8% is reflected or transmitted, 8% becomes heat and 20% is lost during carbohydrate synthesis."],["About 40%",false," Visible light alone is only 40%, and most of that is lost too."],["About 60%",false," 60% is the share outside the visible range, unavailable for photosynthesis."],["Nearly 100%",false," Most of the energy is never captured."]], terms:["efficiency"]},
+  {type:"review", title:"Two stages, one redox reaction", fig:figTwoStages, cap:"<b>Figure 1.2</b> The two stages of photosynthesis. (Notes p. 117, Fig 8.2)", labelsToggle:true,
+   text:`<p>Overall, photosynthesis is a redox reaction. CO₂ is [[reduction|reduced]] to form high-energy carbohydrate molecules, and this requires energy in the form of sunlight.</p><p>It can be divided into [[two-stages|two stages]]:</p><p><b>1. Light capture</b> ([[light-reactions|light-dependent reactions]]): light energy is converted into chemical energy as ATP and NADPH.<br><b>2. Carbon fixation</b> ([[carbon-fixation|the Calvin cycle]]): ATP and NADPH are used to reduce CO₂ to carbohydrate.</p><p>The electron donor is water. The [[water-split|oxidation of water]] produces electrons, protons and O₂. So the oxidation of water and the reduction of CO₂ are linked through the photosynthetic electron transport chain.</p>`,
+   terms:["two-stages","light-reactions","carbon-fixation","water-split","oxidation","reduction","atp","nadph"]},
+  {type:"sort", title:"Oxidized or reduced?", q:"<p>Photosynthesis is a redox reaction. Sort each change: does the molecule lose electrons (oxidized) or gain them (reduced)?</p>", bins:["Oxidized (loses electrons)","Reduced (gains electrons)"],
+   items:[["H₂O → O₂ + H⁺",0,"Water is the electron donor."],["CO₂ → carbohydrate",1,"CO₂ is reduced to high-energy carbohydrate."],["NADP⁺ → NADPH",1,"NADP⁺ picks up electrons at the end of the chain."],["A reaction center chlorophyll gives its excited electron to an acceptor",0,"Losing an electron is oxidation."],["The electron acceptor takes that electron",1,"Gaining an electron is reduction."]], terms:["oxidation","reduction"]},
+  {type:"sort", title:"Which stage?", q:"<p>Sort each event into the stage it belongs to.</p>", bins:["Light capture (thylakoid membranes)","Carbon fixation (Calvin cycle, stroma)"],
+   items:[["Water is split",0],["O₂ is released",0],["ATP and NADPH are made",0],["CO₂ is taken in",1],["ATP and NADPH are used up",1],["Carbohydrate is made",1]], terms:["light-reactions","carbon-fixation"]}
+  ]},
+
+{ id:"chloro", title:"The chloroplast", pages:"p. 118", blurb:"Outer and inner membranes, thylakoids, grana, lumen and stroma, and the overall equation.",
+  terms:["chloroplast","chloro-membranes","thylakoid","lumen","grana","stroma","light-reactions","carbon-fixation"],
+  wrap:"Light capture happens in the thylakoid membranes; carbon fixation happens in the stroma. Next: how light is absorbed.",
+  steps:[
+  {type:"review", title:"Inside a chloroplast", fig:figChloroplast, cap:"<b>Figure 2.1</b> Chloroplast structure. (Notes p. 118, Fig 8.3)", labelsToggle:true,
+   text:`<p>In photosynthetic eukaryotes, both stages take place in the [[chloroplast|chloroplast]].</p><p>Chloroplasts are semi-autonomous and self-replicating. They are bound by [[chloro-membranes|2 membranes]] separated by a narrow space.</p><p>In the centre are highly folded, flattened membrane sacs: [[thylakoid|thylakoids]]. The fluid-filled space inside the thylakoid membrane is the [[lumen|lumen]]. Orderly stacks of thylakoids are [[grana|grana]]. The space surrounding the thylakoids is the [[stroma|stroma]], and carbon fixation occurs there.</p>`,
+   terms:["chloroplast","chloro-membranes","thylakoid","lumen","grana","stroma"]},
+  {type:"custom", title:"Label the chloroplast", render:api=>simChloroLabel(api), terms:["thylakoid","grana","lumen","stroma"]},
+  {type:"review", title:"The overall equation", fig:figTwoStages, cap:"<b>Figure 2.3</b> Two series of reactions. (Notes pp. 117–118)",
+   text:`<p>6CO₂ + 12H₂O → (light) → C₆H₁₂O₆ + 6O₂ + 6H₂O</p><p>Two series of reactions:</p><p><b>1. [[light-reactions|Light-dependent reaction]]:</b> sunlight energy is converted into chemical energy. It occurs in the thylakoid membranes. Products: ATP, NADPH and O₂.</p><p><b>2. [[carbon-fixation|Light-independent reaction]]:</b> ATP and NADPH are used to synthesize carbohydrates. It occurs in the stroma.</p>`,
+   terms:["light-reactions","carbon-fixation","thylakoid","stroma"]},
+  {type:"sort", title:"Where does it happen?", q:"<p>Sort each into the part of the chloroplast where it happens or is found.</p>", bins:["Thylakoid membrane","Thylakoid lumen","Stroma"],
+   items:[["Photosystems absorb light",0],["ATP synthase is embedded",0],["The light-dependent reactions",0],["H⁺ builds up during electron transport",1],["Plastocyanin diffuses through it",1],["The Calvin cycle",2],["Rubisco fixes CO₂",2],["Starch granules are stored",2]], terms:["thylakoid","lumen","stroma"]},
+  {type:"mcq", title:"Where does the O₂ come from?", q:"<p>In 6CO₂ + 12H₂O → C₆H₁₂O₆ + 6O₂ + 6H₂O, which reactant supplies the oxygen atoms released as O₂?</p>",
+   opts:[["Water: it is oxidized in the light-dependent reactions",true," Water is the electron donor; O₂ is the by-product of its oxidation."],["CO₂: its oxygen is released when it is fixed",false," CO₂'s carbon and oxygen go into carbohydrate."],["Glucose",false," Glucose is a product."],["Both equally",false," O₂ comes from the oxidation of water."]], terms:["water-split","light-reactions"]}
+  ]},
+
+{ id:"light", title:"Light and pigments", pages:"pp. 118–119", blurb:"Photons and excited states, why leaves are green, chlorophyll's two parts and accessory pigments.",
+  terms:["photon","excited-state","fluorescence","em-spectrum","pigment","chlorophyll","porphyrin","phytol","accessory"],
+  wrap:"Chlorophyll absorbs blue and red light, its porphyrin ring holds Mg and its phytol tail anchors it in the thylakoid membrane; carotenoids fill the gaps and protect. Next: what happens to the absorbed energy.",
+  steps:[
+  {type:"review", title:"How is light absorbed?", fig:figGround, cap:"<b>Figure 3.1</b> An absorbed photon creates an excited state, and three ways back to the ground state. (Notes p. 118)",
+   text:`<p><b>Question:</b> How is light absorbed? <b>Answer:</b> energy from the sun is a form of electromagnetic radiation and travels in [[photon|photons]].</p><p>When a photon is absorbed, the compound is converted to a higher-energy state, the [[excited-state|excited state]]. There are three ways to re-establish the ground state:</p><p>1. Dissipate the energy as heat.<br>2. Re-emit the energy at a longer wavelength: [[fluorescence|fluorescence]].<br>3. Transfer the energy to another molecule. This happens with photosynthetic pigments.</p>`,
+   terms:["photon","excited-state","fluorescence"]},
+  {type:"mcq", title:"Fluorescence", q:"<p>An isolated chlorophyll in a test tube absorbs blue light and glows red. Which of the three ways back to the ground state is this?</p>",
+   opts:[["Fluorescence: the energy is re-emitted at a longer wavelength",true," Red light has a longer wavelength (less energy) than blue."],["Transfer of energy to another molecule",false," In a test tube there are no neighbouring pigments to pass it to."],["Dissipation as heat",false," Heat isn't visible light."],["Reduction of NADP⁺",false," That needs the whole electron transport chain."]], terms:["fluorescence","excited-state"]},
+  {type:"custom", title:"Which light does a leaf use?", render:api=>simSpectrum(api), terms:["chlorophyll","accessory","em-spectrum"]},
+  {type:"review", title:"Chlorophyll's two parts", fig:figChlorophyll, cap:"<b>Figure 3.3</b> Chlorophyll structure. (Notes p. 119, Fig 8.5)", labelsToggle:true,
+   text:`<p>[[pigment|Pigments]] are molecules that contain a chromophore, a chemical group capable of absorbing light of specific wavelengths (λ).</p><p>[[chlorophyll|Chlorophyll]] is the major light-capturing molecule. It absorbs blue and red λ and is poor at absorbing green λ, which is why leaves look green. It has two parts:</p><p>1. The [[porphyrin|porphyrin ring]] absorbs light. A magnesium (Mg) atom sits in its centre, and different side groups on the ring give different types of chlorophyll.<br>2. The [[phytol|phytol side chain]] inserts chlorophyll into the lipid bilayer of the thylakoid membrane.</p><p>[[accessory|Accessory pigments]] such as carotenoids are also in the thylakoid membrane. They absorb light from regions of the spectrum chlorophyll absorbs poorly, which increases the efficiency of light absorption, and they protect photosynthetic components from damage.</p>`,
+   terms:["pigment","chlorophyll","porphyrin","phytol","accessory"]},
+  {type:"sort", title:"Chlorophyll or accessory pigment?", q:"<p>Sort each feature.</p>", bins:["Chlorophyll","Accessory pigments (carotenoids)","Both"],
+   items:[["Porphyrin ring with Mg in the centre",0],["Phytol tail anchors it in the membrane",0],["The major light-capturing molecule",0],["Absorbs light chlorophyll absorbs poorly",1],["Protects photosynthetic components from damage",1],["Found in the thylakoid membrane",2],["Contains a chromophore",2]], terms:["chlorophyll","accessory","pigment"]},
+  {type:"mcq", title:"Why green?", q:"<p>Why do most leaves look green?</p>",
+   opts:[["Chlorophyll is poor at absorbing green light, so green is reflected or transmitted",true," It absorbs mainly blue and red."],["Chlorophyll absorbs green light most strongly",false," The opposite: green is absorbed least."],["Carotenoids reflect only green light",false," Carotenoids look yellow-orange."],["Magnesium is green",false," The colour comes from which wavelengths the pigment absorbs."]], terms:["chlorophyll"]}
+  ]},
+
+{ id:"antenna", title:"Antenna and reaction center", pages:"p. 120", blurb:"Energy passed from chlorophyll to chlorophyll, the reaction center's electron, and refilling it from water.",
+  terms:["antenna","reaction-center","excited-state","water-split","oxidation","reduction"],
+  wrap:"Antenna chlorophylls pass energy to the reaction center; the reaction center passes an electron to an acceptor and takes a new one from water. Next: two photosystems working together.",
+  steps:[
+  {type:"review", title:"Passing energy to the center", fig:figAntenna, cap:"<b>Figure 4.1</b> Light absorption and the reaction center. (Notes p. 120, Fig 8.6)", labelsToggle:true,
+   text:`<p>When chlorophyll absorbs light, one of its electrons is raised to a higher-energy state. If the chlorophyll is beside other chlorophyll molecules, the energy can be transferred.</p><p>The energy is passed from chlorophyll to chlorophyll until it reaches a pair of chlorophyll molecules, the [[reaction-center|reaction center]]. Remember: the [[antenna|antenna chlorophylls]] transfer energy, not electrons.</p><p>The reaction-center chlorophyll is a specific chlorophyll that can transfer electrons to an electron acceptor. Before it can take in more light energy, it must first get an electron from an electron donor, since it lost one. That electron comes from [[water-split|water]].</p>`+remember("Your notes:"," the antenna chlorophylls transfer energy. Only the reaction center transfers an electron."),
+   terms:["antenna","reaction-center","water-split"]},
+  {type:"custom", title:"Antenna to reaction center", render:api=>simAntenna(api), terms:["antenna","reaction-center","water-split"]},
+  {type:"order", title:"From photon to refilled center", q:"<p>Put these in order (notes p. 120, Fig 8.9).</p>",
+   items:["A photon is absorbed by an antenna chlorophyll","Energy is passed from chlorophyll to chlorophyll","The energy reaches the reaction-center pair and excites an electron","The reaction center transfers the electron to an electron acceptor","The reaction center takes a new electron from water"], terms:["antenna","reaction-center"]},
+  {type:"mcq", title:"Energy or electrons?", q:"<p>What do antenna chlorophylls pass to the reaction center?</p>",
+   opts:[["Energy",true," Your notes stress this: energy, not electrons."],["Electrons",false," Only the reaction center gives an electron away."],["Protons",false," Protons are moved later, by the electron transport chain."],["Photons, re-emitted as fluorescence",false," In a photosystem the energy is transferred directly to the next molecule."]], terms:["antenna"]},
+  {type:"mcq", title:"Oxidized reaction center", q:"<p>The reaction center has just given its electron to the acceptor. What must happen before it can use more light energy?</p>",
+   opts:[["It must get an electron back from an electron donor (water, in PSII)",true,""],["It must release O₂",false," O₂ comes from water once 4 electrons have been removed, but the center needs the electron."],["It must make ATP",false," ATP is made later, by ATP synthase."],["Nothing: it can absorb the next photon right away",false," It has lost an electron, so it must be reduced first."]], terms:["reaction-center","water-split"]}
+  ]},
+
+{ id:"zscheme", title:"Two photosystems: the Z scheme", pages:"p. 121", blurb:"Photosystem II and photosystem I in series, the electron's energy path, and why it looks like a Z.",
+  terms:["photosystem","psii","psi","z-scheme","ps-etc","nadph"],
+  wrap:"Light at PSII lifts electrons from water, they lose energy down the chain, and light at PSI lifts them again to reduce NADP⁺. Next: how that chain makes ATP.",
+  steps:[
+  {type:"review", title:"Two photosystems in series", fig:figZ, cap:"<b>Figure 5.1</b> Two photosystems and the Z scheme. (Notes p. 121, Fig 8.7)",
+   text:`<p>Photosynthesis begins with absorption of light by protein-pigment complexes, [[photosystem|photosystems]]. The absorbed light drives redox reactions. Each photosystem has a reaction-center chlorophyll.</p><p>There are two: [[psii|photosystem II]] and [[psi|photosystem I]]. They act in series, connected by the [[ps-etc|photosynthetic electron transport chain]], which drives the formation of ATP and NADPH, the energy sources the Calvin cycle needs to make carbohydrate from CO₂.</p><p>Electrons move from water to PSII and reach a high energy level, which drops as they go through the chain. More light at PSI raises their energy high enough to reduce NADP⁺. The energy trajectory resembles a Z: the [[z-scheme|Z scheme]].</p>`,
+   terms:["photosystem","psii","psi","z-scheme","ps-etc"]},
+  {type:"custom", title:"Drive an electron along the Z", render:api=>simZ(api), terms:["z-scheme","psii","psi"]},
+  {type:"order", title:"The flow of electrons", q:"<p>Put the electron's path in order (notes p. 121: a. H₂O to PSII, b. PSII to PSI, c. PSI to NADP⁺).</p>",
+   items:["Water","Photosystem II","Plastoquinone","Cytochrome b6f complex","Plastocyanin","Photosystem I","Ferredoxin and NADP⁺ reductase","NADPH"], terms:["ps-etc","psii","psi"]},
+  {type:"mcq", title:"Why a second photosystem?", q:"<p>Why does an electron need a second boost of light energy at photosystem I?</p>",
+   opts:[["Its energy drops along the chain, and it needs a higher energy to reduce NADP⁺",true," PSI raises it high enough."],["To split a second water molecule",false," Water is split at PSII only."],["To make it lose energy faster",false," Light adds energy."],["To turn it back into a photon",false," Electrons aren't converted to light here."]], terms:["psi","z-scheme"]},
+  {type:"mcq", title:"Which photosystem first?", q:"<p>In which order do the photosystems act, and where do their electrons come from?</p>",
+   opts:[["PSII first, getting electrons from water; then PSI, passing them to NADP⁺",true," The numbering is historical: PSII acts first."],["PSI first, getting electrons from water; then PSII",false," Water gives electrons to PSII."],["Both act at once on separate electrons, which never meet",false," They act in series on the same electrons."],["PSII first, getting electrons from NADPH",false," NADPH is the end product."]], terms:["psii","psi"]}
+  ]},
+
+{ id:"etc", title:"Proton gradient and ATP", pages:"p. 122", blurb:"Plastoquinone, cytochrome b6f, plastocyanin, the proton gradient, ATP synthase, and why plants still need mitochondria.",
+  terms:["ps-etc","plastoquinone","b6f","plastocyanin","ferredoxin","proton-gradient","atp-synthase","photophosphorylation","cyclic","atp"],
+  wrap:"Electron flow pumps H⁺ into the lumen; H⁺ flowing back through ATP synthase makes ATP that stays in the chloroplast. Next: spending ATP and NADPH in the Calvin cycle.",
+  steps:[
+  {type:"review", title:"The chain in the membrane", fig:figThylakoid, cap:"<b>Figure 6.1</b> The photosynthetic electron transport chain. (Notes p. 122, Fig 8.8)", labelsToggle:true,
+   text:`<p>Electrons pass between PSII and PSI through the [[b6f|cytochrome b6f complex]]. [[plastoquinone|Plastoquinone]] carries electrons from PSII to the b6f complex. [[plastocyanin|Plastocyanin]] carries electrons from the b6f complex to PSI by diffusing through the thylakoid lumen. After PSI, [[ferredoxin|ferredoxin and NADP⁺ reductase]] make NADPH.</p><p>As electrons flow along the Z pathway, H⁺ ions are moved from the stroma into the lumen, so the proton concentration becomes higher in the lumen: a [[proton-gradient|proton gradient]].</p><p>The proton gradient drives ATP formation: protons pass through the enzyme [[atp-synthase|ATP synthase]] and ATP is generated. This is [[photophosphorylation|photophosphorylation]].</p>`,
+   terms:["plastoquinone","b6f","plastocyanin","ferredoxin","proton-gradient","atp-synthase"]},
+  {type:"custom", title:"Pump protons, make ATP", render:api=>simETC(api), terms:["proton-gradient","atp-synthase","photophosphorylation","cyclic"]},
+  {type:"brief", title:"ATP stays home", fig:()=>figThylakoid(), cap:"<b>Figure 6.3</b> ATP is made on the stroma side. (Notes p. 122)",
+   text:`<p>The thylakoid membrane contains embedded ATP synthase enzymes. The [[atp|ATP]] produced in the chloroplast remains in the chloroplast, where it is used in carbon fixation.</p><p>Because of that, plants also have mitochondria, to produce the ATP needed elsewhere in the cell.</p>`+remember("Your notes:"," ATP made in the chloroplast stays in the chloroplast. Mitochondria make ATP for the rest of the plant cell."), terms:["atp","atp-synthase"]},
+  {type:"sort", title:"Chloroplast or mitochondrion?", q:"<p>Plant cells have both. Sort each feature (use Module 7 for the mitochondrion).</p>", bins:["Chloroplast","Mitochondrion","Both"],
+   items:[["Its ATP stays inside and is used for carbon fixation",0],["Makes ATP for the rest of the cell",1],["Electrons come from water, which releases O₂",0],["Electrons end up on O₂, forming water",1],["Light energy drives the electron flow",0],["An electron transport chain builds a proton gradient",2],["ATP synthase makes ATP as H⁺ flows through it",2],["Bound by two membranes",2]], terms:["atp-synthase","proton-gradient","chloroplast"]},
+  {type:"mcq", title:"Plastocyanin", q:"<p>Which carrier moves electrons from the cytochrome b6f complex to photosystem I, and how?</p>",
+   opts:[["Plastocyanin, by diffusing through the thylakoid lumen",true,""],["Plastoquinone, by diffusing through the stroma",false," Plastoquinone works between PSII and b6f, within the membrane."],["Ferredoxin, through the lumen",false," Ferredoxin is on the stroma side of PSI."],["ATP synthase",false," ATP synthase moves protons."]], terms:["plastocyanin","b6f"]},
+  {type:"mcq", title:"Which side?", q:"<p>When the proton gradient is at its steepest, where is the H⁺ concentration highest, and which way do protons flow through ATP synthase?</p>",
+   opts:[["Highest in the lumen; they flow from the lumen to the stroma",true," ATP is made on the stroma side, where the Calvin cycle needs it."],["Highest in the stroma; they flow from the stroma to the lumen",false," Electron transport moves H⁺ into the lumen."],["Highest in the lumen; they flow from the stroma into the lumen",false," That's the direction of pumping, not of flow through ATP synthase."],["The same on both sides",false," Then there would be no gradient to drive ATP synthase."]], terms:["proton-gradient","atp-synthase"]},
+  {type:"mcq", title:"Cyclic electron transport", q:"<p>Cyclic electron transport is in your important terms list (p. 125) but not described in the notes. In it, electrons from PSI go back to the cytochrome b6f complex. What does this make?</p>",
+   opts:[["ATP only: H⁺ is still pumped, but no NADPH is made and no water is split",true," It tops up the extra ATP the Calvin cycle needs."],["NADPH only",false," The electrons never reach NADP⁺."],["ATP, NADPH and O₂",false," That's linear electron flow."],["Nothing: the electrons are wasted",false," The b6f complex still pumps H⁺, so ATP is made."]], terms:["cyclic","b6f"]}
+  ]},
+
+{ id:"calvin", title:"The Calvin cycle", pages:"pp. 123–124", blurb:"Carboxylation by rubisco, reduction to triose phosphate, regeneration of RuBP, and storing starch.",
+  terms:["calvin-cycle","carboxylation","rubisco","rubp","pga","calvin-reduction","triose-phosphate","regeneration","starch"],
+  wrap:"Rubisco fixes CO₂ onto RuBP, ATP and NADPH reduce PGA to triose phosphate, and five of every six triose phosphates rebuild RuBP. Next: where two photosystems came from.",
+  steps:[
+  {type:"review", title:"Three steps", fig:figCalvin, cap:"<b>Figure 7.1</b> The Calvin cycle. (Notes p. 123, Fig 8.9)", labelsToggle:true,
+   text:`<p>The [[calvin-cycle|Calvin cycle]] takes a low potential energy carbon compound (CO₂) and converts it into a higher-energy carbon compound. This requires NADPH and ATP: 15 chemical reactions grouped into three main steps.</p><p><b>1. [[carboxylation|Carboxylation]]:</b> CO₂ from the air is combined with [[rubp|RuBP]] (5 carbons) to form a 6-carbon molecule, catalyzed by [[rubisco|rubisco]]. It is broken down into two 3-carbon molecules of [[pga|PGA]].</p><p><b>2. [[calvin-reduction|Reduction]]:</b> the potential energy of PGA must be increased, so it is reduced in two steps: PGA is phosphorylated by ATP, then reduced by NADPH, giving [[triose-phosphate|triose phosphate]], which can be exported out of the chloroplast.</p><p><b>3. [[regeneration|Regeneration]]:</b> for every six triose phosphates produced, only one can be withdrawn. The rest regenerate RuBP, which needs energy as ATP. Regeneration produces three 5-carbon RuBP for carboxylation.</p>`,
+   terms:["carboxylation","rubisco","rubp","pga","calvin-reduction","triose-phosphate","regeneration"]},
+  {type:"custom", title:"Turn the Calvin cycle", render:api=>simCalvin(api), terms:["calvin-cycle","carboxylation","calvin-reduction","regeneration"]},
+  {type:"order", title:"One turn, in order", q:"<p>Put one turn of the Calvin cycle in order.</p>",
+   items:["Rubisco adds CO₂ to RuBP, forming an unstable 6-carbon molecule","The 6-carbon molecule splits into two 3-carbon PGA","ATP phosphorylates PGA","NADPH reduces it to triose phosphate","One of every six triose phosphates is withdrawn and exported","The other five are rearranged into RuBP, using ATP"], terms:["carboxylation","calvin-reduction","regeneration"]},
+  {type:"mcq", title:"Only one in six", q:"<p>Why can only one of every six triose phosphates leave the Calvin cycle?</p>",
+   opts:[["The other five are needed to regenerate RuBP, the 5-carbon CO₂ acceptor",true," Five 3-carbon molecules (15 C) make three 5-carbon RuBP (15 C)."],["Rubisco destroys the other five",false," Rubisco catalyzes carboxylation."],["The chloroplast membrane only lets one through",false," The limit is carbon bookkeeping, not transport."],["The other five are turned back into CO₂",false," No CO₂ is released by the Calvin cycle."]], terms:["triose-phosphate","regeneration","rubp"]},
+  {type:"mcq", title:"Cost of one glucose", q:"<p>One turn fixes 3 CO₂ using 9 ATP and 6 NADPH. How much does it cost to make enough triose phosphate for one glucose (6 carbons)?</p>",
+   opts:[["6 CO₂, 18 ATP and 12 NADPH",true," Two turns, giving two 3-carbon triose phosphates."],["6 CO₂, 9 ATP and 6 NADPH",false," That's one turn, which gives only 3 carbons."],["3 CO₂, 18 ATP and 12 NADPH",false," Six carbons need six CO₂."],["1 CO₂, 3 ATP and 2 NADPH",false," That's the cost per CO₂."]], terms:["calvin-cycle"]},
+  {type:"mcq", title:"At night", q:"<p>How does a plant get carbohydrate at night, when there's no sunlight to run photosynthesis?</p>",
+   opts:[["From starch granules it made from excess carbohydrate during the day",true," Notes p. 124."],["The Calvin cycle runs at night using stored light",false," Light can't be stored."],["From the O₂ it released during the day",false," O₂ is not a carbohydrate."],["It doesn't need any at night",false," Its cells still need energy."]], terms:["starch"]}
+  ]},
+
+{ id:"evolution", title:"Evolution of photosynthesis", pages:"p. 124", blurb:"From a single photosystem to two, and how a cyanobacterium became the chloroplast.",
+  terms:["single-ps","hgt","duplication","cyanobacteria","endosymbiosis","chloroplast"],
+  wrap:"Two photosystems arose by horizontal gene transfer or gene duplication; cyanobacteria were the first to use water; an engulfed cyanobacterium became the chloroplast. Last: the whole path in one go.",
+  steps:[
+  {type:"custom", title:"Where two photosystems came from", render:api=>simEvo(api), terms:["hgt","duplication","endosymbiosis"]},
+  {type:"sort", title:"Which hypothesis?", q:"<p>Your notes give two possibilities for how two photosystems evolved. Sort each statement.</p>", bins:["Horizontal gene transfer","Gene duplication and divergence"],
+   items:[["Genes for the second photosystem came from a different bacterium",0],["Two bacteria, each with one type of photosystem, are involved",0],["One photosystem gene was copied",1],["One of the two copies changed over time into the other photosystem",1]], terms:["hgt","duplication"]},
+  {type:"order", title:"Becoming a chloroplast", q:"<p>Put the endosymbiosis story in order (notes p. 124, Fig 8.10).</p>",
+   items:["Early photosynthetic bacteria have a single photosystem","Bacteria with two photosystems arise; cyanobacteria are the first to use water as the electron donor","A eukaryotic cell engulfs a cyanobacterium","Over time the cyanobacterium loses the ability to live outside the host","It becomes the chloroplast"], terms:["single-ps","cyanobacteria","endosymbiosis"]},
+  {type:"mcq", title:"One isn't enough", q:"<p>Why did two photosystems evolve, according to your notes?</p>",
+   opts:[["A single photosystem cannot capture enough energy",true," Two in series give the electron two boosts."],["One photosystem produced too much O₂",false," Not in the notes, and early single-photosystem bacteria didn't split water."],["Eukaryotes need two because they have two membranes",false," Two photosystems evolved in bacteria, before endosymbiosis."],["To make starch instead of glucose",false," Unrelated to the number of photosystems."]], terms:["single-ps"]}
+  ]},
+
+{ id:"finale", title:"From sunlight to starch", pages:"pp. 116–125", blurb:"The finale: follow energy from one photon to stored sugar, one call at a time.",
+  terms:["photosynthesis","antenna","reaction-center","z-scheme","proton-gradient","calvin-cycle","starch"],
+  wrap:"From a photon to stored starch. Try the light desk for endless practice, or take the mini exam.",
+  steps:[
+  {type:"custom", title:"From sunlight to starch", render:api=>simFinale8(api), terms:["photosynthesis","calvin-cycle"]}
+  ]}
+];
+
+/* ============ sim helpers ============ */
+function makeCanvas(W,H,label){
+  const cv = h("canvas",{role:"img","aria-label":label||""}); const dpr = Math.min(2, window.devicePixelRatio||1);
+  cv.width=W*dpr; cv.height=H*dpr; const ctx=cv.getContext("2d"); ctx.scale(dpr,dpr); return {cv,ctx,W,H};
+}
+function label(ctx,t,x,y,opts={}){ ctx.fillStyle=opts.col||"#1c2830"; ctx.font=`${opts.it?"italic ":""}${opts.w||400} ${opts.s||13}px Source Sans 3, Arial`; ctx.textAlign=opts.a||"left"; ctx.textBaseline="alphabetic"; ctx.fillText(t,x,y); }
+function inlineMCQ(host, q, opts, api, key, terms, onRight){
+  host.append(h("p",{style:"margin-top:10px"},h("b",{},q)));
+  const box=h("div",{class:"opts"}), fb=h("div"); let first=true, done=false;
+  shuffle(opts).forEach(o=>{ const b=h("button",{class:"opt"},o[0]); b.addEventListener("click",()=>{
+    if(done) return; if(first){ api.gradeKey(key,o[1],terms); first=false; }
+    fb.innerHTML="";
+    if(o[1]){ done=true; b.classList.add("right"); $$(".opt",box).forEach(x=>x.disabled=true); fb.append(h("div",{class:"fb ok",html:"<b>Correct.</b>"+o[2]})); onRight&&onRight(); }
+    else { b.classList.add("wrong"); b.disabled=true; fb.append(h("div",{class:"fb bad",html:"<b>Not quite.</b>"+o[2]+" Try another answer."})); }
+  }); box.append(b); });
+  host.append(box,fb);
+}
+
+
+/* ============ Label the chloroplast (notes p. 118, Fig 8.3) ============ */
+const CHL_WHY=[
+ "The outer of the 2 membranes that bound the chloroplast.",
+ "The second bounding membrane, separated from the outer one by a narrow space.",
+ "An orderly stack of thylakoids. Plural: [[grana|grana]].",
+ "A flattened membrane sac. The [[thylakoid|thylakoid membrane]] holds the photosystems, so the light-dependent reactions happen here.",
+ "The fluid around the thylakoids. [[stroma|Carbon fixation]] (the Calvin cycle) happens here.",
+ "The fluid-filled space inside a thylakoid. H⁺ builds up here during electron transport."];
+function simChloroLabel(api){
+  const marks=new Array(CHL_PARTS.length).fill(false), first={}; let sel=null, right=0;
+  const host=h("div"), tray=h("div",{class:"tray"}), note=h("div",{class:"fb"},"Click a name below, then click the numbered box it belongs to."), q=h("div");
+  api.plateHost.innerHTML=""; api.plateHost.append(host);
+  const order=shuffle(CHL_PARTS.map((p,i)=>i));
+  function draw(){ host.innerHTML=""; const f=plate(figChloroplast({marks}),"<b>Figure 2.2</b> Label the chloroplast. (Notes p. 118, Fig 8.3)"); host.append(f); bindTerms(f);
+    $$("[data-mark]",f).forEach(g=>g.addEventListener("click",e=>{ e.stopPropagation(); place(+g.dataset.mark); }));
+    tray.innerHTML=""; order.forEach(i=>{ if(marks[i]) return; tray.append(h("button",{class:"tok"+(sel===i?" sel":""),onclick:()=>{ sel=sel===i?null:i; draw(); }},CHL_PARTS[i].name)); });
+    if(marks.every(Boolean)) tray.append(h("span",{class:"muted small"},"All six labelled.")); }
+  function place(m){ if(marks[m]) return;
+    if(sel===null){ note.className="fb"; note.textContent="Pick a name first, then click a box."; return; }
+    const ok=sel===m; if(!(sel in first)){ first[sel]=1; api.gradeKey("l"+sel,ok,[CHL_PARTS[sel].term]); if(ok) right++; }
+    if(ok){ marks[m]=true; note.className="fb ok"; note.innerHTML=rich(`<b>${CHL_PARTS[m].name}.</b> ${CHL_WHY[m]}`); bindRich(note); sel=null; }
+    else { note.className="fb bad"; note.innerHTML=`<b>Not box ${m+1}.</b> Look again at where the leader line points.`; }
+    draw();
+    if(marks.every(Boolean) && !q.childElementCount){ note.className="fb ok"; note.innerHTML=rich(`<b>All six labelled, ${right} of 6 on the first try.</b> Both stages of photosynthesis happen in the [[chloroplast|chloroplast]]: light capture in the thylakoid membranes, carbon fixation in the stroma.`); bindRich(note);
+      inlineMCQ(q,"Where does carbon fixation (the Calvin cycle) take place?",[["In the stroma",1," The fluid around the thylakoids."],["In the thylakoid lumen",0," The lumen is where H⁺ builds up."],["In the thylakoid membrane",0," That's where the light-dependent reactions happen."],["Between the outer and inner membranes",0," That narrow space is not where either stage happens."]],api,"where",["stroma","carbon-fixation"],()=>api.unlock()); } }
+  api.panel.append(h("p",{class:"kicker"},"Label it"), h("h2",{},"Label the chloroplast"), h("p",{},"Six parts of the chloroplast from your notes. Name each numbered box."), tray, note, q);
+  api.lock(); draw();
+}
+
+/* ============ Wavelength vs absorption (notes p. 119, Fig 8.4) ============ */
+function simSpectrum(api){
+  let nm=550; const show={a:1,b:1,c:1}; const done={blue:false,red:false,green:false,car:false};
+  const host=h("div"), read=h("div"), tasks=h("div"), note=h("div",{class:"fb"});
+  api.plateHost.innerHTML=""; api.plateHost.append(host);
+  function fig(){ host.innerHTML=""; const f=plate(figSpectrum({nm,show}),"<b>Figure 3.2</b> Absorption by chlorophyll a, chlorophyll b and carotenoids across visible light. (Notes p. 119, Fig 8.4)"); host.append(f); bindTerms(f); }
+  function upd(){ const A=absN("a",nm), B=absN("b",nm), C=absN("c",nm);
+    read.innerHTML=""; read.append(h("div",{class:"row",style:"gap:12px;margin:6px 0"},h("span",{class:"sw",style:`width:34px;height:34px;border-radius:6px;background:${nmRGB(nm)}`}),h("span",{},h("b",{},`${nm} nm`),` (${nmName(nm)})`)));
+    [["Chlorophyll a",A,"#2e6b1f","a"],["Chlorophyll b",B,"#7fb24a","b"],["Carotenoids",C,"#e08a1e","c"]].forEach(([n,v,col,k])=>read.append(h("div",{class:"stat",style:show[k]?"":"opacity:.4"},h("span",{},n),h("div",{class:"meter"},h("i",{style:`width:${Math.round(v*100)}%;background:${col}`})))));
+    let msg;
+    if(nm<480 && A>0.8){ msg="Blue: chlorophyll a absorbs strongly here. This light drives photosynthesis."; done.blue=true; }
+    else if(nm>640 && A>0.65){ msg="Red: chlorophyll's second absorption peak. Also used."; done.red=true; }
+    else if(nm>=500 && nm<=590 && A<0.2 && B<0.2 && C<0.1){ msg="Green: chlorophyll barely absorbs it, so it is reflected or transmitted. That's why leaves look green."; done.green=true; }
+    else if(C>0.6 && A<0.25 && B<0.35){ msg="Chlorophyll misses this, but carotenoids catch it. Accessory pigments widen the range of light the leaf can use."; done.car=true; }
+    else msg=(A>0.5||B>0.5)?"Absorbed well by chlorophyll.":(C>0.5?"Absorbed mostly by carotenoids.":"Absorbed weakly.");
+    note.innerHTML=rich(msg.replace("chlorophyll a","[[chlorophyll|chlorophyll a]]").replace("carotenoids catch","[[accessory|carotenoids]] catch")); bindRich(note);
+    tasks.innerHTML=""; tasks.append(h("b",{},"Find:"),h("ul",{style:"margin:4px 0;padding-left:20px"},...[["blue","A blue wavelength chlorophyll a absorbs strongly"],["red","A red wavelength chlorophyll a absorbs strongly"],["green","The green gap that chlorophyll barely absorbs"],["car","A wavelength only the carotenoids absorb well"]].map(([k,t])=>h("li",{style:done[k]?"color:var(--ok);font-weight:600":""},(done[k]?"Found: ":"")+t))));
+    if(Object.values(done).every(Boolean)) api.unlock(); }
+  const slider=h("input",{type:"range",min:"400",max:"700",step:"2",value:String(nm),"aria-label":"Wavelength in nm"});
+  slider.addEventListener("input",()=>{ nm=+slider.value; fig(); upd(); });
+  const tg=h("div",{class:"row",style:"gap:6px"}); [["a","Chlorophyll a"],["b","Chlorophyll b"],["c","Carotenoids"]].forEach(([k,t])=>{ const b=h("button",{class:"mini","aria-pressed":"true"},t); b.onclick=()=>{ show[k]=show[k]?0:1; b.setAttribute("aria-pressed",String(!!show[k])); fig(); upd(); }; tg.append(b); });
+  api.panel.append(h("p",{class:"kicker"},"Try it"), h("h2",{},"Which light does a leaf use?"), h("p",{},"Slide through visible light, 400 to 700 nm. Shorter wavelengths carry more energy."), h("div",{class:"ctl"},h("label",{},"Wavelength"),slider), tg, read, note, tasks);
+  api.lock(); fig(); upd();
+}
+
+/* ============ Antenna to reaction center to water (notes p. 120, Fig 8.6) ============ */
+function simAntenna(api){
+  const st={rc:"ground",lit:[],path:null,out:false,in:false,o2e:0,o2:0,lightAt:1,labels:false}; let busy=false, triedOx=false;
+  const host=h("div"), note=h("div",{class:"fb"}), tasks=h("div");
+  api.plateHost.innerHTML=""; api.plateHost.append(host);
+  function fig(){ host.innerHTML=""; const f=plate(antennaSVG(st),"<b>Figure 4.2</b> One photosystem: antenna chlorophylls, the reaction center, an electron acceptor and water as the electron donor. (Notes p. 120, Figs 8.8 and 8.9)"); host.append(f); bindTerms(f); }
+  function say(m){ note.innerHTML=rich(m); bindRich(note);
+    tasks.innerHTML=""; tasks.append(h("b",{},"Tasks"),h("ul",{style:"margin:4px 0;padding-left:20px"},...[[st.o2e>0||st.rc!=="ground"||st.out,"Pass light energy to the reaction center"],[st.o2e>0,"Refill the reaction center with an electron from water"],[st.o2>0,"Take 4 electrons from water to release one O₂"]].map(([d,t])=>h("li",{style:d?"color:var(--ok);font-weight:600":""},(d?"Done: ":"")+t))));
+    if(st.o2>0) api.unlock(); }
+  const wait=ms=>new Promise(r=>setTimeout(r,reduceMotion?10:ms));
+  async function shine(){ if(busy) return; busy=true;
+    if(st.rc==="ox"){ triedOx=true; st.in=false; st.out=false; st.lit=[4]; st.path=null; st.lightAt=4; fig(); say("<b>Nothing gets through.</b> The [[reaction-center|reaction center]] has lost its electron. Before it can use more light energy it must first get an electron back from an electron donor. The extra energy is lost as heat or fluorescence."); await wait(700); st.lit=[]; fig(); busy=false; return; }
+    const i=Math.floor(Math.random()*ANT.length), p=ANT_PATH[i]; st.in=false; st.out=false; st.lightAt=i; st.path=null; st.lit=[];
+    for(let k=0;k<p.length;k++){ st.lit=[p[k]]; st.path=p.slice(0,k+1); fig(); await wait(320); }
+    st.lit=[]; st.rc="ex"; fig(); say("The energy hopped from [[antenna|antenna chlorophyll]] to antenna chlorophyll until it reached the reaction center. Energy moved, not electrons. Now the reaction center's electron is excited."); await wait(650);
+    st.rc="ox"; st.out=true; st.path=null; fig(); say("The excited electron is passed to the <b>electron acceptor</b>. The reaction center is now missing an electron. Where does a new one come from?"); busy=false; }
+  function refill(){ if(busy) return;
+    if(st.rc!=="ox"){ say("The reaction center already has its electron. Shine light first."); return; }
+    st.rc="ground"; st.out=false; st.in=true; st.o2e++; let m="<b>Refilled from water.</b> [[water-split|Water]] is the electron donor. ";
+    if(st.o2e%4===0){ st.o2++; m+="Four electrons from two H₂O molecules: one O₂ is released, plus 4 H⁺. 2 H₂O → O₂ + 4 H⁺ + 4 e⁻."; }
+    else m+=`${st.o2e%4} of the 4 electrons needed to release one O₂.`;
+    fig(); say(m); }
+  const b1=h("button",{class:"btn",onclick:shine},"Shine light"), b2=h("button",{class:"btn ghost",onclick:refill},"Take an electron from water");
+  api.panel.append(h("p",{class:"kicker"},"Run it"), h("h2",{},"Antenna to reaction center"), h("p",{},"Shine light on the photosystem, then refill the reaction center. Try shining light before you refill it."), h("div",{class:"row"},b1,b2), note, tasks);
+  api.lock(); fig(); say("All chlorophylls are in the ground state. Press \"Shine light\".");
+}
+
+/* ============ Drive an electron along the Z scheme (notes p. 121, Fig 8.7) ============ */
+const ZACT=[
+ {k:"water",t:"Split water: an electron goes to PSII",seg:[0,1],why:"Water is oxidized at photosystem II. Its electron fills the reaction center, and O₂ and H⁺ are released."},
+ {k:"ps2",t:"Light hits photosystem II",seg:[1,2],why:"Light energy raises the electron to a high energy level so it can enter the electron transport chain."},
+ {k:"chain",t:"Down the chain: Pq, cytochrome b6f, Pc",seg:[2,3,4,5,6],why:"The electron loses energy step by step. That energy moves H⁺ from the stroma into the lumen."},
+ {k:"ps1",t:"Light hits photosystem I",seg:[6,7],why:"A second input of light raises the electron's energy high enough to reduce NADP⁺."},
+ {k:"nadp",t:"Ferredoxin, then NADP⁺ reductase",seg:[7,8,9,10],why:"NADP⁺ reductase uses the electron to reduce NADP⁺. Two electrons plus H⁺ make one NADPH."}];
+const ZWRONG={water:"The electron has to come from somewhere first: what is the electron donor?",ps2:"The electron needs to be in photosystem II's reaction center before light can raise it.",chain:"The electron's energy is too low. Light must raise it first.",ps1:"The electron has to reach photosystem I first, through the chain.",nadp:"Only an electron raised by photosystem I has enough energy to reduce NADP⁺."};
+function simZ(api){
+  const ZORD=shuffle([0,1,2,3,4]); let stage=0, e=0, hp=0, nadph=0, half=0, anim=false, first=true, right=0, total=0; const host=h("div"), note=h("div",{class:"fb"}), read=h("p",{class:"readout"}), box=h("div",{class:"gates"});
+  api.plateHost.innerHTML=""; const f=plate(figZ({dot:true}),"<b>Figure 5.2</b> The Z scheme. The orange dot is one electron. (Notes p. 121, Fig 8.7)"); api.plateHost.append(f); bindTerms(f);
+  const dot=$("#zdot",f); const P=ZN.map(n=>[n[0],n[1]]);
+  function put(x,y){ dot.setAttribute("transform",`translate(${(x-P[0][0]).toFixed(1)},${(y-P[0][1]).toFixed(1)})`); }
+  function move(seg,done){ anim=true; let i=0, t=0; const L=loop(dt=>{ t+=dt*(reduceMotion?50:2.2); while(t>=1&&i<seg.length-1){ t-=1; i++; } if(i>=seg.length-1){ put(...P[seg[seg.length-1]]); L.stop(); anim=false; done(); return; } const a=P[seg[i]], b=P[seg[i+1]]; put(a[0]+(b[0]-a[0])*t,a[1]+(b[1]-a[1])*t); }); }
+  function rd(){ read.textContent=`Electron ${e+1} of 2   ·   H⁺ pumped into lumen: ${hp}   ·   NADPH made: ${nadph}`; }
+  function draw(){ box.innerHTML=""; ZORD.forEach(i=>{ const a=ZACT[i]; const b=h("button",{class:"gate"},a.t); b.onclick=()=>act(i,b); box.append(b); }); rd(); }
+  function act(i,btn){ if(anim||e>=2) return; const a=ZACT[i], ok=i===stage;
+    if(e===0 && first){ first=false; total++; api.gradeKey("z"+stage,ok,["z-scheme","photosystem"]); if(ok) right++; }
+    if(!ok){ note.className="fb bad"; note.innerHTML=`<b>Not yet.</b> ${ZWRONG[a.k]}`; btn.classList.add("wrong"); setTimeout(()=>btn.classList.remove("wrong"),900); return; }
+    $$(".gate",box).forEach(x=>x.classList.remove("wrong"));
+    move(a.seg,()=>{ if(a.k==="chain") hp+=2; note.className="fb ok"; note.innerHTML=rich(`<b>${a.t}.</b> ${a.why}`); bindRich(note); stage++; first=true;
+      if(stage===ZACT.length){ half++; e++; stage=0;
+        if(half===2){ nadph++; rd(); note.innerHTML=rich(`<b>NADPH made.</b> Two electrons from water went up at [[psii|PSII]], down the chain, up again at [[psi|PSI]] and reduced NADP⁺ + H⁺ to NADPH. Drawn on an energy axis the path is a Z: the [[z-scheme|Z scheme]]. ${right} of ${total} steps right on the first try with the first electron.`); bindRich(note); api.unlock(); return; }
+        setTimeout(()=>{ put(...P[0]); note.className="fb"; note.innerHTML="One electron is waiting at NADP⁺ reductase. One NADPH needs two electrons. Send a second electron through."; rd(); },reduceMotion?10:700); }
+      rd(); }); }
+  api.panel.append(h("p",{class:"kicker"},"Run it"), h("h2",{},"Drive an electron along the Z"), h("p",{},"Pick what happens next. Two electrons make one NADPH."), read, box, note);
+  api.lock(); draw(); note.textContent="The electron starts in a water molecule. What happens first?";
+}
+
+/* ============ Proton gradient, ATP synthase, cyclic electron transport (notes p. 122, Fig 8.8) ============ */
+function simETC(api){
+  const S={light:false,cyclic:false,lumen:4,atp:0,nadph:0,o2:0,eAcc:0,hAcc:0,synAcc:0,rot:0,es:[],hs:[],t:0,peak:0,atpCyc:0};
+  const done={grad:false,atp:false,dark:false,cyc:false};
+  const POS=[]; let seed=7; const rnd=()=>{ seed=(seed*9301+49297)%233280; return seed/233280; };
+  for(let i=0;i<140;i++) POS.push([24+rnd()*640,244+rnd()*150]);
+  const host=h("div"); api.plateHost.innerHTML=""; api.plateHost.append(host);
+  host.append(plate(figThylakoid({bare:true}),"<b>Figure 6.2</b> The thylakoid membrane at work. Blue dots are H⁺. (Notes p. 122, Fig 8.8)"));
+  const svg=$("svg",host); bindTerms(host); const dyn=document.createElementNS("http://www.w3.org/2000/svg","g"); svg.append(dyn);
+  const EPATH=[[120,250],[120,196],[220,186],[300,186],[330,250],[384,258],[440,214],[462,150],[534,112],[604,112]];
+  const ECYC=[[462,150],[534,112],[470,130],[380,140],[300,160]];
+  const meter=h("div",{class:"meter",style:"height:14px"},h("i",{style:"width:0%"})), read=h("p",{class:"readout"}), note=h("div",{class:"fb"}), tasks=h("div");
+  function sayTasks(){ tasks.innerHTML=""; tasks.append(h("b",{},"Tasks"),h("ul",{style:"margin:4px 0;padding-left:20px"},...[["grad","Turn on the light and build a proton gradient"],["atp","Make 5 ATP"],["dark","Turn the light off and watch ATP synthesis stop"],["cyc","Switch to cyclic electron transport and make 3 ATP with no NADPH"]].map(([k,t])=>h("li",{style:done[k]?"color:var(--ok);font-weight:600":""},(done[k]?"Done: ":"")+t))));
+    if(Object.values(done).every(Boolean)) api.unlock(); }
+  function say(m){ note.innerHTML=rich(m); bindRich(note); sayTasks(); }
+  loop(dt=>{ S.t+=dt;
+    if(S.light){ S.eAcc+=dt*1.6; while(S.eAcc>=1){ S.eAcc-=1; S.es.push({p:0,path:S.cyclic?ECYC:EPATH});
+        if(!S.cyclic){ S.lumen+=1; S.nadph+=0.5; S.o2+=0.25; } S.hs.push({x:220,y:70,ty:300,tx:300,p:0,kind:"pump"}); S.hs.push({x:228,y:66,ty:290,tx:310,p:0,kind:"pump"}); } }
+    const grad=Math.max(0,S.lumen-4);
+    if(grad>0){ S.synAcc+=dt*Math.min(3.2,grad*0.12); while(S.synAcc>=1 && S.lumen>4){ S.synAcc-=1; S.lumen-=1; S.hAcc+=1; S.hs.push({x:712,y:300,tx:712,ty:60,p:0,kind:"syn"}); if(S.hAcc>=3){ S.hAcc-=3; S.atp++; if(S.cyclic&&S.light) S.atpCyc++; } } S.rot+=dt*grad*0.25; }
+    S.es.forEach(o=>o.p+=dt*2.4); S.es=S.es.filter(o=>o.p<o.path.length-1);
+    S.hs.forEach(o=>{ o.p+=dt*(o.kind==="syn"?1.4:0.9); if(o.kind==="pump" && o.p>=1){ o.dead=true; S.lumen+=1; } }); S.hs=S.hs.filter(o=>!o.dead && o.p<1);
+    S.peak=Math.max(S.peak,S.lumen);
+    if(!done.grad && S.light && S.lumen>=24){ done.grad=true; say("A <b>proton gradient</b>: H⁺ is moved from the stroma into the lumen by the [[b6f|cytochrome b6f complex]] (carried by plastoquinone), and splitting water adds more. The proton concentration is now much higher in the lumen."); }
+    if(!done.atp && S.atp>=5){ done.atp=true; say("Protons flow back to the stroma through [[atp-synthase|ATP synthase]], and ATP is generated from ADP and Pᵢ. Making ATP this way, with light energy, is [[photophosphorylation|photophosphorylation]]."); }
+    if(!done.dark && done.atp && !S.light && S.peak>=24 && S.lumen<=8){ done.dark=true; say("No light, no electron flow, no new pumping. The gradient runs down and ATP synthase stops. This is why the light-dependent reactions need light."); }
+    if(!done.cyc && S.cyclic && S.atpCyc>=3){ done.cyc=true; say("<b>Cyclic electron transport</b> (from your important terms list): electrons from PSI go back to the b6f complex instead of to NADP⁺. H⁺ is still pumped, so ATP is made, but no NADPH and no O₂. It tops up the extra ATP the Calvin cycle needs."); }
+    // draw
+    let d=""; const n=Math.min(POS.length,Math.round(S.lumen)); for(let i=0;i<n;i++) d+=`<circle cx="${POS[i][0].toFixed(0)}" cy="${POS[i][1].toFixed(0)}" r="5.5" fill="${PC.h}" stroke="${PC.hS}" stroke-width=".8"/>`;
+    S.hs.forEach(o=>{ const x=o.x+(o.tx-o.x)*o.p, y=o.y+(o.ty-o.y)*o.p; d+=`<circle cx="${x.toFixed(1)}" cy="${y.toFixed(1)}" r="5.5" fill="${PC.h}" stroke="${PC.hS}"/>`; });
+    S.es.forEach(o=>{ const i=Math.floor(o.p), t=o.p-i, a=o.path[i], b=o.path[i+1]; d+=`<circle cx="${(a[0]+(b[0]-a[0])*t).toFixed(1)}" cy="${(a[1]+(b[1]-a[1])*t).toFixed(1)}" r="6" fill="${PC.e}" stroke="#a5501a"/>`; });
+    const ang=S.rot; d+=`<line x1="712" y1="88" x2="${(712+20*Math.cos(ang)).toFixed(1)}" y2="${(88+20*Math.sin(ang)).toFixed(1)}" stroke="${PC.synS}" stroke-width="3"/>`;
+    if(S.light) d+=wavy(70,26,108,122,"#d99a12",4,4,2.2)+wavy(412,26,450,122,"#d99a12",4,4,2.2);
+    if(S.cyclic) d+=`<path d="M520 120 Q470 132 312 150" stroke="${PC.e}" stroke-width="2" stroke-dasharray="5 4" fill="none"/><text class="lbl sm" x="420" y="128" font-weight="700" fill="#a5501a">cyclic</text>`;
+    d+=`<rect x="12" y="34" width="250" height="68" rx="6" fill="#fff" fill-opacity=".85" stroke="#cfd8c6"/><text class="lbl" x="22" y="54">ATP made: <tspan font-weight="700">${S.atp}</tspan></text><text class="lbl" x="22" y="72">NADPH made: <tspan font-weight="700">${Math.floor(S.nadph)}</tspan></text><text class="lbl" x="22" y="90">O₂ released: <tspan font-weight="700">${Math.floor(S.o2)}</tspan>   Light: <tspan font-weight="700">${S.light?"on":"off"}</tspan></text>`;
+    dyn.innerHTML=d;
+    $("i",meter).style.width=Math.min(100,S.lumen/60*100)+"%"; read.textContent=`H⁺ in the lumen: ${Math.round(S.lumen)} (stroma stays low)`;
+  });
+  const lightB=h("button",{class:"btn"},"Turn the light on"); lightB.onclick=()=>{ S.light=!S.light; lightB.textContent=S.light?"Turn the light off":"Turn the light on"; if(S.light) say("Light drives electrons through PSII and PSI. Watch the lumen."); else say("Light off."); };
+  const seg=h("div",{class:"seg"}); [["Linear (normal)",false],["Cyclic",true]].forEach(([t,v])=>{ const b=h("button",{"aria-pressed":String(!v)},t); b.onclick=()=>{ S.cyclic=v; S.atpCyc=0; $$("button",seg).forEach(x=>x.setAttribute("aria-pressed","false")); b.setAttribute("aria-pressed","true"); say(v?"Cyclic: electrons leaving PSI go back to the cytochrome b6f complex. Keep the light on and watch the counters.":"Linear: water to PSII to PSI to NADP⁺."); }; seg.append(b); });
+  api.panel.append(h("p",{class:"kicker"},"Try it"), h("h2",{},"Pump protons, make ATP"), h("p",{},"Electron flow moves H⁺ into the lumen; the gradient drives ATP synthase."), h("div",{class:"row"},lightB), h("div",{class:"ctl"},h("label",{},"Electron flow"),seg), h("div",{class:"ctl"},h("label",{},"Proton gradient (lumen vs stroma)"),meter), read, note, tasks);
+  api.lock(); say("The light is off. Turn it on.");
+}
+
+/* ============ Turn the Calvin cycle (notes p. 123, Fig 8.9) ============ */
+function simCalvin(api){
+  const S={phase:0,turn:0,rubp:3,pga:0,g3p:0,out:0,atp:0,nadph:0,co2:0}; let first=true, right=0, total=0, hl=null;
+  const host=h("div"), note=h("div",{class:"fb"}), tally=h("div"), box=h("div",{class:"gates"});
+  api.plateHost.innerHTML=""; api.plateHost.append(host);
+  function fig(){ host.innerHTML=""; const c={co2:3,rubp:S.rubp,pga:S.pga,g3p:S.g3p,atpR:6,nadph:6,atpG:3,out:S.out,note:`Turn ${S.turn+1}`};
+    const f=plate(figCalvin({counts:c,hl}),"<b>Figure 7.2</b> One turn of the Calvin cycle fixes 3 CO₂. Counts are molecules. (Notes p. 123, Fig 8.9)"); host.append(f); bindTerms(f); }
+  function tal(){ const C=S.rubp*5+S.pga*3+S.g3p*3; tally.innerHTML=""; tally.append(h("div",{class:"score",style:"margin:6px 0"},h("span",{},"Carbons in the cycle: ",h("b",{},String(C))),h("span",{},"CO₂ fixed: ",h("b",{},String(S.co2))),h("span",{},"Triose phosphates out: ",h("b",{},String(S.out))),h("span",{},"ATP used: ",h("b",{},String(S.atp))),h("span",{},"NADPH used: ",h("b",{},String(S.nadph))))); }
+  const ACT=[
+   {t:"1. Carboxylation: rubisco adds 3 CO₂ to 3 RuBP",ok:0,why:"Rubisco joins each CO₂ to a 5-carbon RuBP. Each unstable 6-carbon molecule splits into two 3-carbon PGA: 3 RuBP + 3 CO₂ → 6 PGA (15 + 3 = 18 carbons).",run:()=>{ S.rubp-=3; S.co2+=3; S.pga=6; hl="carb"; }},
+   {t:"2. Reduction: phosphorylate with 6 ATP, reduce with 6 NADPH",ok:1,why:"PGA has low potential energy. ATP phosphorylates it, then NADPH reduces it: 6 PGA → 6 triose phosphate.",run:()=>{ S.pga=0; S.g3p=6; S.atp+=6; S.nadph+=6; hl="red"; }},
+   {t:"Withdraw 1 triose phosphate",ok:2,why:"One of the six triose phosphates leaves the cycle and is exported from the chloroplast as carbohydrate.",run:()=>{ S.g3p-=1; S.out+=1; hl="out"; }},
+   {t:"Withdraw 2 triose phosphates",ok:-1},
+   {t:"3. Regeneration: rebuild RuBP with 3 ATP",ok:3,why:"The other 5 triose phosphates (15 carbons) are rearranged into 3 RuBP (3 × 5 = 15 carbons), using 3 ATP. The cycle is ready for 3 more CO₂.",run:()=>{ S.g3p=0; S.rubp=3; S.atp+=3; hl="regen"; S.phase=-1; S.turn++; }}];
+  const WRONG=["There's no PGA yet. CO₂ has to be fixed onto RuBP first.","There's nothing to reduce: carboxylation makes the PGA.","Withdraw before regeneration: the triose phosphates come from reduction.","Then only 4 triose phosphates (12 carbons) are left: not enough to rebuild 3 RuBP (15 carbons). The cycle would run down. For every six made, only one can be withdrawn.","Regeneration uses triose phosphates. There are none ready yet."];
+  function draw(){ box.innerHTML=""; ACT.forEach((a,i)=>{ const b=h("button",{class:"gate"},a.t); b.onclick=()=>act(i); box.append(b); }); tal(); }
+  function act(i){ const a=ACT[i], ok=a.ok===S.phase;
+    if(S.turn===0 && first){ first=false; total++; api.gradeKey("c"+S.phase,ok,["calvin-cycle","carboxylation","calvin-reduction","regeneration"]); if(ok) right++; }
+    if(!ok){ note.className="fb bad"; note.innerHTML=`<b>Not now.</b> ${a.ok===-1?WRONG[3]:S.phase===0?WRONG[a.ok===1?1:a.ok===2?2:4]:S.phase===1?(a.ok===0?"You already have PGA: 6 of them. Reduce it.":a.ok===2?WRONG[2]:WRONG[4]):S.phase===2?(a.ok===3?"Withdraw the one product first, then rebuild RuBP from the other five.":"The PGA is already reduced to triose phosphate."):"One has already been withdrawn. Use the other five to rebuild RuBP."}`; return; }
+    a.run(); S.phase++; first=true; fig(); tal(); note.className="fb ok"; note.innerHTML=rich(`<b>${a.t.replace(/^\d\. /,"")}.</b> ${a.why}`); bindRich(note);
+    if(S.phase===0 && S.turn===1){ note.innerHTML+=rich(" <br>One turn: 3 CO₂ in, 1 triose phosphate out, using 9 ATP and 6 NADPH. Run a second turn."); bindRich(note); }
+    if(S.phase===0 && S.turn===2){ note.innerHTML=rich(`<b>Two turns done.</b> 6 CO₂ fixed, 2 triose phosphates out (6 carbons, enough for one glucose), using 18 ATP and 12 NADPH. ${right} of ${total} steps right on the first try in turn 1. Excess carbohydrate is stored as [[starch|starch]] for the night.`); bindRich(note); api.unlock(); } }
+  api.panel.append(h("p",{class:"kicker"},"Run it"), h("h2",{},"Turn the Calvin cycle"), h("p",{},"Run the three steps in order. Watch the carbon count: it never changes inside the cycle except when CO₂ comes in or a triose phosphate leaves."), tally, box, note);
+  api.lock(); fig(); draw(); note.textContent="3 RuBP are waiting in the stroma. What happens first?";
+}
+
+/* ============ Evolution of photosynthesis (notes p. 124, Fig 8.10) ============ */
+const EVO=[
+ {part:"hgt",n:"Hypothesis 1: horizontal gene transfer",d:"Early photosynthetic bacteria had only a single photosystem, which can't capture enough energy. One bacterium with photosystem II received the genes for photosystem I from another bacterium. The result had both, like a cyanobacterium.",t:["hgt","single-ps"]},
+ {part:"dup",n:"Hypothesis 2: gene duplication and divergence",d:"A bacterium's photosystem gene was duplicated. Over time one copy diverged and became the second photosystem. Either way, the result is a cell with PS I and PS II working in series.",t:["duplication","single-ps"]},
+ {part:"endo",n:"Endosymbiosis: the cyanobacterium becomes the chloroplast",d:"Cyanobacteria were the first organisms to use water as the electron donor. The endosymbiotic theory proposes that a cyanobacterium was engulfed by a eukaryotic cell. Over time it lost the ability to live outside the host and became the chloroplast.",t:["endosymbiosis","cyanobacteria"]}];
+function simEvo(api){
+  let k=0; const seen=new Set(); const host=h("div"), info=h("div",{class:"fb"}), cnt=h("p",{class:"readout"}), q=h("div");
+  api.plateHost.innerHTML=""; api.plateHost.append(host);
+  const draw=()=>{ host.innerHTML=""; const f=plate(figEvo(EVO[k].part),`<b>Figure 8.1</b> ${EVO[k].n}. (Notes p. 124, Fig 8.10)`); host.append(f); bindTerms(f); info.innerHTML=`<b>${EVO[k].n}</b>${EVO[k].d}`; cnt.textContent=`Panel ${k+1} of 3`; seen.add(k);
+    if(seen.size===3 && !q.childElementCount) inlineMCQ(q,"Which organisms were the first to use water as the electron donor?",[["Cyanobacteria",1," With both photosystems, they could pull electrons from water, releasing O₂."],["The first eukaryotic cells",0," Eukaryotes got photosynthesis later, by engulfing a cyanobacterium."],["Bacteria with a single photosystem",0," One photosystem can't capture enough energy for that."],["Mitochondria",0," Mitochondria don't photosynthesize."]],api,"cyano",["cyanobacteria","endosymbiosis"],()=>api.unlock()); };
+  api.panel.append(h("p",{class:"kicker"},"Step through it"), h("h2",{},"Where two photosystems came from"), h("p",{},"Your notes give two possibilities for how two photosystems evolved, then how a eukaryote got them."), cnt, info,
+    h("div",{class:"row"},h("button",{class:"btn ghost",onclick:()=>{ if(k>0){k--;draw();} }},"Previous"),h("button",{class:"btn",onclick:()=>{ if(k<2){k++;draw();} }},"Next panel")), q);
+  api.lock(); draw();
+}
+
+/* ============ Finale: from sunlight to starch ============ */
+const FIN8=[
+ {q:"A photon of red light (680 nm) reaches a leaf. Which molecule absorbs it?",o:[["Chlorophyll, which absorbs blue and red light",1,"Chlorophyll's porphyrin ring absorbs at the blue and red ends of the spectrum."],["A carotenoid",0,"Carotenoids absorb blue-green light that chlorophyll misses, not red."],["Water",0,"Water is the electron donor, not the light absorber."],["Rubisco",0,"Rubisco is an enzyme of the Calvin cycle."]],t:["chlorophyll"]},
+ {q:"The absorbing chlorophyll is an antenna chlorophyll. What does it pass to its neighbour?",o:[["Energy, chlorophyll to chlorophyll, until it reaches the reaction center",1,"Antenna chlorophylls transfer energy, not electrons."],["An electron",0,"Only the reaction center transfers an electron, to an electron acceptor."],["A proton",0,"Protons are moved by the electron transport chain."],["The photon itself, re-emitted as green light",0,"Re-emitting light (fluorescence) is not how pigments in a photosystem pass energy on."]],t:["antenna","reaction-center"]},
+ {q:"The reaction center of photosystem II gives away its excited electron. Where does its replacement come from?",o:[["Water, which is oxidized, releasing O₂ and H⁺",1,"Water is the electron donor."],["NADPH",0,"NADPH is a product at the far end of the chain."],["Carbon dioxide",0,"CO₂ is reduced in the Calvin cycle, not oxidized."],["Photosystem I",0,"Electrons flow from PSII to PSI, not back."]],t:["water-split","psii"]},
+ {q:"The electron moves from PSII to the cytochrome b6f complex. What carries it?",o:[["Plastoquinone",1,"Plastocyanin then carries it from b6f to PSI through the lumen."],["Plastocyanin",0,"Plastocyanin works between b6f and PSI."],["Ferredoxin",0,"Ferredoxin is on the far side of PSI."],["ATP synthase",0,"ATP synthase carries protons, not electrons."]],t:["plastoquinone","b6f"]},
+ {q:"As the electron passes, what happens to H⁺, and what does that give the cell?",o:[["H⁺ is moved from the stroma into the lumen; the gradient drives ATP synthase",1,"Photophosphorylation."],["H⁺ is moved from the lumen into the stroma; that makes NADPH",0,"Pumping is into the lumen, and the gradient makes ATP."],["H⁺ is destroyed to release energy",0,"H⁺ is moved, not destroyed."],["Nothing: protons are only made in the Calvin cycle",0,"The electron transport chain builds the proton gradient."]],t:["proton-gradient","atp-synthase"]},
+ {q:"At photosystem I, light raises the electron again. Where does it end up?",o:[["On NADP⁺, making NADPH (via ferredoxin and NADP⁺ reductase)",1,"Two electrons plus H⁺ reduce NADP⁺ to NADPH."],["On O₂, making water",0,"That's the end of the mitochondrial chain in respiration."],["Back in photosystem II",0,"Electrons don't flow back to PSII."],["In ATP",0,"ATP is made by ATP synthase from the proton gradient, not from electrons directly."]],t:["psi","nadph"]},
+ {q:"In the stroma, rubisco adds CO₂ to RuBP. What is this step, and what does it make?",o:[["Carboxylation; an unstable 6-carbon molecule that splits into two PGA",1,"Step 1 of the Calvin cycle."],["Reduction; triose phosphate",0,"Reduction comes next and uses ATP and NADPH."],["Regeneration; RuBP",0,"Regeneration is step 3."],["Photophosphorylation; ATP",0,"That's in the thylakoid membrane."]],t:["carboxylation","rubisco"]},
+ {q:"ATP and NADPH reduce PGA to triose phosphate. Of every six triose phosphates, how many can leave the cycle, and why?",o:[["One; the other five are needed to regenerate 3 RuBP",1,"Five 3-carbon molecules (15 C) rebuild three 5-carbon RuBP (15 C), using ATP."],["All six; RuBP is made from new CO₂",0,"RuBP must be regenerated from triose phosphate."],["Three; half are kept",0,"Count the carbons: 5 × 3 = 15 = 3 × 5."],["None; triose phosphate never leaves the chloroplast",0,"It is exported. ATP is what stays in the chloroplast."]],t:["triose-phosphate","regeneration"]},
+ {q:"It's midday and the leaf is making more carbohydrate than it needs. What happens to the excess?",o:[["It is stored as starch granules, used at night when there's no sunlight",1,"Notes p. 124."],["It is released as CO₂",0,"That would undo photosynthesis."],["It is stored as ATP in the chloroplast",0,"ATP is not a storage form."],["It is turned back into RuBP",0,"Only enough is recycled to keep the cycle going."]],t:["starch"]}];
+function simFinale8(api){
+  let i=0, right=0; const body=h("div"), bar=h("div",{class:"meter",style:"margin:6px 0 10px"});
+  api.plateHost.innerHTML=""; const f=plate(figTwoStages(),"<b>Figure 9.1</b> From light to sugar. (Notes p. 117, Fig 8.2)"); api.plateHost.append(f); bindTerms(f);
+  function drawBar(){ bar.innerHTML=""; FIN8.forEach((_,k)=>bar.append(h("i",{style:`display:inline-block;width:${100/FIN8.length-1}%;height:8px;margin-right:1%;border-radius:4px;background:${k<i?"var(--accent)":"var(--rule)"}`}))); }
+  function draw(){ body.innerHTML=""; drawBar();
+    if(i>=FIN8.length){ body.append(h("div",{class:"fb ok",html:`<b>${right} of ${FIN8.length} on the first try.</b> Photon, antenna, reaction center, water, the electron transport chain, ATP and NADPH, the Calvin cycle and starch: the whole of Module 8 in one path.`})); api.unlock(); return; }
+    const it=FIN8[i]; body.append(h("p",{class:"muted small"},`Call ${i+1} of ${FIN8.length}. One try.`), h("p",{},h("b",{},it.q)));
+    const box=h("div",{class:"opts"}), fb=h("div");
+    shuffle(it.o).forEach(o=>{ const b=h("button",{class:"opt"},o[0]); b.onclick=()=>{ $$(".opt",box).forEach(x=>x.disabled=true); const ok=!!o[1]; api.gradeKey("f"+i,ok,it.t); if(ok){ right++; b.classList.add("right"); fb.append(h("div",{class:"fb ok",html:`<b>Correct.</b> ${o[2]}`})); }
+      else { b.classList.add("wrong"); const g=it.o.find(x=>x[1]); $$(".opt",box).forEach(x=>{ if(x.textContent===g[0]) x.classList.add("right"); }); fb.append(h("div",{class:"fb bad",html:`<b>Not this time.</b> ${o[2]} The answer: ${g[0]}. ${g[2]}`})); }
+      fb.append(h("button",{class:"btn",style:"margin-top:6px",onclick:()=>{ i++; draw(); }},i+1<FIN8.length?"Next call":"Finish")); }; box.append(b); });
+    body.append(box,fb); }
+  api.panel.append(h("p",{class:"kicker"},"Finale"), h("h2",{},"From sunlight to starch"), h("p",{},"Nine calls, one try each, following energy from a photon to stored sugar."), bar, body);
+  api.lock(); draw();
+}
+
+/* ============ Light desk: endless practice ============ */
+const pickR=a=>a[Math.floor(Math.random()*a.length)];
+const ECHAIN=["Water","Photosystem II","Plastoquinone","Cytochrome b6f complex","Plastocyanin","Photosystem I","Ferredoxin","NADP⁺ reductase"];
+const WHERE8=[["The light-dependent reactions","Thylakoid membrane"],["Photosystems I and II","Thylakoid membrane"],["ATP synthase","Thylakoid membrane"],["H⁺ building up during electron transport","Thylakoid lumen"],["Plastocyanin diffusing to PSI","Thylakoid lumen"],["The Calvin cycle","Stroma"],["Rubisco fixing CO₂","Stroma"],["Starch granules","Stroma"],["NADPH being formed by NADP⁺ reductase","Stroma"]];
+const IO8=[["H₂O","an input of the light-dependent reactions"],["O₂","an output of the light-dependent reactions"],["NADP⁺","an input of the light-dependent reactions"],["CO₂","an input of the Calvin cycle"],["Triose phosphate","an output of the Calvin cycle"],["ADP and Pᵢ","an output of the Calvin cycle"]];
+function makeLightTask(){
+  const k=Math.floor(Math.random()*9);
+  if(k===0){ const n=pickR([1,2,3,4,5,6,8,10]), co2=3*n;
+    const ask=pickR(["atp","nadph","out"]); const ans=ask==="atp"?9*n:ask==="nadph"?6*n:n;
+    const opts=[...new Set([ans,ask==="atp"?6*n:ask==="nadph"?9*n:6*n,ask==="out"?3*n:ans+3*n,Math.max(1,ans-n)])].map(String);
+    return {title:"Calvin cycle arithmetic",prompt:`The Calvin cycle fixes ${co2} CO₂ (${n} turn${n>1?"s":""}). How many ${ask==="atp"?"ATP are used":ask==="nadph"?"NADPH are used":"triose phosphates can be withdrawn"}?`,opts:shuffle(opts),ans:String(ans),why:`Per 3 CO₂ (one turn): 6 ATP and 6 NADPH in reduction, 3 ATP in regeneration, and 1 of 6 triose phosphates out. So ${co2} CO₂ uses ${9*n} ATP and ${6*n} NADPH and gives ${n} triose phosphate${n>1?"s":""}.`,t:["calvin-cycle","triose-phosphate"]}; }
+  if(k===1){ const w=pickR(WHERE8); return {title:"Where in the chloroplast?",prompt:`Where is this found or where does it happen: ${w[0].toLowerCase()}?`,opts:["Thylakoid membrane","Thylakoid lumen","Stroma","Between the outer and inner membranes"],ans:w[1],why:"Thylakoid membrane: photosystems, the chain, ATP synthase. Lumen: H⁺ builds up, plastocyanin diffuses. Stroma: the Calvin cycle, starch, and where ATP and NADPH are released.",t:["thylakoid","lumen","stroma"]}; }
+  if(k===2){ const nm=pickR([430,445,460,540,555,570,650,665,680,485,495]); const A=absN("a",nm), B=absN("b",nm), C=absN("c",nm);
+    const ans=(A>0.5||B>0.5)?"Absorbed strongly by chlorophyll":C>0.5?"Absorbed mainly by carotenoids (accessory pigments)":"Mostly reflected or transmitted";
+    return {title:"Light and pigments",prompt:`Light of ${nm} nm (${nmName(nm)}) reaches a leaf. What mostly happens to it?`,opts:["Absorbed strongly by chlorophyll","Absorbed mainly by carotenoids (accessory pigments)","Mostly reflected or transmitted"],ans,why:"Chlorophyll absorbs blue and red light and is poor at absorbing green. Carotenoids absorb blue-green light that chlorophyll misses.",t:["chlorophyll","accessory"],nm}; }
+  if(k===3){ const i=Math.floor(Math.random()*(ECHAIN.length-1)); const nx=i===ECHAIN.length-2?"NADPH":ECHAIN[i+1]; const pool=[...ECHAIN.slice(1),"NADPH","ATP synthase"].filter(x=>x!==nx&&x!==ECHAIN[i]);
+    return {title:"Follow the electron",prompt:`In linear electron flow, what comes right after ${ECHAIN[i]==="Water"?"water":ECHAIN[i]}?`,opts:shuffle([nx,...shuffle(pool).slice(0,3)]),ans:nx,why:"H₂O → PSII → plastoquinone → cytochrome b6f → plastocyanin → PSI → ferredoxin → NADP⁺ reductase → NADPH.",t:["ps-etc"]}; }
+  if(k===4){ const x=pickR(IO8); return {title:"Inputs and outputs",prompt:`${x[0]} is…`,opts:["an input of the light-dependent reactions","an output of the light-dependent reactions","an input of the Calvin cycle","an output of the Calvin cycle"],ans:x[1],why:"Light reactions: H₂O, NADP⁺, ADP + Pᵢ in; O₂, NADPH, ATP out. Calvin cycle: CO₂, ATP, NADPH in; triose phosphate, ADP + Pᵢ, NADP⁺ out.",t:["light-reactions","carbon-fixation"]}; }
+  if(k===5){ const s=pickR([["Water at photosystem II","Oxidized"],["CO₂ in the Calvin cycle","Reduced"],["NADP⁺ at NADP⁺ reductase","Reduced"],["The reaction center as it passes an electron to the acceptor","Oxidized"],["PGA, as it becomes triose phosphate","Reduced"]]);
+    return {title:"Redox",prompt:`${s[0]}: is it oxidized or reduced?`,opts:["Oxidized","Reduced"],ans:s[1],why:"Oxidation is losing electrons, reduction is gaining them. Water is oxidized; CO₂ (via PGA) and NADP⁺ are reduced.",t:["oxidation","reduction"]}; }
+  if(k===6){ const s=pickR([["RuBP","5"],["PGA","3"],["triose phosphate","3"],["the unstable product of carboxylation","6"],["CO₂","1"],["glucose","6"]]);
+    return {title:"Count the carbons",prompt:`How many carbon atoms are in one molecule of ${s[0]}?`,opts:["1","3","5","6"],ans:s[1],why:"CO₂: 1. RuBP: 5. Carboxylation gives an unstable 6-carbon molecule, which splits into two 3-carbon PGA. Triose phosphate: 3. Glucose: 6.",t:["rubp","pga","triose-phosphate"]}; }
+  if(k===7){ const s=pickR([["passes energy, not electrons, to the reaction center","Antenna chlorophyll"],["gives its excited electron to an electron acceptor","Reaction center"],["carries electrons from PSII to the cytochrome b6f complex","Plastoquinone"],["carries electrons through the lumen to PSI","Plastocyanin"],["makes ATP as protons flow through it","ATP synthase"],["catalyzes the addition of CO₂ to RuBP","Rubisco"],["absorbs light chlorophyll misses and protects from damage","Carotenoids"]]);
+    return {title:"Who does it?",prompt:`Which one ${s[0]}?`,opts:shuffle(shuffle(["Antenna chlorophyll","Reaction center","Plastoquinone","Plastocyanin","ATP synthase","Rubisco","Carotenoids"].filter(x=>x!==s[1])).slice(0,3).concat([s[1]])),ans:s[1],why:"Antenna: energy. Reaction center: electron to acceptor. Pq: PSII to b6f. Pc: b6f to PSI through the lumen. ATP synthase: H⁺ flow to ATP. Rubisco: carboxylation. Carotenoids: accessory pigments.",t:["antenna","reaction-center","plastoquinone","plastocyanin","rubisco"]}; }
+  const s=pickR([["The first organisms to use water as the electron donor","Cyanobacteria"],["A gene for one photosystem was copied and one copy changed","Gene duplication and divergence"],["Genes for a second photosystem came from another bacterium","Horizontal gene transfer"],["An engulfed cyanobacterium became an organelle","Endosymbiosis"]]);
+  return {title:"Evolution",prompt:`Which matches: ${s[0].toLowerCase()}?`,opts:["Cyanobacteria","Gene duplication and divergence","Horizontal gene transfer","Endosymbiosis"],ans:s[1],why:"Two photosystems arose by horizontal gene transfer or by duplication and divergence. Cyanobacteria were the first to use water. Endosymbiosis made the chloroplast.",t:["hgt","duplication","cyanobacteria","endosymbiosis"]};
+}
+function checkpointView(){
+  const app=$("#app"); app.innerHTML="";
+  app.append(h("div",{class:"banner"},h("span",{class:"num"},"8"),h("span",{class:"ttl"},"Light desk")));
+  app.append(h("p",{class:"muted"},"Endless practice: the Calvin cycle's numbers, where things happen, light and pigments, the electron's path, redox, carbons and evolution. New questions every time."));
+  const box=h("div",{class:"panel",style:"max-width:860px"}); app.append(box);
+  const sess={r:0,t:0,streak:0}; let task=null, first=true, solved=false;
+  const score=h("div",{class:"score"}), body=h("div"); box.append(score,body);
+  function drawScore(){ score.innerHTML=""; score.append(h("span",{},"This session: ",h("b",{},`${sess.r} of ${sess.t}`)),h("span",{},"Streak: ",h("b",{},String(sess.streak))),h("span",{},"Best streak: ",h("b",{},String(P.cp.best||0)))); }
+  function result(ok){ if(!first) return; first=false; sess.t++; if(ok){ sess.r++; sess.streak++; if(sess.streak>(P.cp.best||0)) P.cp.best=sess.streak; } else sess.streak=0; task.t.forEach(k=>markTerm(k,"tested")); save(); drawScore(); }
+  function next(){ task=makeLightTask(); if(!task.opts.includes(task.ans)) task.opts[0]=task.ans; task.opts=[...new Set(task.opts)]; first=true; solved=false; draw(); }
+  let showCycle=false;
+  function draw(){ body.innerHTML=""; body.append(h("p",{class:"kicker"},task.title), h("p",{},h("b",{},task.prompt)));
+    if(task.nm) body.append(h("div",{class:"row",style:"gap:10px;margin:0 0 6px"},h("span",{class:"sw",style:`width:30px;height:30px;border-radius:6px;background:${nmRGB(task.nm)}`}),h("span",{class:"muted small"},`${task.nm} nm`)));
+    const fb=h("div"), opts=h("div",{class:"opts"});
+    task.opts.forEach(o=>{ const b=h("button",{class:"opt"},o); b.addEventListener("click",()=>{ if(solved) return; const ok=o===task.ans; result(ok);
+      if(ok){ solved=true; b.classList.add("right"); $$(".opt",opts).forEach(x=>x.disabled=true); fb.innerHTML=""; fb.append(h("div",{class:"fb ok",html:"<b>Correct.</b> "+task.why}), h("button",{class:"btn",style:"margin-top:8px",onclick:next},"Next question")); }
+      else { b.classList.add("wrong"); b.disabled=true; fb.innerHTML=""; fb.append(h("div",{class:"fb bad",html:"<b>Not quite.</b> "+task.why})); } }); opts.append(b); });
+    const tb=h("button",{class:"mini","aria-pressed":String(showCycle)},showCycle?"Hide the Calvin cycle":"Show the Calvin cycle"); const tbl=h("div");
+    tb.onclick=()=>{ showCycle=!showCycle; draw(); }; if(showCycle){ const f=plate(figCalvin(),"<b>Figure 8.9</b> The Calvin cycle (notes p. 123)."); tbl.append(f); bindTerms(f); }
+    body.append(opts,fb,h("div",{style:"margin-top:10px"},tb),tbl,termChips(task.t)); }
+  drawScore(); next();
+}
+
+/* ============ Chloroplast viewer ============ */
+function atlasView(){
+  const app=$("#app"); app.innerHTML="";
+  app.append(h("div",{class:"banner"},h("span",{class:"num"},"8"),h("span",{class:"ttl"},"Chloroplast viewer")));
+  app.append(h("p",{class:"muted"},"Explore freely. Click any labelled part to read about it and see where it is in your course notes."));
+  const grid=h("div",{class:"atlas"}), left=h("div"), right=h("div",{class:"panel"}); grid.append(left,right); app.append(grid);
+  const VIEWS=[["chloro","Chloroplast"],["stages","Two stages"],["eff","Efficiency"],["ground","Excited state"],["spec","Spectrum"],["chl","Chlorophyll"],["ant","Antenna and RC"],["z","Z scheme"],["etc","Thylakoid chain"],["calvin","Calvin cycle"],["hyp","Two photosystems"],["endo","Endosymbiosis"]];
+  let mode="chloro"; const seg=h("div",{class:"seg",style:"margin-bottom:10px;flex-wrap:wrap"}), host=h("div");
+  VIEWS.forEach(v=>{ const b=h("button",{"aria-pressed":String(v[0]===mode)},v[1]); b.addEventListener("click",()=>{ mode=v[0]; $$("button",seg).forEach(x=>x.setAttribute("aria-pressed","false")); b.setAttribute("aria-pressed","true"); draw(); }); seg.append(b); });
+  left.append(seg,host);
+  function info(k){ const t=T[k]; if(!t) return; markTerm(k,"seen"); right.innerHTML="";
+    right.append(h("h2",{},t.n),h("p",{},t.d),h("p",{class:"notes-ref"},h("b",{},"Course notes: "),`p. ${t.p}`));
+    const rel=related(k); if(rel.length){ right.append(h("p",{class:"muted small",style:"margin:10px 0 0"},"Related")); right.append(termChips(rel)); } }
+  function intro(t){ right.innerHTML=""; right.append(h("h2",{},VIEWS.find(v=>v[0]===mode)[1]),h("p",{},t)); }
+  function draw(){ stopLoops(); host.innerHTML="";
+    const put=(svg,cap)=>{ const f=plate(svg,cap); host.append(f); bindTerms(f,info); return f; };
+    const M={
+      chloro:()=>{ put(figChloroplast(),"<b>Viewer</b> Chloroplast structure (Notes p. 118, Fig 8.3)"); intro("Two bounding membranes, thylakoids stacked into grana, the lumen inside each thylakoid, and the stroma around them."); },
+      stages:()=>{ put(figTwoStages(),"<b>Viewer</b> Two stages of photosynthesis (Notes p. 117, Fig 8.2)"); intro("Light capture in the thylakoids makes ATP and NADPH; carbon fixation in the stroma spends them."); },
+      eff:()=>{ put(figEfficiency(),"<b>Viewer</b> Efficiency of photosynthesis (Notes p. 117, Fig 8.1)"); intro("At most about 4% of the sun's energy ends up as carbohydrate."); },
+      ground:()=>{ put(figGround(),"<b>Viewer</b> Excited state and the three ways back (Notes p. 118)"); intro("Heat, fluorescence, or transfer to another molecule."); },
+      spec:()=>{ put(figSpectrum(),"<b>Viewer</b> Light absorption by pigments (Notes p. 119, Fig 8.4)"); intro("Chlorophyll absorbs blue and red; carotenoids fill in the blue-green."); },
+      chl:()=>{ put(figChlorophyll(),"<b>Viewer</b> Chlorophyll structure (Notes p. 119, Fig 8.5)"); intro("Porphyrin ring with Mg, and a phytol tail in the membrane."); },
+      ant:()=>{ put(figAntenna(),"<b>Viewer</b> Antenna chlorophylls and the reaction center (Notes p. 120, Fig 8.6)"); intro("Antenna chlorophylls pass energy; the reaction center passes an electron."); },
+      z:()=>{ put(figZ(),"<b>Viewer</b> The Z scheme (Notes p. 121, Fig 8.7)"); intro("Up at PSII, down the chain, up at PSI, onto NADP⁺."); },
+      etc:()=>{ put(figThylakoid(),"<b>Viewer</b> The photosynthetic electron transport chain (Notes p. 122, Fig 8.8)"); intro("Click each complex. Orange: electron path. Blue: H⁺."); },
+      calvin:()=>{ put(figCalvin(),"<b>Viewer</b> The Calvin cycle (Notes p. 123, Fig 8.9)"); intro("Carboxylation, reduction, regeneration."); },
+      hyp:()=>{ put(figEvo("hyp"),"<b>Viewer</b> How two photosystems evolved (Notes p. 124, Fig 8.10)"); intro("Horizontal gene transfer, or gene duplication and divergence."); },
+      endo:()=>{ put(figEvo("endo"),"<b>Viewer</b> Endosymbiosis (Notes p. 124, Fig 8.10)"); intro("An engulfed cyanobacterium became the chloroplast."); }
+    }; M[mode]();
+  }
+  draw();
+}
+
+/* ============ Home ============ */
+function homeView(){
+  const app=$("#app"); app.innerHTML="";
+  const nextIdx=CHAPTERS.findIndex(c=>!chState(c.id).done), startIdx=nextIdx<0?0:nextIdx;
+  app.append(h("div",{class:"banner"},h("span",{class:"num"},"Module 8"),h("span",{class:"ttl"},"Photosynthesis"),h("span",{class:"pg"},"Course notes pp. 116–125")));
+  const f=plate(figTwoStages(),"<b>Figure</b> From light to sugar. Click anything.");
+  const text=h("div",{},
+    h("h1",{},"From light to sugar."),
+    h("p",{class:"lede"},"This module covers what photosynthesis is, the chloroplast, how pigments capture light, the two photosystems and their electron transport chain, the Calvin cycle, and how photosynthesis evolved."),
+    h("p",{style:"font-weight:700;margin-bottom:4px"},"Learning outcomes"),
+    h("ol",{style:"margin:0 0 12px;padding-left:20px"},h("li",{},"Describe the chemical pathways of photosynthesis in capturing sunlight in synthesizing carbohydrates."),h("li",{},"Describe the outcomes of the photosynthetic electron transport chain."),h("li",{},"Explain the Calvin cycle in carbohydrate synthesis."),h("li",{},"Describe the evolution of photosynthesis.")),
+    h("p",{class:"muted small"},"Each chapter starts with a figure or experiment you can work with, then tests you. Your score is the share you get right on the first try. Every figure and term points back to a page in your course notes."),
+    h("div",{class:"row",style:"margin-top:10px"}, h("button",{class:"btn",onclick:()=>{RUN=null; renderChapter(startIdx,0);}}, nextIdx===0?"Start chapter 8.1":nextIdx<0?"Replay chapter 8.1":`Continue with chapter 8.${startIdx+1}`), h("button",{class:"btn ghost",onclick:()=>go("checkpoint")},"Light desk")));
+  app.append(h("div",{class:"hero"},f,text)); bindTerms(f);
+  const list=h("ol",{class:"chlist"});
+  CHAPTERS.forEach((c,i)=>{ const st=chState(c.id);
+    list.append(h("li",{},h("button",{class:"chitem",onclick:()=>{RUN=null; renderChapter(i,0);}}, h("span",{class:"chnum"},`8.${i+1}`), h("h3",{},c.title), h("span",{class:"meta"}, `${c.blurb} Notes ${c.pages}.`, st.done?h("span",{class:"done-tag"},`  Best: ${Math.round((st.best||0)*100)}%`):"")))); });
+  app.append(h("div",{class:"sect"},h("h2",{},"Chapters"),list));
+  app.append(h("div",{class:"sect"},h("h2",{},"Other ways in"),h("p",{class:"muted"},"The chloroplast viewer lets you click through every figure in the module. The light desk gives you endless random questions. The mini exam tests the whole module and tells you what to relearn. The glossary lists all the important terms from p. 125 of your notes.")));
+  const reset=h("button",{class:"mini",style:"margin-left:8px",onclick:()=>{ if(confirm("Clear all saved progress for Module 8 in this browser?")){ P={ch:{},terms:{},cp:{best:0}}; save(); homeView(); } }},"Reset progress");
+  app.append(h("p",{class:"foot"},"Made for BIOL 130 review. Content follows the Module 8 course notes (pp. 116 to 125), which use figures from Morris et al., Biology: How Life Works, 4th edition (Macmillan, 2023). All figures here are original drawings. Progress is saved in this browser only.",reset));
+}
+
+/* ============ Glossary ============ */
+function glossaryView(){
+  const app=$("#app"); app.innerHTML="";
+  const keys=Object.keys(T), tested=keys.filter(k=>P.terms[k]==="tested").length, seen=keys.filter(k=>P.terms[k]).length;
+  const search=h("input",{type:"search",placeholder:"Find a term",style:"padding:8px 12px;border:1px solid var(--rule);border-radius:6px;background:var(--paper);color:var(--ink);font:inherit;min-width:240px","aria-label":"Find a term"});
+  app.append(h("div",{class:"banner"},h("span",{class:"num"},"8"),h("span",{class:"ttl"},"Important terms and concepts"),h("span",{class:"pg"},"Course notes p. 125")));
+  app.append(h("div",{class:"crumb"},h("p",{class:"muted",style:"margin:0"},`${seen} of ${keys.length} seen, ${tested} tested. Page numbers point to your course notes.`),h("div",{style:"margin-left:auto"},search)));
+  const box=h("div",{class:"gl"}); app.append(box);
+  function draw(q=""){ box.innerHTML="";
+    TERM_ORDER_GROUPS.forEach(g=>{ const ks=keys.filter(k=>T[k].g===g && (!q || (T[k].n+" "+T[k].d).toLowerCase().includes(q))); if(!ks.length) return;
+      const sec=h("section",{},h("h2",{},g));
+      ks.forEach(k=>{ const st=P.terms[k]; sec.append(h("div",{class:"gi"},h("b",{},T[k].n),h("span",{class:"st "+(st||"")},st==="tested"?"Tested":st==="seen"?"Seen":"Not yet"),h("p",{},T[k].d+" "),h("p",{class:"notes-ref",style:"grid-column:1/-1;margin:2px 0 0"},`Notes p. ${T[k].p}`))); });
+      box.append(sec); }); }
+  search.addEventListener("input",()=>draw(search.value.trim().toLowerCase())); draw();
+}
+
+
+
+/* ============ mini exam (shared engine in exam.js) ============ */
+function examView(){
+  const app=$("#app"); app.innerHTML="";
+  app.append(h("div",{class:"banner"},h("span",{class:"num"},"8"),h("span",{class:"ttl"},"Mini exam")));
+  const host=h("div"); app.append(host);
+  const items=((window.STUDY&&STUDY.exam&&STUDY.exam["m8"])||[]).map((q,i)=>({...q,mod:"m8",id:"m8-"+i}));
+  EXAM.mount(host,{key:"m8",title:"Module 8 mini exam",intro:`${items.length} questions covering every chapter of this module.`,items,sizes:[10]});
+}
+/* ============ router ============ */
+function go(view){
+  stopLoops(); exploreHook=null; RUN=null; tc.classList.remove("show"); tip.style.display="none";
+  $$(".tab").forEach(t=>t.setAttribute("aria-current",String(t.dataset.go===view)));
+  if(view==="atlas") atlasView(); else if(view==="checkpoint") checkpointView(); else if(view==="glossary") glossaryView(); else if(view==="exam") examView(); else homeView();
+  window.scrollTo(0,0);
+}
+$$(".tab").forEach(t=>t.addEventListener("click",()=>go(t.dataset.go)));
+$("#home").addEventListener("click",()=>go("story"));
+function fromHash(){
+  const m=location.hash.match(/^#ch=(\d+)/);
+  if(m && CHAPTERS[+m[1]-1]){ RUN=null; renderChapter(+m[1]-1,0); return true; }
+  if(location.hash==="#exam"){ go("exam"); return true; }
+  return false;
+}
+window.addEventListener("hashchange",fromHash);
+if(!fromHash()) go("story");
+</script>
+<script src="modes.js"></script>
+</body></html>

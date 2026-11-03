@@ -1,0 +1,307 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>Daily Review | BIOL 130</title>
+<meta name="description" content="Daily spaced review for BIOL 130: mixed questions, terms, explain-it prompts and diagrams from every module you've covered.">
+<link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:wght@400;500&family=Source+Sans+3:ital,wght@0,400;0,600;0,700;1,400&family=Source+Serif+4:opsz,wght@8..60,400;8..60,600;8..60,700&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="hub.css">
+<style>
+.layout{display:grid;grid-template-columns:minmax(0,1fr) 320px;gap:22px;align-items:start}
+.side>.card{margin-bottom:16px}
+.side h3{font-size:1.05rem;margin-bottom:8px}
+.setup .row{display:flex;gap:8px;flex-wrap:wrap;align-items:center;margin:8px 0 14px}
+.seg{display:inline-flex;border:1px solid var(--rule);border-radius:8px;overflow:hidden}
+.seg button{background:var(--paper);border:0;border-right:1px solid var(--rule);padding:7px 14px;font:600 .92rem var(--sans);color:var(--ink);cursor:pointer}
+.seg button:last-child{border-right:0}
+.seg button[aria-pressed="true"]{background:var(--accent);color:var(--accentInk)}
+.plan{font-size:.95rem;color:var(--ink2);margin:6px 0 0}
+.q-card{background:var(--paper);border:1px solid var(--rule);border-left:4px solid var(--c,var(--accent));border-radius:10px;padding:20px 22px;min-height:300px}
+.q-top{display:flex;align-items:center;gap:10px;flex-wrap:wrap;margin-bottom:12px}
+.q-top .count{margin-left:auto;font:500 .78rem var(--mono);color:var(--ink2)}
+.q-prog{height:4px;background:var(--rule);border-radius:2px;margin-bottom:14px;overflow:hidden}
+.q-prog i{display:block;height:100%;background:var(--accent);transition:width .25s}
+.q-kind{font:500 .72rem var(--mono);letter-spacing:.06em;text-transform:uppercase;color:var(--ink2)}
+.q-text{font-weight:650;font-size:1.1rem;margin:2px 0 14px;line-height:1.45}
+.q-def{font-family:var(--display);font-size:1.12rem;line-height:1.5;margin:4px 0 14px;padding:12px 16px;background:color-mix(in srgb,var(--c,var(--accent)) 6%,var(--paper));border-radius:8px}
+.opt{display:block;width:100%;text-align:left;padding:11px 14px;margin:0 0 8px;border:1px solid var(--rule);border-radius:8px;background:var(--paper);color:var(--ink);font:inherit;cursor:pointer}
+.opt:hover:not([disabled]){border-color:var(--accent)}
+.opt.right{border-color:var(--ok);background:var(--okSoft)}
+.opt.wrong{border-color:var(--bad);background:var(--badSoft)}
+.fb{margin-top:10px;padding:10px 14px;border-radius:8px;background:color-mix(in srgb,var(--ink2) 8%,var(--paper));font-size:.97rem}
+.fb a{font-weight:600}
+.ans{margin-top:12px;padding:14px 16px;border-radius:8px;border:1px dashed var(--rule);background:color-mix(in srgb,var(--ok) 5%,var(--paper))}
+.grades{display:flex;gap:8px;flex-wrap:wrap;margin-top:14px}
+.grades button{flex:1;min-width:110px;padding:10px 12px;border-radius:8px;border:1.5px solid var(--rule);background:var(--paper);font:700 .95rem var(--sans);cursor:pointer;color:var(--ink)}
+.grades button small{display:block;font:500 .72rem var(--mono);color:var(--ink2);margin-top:2px}
+.grades .g0{border-color:var(--bad);color:var(--bad)} .grades .g1{border-color:var(--warn);color:var(--warn)} .grades .g2{border-color:var(--ok);color:var(--ok)} .grades .g3{border-color:var(--accent);color:var(--accent)}
+.next-row{display:flex;gap:10px;align-items:center;margin-top:14px;flex-wrap:wrap}
+.guess{display:inline-flex;gap:6px;align-items:center;font-size:.9rem;color:var(--ink2);cursor:pointer;margin-bottom:10px}
+textarea.say{width:100%;min-height:110px;padding:10px 12px;border:1px solid var(--rule);border-radius:8px;font:inherit;background:var(--paper);color:var(--ink);resize:vertical}
+.figq .plate{max-width:760px}
+.figq svg text{cursor:pointer}
+.cov{fill:#dfe7e3;stroke:#9fb2aa;stroke-width:.6;cursor:pointer}
+.cov:hover{fill:#cfe2da}
+.heat{display:grid;grid-template-columns:repeat(12,1fr);grid-auto-flow:column;grid-template-rows:repeat(7,1fr);gap:3px}
+.heat i{aspect-ratio:1;border-radius:2px;background:var(--rule)}
+.heat i.l1{background:color-mix(in srgb,var(--accent) 35%,var(--paper))} .heat i.l2{background:color-mix(in srgb,var(--accent) 65%,var(--paper))} .heat i.l3{background:var(--accent)}
+.fc{display:flex;gap:6px;align-items:flex-end;height:70px;margin-top:6px}
+.fc div{flex:1;display:flex;flex-direction:column;align-items:center;gap:3px;font:500 .66rem var(--mono);color:var(--ink2)}
+.fc b{display:block;width:100%;background:var(--accent);border-radius:3px 3px 0 0;min-height:2px}
+.mods-tab{width:100%;border-collapse:collapse;font-size:.88rem}
+.mods-tab td{padding:4px 0;border-bottom:1px dashed var(--rule)}
+.mods-tab td:last-child{text-align:right;font-family:var(--mono);font-size:.78rem;color:var(--ink2)}
+.bar{height:6px;border-radius:3px;background:var(--rule);overflow:hidden;margin-top:3px}
+.bar i{display:block;height:100%;background:var(--c,var(--accent))}
+.weak li{margin:5px 0;font-size:.92rem}
+.done-big{font-family:var(--display);font-size:2.6rem;color:var(--head);line-height:1}
+.empty{text-align:center;padding:30px 10px}
+@media (max-width:900px){ .layout{grid-template-columns:minmax(0,1fr)} }
+@media (max-width:600px){ .q-card{padding:16px 14px} .grades button{min-width:calc(50% - 4px)} }
+</style>
+</head>
+<body>
+<header class="nav"><div class="wrap">
+  <a class="logo" href="index.html"><svg width="30" height="30" viewBox="0 0 30 30" aria-hidden="true"><circle cx="15" cy="15" r="13" fill="none" stroke="var(--accent)" stroke-width="1.6"/><circle cx="15" cy="15" r="10.2" fill="none" stroke="var(--accent)" stroke-width=".7" stroke-dasharray="1.6 1.4"/><circle cx="17" cy="13" r="4.4" fill="var(--accent)" opacity=".85"/></svg><span>BIOL 130 Interactive</span></a>
+  <nav aria-label="Site">
+    <a href="index.html#modules">Modules</a>
+    <a href="review.html" aria-current="page">Daily review</a>
+    <a href="diagrams.html">Diagrams</a>
+    <a href="lab3d.html">3D lab</a>
+    <a href="midterm.html">Exam prep</a>
+  </nav>
+</div></header>
+<section class="hero"><div class="wrap">
+  <p class="mono" style="margin:0 0 8px" id="today"></p>
+  <h1>Daily <em>review</em></h1>
+  <p class="lede">10 to 15 minutes, every day. Questions, terms, diagrams and explain-it prompts from everything you've covered, mixed across modules. Anything you miss comes back tomorrow; anything you know spaces out to 2, 4, 8, then 16 days.</p>
+  <div class="counts" id="counts"></div>
+</div></section>
+<main class="wrap sec">
+  <div class="layout">
+    <div id="main"></div>
+    <aside class="side" id="side"></aside>
+  </div>
+</main>
+<footer class="wrap foot">Your review schedule is saved only in this browser. Content follows the BIOL 130 course notes; check details against your notes and LEARN.</footer>
+<script src="studydata.js"></script>
+<script src="srs.js"></script>
+<script src="diagrams/index.js"></script>
+<script src="kip.js"></script>
+<script>
+(function(){
+const S=window.STUDY, FIGS=window.FIGS||[];
+const $=s=>document.querySelector(s);
+const esc=s=>String(s==null?"":s).replace(/[&<>"]/g,c=>({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;"}[c]));
+const plain=s=>String(s||"").replace(/<[^>]+>/g,"").replace(/\[\[[a-z0-9-]+\|([^\]]+)\]\]/g,"$1");
+const shuffle=a=>{ a=a.slice(); for(let i=a.length-1;i>0;i--){ const j=Math.floor(Math.random()*(i+1)); [a[i],a[j]]=[a[j],a[i]]; } return a; };
+const lsGet=(k,d)=>{ try{ const v=localStorage.getItem(k); return v==null?d:JSON.parse(v); }catch(e){ return d; } };
+const lsSet=(k,v)=>{ try{ localStorage.setItem(k,JSON.stringify(v)); }catch(e){} };
+const MODS=S.modules.filter(m=>m.ready);
+const modBy=Object.fromEntries(S.modules.map(m=>[m.id,m]));
+const PREF_KEY="biol130-review-prefs-v1";
+const prefs=lsGet(PREF_KEY,{size:15,mods:null,mode:"due"});
+
+/* ---------- catalogue: every reviewable item, keyed by its SRS id ---------- */
+const CAT={};
+MODS.forEach(m=>{
+  (S.exam[m.id]||[]).forEach(q=>{ CAT[SRS.id.exam(m.id,q)]={kind:"x",mod:m.id,ch:q.ch,q}; });
+  S.glossary.filter(g=>g.mod===m.id).forEach(g=>{ CAT[SRS.id.term(m.id,g.k)]={kind:"t",mod:m.id,ch:g.ch,g}; });
+});
+S.review.forEach(r=>{ if(modBy[r.mod]&&modBy[r.mod].ready) CAT[SRS.id.rev(r.mod,r)]={kind:"r",mod:r.mod,ch:r.ch,r}; });
+FIGS.forEach(f=>{ if(modBy[f.mod]&&modBy[f.mod].ready) CAT[SRS.id.fig(f.mod,f.id)]={kind:"f",mod:f.mod,ch:f.ch,f}; });
+
+/* ---------- what counts as covered ---------- */
+function covered(){
+  // a chapter is covered once you've learned it (chapter finished), read it, or checked it
+  const out={};
+  MODS.forEach(m=>{
+    const P=lsGet(m.progressKey,{ch:{}}); const set=new Set();
+    (m.chapters||[]).forEach((c,ci)=>{
+      if((P.ch&&P.ch[c.id]&&P.ch[c.id].done)||SRS.marks("read",m.id)[c.id]||SRS.marks("check",m.id)[c.id]) set.add(ci);
+    });
+    if(set.size) out[m.id]=set;
+  });
+  return out;
+}
+function modStats(){
+  const items=SRS.items(); const st={};
+  MODS.forEach(m=>st[m.id]={n:0,strong:0,weak:0});
+  Object.entries(items).forEach(([id,it])=>{ const s=st[it.mod]; if(!s||!CAT[id]) return; s.n++; if(it.box>=3) s.strong++; if(it.lapses>=2||(it.seen&&it.box===0)) s.weak++; });
+  return st;
+}
+
+/* ---------- build a session ---------- */
+function buildSession(size, mods, mode){
+  const allow=new Set(mods);
+  const due=SRS.due().filter(it=>CAT[it.id]&&allow.has(CAT[it.id].mod)).sort((a,b)=>a.due<b.due?-1:a.due>b.due?1:b.lapses-a.lapses);
+  let pick=due.slice(0,size).map(it=>it.id);
+  const room=size-pick.length;
+  if(room>0){
+    const cov=covered(); const fresh=[];
+    Object.keys(CAT).forEach(id=>{ const c=CAT[id]; if(SRS.get(id)||!allow.has(c.mod)) return;
+      const ok = mode==="cram" || (cov[c.mod] && c.ch!=null && cov[c.mod].has(c.ch));
+      if(ok) fresh.push(id); });
+    // balance kinds: questions first, then terms, figures and explain prompts
+    const byKind={x:[],t:[],f:[],r:[]}; shuffle(fresh).forEach(id=>byKind[CAT[id].kind].push(id));
+    const capNew = mode==="cram" ? room : Math.min(room, 10);
+    const order=["x","t","x","f","t","x","r"]; let k=0, guard=0;
+    while(pick.length<due.slice(0,size).length+capNew && guard<500){ const kind=order[k++%order.length]; const id=byKind[kind].shift(); if(id) pick.push(id); guard++; if(!byKind.x.length&&!byKind.t.length&&!byKind.f.length&&!byKind.r.length) break; }
+  }
+  // interleave by module so neighbours come from different modules where possible
+  const groups={}; shuffle(pick).forEach(id=>{ const m=CAT[id].mod; (groups[m]=groups[m]||[]).push(id); });
+  const out=[]; let keys=Object.keys(groups);
+  while(keys.length){ keys=keys.filter(k=>groups[k].length); keys.sort((a,b)=>groups[b].length-groups[a].length); let last=out.length?CAT[out[out.length-1]].mod:null;
+    const k=keys.find(k=>k!==last)||keys[0]; if(!k) break; out.push(groups[k].shift()); keys=Object.keys(groups).filter(k=>groups[k].length); }
+  return out;
+}
+
+/* ---------- page: header counts and side panel ---------- */
+function header(){
+  const d=new Date(); $("#today").textContent=d.toLocaleDateString(undefined,{weekday:"long",month:"long",day:"numeric"});
+  const dueN=SRS.due().filter(it=>CAT[it.id]).length;
+  $("#counts").innerHTML=`<span><b>${dueN}</b>due today</span><span><b>${SRS.reviewedToday()}</b>reviewed today</span><span><b>${SRS.streak()}</b>day streak</span><span><b>${Object.keys(SRS.items()).filter(id=>CAT[id]).length}</b>in your rotation</span>`;
+}
+function side(){
+  const el=$("#side"); el.innerHTML="";
+  // heatmap, 12 weeks
+  const days=SRS.days(); const cells=[]; const start=new Date(); start.setHours(12,0,0,0); start.setDate(start.getDate()-(7*12-1)-start.getDay());
+  for(let i=0;i<84;i++){ const d=new Date(start); d.setDate(start.getDate()+i); const k=d.getFullYear()+"-"+String(d.getMonth()+1).padStart(2,"0")+"-"+String(d.getDate()).padStart(2,"0"); const n=days[k]||0; cells.push(`<i class="${n>=20?"l3":n>=8?"l2":n?"l1":""}" title="${k}: ${n} reviewed"></i>`); }
+  const fc=SRS.forecast(7).map((x,i)=>({...x,lab:i===0?"today":new Date(x.d+"T12:00:00").toLocaleDateString(undefined,{weekday:"short"})}));
+  const mx=Math.max(1,...fc.map(x=>x.n));
+  el.insertAdjacentHTML("beforeend",`<div class="card"><h3>Last 12 weeks</h3><div class="heat">${cells.join("")}</div><p class="muted small" style="margin:8px 0 0">Each square is a day. Darker means more reviewed.</p></div>`);
+  el.insertAdjacentHTML("beforeend",`<div class="card"><h3>Coming up</h3><div class="fc">${fc.map(x=>`<div><span>${x.n}</span><b style="height:${Math.round(x.n/mx*48)}px"></b><span>${x.lab}</span></div>`).join("")}</div></div>`);
+  const st=modStats(); const rows=MODS.map(m=>{ const s=st[m.id]; const pct=s.n?Math.round(s.strong/s.n*100):0;
+    return `<tr><td style="--c:var(--${m.id})"><a href="${m.file}" style="color:var(--head);text-decoration:none"><b style="color:var(--${m.id})">${m.n}</b> ${esc(m.short)}</a><div class="bar"><i style="width:${pct}%"></i></div></td><td>${s.n?`${s.strong}/${s.n} solid`:"not started"}${s.weak?` · ${s.weak} weak`:""}</td></tr>`; }).join("");
+  el.insertAdjacentHTML("beforeend",`<div class="card"><h3>By module</h3><table class="mods-tab">${rows}</table><p class="muted small" style="margin:8px 0 0">Solid means you've got it right enough times that it's now spaced 8+ days out.</p></div>`);
+  const weak=Object.entries(SRS.items()).filter(([id,it])=>CAT[id]&&it.lapses>=1).sort((a,b)=>b[1].lapses-a[1].lapses).slice(0,6);
+  if(weak.length) el.insertAdjacentHTML("beforeend",`<div class="card"><h3>Most-missed</h3><ul class="weak" style="padding-left:18px;margin:0">${weak.map(([id,it])=>{ const c=CAT[id]; const m=modBy[c.mod]; return `<li>${esc(label(c).slice(0,90))} <a href="${m.file}#ch=${(c.ch||0)+1}">M${m.n}</a> <span class="muted small">missed ${it.lapses}×</span></li>`; }).join("")}</ul></div>`);
+}
+function label(c){ return c.kind==="x"?plain(c.q.q):c.kind==="t"?c.g.n:c.kind==="r"?c.r.q:("Figure: "+(c.f.title||c.f.cap)); }
+
+/* ---------- setup screen ---------- */
+function setup(){
+  header(); side();
+  const main=$("#main"); main.innerHTML="";
+  const cov=covered(); const dueAll=SRS.due().filter(it=>CAT[it.id]);
+  const started=MODS.filter(m=>cov[m.id]||Object.values(SRS.items()).some(it=>it.mod===m.id));
+  let sel = prefs.mods ? prefs.mods.filter(id=>modBy[id]&&modBy[id].ready) : started.map(m=>m.id);
+  if(!sel.length) sel=[];
+  const box=document.createElement("div"); box.className="card setup"; main.append(box);
+  const draw=()=>{
+    const ses=buildSession(prefs.size, sel, prefs.mode);
+    const nDue=dueAll.filter(it=>sel.includes(CAT[it.id].mod)).length;
+    box.innerHTML=`<span class="pill">Today's session</span>
+      <h2 style="margin:8px 0 2px;font-size:1.6rem">${ses.length?`${ses.length} cards, about ${Math.max(3,Math.round(ses.length*0.75))} minutes`:"Nothing to review yet"}</h2>
+      <p class="plan">${ses.length?`${Math.min(nDue,ses.length)} due for review${ses.length>nDue?`, ${ses.length-Math.min(nDue,ses.length)} new from chapters you've covered`:""}${prefs.mode==="cram"?" (exam mode: everything in the modules you pick)":""}.`:(sel.length?"Pick more modules below, or switch to exam mode to pull from everything in them.":"Choose the modules you've covered in class so far.")}</p>
+      <div class="mono" style="margin-top:16px">Modules to include</div>
+      <div class="row" id="modchips"></div>
+      <div class="mono">Session length</div>
+      <div class="row"><div class="seg" id="sizes"></div></div>
+      <div class="mono">What to pull from</div>
+      <div class="row"><div class="seg" id="modes"></div></div>
+      <div class="row" style="margin-top:6px"><button class="btn" id="go" ${ses.length?"":"disabled"}>Start review</button><span class="muted small">Things you mark as covered come in as new cards a few at a time.</span></div>`;
+    const mc=box.querySelector("#modchips");
+    MODS.forEach(m=>{ const b=document.createElement("button"); b.className="chip"; b.style.setProperty("--c",`var(--${m.id})`); b.setAttribute("aria-pressed",String(sel.includes(m.id))); b.innerHTML=`<i></i>${m.n} · ${esc(m.short)}`;
+      b.onclick=()=>{ sel=sel.includes(m.id)?sel.filter(x=>x!==m.id):sel.concat(m.id); prefs.mods=sel; lsSet(PREF_KEY,prefs); draw(); }; mc.append(b); });
+    const sz=box.querySelector("#sizes"); [10,15,25,40].forEach(n=>{ const b=document.createElement("button"); b.textContent=n; b.setAttribute("aria-pressed",String(prefs.size===n)); b.onclick=()=>{ prefs.size=n; lsSet(PREF_KEY,prefs); draw(); }; sz.append(b); });
+    const md=box.querySelector("#modes"); [["due","Due + covered chapters"],["cram","Exam mode: everything"]].forEach(([k,t])=>{ const b=document.createElement("button"); b.textContent=t; b.setAttribute("aria-pressed",String(prefs.mode===k)); b.onclick=()=>{ prefs.mode=k; lsSet(PREF_KEY,prefs); draw(); }; md.append(b); });
+    box.querySelector("#go").onclick=()=>run(ses);
+  };
+  draw();
+  if(!started.length){
+    main.insertAdjacentHTML("beforeend",`<div class="card" style="margin-top:16px"><h3 style="font-size:1.1rem">How cards get here</h3><p class="muted" style="margin:6px 0 0">Finish a chapter, read it in Read mode, or do its after-class Check, and its questions, terms and figures start showing up here. Getting something wrong in a mini exam also adds it. Or pick modules above and use exam mode to review everything in them now.</p></div>`);
+  }
+}
+
+/* ---------- running a session ---------- */
+let SES=null;
+function run(ids){ SES={ids,i:0,res:[]}; card(); }
+function chapterLink(c){ const m=modBy[c.mod]; return `${m.file}#ch=${(c.ch||0)+1}`; }
+function chapterName(c){ const m=modBy[c.mod]; const ch=m.chapters&&m.chapters[c.ch]; return `M${m.n}${ch?` · ${ch.title}`:""}`; }
+function card(){
+  header();
+  const main=$("#main"); main.innerHTML="";
+  if(SES.i>=SES.ids.length){ finish(); return; }
+  const id=SES.ids[SES.i], c=CAT[id], m=modBy[c.mod], it=SRS.get(id);
+  const el=document.createElement("div"); el.className="q-card"; el.style.setProperty("--c",`var(--${c.mod})`); main.append(el);
+  const kindName={x:"Question",t:"Term",r:"Explain it",f:"Diagram"}[c.kind];
+  el.innerHTML=`<div class="q-prog"><i style="width:${SES.i/SES.ids.length*100}%"></i></div>
+    <div class="q-top"><span class="pill" style="--c:var(--${c.mod})">${esc(chapterName(c))}</span><span class="q-kind">${kindName}${it?"":" · new"}</span><span class="count">${SES.i+1} / ${SES.ids.length}</span></div><div id="body"></div>`;
+  const body=el.querySelector("#body");
+  { const top=el.getBoundingClientRect().top; if(top<70||top>innerHeight*.5) window.scrollTo(0,window.scrollY+top-76); }
+  const done=(g)=>{ SRS.grade(id,{mod:c.mod,kind:c.kind,ch:c.ch,k:c.g&&c.g.k},g); SES.res.push({id,g}); };
+  const nextBtn=(extra)=>{ const r=document.createElement("div"); r.className="next-row"; r.innerHTML=`<button class="btn" id="nx">${SES.i+1<SES.ids.length?"Next":"Finish"}</button>${extra||""}`; body.append(r); const b=r.querySelector("#nx"); b.onclick=()=>{ SES.i++; card(); }; b.focus(); };
+  const grades=(onPick)=>{ const g=document.createElement("div"); g.className="grades";
+    [[0,"Missed","tomorrow"],[1,"Shaky","soon"],[2,"Got it","later"],[3,"Easy","much later"]].forEach(([v,t,s])=>{ const b=document.createElement("button"); b.className="g"+v; b.innerHTML=`${t}<small>${s}</small>`; b.onclick=()=>{ done(v); onPick&&onPick(v); SES.i++; card(); }; g.append(b); });
+    body.append(g); };
+  if(c.kind==="x"){
+    const q=c.q; body.insertAdjacentHTML("beforeend",`<div class="q-text">${plain(q.q)}</div><label class="guess"><input type="checkbox" id="gs"> I'm guessing</label>`);
+    shuffle(q.opts.map((o,i)=>i)).forEach(i=>{ const b=document.createElement("button"); b.className="opt"; b.textContent=plain(q.opts[i][0]); b.dataset.i=i;
+      b.onclick=()=>{ const ok=!!q.opts[i][1]; body.querySelectorAll(".opt").forEach(x=>{ x.disabled=true; if(q.opts[+x.dataset.i][1]) x.classList.add("right"); else if(x===b) x.classList.add("wrong"); });
+        const gs=body.querySelector("#gs").checked; done(ok?(gs?1:2):0); const right=q.opts.find(o=>o[1]);
+        body.insertAdjacentHTML("beforeend",`<div class="fb"><b>${ok?(gs?"Right, and it'll come back soon since you guessed.":"Right."):"Not quite."}</b> ${esc(plain(ok?q.opts[i][2]:("The answer is: "+right[0]+". "+(q.opts[i][2]||"")+" "+(right[2]||""))))} ${q.p?`<span class="muted small">Notes p. ${esc(q.p)}.</span>`:""}${ok?"":` <a href="${chapterLink(c)}">Review this chapter</a>`}</div>`);
+        nextBtn(); };
+      body.append(b); });
+  } else if(c.kind==="t"){
+    const g=c.g, box=it?it.box:0;
+    const nm=g.n.replace(/\s*\(.*?\)\s*/g,"").trim();
+    let def=g.d; if(nm.length>2) def=def.replace(new RegExp(nm.replace(/[.*+?^${}()|[\]\\]/g,"\\$&"),"gi"),"_____");
+    if(box<2){
+      body.insertAdjacentHTML("beforeend",`<div class="q-text">Which term is this?</div><div class="q-def">${esc(def)}</div>`);
+      const pool=S.glossary.filter(x=>x.mod===g.mod&&x.k!==g.k&&x.n!==g.n); const same=pool.filter(x=>x.g===g.g);
+      const wrong=shuffle(same.length>=3?same:pool).slice(0,3);
+      shuffle([g,...wrong]).forEach(x=>{ const b=document.createElement("button"); b.className="opt"; b.textContent=x.n; b.onclick=()=>{ const ok=x.k===g.k;
+        body.querySelectorAll(".opt").forEach(y=>{ y.disabled=true; if(y.textContent===g.n) y.classList.add("right"); else if(y===b) y.classList.add("wrong"); });
+        done(ok?2:0); body.insertAdjacentHTML("beforeend",`<div class="fb"><b>${ok?"Right.":"Not quite."}</b> ${esc(g.n)}: ${esc(g.d)} ${g.p?`<span class="muted small">Notes p. ${esc(g.p)}.</span>`:""}</div>`); nextBtn(); }; body.append(b); });
+    } else {
+      const flip=Math.random()<.5;
+      body.insertAdjacentHTML("beforeend", flip
+        ? `<div class="q-text">Define it in your own words, out loud or on paper.</div><div class="q-def" style="font-weight:700">${esc(g.n)}</div>`
+        : `<div class="q-text">Name the term.</div><div class="q-def">${esc(def)}</div>`);
+      const r=document.createElement("button"); r.className="btn ghost"; r.textContent="Show answer"; body.append(r);
+      r.onclick=()=>{ r.remove(); body.insertAdjacentHTML("beforeend",`<div class="ans"><b>${esc(g.n)}</b>: ${esc(g.d)} ${g.p?`<span class="muted small">Notes p. ${esc(g.p)}.</span>`:""}</div>`); grades(); };
+    }
+  } else if(c.kind==="r"){
+    const r=c.r;
+    body.insertAdjacentHTML("beforeend",`<div class="q-text">${esc(r.q)}</div><p class="muted small" style="margin:-6px 0 10px">Answer it fully, out loud or typed, before you look. Then grade yourself honestly.</p><textarea class="say" placeholder="Your answer (optional)"></textarea>`);
+    const b=document.createElement("button"); b.className="btn ghost"; b.style.marginTop="10px"; b.textContent="Show model answer"; body.append(b);
+    b.onclick=()=>{ b.remove(); body.insertAdjacentHTML("beforeend",`<div class="ans">${esc(r.a)} ${r.p?`<span class="muted small">Notes p. ${esc(r.p)}.</span>`:""}</div>`); grades(); };
+  } else if(c.kind==="f"){
+    const f=c.f;
+    body.insertAdjacentHTML("beforeend",`<div class="q-text">${esc(f.title||"This figure")}: name every covered label, then explain what the figure shows.</div><div class="figq"><figure class="plate"><div class="svghost muted">Loading figure…</div><figcaption style="display:none"></figcaption></figure></div><div class="next-row"><button class="btn ghost" id="rv">Reveal labels and caption</button><span class="muted small">Tap a grey box to reveal one label.</span></div>`);
+    fetch(f.file).then(r=>r.text()).then(t=>{ const host=body.querySelector(".svghost"); host.className="svghost"; host.innerHTML=t; coverLabels(host.querySelector("svg")); }).catch(()=>{ body.querySelector(".svghost").textContent="Couldn't load this figure."; });
+    body.querySelector("#rv").onclick=e=>{ e.currentTarget.parentNode.remove(); const svg=body.querySelector(".svghost svg"); if(svg) uncover(svg);
+      const fc=body.querySelector("figcaption"); fc.style.display=""; fc.innerHTML=`${esc(f.cap)} <a href="${chapterLink(c)}">Open chapter</a>`; grades(); };
+  }
+}
+function coverLabels(svg){
+  if(!svg) return;
+  svg.querySelectorAll("text").forEach(t=>{
+    if(!t.textContent.trim()) return;
+    let bb; try{ bb=t.getBBox(); }catch(e){ return; } if(!bb.width) return;
+    const r=document.createElementNS("http://www.w3.org/2000/svg","rect");
+    r.setAttribute("x",bb.x-2); r.setAttribute("y",bb.y-1); r.setAttribute("width",bb.width+4); r.setAttribute("height",bb.height+2); r.setAttribute("rx",2); r.setAttribute("class","cov");
+    const tr=t.getAttribute("transform"); if(tr) r.setAttribute("transform",tr);
+    t.style.visibility="hidden"; t.parentNode.insertBefore(r,t.nextSibling);
+    r.addEventListener("click",()=>{ t.style.visibility=""; r.remove(); });
+  });
+}
+function uncover(svg){ svg.querySelectorAll("rect.cov").forEach(r=>r.remove()); svg.querySelectorAll("text").forEach(t=>t.style.visibility=""); }
+function finish(){
+  header(); side();
+  const res=SES.res, n=res.length, good=res.filter(r=>r.g>=2).length, miss=res.filter(r=>r.g===0);
+  const main=$("#main");
+  main.innerHTML=`<div class="card"><span class="pill">Done for today</span>
+    <div style="display:flex;gap:34px;flex-wrap:wrap;margin:14px 0 10px"><div><div class="done-big">${good}/${n}</div><div class="muted small">got it</div></div><div><div class="done-big">${SRS.streak()}</div><div class="muted small">day streak</div></div><div><div class="done-big">${SRS.forecast(2)[1].n}</div><div class="muted small">due tomorrow</div></div></div>
+    ${miss.length?`<h3 style="font-size:1.1rem;margin-top:10px">Missed today</h3><p class="muted small" style="margin:2px 0 6px">These come back tomorrow. If one keeps coming back, go reread its chapter.</p><ul style="padding-left:18px">${miss.map(r=>{ const c=CAT[r.id]; return `<li>${esc(label(c).slice(0,140))} <a href="${chapterLink(c)}">${esc(chapterName(c))}</a></li>`; }).join("")}</ul>`:`<p>Nothing missed. Those cards are now spaced further out.</p>`}
+    <div class="next-row"><button class="btn" id="again">Another session</button><a class="btn ghost" href="index.html">Back to the modules</a></div></div>`;
+  main.querySelector("#again").onclick=setup;
+}
+setup();
+})();
+</script>
+</body>
+</html>
