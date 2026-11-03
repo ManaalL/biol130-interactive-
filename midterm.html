@@ -87,14 +87,14 @@ h1,h2,h3{font-family:var(--display);color:var(--head);font-weight:700;line-heigh
 <div class="wrap">
   <div class="tabs" role="tablist">
     <button role="tab" data-t="exam" aria-selected="true">Practice exam</button>
-    <button role="tab" data-t="review" aria-selected="false">Review questions</button>
+    <button role="tab" data-t="review" aria-selected="false">Prof's review questions</button>
     <button role="tab" data-t="plan" aria-selected="false">My study plan</button>
   </div>
   <section class="panel" id="p-exam"></section>
   <section class="panel" id="p-review" hidden></section>
   <section class="panel" id="p-plan" hidden></section>
 </div>
-<footer class="wrap foot">Review questions: your prof's list for Modules 1 to 5, and each module's important-concepts list from the course notes for Modules 6 to 11. Answers follow your course notes, with page numbers. An independent study aid, not an official University of Waterloo resource.</footer>
+<footer class="wrap foot">Review questions are your prof's review lists for Modules 1 to 5 and 6 to 11. Answers follow your course notes, with page numbers. An independent study aid, not an official University of Waterloo resource.</footer>
 
 <script src="studydata.js"></script>
 <script src="srs.js"></script>
@@ -128,7 +128,7 @@ function review(){
   const box=$("#p-review"); box.innerHTML="";
   const intro=document.createElement("div"); intro.className="card";
   const tot=S.review.length, got=Object.values(rate).filter(v=>v==="got").length, sh=Object.values(rate).filter(v=>v==="shaky").length, no=Object.values(rate).filter(v=>v==="no").length;
-  intro.innerHTML=`<h2>Review questions</h2><p class="muted" style="margin:0 0 6px">Try to answer each one out loud or on paper first. Then open the answer and rate yourself honestly. Anything marked shaky or no idea goes into your study plan.</p>
+  intro.innerHTML=`<h2>Your prof's review questions</h2><p class="muted" style="margin:0 0 6px">Try to answer each one out loud or on paper first. Then open the answer and rate yourself honestly. Anything marked shaky or no idea goes into your study plan.</p>
    <div class="bar"><i style="width:${got/tot*100}%;background:#2a7648"></i><i style="width:${sh/tot*100}%;background:#d9a12b"></i><i style="width:${no/tot*100}%;background:#b0342c"></i></div>
    <div class="stat3"><span><b>${got}</b> got it</span><span><b>${sh}</b> shaky</span><span><b>${no}</b> no idea</span><span><b>${tot-got-sh-no}</b> not rated yet</span></div>`;
   const mb=document.createElement("div"); mb.className="modbar";

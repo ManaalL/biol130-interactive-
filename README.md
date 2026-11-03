@@ -13,7 +13,7 @@ Interactive study modules for BIOL 130: Introductory Cell Biology at the Univers
 | `review.html` | Daily review: spaced, mixed review across every module you've covered |
 | `diagrams.html` | Diagram library: every figure in course order, with a cover-the-labels quiz mode |
 | `lab3d.html` | 3D lab: rotatable 3D models (cell, membrane, DNA, protein levels, mitochondrion, chloroplast, GPCR, cytoskeleton, replication fork, mitosis) |
-| `midterm.html` | Exam prep: practice exam, review questions with answers, study plan |
+| `midterm.html` | Exam prep: practice exam, the prof's review questions for every module with answers, study plan |
 
 Modules:
 1. Introduction to Cell Biology and the Cell Theory
