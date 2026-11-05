@@ -82,7 +82,7 @@ const css = `
 .md-fb{margin:8px 0 0;padding:10px 14px;border-radius:6px;background:var(--chip)}
 .md-row{display:flex;gap:10px;flex-wrap:wrap;align-items:center;margin-top:14px}
 .md-dump{width:100%;min-height:180px;padding:12px 14px;border:1px solid var(--rule);border-radius:6px;font:inherit;background:var(--paper);color:var(--ink);resize:vertical}
-.md-two{display:grid;grid-template-columns:minmax(0,1fr) minmax(0,1fr);gap:18px}
+.md-two{display:grid;grid-template-columns:minmax(0,1fr) minmax(0,1fr);gap:18px;align-items:start}
 .md-check label{display:flex;gap:8px;align-items:flex-start;padding:5px 0;border-bottom:1px dashed var(--rule);cursor:pointer}
 .md-terms dt{font-weight:700;color:var(--head);margin-top:8px}
 .md-terms dd{margin:2px 0 0;color:var(--ink)}
@@ -305,7 +305,7 @@ function prepView(ci){
       let fig=null; try{ if(firstFig) fig=plate(firstFig.fig(), firstFig.cap); }catch(e){}
       const keys=(ch.terms||[]).filter(k=>T[k]).slice(0,7);
       two.append(fig||h("div"), h("div",{}, h("h2",{style:"font-size:1.3rem;margin-bottom:6px"},ch.title), h("p",{},ch.blurb), h("p",{class:"muted"},ch.wrap||""),
-        h("h3",{style:"font-size:1rem;margin-top:10px"},"Words you'll hear"), h("dl",{class:"md-terms"}, keys.map(k=>[h("dt",{},T[k].n), h("dd",{},T[k].d)]))));
+        h("h3",{style:"font-size:1rem;margin-top:10px"},"Words you'll hear"), h("dl",{class:"md-terms"}, keys.flatMap(k=>[h("dt",{},T[k].n), h("dd",{},T[k].d)]))));
       w.append(two, h("div",{class:"md-row"}, h("button",{class:"btn",onclick:()=>{step=2; render();}},"What to listen for")));
     } else {
       w.append(h("span",{class:"md-tag"},"Step 3 of 3 · Listen for these in class"));
